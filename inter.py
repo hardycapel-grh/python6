@@ -15,11 +15,11 @@ class MainWindow(QWidget):
         self.input3 = QLineEdit()
 
         layout_inputs = QVBoxLayout()
-        layout_inputs.addWidget(QLabel("Input 1:"))
+        layout_inputs.addWidget(QLabel("First Name:"))
         layout_inputs.addWidget(self.input1)
-        layout_inputs.addWidget(QLabel("Input 2:"))
+        layout_inputs.addWidget(QLabel("Surname:"))
         layout_inputs.addWidget(self.input2)
-        layout_inputs.addWidget(QLabel("Input 3:"))
+        layout_inputs.addWidget(QLabel("Age:"))
         layout_inputs.addWidget(self.input3)
 
         # Create buttons
