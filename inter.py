@@ -11,14 +11,18 @@ class MainWindow(QWidget):
 
         # Create input labels and fields
         self.input1 = QLineEdit()
+        self.input1.setFixedWidth(200)
+        self.input1.setFixedHeight(30)
         self.input2 = QLineEdit()
         self.input3 = QLineEdit()
 
-        layout_inputs = QVBoxLayout()
+        layout_inputs = QHBoxLayout()
         layout_inputs.addWidget(QLabel("First Name:"))
         layout_inputs.addWidget(self.input1)
+        # layout_inputs = QHBoxLayout()
         layout_inputs.addWidget(QLabel("Surname:"))
         layout_inputs.addWidget(self.input2)
+        # layout_inputs = QHBoxLayout()
         layout_inputs.addWidget(QLabel("Age:"))
         layout_inputs.addWidget(self.input3)
 
