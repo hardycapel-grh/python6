@@ -42,9 +42,9 @@ class MainWindow(QWidget):
 
     def on_ok(self):
         data = (
-            f"Input 1: {self.input1.text()}\n"
-            f"Input 2: {self.input2.text()}\n"
-            f"Input 3: {self.input3.text()}"
+            f"First Name: {self.input1.text()}\n"
+            f"Surname: {self.input2.text()}\n"
+            f"Age: {self.input3.text()}"
         )
         QMessageBox.information(self, "Submitted Data", data)
 
