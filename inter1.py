@@ -7,7 +7,7 @@ import sys
 class InputForm(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("User Info Form")
+        self.setWindowTitle("Registration Form")
 
         # Row 1 – Name
         name_label = QLabel("Name:")
