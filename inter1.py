@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
 )
 import sys
 
+
 class InputForm(QWidget):
     def __init__(self):
         super().__init__()
