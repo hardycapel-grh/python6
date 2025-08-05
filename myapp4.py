@@ -61,13 +61,3 @@ app.exec()
 # - setCentralWidget(button) places the button in the central area of the window — the main content area.
 # You could later swap this out for a layout or container widget to hold multiple items.
 
-# 🚀 Application Execution
-# app = QApplication(sys.argv)
-# window = MainWindow()
-# window.show()
-# app.exec()
-
-
-# - QApplication initializes the Qt system.
-# - You create your custom window and display it using show().
-# - app.exec() starts the main event loop, keeping the app responsive to user interactions.

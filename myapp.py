@@ -1,21 +1,31 @@
-# Only needed for access to command line arguments
 import sys
 
-from PySide6.QtWidgets import QApplication, QWidget
+from PySide6.QtCore import QSize
+from PySide6.QtWidgets import QApplication, QMainWindow, QPushButton
 
-# You need one (and only one) QApplication instance per application.
-# Pass in sys.argv to allow command line arguments for your app.
-# If you know you won't use command line arguments you can use
-# QApplication([]) instead.
+
+# Subclass QMainWindow to customize your application's main window
+class MainWindow(QMainWindow):
+    def __init__(self):
+        super().__init__()
+
+        self.setWindowTitle("My App")
+
+        button = QPushButton("Press Me!")
+
+        # Set the size of the window
+        # self.resize(400, 300)  # <1> Resize to specific dimensions
+        # self.setFixedSize(QSize(400, 300))  # <1> fixed size
+        # self.setMinimumSize(QSize(400, 300))  # <1> Minimum size
+        self.setMaximumSize(QSize(400, 300))  # <1> Maximum size
+
+        # Set the central widget of the Window.
+        self.setCentralWidget(button)
+
+
 app = QApplication(sys.argv)
 
-# Create a Qt widget, which will be our window.
-window = QWidget()
-window.show()  # IMPORTANT!!!!! Windows are hidden by default.
+window = MainWindow()
+window.show()
 
-# Start the event loop.
 app.exec()
-
-
-# Your application won't reach here until you exit and the event
-# loop has stopped.
