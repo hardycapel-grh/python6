@@ -18,6 +18,7 @@ class MainWindow(QMainWindow):
     def the_button_was_clicked(self):
         self.button.setText("You already clicked me.")  # <2>
         self.button.setEnabled(False)  # <3>
+        self.setWindowTitle("A new window title")
 
 
 app = QApplication(sys.argv)
