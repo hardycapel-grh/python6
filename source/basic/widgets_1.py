@@ -15,8 +15,8 @@ class MainWindow(QMainWindow):
         font.setPointSize(30)
         widget.setFont(font)
         widget.setAlignment(
-            Qt.AlignmentFlag.AlignHCenter
-            | Qt.AlignmentFlag.AlignVCenter
+            # Qt.AlignmentFlag.AlignHCenter | Qt.AlignmentFlag.AlignVCenter
+            Qt.AlignmentFlag.AlignLeft | Qt.AlignmentFlag.AlignTop
         )  # <2>
 
         self.setCentralWidget(widget)
