@@ -13,7 +13,7 @@ def mainwindow_setup(w):
 
 
 app = QApplication(sys.argv)
-window = loader.load(os.path.join(basedir, "mainwindow.ui"), None)
+window = loader.load(os.path.join(basedir, "first.ui"), None)
 mainwindow_setup(window)
 window.show()
 app.exec()

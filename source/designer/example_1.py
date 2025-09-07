@@ -9,6 +9,6 @@ basedir = os.path.dirname(__file__)
 loader = QUiLoader()
 
 app = QApplication(sys.argv)
-window = loader.load(os.path.join(basedir, "mainwindow.ui"), None)
+window = loader.load(os.path.join(basedir, "first.ui"), None)
 window.show()
 app.exec()

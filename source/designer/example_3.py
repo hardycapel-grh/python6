@@ -12,7 +12,7 @@ class MainUI:  # Not a widget.
     def __init__(self):
         super().__init__()
         self.ui = loader.load(
-            os.path.join(basedir, "mainwindow.ui"), None
+            os.path.join(basedir, "first.ui"), None
         )
         self.ui.setWindowTitle("MainWindow Title")
         self.ui.show()
