@@ -2,6 +2,8 @@ import sys
 
 import numpy as np
 
+# Use a regular Python list instead of a numpy array
+
 from PySide6.QtCore import QAbstractTableModel, Qt
 from PySide6.QtWidgets import QApplication, QMainWindow, QTableView
 
