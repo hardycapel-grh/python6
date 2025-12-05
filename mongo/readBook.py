@@ -1,9 +1,16 @@
+#this code connects to a mongodb database and retrieves person information based on user input through a PySide6 GUI.
+#the search is case-insensitive.
+#but case sensitive search can be done by uncommenting the exact match line and commenting the regex line.
+
+
 from PySide6.QtWidgets import (
     QApplication, QWidget, QVBoxLayout, QLabel,
     QLineEdit, QPushButton, QMessageBox
 )
 from pymongo import MongoClient
 import sys
+import re
+
 
 class PersonLookupApp(QWidget):
     def __init__(self):
@@ -45,7 +52,9 @@ class PersonLookupApp(QWidget):
             QMessageBox.warning(self, "Input Error", "Please enter a name.")
             return
 
-        person = self.collection.find_one({"name": name})
+        # person = self.collection.find_one({"name": name}) # Exact match
+        person = self.collection.find_one({"name": re.compile(f"^{re.escape(name)}$", re.IGNORECASE)}) # Case-insensitive match
+
         if person:
             self.result_name.setText(f"Name: {person.get('name', '')}")
             self.result_age.setText(f"Age: {person.get('age', '')}")
