@@ -19,7 +19,7 @@ class MainWindow(QMainWindow):
         self.graphWidget.setBackground("w")
         # Add Title
         self.graphWidget.setTitle(
-            "Your Title Here", color="b", size="30pt"
+            "My chart", color="b", size="30pt"
         )
         # Add Axis Labels
         styles = {"color": "#f00", "font-size": "20px"}
@@ -41,7 +41,7 @@ class MainWindow(QMainWindow):
             temperature,
             name="Sensor 1",
             pen=pen,
-            symbol="+",
+            symbol="d",
             symbolSize=30,
             symbolBrush=("b"),
         )
