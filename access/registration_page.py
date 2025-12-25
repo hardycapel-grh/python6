@@ -27,34 +27,44 @@ class RegistrationWindow(QWidget):
 
         self.setLayout(layout)
 
+        
+
     def register(self):
-        print("[DEBUG] Register button clicked")
+        
 
         username = self.username.text().strip()
         password = self.password.text().strip()
 
         if not username or not password:
             QMessageBox.warning(self, "Error", "Username and password cannot be empty")
-            print("[ERROR] Empty username or password")
+            
             return
 
         try:
             hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-            print("[DEBUG] Password hashed")
+            default_permissions = {
+                "Dashboard": "rw",
+                "Data Table": "ro",
+                "Charts": "ro",
+                "Admin": None
+            }
+
+            
         except Exception as e:
-            print("[ERROR] Password hashing failed:", e)
+            
             QMessageBox.critical(self, "Error", "Internal error hashing password")
             return
 
         # Default role assigned here
         default_role = "viewer"
 
-        success = create_user(username, hashed, default_role)
+        success = create_user(username, hashed, default_role, default_permissions)
+
 
         if success:
             QMessageBox.information(self, "Success", "User registered")
-            print("[DEBUG] Registration complete")
+            
             self.close()
         else:
             QMessageBox.critical(self, "Error", "Failed to register user")
-            print("[ERROR] Registration failed")
+            

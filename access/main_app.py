@@ -5,16 +5,28 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 
 from admin_page import AdminPage
+from logger import logger
+
 
 
 class Page(QWidget):
-    def __init__(self, text):
+    def __init__(self, title):
         super().__init__()
+        self.title = title
+
         layout = QVBoxLayout()
-        label = QLabel(text)
+        label = QLabel(title)
         label.setAlignment(Qt.AlignCenter)
         layout.addWidget(label)
         self.setLayout(layout)
+
+    # Generic read-only handler
+    def set_read_only(self, readonly: bool):
+        for widget in self.findChildren(QWidget):
+            if hasattr(widget, "setReadOnly"):
+                widget.setReadOnly(readonly)
+            elif hasattr(widget, "setEnabled"):
+                widget.setEnabled(not readonly)
 
 
 class MainApp(QMainWindow):
@@ -22,22 +34,15 @@ class MainApp(QMainWindow):
         super().__init__()
         self.setWindowTitle("Main Application")
 
-        try:
-            self.username = user["username"]
-            self.role = user["role"]
-        except KeyError:
-            print("[ERROR] Invalid user object passed to MainApp")
-            self.username = "Unknown"
-            self.role = "guest"
-
-        print(f"[DEBUG] MainApp started for user: {self.username}")
-        print(f"[DEBUG] User role: {self.role}")
+        # Extract user info
+        self.username = user.get("username", "Unknown")
+        self.role = user.get("role", "guest")
+        self.permissions = user.get("permissions", {})
+        logger.info(f"MainApp started for user {self.username} with role {self.role}")
 
         self.setup_ui()
 
-
     def setup_ui(self):
-        print("[DEBUG] Setting up UI...")
 
         container = QWidget()
         container_layout = QVBoxLayout()
@@ -46,59 +51,50 @@ class MainApp(QMainWindow):
         header.setAlignment(Qt.AlignCenter)
         container_layout.addWidget(header)
 
-        # Create pages FIRST (so they always exist)
+        # Create pages
         self.stack = QStackedWidget()
         self.pages = [
             Page("Dashboard"),
             Page("Data Table"),
             Page("Charts"),
-            AdminPage()  # REAL admin page
-]
+            AdminPage()
+        ]
 
-
+        # Add pages to stack
         for p in self.pages:
             self.stack.addWidget(p)
 
-        # Add navigation buttons
+        # Build navigation based on permissions
         self.add_navigation_buttons(container_layout)
 
         container_layout.addWidget(self.stack)
         container.setLayout(container_layout)
         self.setCentralWidget(container)
 
-
     def add_navigation_buttons(self, layout):
-        print("[DEBUG] Applying role-based access rules...")
 
-        if self.role in ["admin", "staff", "viewer"]:
-            print("[DEBUG] Enabling Dashboard")
-            btn1 = QPushButton("Dashboard")
-            btn1.clicked.connect(lambda: self.switch_page(0))
-            layout.addWidget(btn1)
+        for index, page in enumerate(self.pages):
+            title = page.title
+            perm = self.permissions.get(title)
 
-        if self.role in ["admin", "staff"]:
-            print("[DEBUG] Enabling Datatable")
-            btn2 = QPushButton("Datatable")
-            btn2.clicked.connect(lambda: self.switch_page(1))
-            layout.addWidget(btn2)
-
-        if self.role == "admin":
-            print("[DEBUG] Enabling Charts")
-            btn3 = QPushButton("Charts")
-            btn3.clicked.connect(lambda: self.switch_page(2))
-            layout.addWidget(btn3)
-
-        if self.role == "admin":
-            print("[DEBUG] Enabling Admin page")
-            btn4 = QPushButton("Admin")
-            btn4.clicked.connect(lambda: self.switch_page(3))
-            layout.addWidget(btn4)
+            if perm is None:
+                continue
 
 
-    def switch_page(self, index):
+            btn = QPushButton(title)
+            btn.clicked.connect(lambda _, i=index, p=page, permission=perm:
+                                self.switch_page(i, p, permission))
+            layout.addWidget(btn)
+
+    def switch_page(self, index, page, permission):
         try:
-            print(f"[DEBUG] Switching to page index: {index}")
+
+
+            # Apply read-only mode
+            page.set_read_only(permission == "ro")
+
             self.stack.setCurrentIndex(index)
+
         except Exception as e:
-            print("[ERROR] Failed to switch page:", e)
+
             QMessageBox.critical(self, "Error", "Could not switch page")
