@@ -1,6 +1,13 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
-from database import create_user
 import bcrypt
+
+from logger import logger
+from database import create_user
+from page_registry import PAGE_REGISTRY
+
+import re
+
+EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$")
 
 
 class RegistrationWindow(QWidget):
@@ -11,10 +18,13 @@ class RegistrationWindow(QWidget):
         layout = QVBoxLayout()
 
         self.username = QLineEdit()
-        self.username.setPlaceholderText("Choose a username")
+        self.username.setPlaceholderText("Username")
+
+        self.email = QLineEdit()
+        self.email.setPlaceholderText("Email")
 
         self.password = QLineEdit()
-        self.password.setPlaceholderText("Choose a password")
+        self.password.setPlaceholderText("Password")
         self.password.setEchoMode(QLineEdit.Password)
 
         register_btn = QPushButton("Register")
@@ -22,49 +32,46 @@ class RegistrationWindow(QWidget):
 
         layout.addWidget(QLabel("Registration Page"))
         layout.addWidget(self.username)
+        layout.addWidget(self.email)
         layout.addWidget(self.password)
         layout.addWidget(register_btn)
 
         self.setLayout(layout)
 
-        
-
     def register(self):
-        
-
         username = self.username.text().strip()
+        email = self.email.text().strip()
         password = self.password.text().strip()
 
-        if not username or not password:
-            QMessageBox.warning(self, "Error", "Username and password cannot be empty")
-            
+        if not username or not email or not password:
+            QMessageBox.warning(self, "Error", "All fields are required")
+            logger.warning("Registration failed: missing fields")
             return
 
-        try:
-            hashed = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-            default_permissions = {
-                "Dashboard": "rw",
-                "Data Table": "ro",
-                "Charts": "ro",
-                "Admin": None
-            }
-
-            
-        except Exception as e:
-            
-            QMessageBox.critical(self, "Error", "Internal error hashing password")
+        # Basic email validation
+        # if "@" not in email or "." not in email:
+        #     QMessageBox.warning(self, "Error", "Invalid email address")
+        #     logger.warning(f"Registration failed: invalid email '{email}'")
+        #     return
+        
+        if not EMAIL_REGEX.match(email):
+            QMessageBox.warning(self, "Error", "Invalid email address")
+            logger.warning(f"Registration failed: invalid email '{email}'")
             return
 
-        # Default role assigned here
-        default_role = "viewer"
+        hashed_pw = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-        success = create_user(username, hashed, default_role, default_permissions)
+        # Default permissions from registry
+        permissions = {
+            page: info["default_permission"]
+            for page, info in PAGE_REGISTRY.items()
+        }
 
+        success = create_user(username, hashed_pw, "user", permissions, email)
 
         if success:
-            QMessageBox.information(self, "Success", "User registered")
-            
+            QMessageBox.information(self, "Success", "User registered successfully")
+            logger.info(f"User '{username}' registered successfully")
             self.close()
         else:
-            QMessageBox.critical(self, "Error", "Failed to register user")
-            
+            QMessageBox.critical(self, "Error", "Registration failed")

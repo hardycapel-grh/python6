@@ -1,9 +1,9 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
-from main_app import MainApp
-from database import get_user
 import bcrypt
-from logger import logger
 
+from logger import logger
+from database import get_user, update_permissions, update_user_fields
+from main_app import MainApp
 
 
 class LoginWindow(QWidget):
@@ -21,10 +21,10 @@ class LoginWindow(QWidget):
         self.password.setEchoMode(QLineEdit.Password)
 
         login_btn = QPushButton("Login")
-        register_btn = QPushButton("Register")
-
         login_btn.clicked.connect(self.login)
-        register_btn.clicked.connect(self.open_registration)
+
+        register_btn = QPushButton("Register")
+        register_btn.clicked.connect(self.open_register)
 
         layout.addWidget(QLabel("Login Page"))
         layout.addWidget(self.username)
@@ -34,76 +34,76 @@ class LoginWindow(QWidget):
 
         self.setLayout(layout)
 
+    def open_register(self):
+        from registration_page import RegistrationWindow
+        self.reg_window = RegistrationWindow()
+        self.reg_window.show()
+
     def login(self):
-        logger.info("Login attempt started")
+        from page_registry import PAGE_REGISTRY  # safe import
 
         username = self.username.text().strip()
         password = self.password.text().strip()
 
         if not username or not password:
-            logger.warning("Login failed: missing username or password")
             QMessageBox.warning(self, "Error", "Please enter both username and password")
-            
+            logger.warning("Login failed: missing username or password")
             return
 
-        try:
-            user = get_user(username)
-        except Exception as e:
-            
-            QMessageBox.critical(self, "Error", "Database error")
-            return
+        user = get_user(username)
 
         if not user:
             QMessageBox.warning(self, "Error", "User not found")
-            
+            logger.warning(f"Login failed: user '{username}' not found")
             return
 
-        # -------------------------------
-        # PASSWORD CHECK
-        # -------------------------------
+        # Check password
         try:
             if not bcrypt.checkpw(password.encode(), user["password"]):
-                
                 QMessageBox.warning(self, "Error", "Incorrect password")
+                logger.warning(f"Login failed: incorrect password for '{username}'")
                 return
         except Exception as e:
-            
-            QMessageBox.critical(self, "Error", "Internal error checking password")
+            logger.error(f"Password check failed for '{username}': {e}")
+            QMessageBox.critical(self, "Error", "Internal authentication error")
             return
 
-        
+        # Auto-repair missing permissions using PAGE_REGISTRY
+        repaired = False
+        for page_name, info in PAGE_REGISTRY.items():
+            if page_name not in user["permissions"]:
+                user["permissions"][page_name] = info["default_permission"]
+                repaired = True
 
-        # -------------------------------
-        # BUILD USER PERMISSION OBJECT
-        # -------------------------------
-        role = user.get("role", "standard")
+        if repaired:
+            update_permissions(username, user["permissions"])
+            logger.info(f"Permissions auto-repaired for user '{username}'")
 
-        # Example structure stored in MongoDB:
-        # "permissions": {
-        #     "Dashboard": "rw",
-        #     "Data Table": "ro",
-        #     "Charts": None,
-        #     "Admin": None
-        # }
+        logger.info(f"User '{username}' logged in successfully")
 
-        permissions = user.get("permissions", {})
+        # Auto-repair missing fields
+        updated = False
 
-        user_object = {
-            "username": username,
-            "role": role,
-            "permissions": permissions
-        }
+        # Example: new field "theme"
+        if "theme" not in user:
+            user["theme"] = "light"
+            updated = True
 
-        
+        # Example: new field "last_login"
+        if "last_login" not in user:
+            user["last_login"] = None
+            updated = True
 
-        # -------------------------------
-        # OPEN MAIN APP WITH USER OBJECT
-        # -------------------------------
-        self.hide()
-        self.main = MainApp(user_object)
-        self.main.show()
+        if "email" not in user:
+            user["email"] = ""
+            updated = True
 
-    def open_registration(self):
-        from registration_page import RegistrationWindow
-        self.reg = RegistrationWindow()
-        self.reg.show()
+        # Save repairs
+        if updated:
+            update_user_fields(username, user)
+            logger.info(f"Auto-repaired missing fields for user '{username}'")
+
+        # Open main app
+        self.main_app = MainApp(user)
+        self.main_app.show()
+        self.close()

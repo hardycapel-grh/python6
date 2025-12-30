@@ -1,2 +1,236 @@
 2025-12-25 22:32:54,508 [INFO] Login attempt started
 2025-12-25 22:32:54,840 [INFO] MainApp started for user testing with role admin
+2025-12-26 21:03:08,102 [INFO] Login attempt started
+2025-12-26 21:03:08,443 [INFO] MainApp started for user testing with role admin
+2025-12-26 21:03:12,744 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-26 21:03:21,581 [INFO] User 'testing' switched to page 'Charts' (permission: ro)
+2025-12-26 21:03:23,119 [INFO] User 'testing' switched to page 'Data Table' (permission: ro)
+2025-12-26 21:03:24,280 [INFO] User 'testing' switched to page 'Dashboard' (permission: rw)
+2025-12-26 21:03:25,080 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-26 21:19:11,383 [INFO] Login attempt started
+2025-12-26 21:19:11,659 [INFO] MainApp started for user testing with role admin
+2025-12-26 21:19:13,802 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-26 21:36:30,999 [INFO] Login attempt started
+2025-12-26 21:36:31,294 [INFO] MainApp started for user testing with role admin
+2025-12-26 21:36:36,902 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-26 22:06:54,986 [INFO] Login attempt started
+2025-12-26 22:06:55,260 [INFO] MainApp started for user testing with role admin
+2025-12-26 22:06:58,397 [INFO] User 'testing' switched to page 'Charts' (permission: ro)
+2025-12-26 22:06:59,551 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-26 22:45:20,786 [INFO] Login attempt started
+2025-12-26 22:45:21,095 [INFO] MainApp started for user testing with role admin
+2025-12-26 22:45:27,277 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-26 22:45:37,261 [INFO] Updated permissions for hardycapel4
+2025-12-26 22:46:39,568 [INFO] Login attempt started
+2025-12-26 22:46:39,854 [INFO] MainApp started for user hardycapel4 with role guest
+2025-12-26 22:46:43,577 [INFO] User 'hardycapel4' switched to page 'Admin' (permission: rw)
+2025-12-26 22:55:35,822 [INFO] User 'grh' created successfully
+2025-12-27 16:46:42,305 [INFO] Login attempt started
+2025-12-27 16:46:42,660 [INFO] Updated permissions for hardycapel4
+2025-12-27 16:46:42,686 [INFO] MainApp started for user hardycapel4 with role guest
+2025-12-27 16:46:47,953 [INFO] User 'hardycapel4' switched to page 'Dashboard' (permission: rw)
+2025-12-27 21:35:01,883 [WARNING] Login failed: user 'hardycapel4' not found
+2025-12-27 21:35:17,691 [WARNING] Login failed: user 'testing' not found
+2025-12-27 21:37:11,754 [INFO] User 'hardycapel4' logged in successfully
+2025-12-27 21:37:11,754 [INFO] MainApp started for user 'hardycapel4' with role 'guest'
+2025-12-27 21:37:11,781 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-27 21:37:12,012 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-27 21:37:16,032 [INFO] User 'hardycapel4' switched to page 'Data Table' (permission: ro)
+2025-12-27 21:37:16,033 [INFO] DataTablePage set to read-only mode
+2025-12-27 21:37:17,548 [INFO] User 'hardycapel4' switched to page 'Charts' (permission: ro)
+2025-12-27 21:37:17,548 [INFO] ChartsPage set to read-only mode
+2025-12-27 21:37:19,604 [INFO] User 'hardycapel4' switched to page 'Admin' (permission: rw)
+2025-12-27 21:37:24,921 [INFO] User 'hardycapel4' switched to page 'Admin' (permission: rw)
+2025-12-27 22:16:44,738 [INFO] User 'zendaya' created successfully
+2025-12-27 22:16:44,739 [INFO] User 'zendaya' registered successfully
+2025-12-27 22:16:56,251 [WARNING] Login failed: missing username or password
+2025-12-27 22:17:06,600 [INFO] User 'testing' logged in successfully
+2025-12-27 22:17:06,601 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-27 22:17:06,626 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-27 22:17:06,842 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-27 22:17:09,805 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-27 22:17:15,231 [INFO] Admin opened User Manager
+2025-12-27 22:17:15,244 [INFO] User Manager loaded user list
+2025-12-27 22:17:24,533 [INFO] Admin opened Permission Editor for 'zendaya'
+2025-12-27 22:17:36,463 [INFO] Permissions updated for user 'zendaya'
+2025-12-27 22:17:36,463 [INFO] Permissions updated for user 'zendaya'
+2025-12-27 22:17:38,033 [INFO] User Manager loaded user list
+2025-12-27 22:18:03,337 [INFO] User 'wilma' deleted successfully
+2025-12-27 22:18:05,073 [INFO] User 'wilma' deleted by admin
+2025-12-27 22:18:05,078 [INFO] User Manager loaded user list
+2025-12-27 23:10:19,236 [INFO] User 'hardycapel4' logged in successfully
+2025-12-27 23:10:19,237 [INFO] MainApp started for user 'hardycapel4' with role 'guest'
+2025-12-27 23:10:19,242 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-27 23:10:19,337 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-27 23:10:22,032 [INFO] User 'hardycapel4' switched to page 'Dashboard' (permission: rw)
+2025-12-27 23:10:22,032 [INFO] Dashboard set to read-write mode
+2025-12-27 23:10:25,053 [INFO] User 'hardycapel4' switched to page 'Charts' (permission: ro)
+2025-12-27 23:10:25,053 [INFO] ChartsPage set to read-only mode
+2025-12-27 23:10:26,824 [INFO] User 'hardycapel4' switched to page 'Data Table' (permission: ro)
+2025-12-27 23:10:26,825 [INFO] DataTablePage set to read-only mode
+2025-12-27 23:10:29,263 [INFO] User 'hardycapel4' switched to page 'Admin' (permission: rw)
+2025-12-27 23:10:30,642 [INFO] Admin opened User Manager
+2025-12-27 23:10:30,646 [INFO] User Manager loaded user list
+2025-12-27 23:10:39,546 [INFO] Admin opened Permission Editor for 'hardycapel1'
+2025-12-27 23:10:58,074 [INFO] User Manager loaded user list
+2025-12-27 23:11:06,750 [INFO] User 'hardycapel4' switched to page 'Charts' (permission: ro)
+2025-12-27 23:11:06,750 [INFO] ChartsPage set to read-only mode
+2025-12-27 23:28:22,092 [INFO] Permissions updated for user 'hardycapel4'
+2025-12-27 23:28:22,092 [INFO] Permissions auto-repaired for user 'hardycapel4'
+2025-12-27 23:28:22,092 [INFO] User 'hardycapel4' logged in successfully
+2025-12-27 23:28:22,092 [INFO] MainApp started for user 'hardycapel4' with role 'guest'
+2025-12-27 23:28:22,096 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-27 23:28:22,191 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-27 23:28:22,224 [INFO] LogViewerPage: Log loaded successfully
+2025-12-27 23:28:25,553 [INFO] User 'hardycapel4' switched to page 'Admin' (permission: rw)
+2025-12-27 23:28:32,990 [INFO] User 'hardycapel4' switched to page 'Admin' (permission: rw)
+2025-12-27 23:28:38,558 [INFO] Admin opened User Manager
+2025-12-27 23:28:38,563 [INFO] User Manager loaded user list
+2025-12-27 23:33:48,297 [INFO] User 'hardycapel4' logged in successfully
+2025-12-27 23:33:48,298 [INFO] MainApp started for user 'hardycapel4' with role 'guest'
+2025-12-27 23:33:48,301 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-27 23:33:48,397 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-27 23:33:48,414 [INFO] LogViewerPage: Log loaded successfully
+2025-12-27 23:33:53,391 [INFO] User 'hardycapel4' switched to page 'Log Viewer' (permission: rw)
+2025-12-27 23:33:53,391 [INFO] LogViewerPage set to read-write mode
+2025-12-27 23:34:06,709 [INFO] LogViewerPage: Log loaded successfully
+2025-12-27 23:34:13,557 [INFO] User 'hardycapel4' switched to page 'Data Table' (permission: ro)
+2025-12-27 23:34:13,557 [INFO] DataTablePage set to read-only mode
+2025-12-27 23:35:07,094 [INFO] User 'hardycapel4' logged in successfully
+2025-12-27 23:35:07,094 [INFO] MainApp started for user 'hardycapel4' with role 'guest'
+2025-12-27 23:35:07,098 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-27 23:35:07,194 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-27 23:35:07,214 [INFO] LogViewerPage: Log loaded successfully
+2025-12-27 23:35:26,889 [INFO] User 'hardycapel4' switched to page 'Admin' (permission: rw)
+2025-12-27 23:35:29,372 [INFO] Admin opened User Manager
+2025-12-27 23:35:29,378 [INFO] User Manager loaded user list
+2025-12-27 23:35:31,640 [INFO] Admin opened Permission Editor for 'zendaya'
+2025-12-27 23:35:54,359 [INFO] User Manager loaded user list
+2025-12-28 20:45:31,173 [INFO] Permissions updated for user 'grh'
+2025-12-28 20:45:31,173 [INFO] Permissions auto-repaired for user 'grh'
+2025-12-28 20:45:31,173 [INFO] User 'grh' logged in successfully
+2025-12-28 20:45:31,174 [INFO] Auto-repaired missing fields for user 'grh'
+2025-12-28 20:45:31,177 [INFO] MainApp started for user 'grh' with role 'viewer'
+2025-12-28 20:45:31,205 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-28 20:45:31,470 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-28 20:45:31,495 [INFO] LogViewerPage: Log loaded successfully
+2025-12-28 20:45:34,922 [INFO] User 'grh' switched to page 'Dashboard' (permission: rw)
+2025-12-28 20:45:34,923 [INFO] Dashboard set to read-write mode
+2025-12-28 20:53:26,801 [INFO] User 'grh' logged in successfully
+2025-12-28 20:53:26,803 [INFO] Auto-repaired missing fields for user 'grh'
+2025-12-28 20:53:26,803 [INFO] MainApp started for user 'grh' with role 'viewer'
+2025-12-28 20:53:26,806 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-28 20:53:26,902 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-28 20:53:26,918 [INFO] LogViewerPage: Log loaded successfully
+2025-12-28 20:53:29,344 [INFO] User 'grh' switched to page 'Data Table' (permission: ro)
+2025-12-28 20:53:29,345 [INFO] DataTablePage set to read-only mode
+2025-12-28 21:23:28,734 [INFO] User 'bigdog' created successfully
+2025-12-28 21:23:30,898 [INFO] User 'bigdog' registered successfully
+2025-12-28 21:24:40,091 [INFO] User 'bigdog' logged in successfully
+2025-12-28 21:24:40,093 [INFO] Auto-repaired missing fields for user 'bigdog'
+2025-12-28 21:24:40,094 [INFO] MainApp started for user 'bigdog' with role 'user'
+2025-12-28 21:24:40,097 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-28 21:24:40,201 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-28 21:24:40,222 [INFO] LogViewerPage: Log loaded successfully
+2025-12-28 22:47:42,183 [INFO] User 'testing' logged in successfully
+2025-12-28 22:47:42,184 [INFO] Auto-repaired missing fields for user 'testing'
+2025-12-28 22:47:42,184 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-28 22:47:42,207 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-28 22:47:42,435 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-28 22:47:42,452 [INFO] LogViewerPage: Log loaded successfully
+2025-12-28 22:47:46,534 [INFO] User 'testing' switched to page 'Log Viewer' (permission: rw)
+2025-12-28 22:47:46,534 [INFO] LogViewerPage set to read-write mode
+2025-12-28 23:02:41,953 [WARNING] Registration failed: invalid email 'e'
+2025-12-28 23:02:54,741 [WARNING] Registration failed: invalid email 'bugger@gmail'
+2025-12-28 23:03:11,214 [INFO] User 'bugger' created successfully
+2025-12-28 23:03:12,821 [INFO] User 'bugger' registered successfully
+2025-12-28 23:08:48,640 [INFO] User 'testing' logged in successfully
+2025-12-28 23:08:48,641 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-28 23:08:48,645 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-28 23:08:48,743 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-28 23:08:48,763 [INFO] LogViewerPage: Log loaded successfully
+2025-12-28 23:08:52,929 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-28 23:08:55,327 [INFO] Admin opened User Manager
+2025-12-28 23:08:55,339 [INFO] User Manager loaded user list
+2025-12-28 23:09:04,991 [INFO] Admin opened Permission Editor for 'hardycapel1'
+2025-12-28 23:09:16,268 [INFO] User Manager loaded user list
+2025-12-29 21:06:08,571 [INFO] User 'testing' logged in successfully
+2025-12-29 21:06:08,576 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-29 21:06:08,628 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-29 21:06:08,906 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-29 21:06:08,939 [INFO] LogViewerPage: Log loaded successfully
+2025-12-29 21:06:15,305 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-29 21:06:17,323 [INFO] Admin opened User Manager
+2025-12-29 21:06:17,337 [INFO] User Manager loaded user list
+2025-12-29 21:23:15,908 [INFO] User 'testing' logged in successfully
+2025-12-29 21:23:15,908 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-29 21:23:15,912 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-29 21:23:16,036 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-29 21:23:16,051 [INFO] LogViewerPage: Log loaded successfully
+2025-12-29 21:23:18,909 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-29 21:23:20,401 [INFO] Admin opened User Manager
+2025-12-29 21:23:20,404 [INFO] User Manager loaded user list
+2025-12-29 21:30:10,729 [INFO] User 'testing' logged in successfully
+2025-12-29 21:30:10,730 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-29 21:30:10,734 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-29 21:30:10,842 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-29 21:30:10,860 [INFO] LogViewerPage: Log loaded successfully
+2025-12-29 21:30:13,453 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-29 21:30:15,312 [INFO] Admin opened User Manager
+2025-12-29 21:30:15,324 [INFO] User Manager loaded user list (sorted by Username)
+2025-12-29 21:30:23,304 [INFO] User Manager loaded user list (sorted by Email)
+2025-12-29 23:01:52,348 [INFO] User 'testing' logged in successfully
+2025-12-29 23:01:52,349 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-29 23:01:52,373 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-29 23:01:52,625 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-29 23:01:52,641 [INFO] LogViewerPage: Log loaded successfully
+2025-12-29 23:01:55,202 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-29 23:01:56,806 [INFO] Admin opened User Manager
+2025-12-29 23:01:56,812 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-29 23:02:04,480 [INFO] User Manager loaded user list (sorted by Username, search='z')
+2025-12-29 23:02:07,628 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-29 23:02:10,023 [INFO] User Manager loaded user list (sorted by Username, search='b')
+2025-12-29 23:02:13,358 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-29 23:02:28,391 [INFO] User Manager loaded user list (sorted by Username, search='h')
+2025-12-29 23:02:40,035 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-29 23:03:12,323 [INFO] User 'hardycapel1' deleted successfully
+2025-12-29 23:03:14,204 [INFO] User 'hardycapel1' deleted by admin
+2025-12-29 23:03:14,208 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 00:02:51,628 [INFO] User 'testing' logged in successfully
+2025-12-30 00:02:51,629 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 00:02:51,657 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 00:02:51,966 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 00:02:51,984 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 00:02:55,332 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-30 00:02:57,671 [INFO] Admin opened User Manager
+2025-12-30 00:02:57,680 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 00:13:41,800 [INFO] User 'testing' logged in successfully
+2025-12-30 00:13:41,801 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 00:13:41,805 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 00:13:41,902 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 00:13:41,918 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 00:13:44,519 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-30 00:13:45,849 [INFO] Admin opened User Manager
+2025-12-30 00:13:45,855 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 00:13:50,955 [INFO] Admin opened Permission Editor for 'hardycapel4'
+2025-12-30 00:13:56,486 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 00:18:03,385 [INFO] User 'testing' logged in successfully
+2025-12-30 00:18:03,385 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 00:18:03,388 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 00:18:03,493 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 00:18:03,508 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 00:18:09,503 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-30 00:18:10,906 [INFO] Admin opened User Manager
+2025-12-30 00:18:10,912 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 00:18:13,351 [INFO] Admin opened Permission Editor for 'bugger'
+2025-12-30 00:18:27,700 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 00:26:21,986 [INFO] User 'testing' logged in successfully
+2025-12-30 00:26:21,986 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 00:26:21,991 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 00:26:22,101 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 00:26:22,116 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 00:26:45,988 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-30 00:26:47,510 [INFO] Admin opened User Manager
+2025-12-30 00:26:47,516 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 00:26:53,083 [INFO] Admin opened Permission Editor for 'hardycapel2'
+2025-12-30 00:26:57,123 [INFO] User Manager loaded user list (sorted by Username, search='')
