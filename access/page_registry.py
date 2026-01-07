@@ -3,34 +3,78 @@ from data_table_page import DataTablePage
 from charts_page import ChartsPage
 from admin_page import AdminPage
 from log_viewer_page import LogViewerPage
+from profile_page import ProfilePage
+from AdminControlPanel import AdminControlPanel
 
 # Central registry for all pages in the application.
 # Each entry defines:
-# - The page class
-# - The default permission for new users
-# - The title (taken from the page class itself)
+# - class: the page class
+# - slug: stable internal identifier (safe for DB keys)
+# - default_permission: permission new users get ("rw", "ro", None)
+# - requires_admin: whether only admins can access it
+# - category: used for sidebar grouping
+# - visible: whether it appears in the sidebar
+# - description: optional tooltip/help text
 
 PAGE_REGISTRY = {
     "Dashboard": {
         "class": DashboardPage,
-        "default_permission": "rw"
+        "slug": "dashboard",
+        "default_permission": "rw",
+        "requires_admin": False,
+        "category": "General",
+        "visible": True,
+        "description": "Overview of system activity and quick actions"
     },
+
     "Data Table": {
         "class": DataTablePage,
-        "default_permission": "ro"
+        "slug": "data_table",
+        "default_permission": "ro",
+        "requires_admin": False,
+        "category": "Data",
+        "visible": True,
+        "description": "View and explore tabular data"
     },
+
     "Charts": {
         "class": ChartsPage,
-        "default_permission": "ro"
+        "slug": "charts",
+        "default_permission": "ro",
+        "requires_admin": False,
+        "category": "Data",
+        "visible": True,
+        "description": "Visualize data using charts and graphs"
     },
+
+    "Profile": {
+        "class": ProfilePage,
+        "slug": "profile",
+        "default_permission": "rw",
+        "requires_admin": False,
+        "category": "User",
+        "visible": True,
+        "description": "Edit your personal profile and settings"
+    },
+
     "Admin": {
         "class": AdminPage,
-        "default_permission": None
+        "slug": "admin",
+        "default_permission": None,
+        "requires_admin": True,
+        "category": "Admin Tools",
+        "visible": True,
+        "description": "Admin-only tools and system management"
     },
-        "Log Viewer": {
+
+    "Log Viewer": {
         "class": LogViewerPage,
-        "default_permission": None   # Only admins see it
-    }
+        "slug": "log_viewer",
+        "default_permission": None,
+        "requires_admin": True,
+        "category": "Admin Tools",
+        "visible": True,
+        "description": "View system logs and audit events"
+    },
+
 }
-
-

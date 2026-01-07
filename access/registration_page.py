@@ -1,11 +1,10 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
 import bcrypt
+import re
 
 from logger import logger
 from database import create_user
 from page_registry import PAGE_REGISTRY
-
-import re
 
 EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$")
 
@@ -17,16 +16,20 @@ class RegistrationWindow(QWidget):
 
         layout = QVBoxLayout()
 
+        # Username
         self.username = QLineEdit()
         self.username.setPlaceholderText("Username")
 
+        # Email
         self.email = QLineEdit()
         self.email.setPlaceholderText("Email")
 
+        # Password
         self.password = QLineEdit()
         self.password.setPlaceholderText("Password")
         self.password.setEchoMode(QLineEdit.Password)
 
+        # Register button
         register_btn = QPushButton("Register")
         register_btn.clicked.connect(self.register)
 
@@ -43,30 +46,72 @@ class RegistrationWindow(QWidget):
         email = self.email.text().strip()
         password = self.password.text().strip()
 
+        # -----------------------------
+        # Required fields
+        # -----------------------------
         if not username or not email or not password:
             QMessageBox.warning(self, "Error", "All fields are required")
             logger.warning("Registration failed: missing fields")
             return
 
-        # Basic email validation
-        # if "@" not in email or "." not in email:
-        #     QMessageBox.warning(self, "Error", "Invalid email address")
-        #     logger.warning(f"Registration failed: invalid email '{email}'")
-        #     return
-        
+        # -----------------------------
+        # Username validation
+        # -----------------------------
+        if " " in username:
+            QMessageBox.warning(self, "Error", "Username cannot contain spaces")
+            return
+
+        if len(username) < 3:
+            QMessageBox.warning(self, "Error", "Username must be at least 3 characters long")
+            return
+
+        # -----------------------------
+        # Email validation
+        # -----------------------------
         if not EMAIL_REGEX.match(email):
             QMessageBox.warning(self, "Error", "Invalid email address")
             logger.warning(f"Registration failed: invalid email '{email}'")
             return
 
+        # -----------------------------
+        # Password validation (same rules as change password)
+        # -----------------------------
+        if len(password) < 8:
+            QMessageBox.warning(self, "Error", "Password must be at least 8 characters long")
+            return
+
+        if not any(c.islower() for c in password):
+            QMessageBox.warning(self, "Error", "Password must contain a lowercase letter")
+            return
+
+        if not any(c.isupper() for c in password):
+            QMessageBox.warning(self, "Error", "Password must contain an uppercase letter")
+            return
+
+        if not any(c.isdigit() for c in password):
+            QMessageBox.warning(self, "Error", "Password must contain a number")
+            return
+
+        if not any(c in "!@#$%^&*()-_=+[]{};:,.<>?/\\|" for c in password):
+            QMessageBox.warning(self, "Error", "Password must contain a special character")
+            return
+
+        # -----------------------------
+        # Hash password (raw bytes)
+        # -----------------------------
         hashed_pw = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
 
-        # Default permissions from registry
+        # -----------------------------
+        # Default permissions
+        # -----------------------------
         permissions = {
             page: info["default_permission"]
             for page, info in PAGE_REGISTRY.items()
         }
 
+        # -----------------------------
+        # Create user in DB
+        # -----------------------------
         success = create_user(username, hashed_pw, "user", permissions, email)
 
         if success:
@@ -75,3 +120,4 @@ class RegistrationWindow(QWidget):
             self.close()
         else:
             QMessageBox.critical(self, "Error", "Registration failed")
+            logger.error(f"Registration failed for '{username}'")

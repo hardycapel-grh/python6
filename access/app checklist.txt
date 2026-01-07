@@ -1,0 +1,162 @@
+🧱 1. Core Architecture (DONE or NEARLY DONE)
+These are the foundations you’ve already built or are polishing:
+✔ MongoDB database layer
+- Clean CRUD functions
+- Consistent return values
+- Strong logging
+- Password hashing
+- Permissions stored per page
+- User schema stabilised
+✔ Login + Registration
+- Username uniqueness
+- Email validation
+- Strong password rules
+- bcrypt hashing
+- Full user document returned on login
+✔ MainApp navigation
+- Dynamic page loading
+- Permission‑aware navigation
+- Read‑only mode support
+- Profile Page receives full user document
+✔ Profile Page
+- Change password
+- Update fields
+- Strong validation
+- MongoDB update functions working
+You’ve already solved the hardest parts.
+
+🧭 2. User Management & Admin Tools (IN PROGRESS)
+This is where your app becomes useful for real users.
+🔹 Admin Control Panel
+- View all users
+- Edit permissions
+- Reset passwords
+- Delete users
+- Add new users manually
+- View logs (optional)
+🔹 Schema auto‑repair
+When new fields are added (email, phone, theme), older users should be updated automatically.
+🔹 Duplicate email check
+Prevent multiple accounts using the same email.
+
+🎨 3. UI/UX Enhancements (NEXT STEPS)
+These are quality‑of‑life improvements that make the app feel polished.
+🔹 Registration Page
+- Add “Confirm Password”
+- Add “Show Password” toggle
+- Add password strength meter
+- Add username availability check
+🔹 Profile Page
+- Editable fields (email, phone, theme)
+- Save button with validation
+- Optional avatar upload (if desired)
+🔹 Navigation
+- Highlight active page
+- Group admin pages separately
+- Add icons (optional)
+
+🔐 4. Security & Validation (IMPORTANT)
+You’re already doing well here, but here’s what’s left:
+🔹 Case‑insensitive username lookup
+So “Graham” and “graham” are treated the same.
+🔹 Input sanitisation
+Especially for email, username, and text fields.
+🔹 Rate limiting (optional)
+Prevent brute‑force login attempts.
+🔹 Logging improvements
+- Log failed logins
+- Log permission changes
+- Log admin actions
+
+🧩 5. Page Framework (YOUR 4‑PAGE APP)
+You mentioned wanting a 4‑page modular app.
+Here’s the recommended structure:
+1️⃣ Dashboard
+- Welcome message
+- Quick links
+- User info summary
+2️⃣ Data Page
+- pyqtgraph / matplotlib integration
+- pandas table
+- MongoDB data queries
+- Filters, sorting, export (optional)
+3️⃣ Admin Page
+- User management
+- Permissions
+- Logs
+- Schema repair tools
+4️⃣ Profile Page
+- Change password
+- Update email/phone/theme
+- View permissions
+- View role
+This structure is clean, scalable, and easy to maintain.
+
+🧪 6. Testing & Debugging (ONGOING)
+Before calling the app “complete”, you’ll want:
+🔹 Unit tests for database functions
+- create_user
+- update_password
+- update_permissions
+- delete_user
+- get_user
+🔹 UI tests
+- Registration flow
+- Login flow
+- Permission‑restricted navigation
+- Profile updates
+- Admin actions
+🔹 Error handling
+- Missing fields
+- Invalid input
+- DB connection issues
+- Permission denied
+
+📦 7. Packaging & Deployment (FINAL STAGE)
+When everything works:
+🔹 Convert to executable
+Using PyInstaller or fbs.
+🔹 Config file
+Store DB connection, theme, app settings.
+🔹 Logging directory
+Ensure logs are written to a safe location.
+🔹 Optional:
+- Auto‑update system
+- Installer
+- Splash screen
+- Versioning
+
+🚀 8. Future Enhancements (OPTIONAL BUT FUN)
+Once the core app is stable:
+🔹 Dark mode / themes
+🔹 Multi‑language support
+🔹 Role‑based UI hiding
+🔹 Activity logs per user
+🔹 Email notifications
+🔹 Two‑factor authentication
+🔹 API endpoints (Flask/FastAPI)
+
+🎯 Where you are right now
+You’re at a perfect point:
+- Database layer is nearly clean
+- Registration + login are solid
+- Profile Page is functional
+- Permissions system is working
+- MainApp is almost fully correct
+The next big wins are:
+⭐ Finalising MainApp user passing
+⭐ Completing Admin Page
+⭐ Adding confirm password to registration
+⭐ Adding case‑insensitive username lookup
+⭐ Adding schema auto‑repair
+Once those are done, your app becomes production‑ready.
+
+If you want, I can now:
+- Generate a complete roadmap checklist
+- Build your Admin Page
+- Add confirm password to registration
+- Add case‑insensitive login
+- Add schema auto‑repair
+- Build your Dashboard Page
+- Build your Data Page with pyqtgraph/matplotlib
+Just tell me which direction you want to move next.

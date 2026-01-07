@@ -234,3 +234,574 @@
 2025-12-30 00:26:47,516 [INFO] User Manager loaded user list (sorted by Username, search='')
 2025-12-30 00:26:53,083 [INFO] Admin opened Permission Editor for 'hardycapel2'
 2025-12-30 00:26:57,123 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 22:26:59,265 [INFO] User 'testing' logged in successfully
+2025-12-30 22:26:59,269 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 22:26:59,313 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 22:26:59,571 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 22:26:59,598 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 22:27:02,492 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-30 22:27:06,514 [INFO] Admin opened User Manager
+2025-12-30 22:27:06,532 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 22:28:07,490 [INFO] User 'hardycapel2' deleted successfully
+2025-12-30 22:28:09,005 [INFO] User 'hardycapel2' deleted by admin
+2025-12-30 22:28:09,007 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 22:51:41,869 [INFO] Permissions updated for user 'testing'
+2025-12-30 22:51:41,869 [INFO] Permissions auto-repaired for user 'testing'
+2025-12-30 22:51:41,870 [INFO] User 'testing' logged in successfully
+2025-12-30 22:51:41,870 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 22:51:41,893 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 22:51:42,160 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 22:51:42,176 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 22:51:42,189 [INFO] ProfilePage: Loaded profile for 'testing'
+2025-12-30 22:51:47,914 [INFO] User 'testing' switched to page 'Profile' (permission: rw)
+2025-12-30 22:58:08,048 [INFO] User 'testing' logged in successfully
+2025-12-30 22:58:08,048 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 22:58:08,052 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 22:58:08,157 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 22:58:08,173 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 22:58:08,174 [INFO] ProfilePage: Loaded profile for 'testing'
+2025-12-30 22:58:13,098 [INFO] User 'testing' switched to page 'Profile' (permission: rw)
+2025-12-30 22:58:35,925 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2025-12-30 22:58:38,388 [INFO] Admin opened User Manager
+2025-12-30 22:58:38,393 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 22:58:43,610 [INFO] Admin opened Permission Editor for 'zendaya'
+2025-12-30 22:58:58,495 [INFO] User Manager loaded user list (sorted by Username, search='')
+2025-12-30 22:59:02,872 [INFO] User 'testing' switched to page 'Profile' (permission: rw)
+2025-12-30 23:25:36,787 [INFO] User 'testing' logged in successfully
+2025-12-30 23:25:36,788 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 23:25:36,792 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 23:25:36,896 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 23:25:36,913 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 23:25:36,914 [INFO] ProfilePage: Loaded profile for 'testing'
+2025-12-30 23:25:38,569 [INFO] User 'testing' switched to page 'Profile' (permission: rw)
+2025-12-30 23:33:18,482 [INFO] User 'testing' logged in successfully
+2025-12-30 23:33:18,483 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-30 23:33:18,486 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-30 23:33:18,588 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-30 23:33:18,604 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 23:33:18,606 [INFO] ProfilePage: Loaded profile for 'testing'
+2025-12-30 23:33:35,105 [INFO] User 'testing' switched to page 'Profile' (permission: rw)
+2025-12-30 23:34:52,319 [INFO] ProfilePage: Updated profile for 'testing'
+2025-12-30 23:36:31,783 [INFO] User 'testing' switched to page 'Log Viewer' (permission: rw)
+2025-12-30 23:36:31,783 [INFO] LogViewerPage set to read-write mode
+2025-12-30 23:36:55,579 [INFO] LogViewerPage: Log loaded successfully
+2025-12-30 23:37:28,100 [INFO] User 'testing' switched to page 'Profile' (permission: rw)
+2025-12-31 07:31:02,806 [INFO] User 'testing' logged in successfully
+2025-12-31 07:31:02,806 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-31 07:31:02,812 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 07:31:02,925 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 07:31:02,948 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 07:31:02,950 [INFO] ProfilePage: Loaded profile for 'testing'
+2025-12-31 07:31:08,480 [INFO] User 'testing' switched to page 'Profile' (permission: rw)
+2025-12-31 13:33:19,733 [INFO] User 'testing' logged in successfully
+2025-12-31 13:33:19,734 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-31 13:33:19,760 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 13:33:20,079 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 13:33:20,097 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 13:33:20,099 [INFO] ProfilePage: Loaded profile for 'testing'
+2025-12-31 13:33:22,777 [INFO] User 'testing' switched to page 'Profile' (permission: rw)
+2025-12-31 22:28:42,775 [INFO] User 'hadrycapel1' created successfully
+2025-12-31 22:28:44,509 [INFO] User 'hadrycapel1' registered successfully
+2025-12-31 22:29:15,156 [WARNING] Login failed: user 'hardycapel1' not found
+2025-12-31 22:30:01,321 [INFO] User 'hadrycapel1' logged in successfully
+2025-12-31 22:30:01,331 [INFO] Auto-repaired missing fields for user 'hadrycapel1'
+2025-12-31 22:30:01,332 [INFO] MainApp started for user 'hadrycapel1' with role 'user'
+2025-12-31 22:30:01,336 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 22:30:01,436 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 22:30:01,451 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 22:30:01,452 [INFO] ProfilePage: Loaded profile for 'hadrycapel1'
+2025-12-31 22:30:03,423 [INFO] User 'hadrycapel1' switched to page 'Profile' (permission: rw)
+2025-12-31 22:37:50,955 [INFO] User 'hadrycapel1' logged in successfully
+2025-12-31 22:37:50,956 [INFO] MainApp started for user 'hadrycapel1' with role 'user'
+2025-12-31 22:37:50,959 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 22:37:51,066 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 22:37:51,081 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 22:37:51,083 [INFO] ProfilePage: Loaded profile for 'hadrycapel1'
+2025-12-31 22:37:53,759 [INFO] User 'hadrycapel1' switched to page 'Profile' (permission: rw)
+2025-12-31 22:41:28,255 [INFO] User 'hadrycapel1' logged in successfully
+2025-12-31 22:41:28,256 [INFO] MainApp started for user 'hadrycapel1' with role 'user'
+2025-12-31 22:41:28,259 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 22:41:28,355 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 22:41:28,372 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 22:41:28,376 [INFO] ProfilePage: Loaded profile for 'hadrycapel1'
+2025-12-31 22:41:31,338 [INFO] User 'hadrycapel1' switched to page 'Profile' (permission: rw)
+2025-12-31 22:48:14,205 [INFO] User 'testing' logged in successfully
+2025-12-31 22:48:14,205 [INFO] MainApp started for user 'testing' with role 'admin'
+2025-12-31 22:48:14,208 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 22:48:14,306 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 22:48:14,322 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 22:48:14,324 [INFO] ProfilePage: Loaded profile for 'testing'
+2025-12-31 22:53:27,527 [WARNING] Registration failed: username 'grh' already exists
+2025-12-31 22:53:29,279 [ERROR] Registration failed for 'grh'
+2025-12-31 22:54:19,276 [WARNING] Registration failed: username 'grh' already exists
+2025-12-31 22:54:21,604 [ERROR] Registration failed for 'grh'
+2025-12-31 22:54:29,003 [INFO] User 'grh1' created successfully
+2025-12-31 22:54:33,541 [INFO] User 'grh1' registered successfully
+2025-12-31 22:54:50,831 [INFO] User 'grh1' logged in successfully
+2025-12-31 22:54:50,833 [INFO] Auto-repaired missing fields for user 'grh1'
+2025-12-31 22:54:50,833 [INFO] MainApp started for user 'grh1' with role 'user'
+2025-12-31 22:54:50,836 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 22:54:50,936 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 22:54:50,958 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 22:54:50,960 [INFO] ProfilePage: Loaded profile for 'grh1'
+2025-12-31 22:54:53,491 [INFO] User 'grh1' switched to page 'Profile' (permission: rw)
+2025-12-31 23:23:10,669 [INFO] User 'grh2' created successfully
+2025-12-31 23:23:13,116 [INFO] User 'grh2' registered successfully
+2025-12-31 23:24:27,760 [INFO] User 'grh2' logged in successfully
+2025-12-31 23:24:27,762 [INFO] Auto-repaired missing fields for user 'grh2'
+2025-12-31 23:24:27,762 [INFO] MainApp started for user 'grh2' with role 'user'
+2025-12-31 23:24:27,765 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 23:24:28,011 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 23:24:28,026 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 23:24:28,028 [INFO] ProfilePage: Loaded profile for 'grh2'
+2025-12-31 23:24:30,157 [INFO] User 'grh2' switched to page 'Profile' (permission: rw)
+2025-12-31 23:25:45,258 [INFO] User 'grh3' created successfully
+2025-12-31 23:25:46,944 [INFO] User 'grh3' registered successfully
+2025-12-31 23:26:02,281 [INFO] User 'grh3' logged in successfully
+2025-12-31 23:26:02,282 [INFO] Auto-repaired missing fields for user 'grh3'
+2025-12-31 23:26:02,283 [INFO] MainApp started for user 'grh3' with role 'user'
+2025-12-31 23:26:02,287 [INFO] DataTablePage: No data found in 'records' collection
+2025-12-31 23:26:02,383 [INFO] ChartsPage: Sample chart drawn successfully
+2025-12-31 23:26:02,398 [INFO] LogViewerPage: Log loaded successfully
+2025-12-31 23:26:02,400 [INFO] ProfilePage: Loaded profile for 'grh3'
+2025-12-31 23:26:04,705 [INFO] User 'grh3' switched to page 'Profile' (permission: rw)
+2025-12-31 23:27:09,853 [ERROR] ProfilePage: Failed to change password for 'grh3'
+2025-12-31 23:28:05,095 [ERROR] ProfilePage: Failed to change password for 'grh3'
+2025-12-31 23:28:37,020 [ERROR] ProfilePage: Failed to change password for 'grh3'
+2026-01-01 00:10:53,334 [WARNING] Login failed: incorrect password for 'grh3'
+2026-01-01 00:11:33,166 [INFO] User 'grh10' created successfully
+2026-01-01 00:12:37,355 [INFO] User 'grh10' registered successfully
+2026-01-01 00:12:57,042 [WARNING] Login failed: incorrect password for 'grh10'
+2026-01-01 00:13:10,922 [WARNING] Login failed: incorrect password for 'grh10'
+2026-01-01 00:13:44,305 [INFO] User 'grh11' created successfully
+2026-01-01 00:13:50,068 [INFO] User 'grh11' registered successfully
+2026-01-01 00:13:54,467 [WARNING] Login failed: incorrect password for 'grh10'
+2026-01-01 00:14:36,570 [INFO] User 'grh12' created successfully
+2026-01-01 00:14:38,610 [INFO] User 'grh12' registered successfully
+2026-01-01 00:14:41,617 [WARNING] Login failed: incorrect password for 'grh10'
+2026-01-01 00:15:23,306 [INFO] User 'grh12' logged in successfully
+2026-01-01 00:15:23,308 [INFO] Auto-repaired missing fields for user 'grh12'
+2026-01-01 00:15:23,308 [INFO] MainApp started for user 'grh12' with role 'user'
+2026-01-01 00:15:23,335 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 00:15:23,558 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 00:15:23,571 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 00:15:23,573 [INFO] ProfilePage: Loaded profile for 'grh12'
+2026-01-01 00:15:25,986 [INFO] User 'grh12' switched to page 'Profile' (permission: rw)
+2026-01-01 00:16:04,749 [ERROR] ProfilePage: Failed to change password for 'grh12'
+2026-01-01 00:16:43,579 [ERROR] ProfilePage: Failed to change password for 'grh12'
+2026-01-01 00:17:21,137 [WARNING] Login failed: incorrect password for 'grh12'
+2026-01-01 00:18:10,634 [INFO] User 'grh100' created successfully
+2026-01-01 00:18:12,332 [INFO] User 'grh100' registered successfully
+2026-01-01 00:18:30,318 [INFO] User 'grh100' logged in successfully
+2026-01-01 00:18:30,319 [INFO] Auto-repaired missing fields for user 'grh100'
+2026-01-01 00:18:30,320 [INFO] MainApp started for user 'grh100' with role 'user'
+2026-01-01 00:18:30,323 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 00:18:30,421 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 00:18:30,438 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 00:18:30,440 [INFO] ProfilePage: Loaded profile for 'grh100'
+2026-01-01 00:18:32,302 [INFO] User 'grh100' switched to page 'Profile' (permission: rw)
+2026-01-01 00:19:04,158 [ERROR] ProfilePage: Failed to change password for 'grh100'
+2026-01-01 00:38:35,080 [WARNING] Login failed: incorrect password for 'grh100'
+2026-01-01 00:40:28,327 [INFO] User 'grh101' created successfully
+2026-01-01 00:40:29,629 [INFO] User 'grh101' registered successfully
+2026-01-01 00:42:15,461 [INFO] User 'grh101' logged in successfully
+2026-01-01 00:42:15,463 [INFO] Auto-repaired missing fields for user 'grh101'
+2026-01-01 00:42:15,463 [INFO] MainApp started for user 'grh101' with role 'user'
+2026-01-01 00:42:15,492 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 00:42:15,715 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 00:42:15,730 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 00:42:15,732 [INFO] ProfilePage: Loaded profile for 'grh101'
+2026-01-01 00:42:21,346 [INFO] User 'grh101' switched to page 'Profile' (permission: rw)
+2026-01-01 00:42:56,561 [ERROR] ProfilePage: Failed to change password for 'grh101'
+2026-01-01 00:46:04,991 [INFO] User 'grh101' logged in successfully
+2026-01-01 00:46:04,991 [INFO] MainApp started for user 'grh101' with role 'user'
+2026-01-01 00:46:04,994 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 00:46:05,105 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 00:46:05,120 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 00:46:05,122 [INFO] ProfilePage: Loaded profile for 'grh101'
+2026-01-01 00:46:07,686 [INFO] User 'grh101' switched to page 'Profile' (permission: rw)
+2026-01-01 00:46:38,647 [ERROR] ProfilePage: Failed to change password for 'grh101'
+2026-01-01 10:29:23,334 [INFO] User 'grh101' logged in successfully
+2026-01-01 10:29:23,334 [INFO] MainApp started for user 'grh101' with role 'user'
+2026-01-01 10:29:23,357 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 10:29:23,595 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 10:29:23,610 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 10:29:23,614 [INFO] ProfilePage: Loaded profile for 'grh101'
+2026-01-01 10:29:26,593 [INFO] User 'grh101' switched to page 'Profile' (permission: rw)
+2026-01-01 10:29:51,926 [INFO] Password updated for user 'grh101'
+2026-01-01 10:29:54,254 [INFO] ProfilePage: Password changed for 'grh101'
+2026-01-01 17:57:30,332 [INFO] User 'grh101' logged in successfully
+2026-01-01 17:57:30,332 [INFO] MainApp started for user 'grh101' with role 'user'
+2026-01-01 17:57:30,336 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 17:57:30,434 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 17:57:30,451 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 17:57:30,452 [INFO] ProfilePage: Loaded profile for 'grh101'
+2026-01-01 17:57:35,994 [INFO] User 'grh101' switched to page 'Profile' (permission: rw)
+2026-01-01 17:58:14,318 [INFO] Password updated for user 'grh101'
+2026-01-01 17:58:16,463 [INFO] ProfilePage: Password changed for 'grh101'
+2026-01-01 17:58:51,012 [INFO] Fields updated for user 'grh101'
+2026-01-01 17:58:53,257 [INFO] ProfilePage: Updated profile for 'grh101'
+2026-01-01 22:48:54,869 [INFO] User 'hardycapelgrh' created successfully
+2026-01-01 22:49:04,627 [INFO] User 'hardycapelgrh' registered successfully
+2026-01-01 22:59:13,941 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-01 22:59:13,945 [INFO] Fields updated for user 'hardycapelgrh'
+2026-01-01 22:59:13,945 [INFO] Auto-repaired missing fields for user 'hardycapelgrh'
+2026-01-01 22:59:13,948 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-01 22:59:13,979 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 22:59:14,158 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 22:59:14,191 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 22:59:14,197 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-01 22:59:18,493 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: rw)
+2026-01-01 22:59:23,477 [INFO] User 'hardycapelgrh' switched to page 'Dashboard' (permission: rw)
+2026-01-01 22:59:23,477 [INFO] Dashboard set to read-write mode
+2026-01-01 22:59:54,699 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-01 22:59:54,700 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-01 22:59:54,703 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 22:59:54,813 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 22:59:54,831 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 22:59:54,833 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-01 23:00:04,164 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: rw)
+2026-01-01 23:01:03,005 [INFO] User 'testing' logged in successfully
+2026-01-01 23:01:03,006 [INFO] MainApp started for user 'testing' with role 'admin'
+2026-01-01 23:01:03,010 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 23:01:03,116 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 23:01:03,130 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 23:01:03,133 [INFO] ProfilePage: Loaded profile for 'testing'
+2026-01-01 23:01:10,915 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2026-01-01 23:01:35,323 [INFO] User 'testing' logged in successfully
+2026-01-01 23:01:35,324 [INFO] MainApp started for user 'testing' with role 'admin'
+2026-01-01 23:01:35,328 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-01 23:01:35,434 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-01 23:01:35,452 [INFO] LogViewerPage: Log loaded successfully
+2026-01-01 23:01:35,454 [INFO] ProfilePage: Loaded profile for 'testing'
+2026-01-01 23:01:41,824 [INFO] User 'testing' switched to page 'Admin' (permission: rw)
+2026-01-01 23:01:43,186 [INFO] Admin opened User Manager
+2026-01-01 23:01:43,203 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:01:50,052 [INFO] User 'bigdog' deleted successfully
+2026-01-01 23:01:51,282 [INFO] User 'bigdog' deleted by admin
+2026-01-01 23:01:51,284 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:01:54,777 [INFO] User 'bugger' deleted successfully
+2026-01-01 23:01:55,993 [INFO] User 'bugger' deleted by admin
+2026-01-01 23:01:55,995 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:01:59,996 [INFO] User 'grh' deleted successfully
+2026-01-01 23:02:01,558 [INFO] User 'grh' deleted by admin
+2026-01-01 23:02:01,560 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:05,291 [INFO] User 'grh1' deleted successfully
+2026-01-01 23:02:06,364 [INFO] User 'grh1' deleted by admin
+2026-01-01 23:02:06,367 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:09,724 [INFO] User 'grh10' deleted successfully
+2026-01-01 23:02:10,550 [INFO] User 'grh10' deleted by admin
+2026-01-01 23:02:10,553 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:13,411 [INFO] User 'grh100' deleted successfully
+2026-01-01 23:02:14,594 [INFO] User 'grh100' deleted by admin
+2026-01-01 23:02:14,596 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:20,553 [INFO] User 'grh101' deleted successfully
+2026-01-01 23:02:21,382 [INFO] User 'grh101' deleted by admin
+2026-01-01 23:02:21,385 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:24,453 [INFO] User 'grh11' deleted successfully
+2026-01-01 23:02:28,571 [INFO] User 'grh11' deleted by admin
+2026-01-01 23:02:28,573 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:39,463 [INFO] User 'hardycapel4' deleted successfully
+2026-01-01 23:02:40,789 [INFO] User 'hardycapel4' deleted by admin
+2026-01-01 23:02:40,790 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:44,107 [INFO] User 'grh12' deleted successfully
+2026-01-01 23:02:45,349 [INFO] User 'grh12' deleted by admin
+2026-01-01 23:02:45,351 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:48,449 [INFO] User 'grh2' deleted successfully
+2026-01-01 23:02:49,713 [INFO] User 'grh2' deleted by admin
+2026-01-01 23:02:49,717 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:52,567 [INFO] User 'grh3' deleted successfully
+2026-01-01 23:02:53,668 [INFO] User 'grh3' deleted by admin
+2026-01-01 23:02:53,669 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:02:59,047 [INFO] User 'hadrycapel1' deleted successfully
+2026-01-01 23:03:00,121 [INFO] User 'hadrycapel1' deleted by admin
+2026-01-01 23:03:00,123 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:03:05,543 [INFO] User 'hardycapel3' deleted successfully
+2026-01-01 23:03:06,438 [INFO] User 'hardycapel3' deleted by admin
+2026-01-01 23:03:06,442 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:03:14,344 [INFO] Admin opened Permission Editor for 'testing'
+2026-01-01 23:03:20,851 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-01 23:03:25,580 [INFO] Admin opened Permission Editor for 'hardycapelgrh'
+2026-01-01 23:03:33,201 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-01 23:03:33,201 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-01 23:03:34,449 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-02 23:22:45,668 [WARNING] Login failed: incorrect password for 'testing'
+2026-01-02 23:22:55,500 [WARNING] Login failed: incorrect password for 'testing'
+2026-01-02 23:23:37,295 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
+2026-01-02 23:24:28,833 [WARNING] Login failed: user 'grh' not found
+2026-01-02 23:25:07,412 [INFO] User 'hardy' created successfully
+2026-01-02 23:25:08,722 [INFO] User 'hardy' registered successfully
+2026-01-02 23:27:59,778 [INFO] User 'hardy' logged in successfully
+2026-01-02 23:27:59,779 [INFO] Fields updated for user 'hardy'
+2026-01-02 23:27:59,779 [INFO] Auto-repaired missing fields for user 'hardy'
+2026-01-02 23:27:59,783 [INFO] MainApp started for user 'hardy' with role 'user'
+2026-01-02 23:27:59,808 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-02 23:28:00,069 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-02 23:28:00,097 [INFO] LogViewerPage: Log loaded successfully
+2026-01-02 23:28:00,103 [INFO] ProfilePage: Loaded profile for 'hardy'
+2026-01-02 23:31:17,322 [INFO] User 'hardy' logged in successfully
+2026-01-02 23:31:17,322 [INFO] MainApp started for user 'hardy' with role 'admin'
+2026-01-02 23:31:17,326 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-02 23:31:17,421 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-02 23:31:17,439 [INFO] LogViewerPage: Log loaded successfully
+2026-01-02 23:31:17,443 [INFO] ProfilePage: Loaded profile for 'hardy'
+2026-01-02 23:31:20,530 [INFO] User 'hardy' switched to page 'Profile' (permission: rw)
+2026-01-02 23:55:53,131 [INFO] Permissions updated for user 'hardy'
+2026-01-02 23:55:53,131 [INFO] Permissions auto-repaired for user 'hardy'
+2026-01-02 23:55:53,131 [INFO] User 'hardy' logged in successfully
+2026-01-02 23:55:53,132 [INFO] MainApp started for user 'hardy' with role 'admin'
+2026-01-02 23:55:53,136 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-02 23:55:53,238 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-02 23:55:53,255 [INFO] LogViewerPage: Log loaded successfully
+2026-01-02 23:55:53,257 [INFO] ProfilePage: Loaded profile for 'hardy'
+2026-01-02 23:57:16,029 [WARNING] Login failed: incorrect password for 'testing'
+2026-01-02 23:57:26,617 [WARNING] Login failed: incorrect password for 'testing'
+2026-01-02 23:57:44,180 [INFO] User 'hardy' logged in successfully
+2026-01-02 23:57:44,180 [INFO] MainApp started for user 'hardy' with role 'admin'
+2026-01-02 23:57:44,184 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-02 23:57:44,287 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-02 23:57:44,301 [INFO] LogViewerPage: Log loaded successfully
+2026-01-02 23:57:44,303 [INFO] ProfilePage: Loaded profile for 'hardy'
+2026-01-03 00:00:13,962 [WARNING] Login failed: incorrect password for 'testing'
+2026-01-03 00:01:16,818 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
+2026-01-03 00:01:25,795 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-03 00:01:25,795 [INFO] Permissions auto-repaired for user 'hardycapelgrh'
+2026-01-03 00:01:25,795 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-03 00:01:25,795 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-03 00:01:25,799 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-03 00:01:25,896 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-03 00:01:25,911 [INFO] LogViewerPage: Log loaded successfully
+2026-01-03 00:01:25,913 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-03 00:01:30,794 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-03 00:01:35,200 [INFO] Admin opened User Manager
+2026-01-03 00:01:35,210 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-03 00:01:41,563 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-03 00:12:45,796 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-03 00:12:45,796 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-03 00:12:45,800 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-03 00:12:45,896 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-03 00:12:45,898 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-03 00:12:45,913 [INFO] LogViewerPage: Log loaded successfully
+2026-01-03 00:12:48,435 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-03 00:12:57,944 [INFO] Admin opened User Manager
+2026-01-03 00:12:57,949 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-03 00:33:18,698 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
+2026-01-03 00:33:25,215 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-03 00:33:25,216 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-03 00:33:25,221 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-03 00:33:25,359 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-03 00:33:25,361 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-03 00:33:25,380 [INFO] LogViewerPage: Log loaded successfully
+2026-01-03 00:33:27,499 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-03 00:33:30,104 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-04 00:12:55,919 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
+2026-01-04 00:13:06,289 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-04 00:13:06,290 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-04 00:13:06,325 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-04 00:13:06,573 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-04 00:13:06,575 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-04 00:13:06,591 [INFO] LogViewerPage: Log loaded successfully
+2026-01-04 00:13:09,959 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-04 00:13:13,116 [INFO] Admin opened User Manager
+2026-01-04 00:13:13,145 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-04 08:34:10,760 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-04 08:34:10,761 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-04 08:34:10,793 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-04 08:34:11,051 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-04 08:34:11,056 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-04 08:34:11,080 [INFO] LogViewerPage: Log loaded successfully
+2026-01-04 08:34:13,306 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-04 16:57:55,853 [INFO] Admin opened User Manager
+2026-01-04 16:57:55,878 [INFO] User Manager loaded user list (sorted by Username, search='')
+2026-01-04 16:57:59,705 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-04 16:58:02,131 [INFO] User 'hardycapelgrh' switched to page 'Data Table' (permission: ro)
+2026-01-04 16:58:02,131 [INFO] DataTablePage set to read-only mode
+2026-01-04 20:41:21,029 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-04 20:41:21,030 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-04 20:41:21,064 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-04 20:41:21,415 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-04 20:41:21,418 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-04 20:41:21,437 [INFO] LogViewerPage: Log loaded successfully
+2026-01-04 20:41:26,773 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-04 22:28:06,403 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-05 21:50:32,817 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-05 21:50:32,817 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-05 21:50:32,845 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-05 21:50:33,108 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-05 21:50:33,111 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-05 21:50:33,131 [INFO] LogViewerPage: Log loaded successfully
+2026-01-05 21:50:36,403 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-05 21:51:13,199 [INFO] User 'hardycapelgrh' switched to page 'Dashboard' (permission: rw)
+2026-01-05 21:51:13,200 [INFO] Dashboard set to read-write mode
+2026-01-05 21:51:14,931 [INFO] User 'hardycapelgrh' switched to page 'Data Table' (permission: ro)
+2026-01-05 21:51:14,931 [INFO] DataTablePage set to read-only mode
+2026-01-05 21:51:15,604 [INFO] User 'hardycapelgrh' switched to page 'Charts' (permission: ro)
+2026-01-05 21:51:15,604 [INFO] ChartsPage set to read-only mode
+2026-01-05 21:51:16,355 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: rw)
+2026-01-05 21:51:19,039 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-05 21:54:20,014 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-05 21:54:20,014 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-05 21:54:20,019 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-05 21:54:20,113 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-05 21:54:20,115 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-05 21:54:20,137 [INFO] LogViewerPage: Log loaded successfully
+2026-01-05 21:55:02,133 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-05 22:05:32,493 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-05 22:05:32,494 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-05 22:05:32,497 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-05 22:05:32,591 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-05 22:05:32,594 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-05 22:05:32,614 [INFO] LogViewerPage: Log loaded successfully
+2026-01-05 22:05:42,825 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-05 22:05:49,946 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: rw)
+2026-01-05 22:05:51,284 [INFO] User 'hardycapelgrh' switched to page 'Dashboard' (permission: rw)
+2026-01-05 22:05:51,284 [INFO] Dashboard set to read-write mode
+2026-01-05 22:05:52,647 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-05 22:06:14,182 [INFO] Password updated for user 'testing'
+2026-01-05 22:06:18,800 [INFO] Admin reset password for 'testing'
+2026-01-05 22:58:02,832 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-05 22:58:02,832 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-05 22:58:02,836 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-05 22:58:02,933 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-05 22:58:02,935 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-05 22:58:02,962 [INFO] LogViewerPage: Log loaded successfully
+2026-01-05 22:58:08,659 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-05 23:05:02,402 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-05 23:05:02,402 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-05 23:05:02,406 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-05 23:05:02,508 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-05 23:05:02,510 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-05 23:05:02,534 [INFO] LogViewerPage: Log loaded successfully
+2026-01-05 23:05:11,012 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-06 21:55:31,960 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
+2026-01-06 21:55:38,335 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-06 21:55:38,344 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-06 21:55:38,391 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-06 21:55:38,649 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-06 21:55:38,657 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-06 21:55:38,714 [INFO] LogViewerPage: Log loaded successfully
+2026-01-06 21:56:05,998 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-06 22:04:07,676 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-06 22:04:09,720 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-06 22:07:38,834 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-06 22:07:38,834 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-06 22:07:38,838 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-06 22:07:38,937 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-06 22:07:38,939 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-06 22:07:38,961 [INFO] LogViewerPage: Log loaded successfully
+2026-01-06 22:12:13,752 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-06 22:12:13,753 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-06 22:12:13,756 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-06 22:12:13,853 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-06 22:12:13,855 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-06 22:12:13,881 [INFO] LogViewerPage: Log loaded successfully
+2026-01-06 22:12:21,195 [INFO] User 'hardycapelgrh' switched to page 'Log Viewer' (permission: rw)
+2026-01-06 22:12:21,195 [INFO] LogViewerPage set to read-write mode
+2026-01-06 22:12:26,894 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-06 22:16:27,988 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-06 22:16:29,746 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-06 22:16:33,249 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: rw)
+2026-01-06 22:16:36,863 [INFO] User 'hardycapelgrh' switched to page 'Log Viewer' (permission: rw)
+2026-01-06 22:16:36,863 [INFO] LogViewerPage set to read-write mode
+2026-01-06 22:16:38,521 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-06 22:37:13,564 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-06 22:37:13,565 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-06 22:37:13,568 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-06 22:37:13,674 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-06 22:37:13,677 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-06 22:37:13,699 [INFO] LogViewerPage: Log loaded successfully
+2026-01-06 22:37:18,213 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-06 22:37:29,261 [WARNING] update_permissions: No changes applied for 'hardycapelgrh'
+2026-01-06 22:37:40,997 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-06 22:37:42,655 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-06 22:58:00,553 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-06 22:58:00,554 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-06 22:58:00,559 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-06 22:58:00,664 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-06 22:58:00,666 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-06 22:58:00,692 [INFO] LogViewerPage: Log loaded successfully
+2026-01-06 22:58:03,793 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-06 22:58:15,265 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-06 22:58:16,878 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-06 22:58:25,824 [INFO] User 'hardycapelgrh' switched to page 'Log Viewer' (permission: ro)
+2026-01-06 22:58:25,824 [INFO] LogViewerPage set to read-only mode
+2026-01-06 22:58:37,240 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-06 23:00:05,873 [WARNING] update_permissions: No changes applied for 'hardycapelgrh'
+2026-01-06 23:00:55,866 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-06 23:00:55,867 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-06 23:00:55,870 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-06 23:00:55,977 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-06 23:00:55,979 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-06 23:00:56,010 [INFO] LogViewerPage: Log loaded successfully
+2026-01-06 23:01:08,881 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-06 23:01:24,150 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-06 23:01:25,548 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-06 23:04:46,201 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-06 23:04:48,276 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-07 21:18:46,855 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-07 21:18:46,861 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-07 21:18:46,888 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-07 21:18:47,203 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-07 21:18:47,208 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-07 21:18:47,265 [INFO] LogViewerPage: Log loaded successfully
+2026-01-07 21:18:52,071 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-07 21:19:06,510 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-07 21:19:08,114 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-07 21:19:18,566 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-07 21:19:20,289 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-07 21:19:36,832 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-07 21:19:38,488 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-07 21:20:21,171 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-07 21:20:21,171 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-07 21:20:21,174 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-07 21:20:21,277 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-07 21:20:21,279 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-07 21:20:21,302 [INFO] LogViewerPage: Log loaded successfully
+2026-01-07 21:20:24,535 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-07 21:25:11,025 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-07 21:25:11,026 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-07 21:25:11,029 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-07 21:25:11,130 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-07 21:25:11,133 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-07 21:25:11,158 [INFO] LogViewerPage: Log loaded successfully
+2026-01-07 21:25:15,241 [INFO] User 'hardycapelgrh' switched to page 'Log Viewer' (permission: none)
+2026-01-07 21:25:15,241 [INFO] LogViewerPage set to read-write mode
+2026-01-07 21:25:20,728 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-07 21:39:52,654 [WARNING] Login failed: incorrect password for 'testing'
+2026-01-07 21:39:59,644 [WARNING] Login failed: incorrect password for 'testing'
+2026-01-07 21:40:54,918 [INFO] User 'testing1' created successfully
+2026-01-07 21:40:56,095 [INFO] User 'testing1' registered successfully
+2026-01-07 21:41:07,624 [INFO] User 'testing1' logged in successfully
+2026-01-07 21:41:07,625 [INFO] Fields updated for user 'testing1'
+2026-01-07 21:41:07,625 [INFO] Auto-repaired missing fields for user 'testing1'
+2026-01-07 21:41:07,626 [INFO] MainApp started for user 'testing1' with role 'user'
+2026-01-07 21:41:07,629 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-07 21:41:07,728 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-07 21:41:07,730 [INFO] ProfilePage: Loaded profile for 'testing1'
+2026-01-07 21:41:07,765 [INFO] LogViewerPage: Log loaded successfully
+2026-01-07 21:57:26,370 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-07 21:57:26,371 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-07 21:57:26,378 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-07 21:57:26,493 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-07 21:57:26,496 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-07 21:57:26,518 [INFO] LogViewerPage: Log loaded successfully
+2026-01-07 21:57:30,746 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-07 21:57:41,035 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-07 21:57:42,497 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-07 21:58:03,483 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-07 21:58:04,891 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-07 21:58:28,405 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-07 21:58:30,421 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-07 21:58:37,619 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: rw)
+2026-01-07 21:59:44,803 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: rw)
+2026-01-07 21:59:46,862 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-07 21:59:57,455 [WARNING] update_permissions: No changes applied for 'hardycapelgrh'
+2026-01-07 22:00:03,366 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: rw)
+2026-01-07 22:00:16,103 [INFO] Fields updated for user 'hardycapelgrh'
+2026-01-07 22:00:17,764 [INFO] ProfilePage: Updated profile for 'hardycapelgrh'
+2026-01-07 22:00:24,082 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-07 22:00:35,061 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-07 22:00:37,391 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-07 22:00:40,304 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: ro)
+2026-01-07 22:00:50,627 [INFO] Fields updated for user 'hardycapelgrh'
+2026-01-07 22:00:52,174 [INFO] ProfilePage: Updated profile for 'hardycapelgrh'

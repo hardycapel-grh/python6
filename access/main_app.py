@@ -1,14 +1,24 @@
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QStackedWidget, QMessageBox
 from logger import logger
 from page_registry import PAGE_REGISTRY
+from functools import partial
+from database import get_user
+
+
 
 
 class MainApp(QMainWindow):
     def __init__(self, user):
         super().__init__()
+        # Limit height
+        self.setMinimumHeight(600)
+        self.setMaximumHeight(900)
+
+
         self.setWindowTitle("Main Application")
 
-        # Extract user info
+        self.user = user  # <-- CRITICAL FIX
+
         self.username = user.get("username", "Unknown")
         self.role = user.get("role", "guest")
         self.permissions = user.get("permissions", {})
@@ -35,29 +45,54 @@ class MainApp(QMainWindow):
         self.setCentralWidget(container)
 
     def build_pages(self):
-        """
-        Build pages dynamically from PAGE_REGISTRY.
-        Only pages with permission != None are shown.
-        """
         for index, (title, info) in enumerate(PAGE_REGISTRY.items()):
             page_class = info["class"]
-            page = page_class()
+
+            if title == "Profile":
+                page = page_class(self.user)
+            else:
+                page = page_class()
+
             self.pages.append(page)
             self.stack.addWidget(page)
 
+        # Build navigation after pages exist
+        self.build_navigation_buttons()
+
+    def build_navigation_buttons(self):
+        for index, (title, info) in enumerate(PAGE_REGISTRY.items()):
             permission = self.permissions.get(title)
 
-            # Skip pages the user is not allowed to see
-            if permission is None:
+            if permission not in ("ro", "rw"):
                 continue
 
-            # Create navigation button
             btn = QPushButton(title)
+            page = self.pages[index]
+
             btn.clicked.connect(
-                lambda _, i=index, p=page, perm=permission:
-                    self.switch_page(i, p, perm)
+                partial(self.switch_page, index, page, permission)
             )
+
             self.nav_buttons.addWidget(btn)
+
+    def refresh_navigation(self):
+        # Reload user from DB
+        from database import get_user
+        updated_user = get_user(self.username)
+        if updated_user:
+            self.user = updated_user
+            self.permissions = updated_user.get("permissions", {})
+
+        # Clear existing buttons
+        while self.nav_buttons.count():
+            item = self.nav_buttons.takeAt(0)
+            widget = item.widget()
+            if widget:
+                widget.deleteLater()
+
+        # Rebuild navigation
+        self.build_navigation_buttons()
+
 
     def switch_page(self, index, page, permission):
         """
