@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QListWidget, QPushButton, QMessageBox,
-    QComboBox, QLabel, QLineEdit
+    QComboBox, QLabel, QLineEdit, QTextEdit
 )
 
 from database import get_all_users, delete_user
@@ -136,3 +136,18 @@ class UserManagerDialog(QDialog):
         else:
             QMessageBox.critical(self, "Error", "Failed to delete user")
             logger.error(f"Failed to delete user '{username}'")
+
+    def set_read_only(self, ro: bool):
+        """Enable or disable editing for all input widgets."""
+        for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
+            if isinstance(widget, QLineEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QTextEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QComboBox):
+                widget.setEnabled(not ro)
+
+        # Disable buttons that modify data
+        for btn in self.findChildren(QPushButton):
+            if btn.objectName() not in ("nav", "close", "back"):
+                btn.setEnabled(not ro)

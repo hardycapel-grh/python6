@@ -1,6 +1,7 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QLineEdit, QTextEdit, QComboBox
 from PySide6.QtCore import Qt
 from logger import logger
+
 
 
 class DashboardPage(QWidget):
@@ -30,3 +31,18 @@ class DashboardPage(QWidget):
             logger.info("Dashboard set to read-only mode")
         else:
             logger.info("Dashboard set to read-write mode")
+
+    def set_read_only(self, ro: bool):
+        """Enable or disable editing for all input widgets."""
+        for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
+            if isinstance(widget, QLineEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QTextEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QComboBox):
+                widget.setEnabled(not ro)
+
+        # Disable buttons that modify data
+        for btn in self.findChildren(QPushButton):
+            if btn.objectName() not in ("nav", "close", "back"):
+                btn.setEnabled(not ro)

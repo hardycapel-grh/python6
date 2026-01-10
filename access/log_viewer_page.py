@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QLabel, QPushButton, QTextEdit, QMessageBox
+    QWidget, QVBoxLayout, QLabel, QPushButton, QTextEdit, QMessageBox, QLineEdit, QComboBox
 )
 from PySide6.QtCore import Qt
 import os
@@ -75,12 +75,17 @@ class LogViewerPage(QWidget):
             logger.error(f"LogViewerPage: Failed to clear log: {e}")
             QMessageBox.critical(self, "Error", "Failed to clear log file")
 
-    def set_read_only(self, readonly: bool):
-        """Enable or disable log clearing based on permissions."""
-        self.read_only = readonly
-        self.clear_btn.setEnabled(not readonly)
+    def set_read_only(self, ro: bool):
+        """Enable or disable editing for all input widgets."""
+        for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
+            if isinstance(widget, QLineEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QTextEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QComboBox):
+                widget.setEnabled(not ro)
 
-        if readonly:
-            logger.info("LogViewerPage set to read-only mode")
-        else:
-            logger.info("LogViewerPage set to read-write mode")
+        # Disable buttons that modify data
+        for btn in self.findChildren(QPushButton):
+            if btn.objectName() not in ("nav", "close", "back"):
+                btn.setEnabled(not ro)

@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton,
-    QMessageBox, QFormLayout
+    QMessageBox, QFormLayout, QTextEdit, QComboBox
 )
 from PySide6.QtCore import Qt
 import bcrypt
@@ -183,3 +183,18 @@ class ProfilePage(QWidget):
     def set_read_only(self, readonly: bool):
         """Profile page is always editable except for fixed fields."""
         self.read_only = readonly
+
+    def set_read_only(self, ro: bool):
+        """Enable or disable editing for all input widgets."""
+        for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
+            if isinstance(widget, QLineEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QTextEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QComboBox):
+                widget.setEnabled(not ro)
+
+        # Disable buttons that modify data
+        for btn in self.findChildren(QPushButton):
+            if btn.objectName() not in ("nav", "close", "back"):
+                btn.setEnabled(not ro)

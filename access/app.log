@@ -805,3 +805,165 @@
 2026-01-07 22:00:40,304 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: ro)
 2026-01-07 22:00:50,627 [INFO] Fields updated for user 'hardycapelgrh'
 2026-01-07 22:00:52,174 [INFO] ProfilePage: Updated profile for 'hardycapelgrh'
+2026-01-08 23:37:47,682 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-08 23:37:47,688 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-08 23:37:47,712 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-08 23:37:47,976 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-08 23:37:47,983 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-08 23:37:48,054 [INFO] LogViewerPage: Log loaded successfully
+2026-01-08 23:37:54,374 [INFO] User 'hardycapelgrh' switched to page 'Admin' (permission: rw)
+2026-01-08 23:38:15,120 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: ro)
+2026-01-08 23:38:15,296 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-08 23:38:20,224 [INFO] User 'hardycapelgrh' switched to page 'Dashboard' (permission: rw)
+2026-01-08 23:38:20,225 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-08 23:38:23,862 [INFO] User 'hardycapelgrh' switched to page 'Data Table' (permission: ro)
+2026-01-08 23:38:23,863 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-08 23:38:26,086 [INFO] User 'hardycapelgrh' switched to page 'Charts' (permission: ro)
+2026-01-08 23:38:26,088 [INFO] ChartsPage set to read-only mode
+2026-01-08 23:38:28,338 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: ro)
+2026-01-08 23:38:28,340 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-08 23:39:29,281 [INFO] User 'testing1' logged in successfully
+2026-01-08 23:39:29,281 [INFO] MainApp started for user 'testing1' with role 'user'
+2026-01-08 23:39:29,285 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-08 23:39:29,386 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-08 23:39:29,388 [INFO] ProfilePage: Loaded profile for 'testing1'
+2026-01-08 23:39:29,411 [INFO] LogViewerPage: Log loaded successfully
+2026-01-08 23:39:31,878 [INFO] User 'testing1' switched to page 'Dashboard' (permission: rw)
+2026-01-08 23:39:31,949 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-08 23:39:34,938 [INFO] User 'testing1' switched to page 'Data Table' (permission: ro)
+2026-01-08 23:39:34,939 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-08 23:39:36,990 [INFO] User 'testing1' switched to page 'Charts' (permission: ro)
+2026-01-08 23:39:36,990 [INFO] ChartsPage set to read-only mode
+2026-01-08 23:39:39,512 [INFO] User 'testing1' switched to page 'Profile' (permission: rw)
+2026-01-08 23:39:39,513 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-08 23:39:57,393 [INFO] User 'testing1' switched to page 'Profile' (permission: rw)
+2026-01-08 23:39:57,394 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-08 23:40:11,237 [INFO] User 'testing1' switched to page 'Dashboard' (permission: rw)
+2026-01-08 23:40:11,238 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 22:48:19,555 [INFO] User 'testing1' switched to page 'Profile' (permission: rw)
+2026-01-09 22:48:19,581 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 22:54:40,468 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
+2026-01-09 22:54:46,239 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-09 22:54:46,239 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-09 22:54:46,249 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-09 22:54:46,497 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-09 22:54:46,503 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-09 22:54:46,538 [INFO] LogViewerPage: Log loaded successfully
+2026-01-09 22:54:49,588 [INFO] User 'hardycapelgrh' switched to page 'Charts' (permission: ro)
+2026-01-09 22:54:49,740 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 23:00:34,134 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-09 23:00:34,134 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-09 23:00:34,139 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-09 23:00:34,261 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-09 23:00:34,263 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-09 23:00:34,293 [INFO] LogViewerPage: Log loaded successfully
+2026-01-09 23:00:58,972 [INFO] User 'hardycapelgrh' switched to page 'Dashboard' (permission: rw)
+2026-01-09 23:00:59,076 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 23:01:12,367 [INFO] User 'hardycapelgrh' switched to page 'Data Table' (permission: ro)
+2026-01-09 23:01:12,368 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 23:01:17,583 [INFO] User 'hardycapelgrh' switched to page 'Charts' (permission: ro)
+2026-01-09 23:01:17,584 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 23:05:13,352 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-09 23:05:13,353 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-09 23:05:13,357 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-09 23:05:13,458 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-09 23:05:13,460 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-09 23:05:13,486 [INFO] LogViewerPage: Log loaded successfully
+2026-01-09 23:07:23,498 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-09 23:07:23,499 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-09 23:07:23,504 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-09 23:07:23,653 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-09 23:07:23,655 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-09 23:07:23,691 [INFO] LogViewerPage: Log loaded successfully
+2026-01-09 23:07:33,664 [INFO] User 'hardycapelgrh' switched to page 'Dashboard' (permission: rw)
+2026-01-09 23:07:33,730 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 23:07:36,756 [INFO] User 'hardycapelgrh' switched to page 'Data Table' (permission: ro)
+2026-01-09 23:07:36,756 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 23:07:38,565 [INFO] User 'hardycapelgrh' switched to page 'Charts' (permission: ro)
+2026-01-09 23:07:38,566 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 23:07:41,482 [INFO] User 'hardycapelgrh' switched to page 'Profile' (permission: ro)
+2026-01-09 23:07:41,483 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-09 23:10:47,940 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-09 23:10:47,940 [INFO] MainApp started for user 'hardycapelgrh' with role 'user'
+2026-01-09 23:10:47,944 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-09 23:10:48,062 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-09 23:10:48,064 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-09 23:10:48,089 [INFO] LogViewerPage: Log loaded successfully
+2026-01-09 23:10:50,552 [INFO] User 'hardycapelgrh' switched to page 'Dashboard' (permission: rw)
+2026-01-09 23:10:50,653 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))

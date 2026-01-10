@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QTextEdit, QComboBox
 import bcrypt
 
 from logger import logger
@@ -107,3 +107,18 @@ class LoginWindow(QWidget):
         self.main_app = MainApp(user)
         self.main_app.show()
         self.close()
+
+    def set_read_only(self, ro: bool):
+        """Enable or disable editing for all input widgets."""
+        for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
+            if isinstance(widget, QLineEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QTextEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QComboBox):
+                widget.setEnabled(not ro)
+
+        # Disable buttons that modify data
+        for btn in self.findChildren(QPushButton):
+            if btn.objectName() not in ("nav", "close", "back"):
+                btn.setEnabled(not ro)

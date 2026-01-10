@@ -70,7 +70,7 @@ class MainApp(QMainWindow):
             page = self.pages[index]
 
             btn.clicked.connect(
-                partial(self.switch_page, index, page, permission)
+                lambda _, i=index, p=page, t=title: self.switch_page(i, p, self.permissions.get(t))
             )
 
             self.nav_buttons.addWidget(btn)
@@ -94,6 +94,27 @@ class MainApp(QMainWindow):
         self.build_navigation_buttons()
 
 
+    # def switch_page(self, index, page, permission):
+    #     """
+    #     Switch to a page and apply read-only mode if needed.
+    #     """
+    #     # print("DEBUG:", page.title, "permission =", permission)
+    #     try:
+    #         logger.info(
+    #             f"User '{self.username}' switched to page '{page.title}' "
+    #             f"(permission: {permission})"
+    #         )
+
+    #         # Apply read-only mode
+    #         page.set_read_only(permission == "ro")
+
+    #         # Switch page
+    #         self.stack.setCurrentIndex(index)
+
+    #     except Exception as e:
+    #         logger.error(f"Failed to switch page: {e}")
+    #         QMessageBox.critical(self, "Error", "Could not switch page")
+
     def switch_page(self, index, page, permission):
         """
         Switch to a page and apply read-only mode if needed.
@@ -104,6 +125,9 @@ class MainApp(QMainWindow):
                 f"(permission: {permission})"
             )
 
+            # DEBUG: see what we're actually passing in
+            print("DEBUG SWITCH:", page.title, "permission =", permission)
+
             # Apply read-only mode
             page.set_read_only(permission == "ro")
 
@@ -111,5 +135,7 @@ class MainApp(QMainWindow):
             self.stack.setCurrentIndex(index)
 
         except Exception as e:
+            import traceback
+            traceback.print_exc()  # print full traceback to console
             logger.error(f"Failed to switch page: {e}")
-            QMessageBox.critical(self, "Error", "Could not switch page")
+            QMessageBox.critical(self, "Error", str(e))  # show real message

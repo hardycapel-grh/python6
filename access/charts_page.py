@@ -1,4 +1,4 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QTextEdit, QComboBox, QPushButton
 from PySide6.QtCore import Qt
 
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
@@ -57,13 +57,17 @@ class ChartsPage(QWidget):
         except Exception as e:
             logger.error(f"ChartsPage: Failed to draw chart: {e}")
 
-    def set_read_only(self, readonly: bool):
-        """
-        Charts are currently view-only, but this method is required for permission control.
-        """
-        self.read_only = readonly
+    def set_read_only(self, ro: bool):
+        """Enable or disable editing for all input widgets."""
+        for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
+            if isinstance(widget, QLineEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QTextEdit):
+                widget.setReadOnly(ro)
+            elif isinstance(widget, QComboBox):
+                widget.setEnabled(not ro)
 
-        if readonly:
-            logger.info("ChartsPage set to read-only mode")
-        else:
-            logger.info("ChartsPage set to read-write mode (future editable features)")
+        # Disable buttons that modify data
+        for btn in self.findChildren(QPushButton):
+            if btn.objectName() not in ("nav", "close", "back"):
+                btn.setEnabled(not ro)
