@@ -1,7 +1,8 @@
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QLabel, QPushButton, QTableWidget, QTableWidgetItem,
-    QHBoxLayout, QMessageBox, QComboBox, QLineEdit
+    QVBoxLayout, QLabel, QPushButton, QTableWidget, QTableWidgetItem,
+    QHBoxLayout, QMessageBox, QComboBox, QLineEdit, QWidget, QToolButton, QMenu
 )
+from PySide6.QtCore import Qt
 
 import bcrypt
 
@@ -11,29 +12,40 @@ from database import (
     update_password, update_user_fields
 )
 
-from PySide6.QtWidgets import QToolButton, QMenu
-from PySide6.QtCore import Qt
+from base_page import BasePage
 
 
-
-class AdminControlPanel(QWidget):
+class AdminControlPanel(BasePage):
     title = "Admin Control Panel"
 
     def __init__(self):
         super().__init__()
-        self.setLayout(QVBoxLayout())
 
-        self.layout().addWidget(QLabel("Admin Control Panel"))
+        layout = QVBoxLayout()
+        self.setLayout(layout)
+
+        title = QLabel("Admin Control Panel", self)
+        title.setAlignment(Qt.AlignCenter)
+        layout.addWidget(title)
 
         # User table
-        self.table = QTableWidget()
+        self.table = QTableWidget(self)
         self.table.setColumnCount(4)
         self.table.setHorizontalHeaderLabels(["Username", "Email", "Role", "Actions"])
-        self.layout().addWidget(self.table)
+        layout.addWidget(self.table)
+
+        # Refresh button (safe)
+        self.refresh_btn = QPushButton("Refresh Users", self)
+        self.refresh_btn.setObjectName("safe")  # stays enabled in RO mode
+        self.refresh_btn.clicked.connect(self.load_users)
+        layout.addWidget(self.refresh_btn)
 
         # Load users
         self.load_users()
 
+    # ---------------------------------------------------------
+    # LOAD USERS
+    # ---------------------------------------------------------
     def load_users(self):
         users = get_all_users()
         self.table.setRowCount(len(users))
@@ -52,14 +64,16 @@ class AdminControlPanel(QWidget):
             # Role
             self.table.setItem(row, 2, QTableWidgetItem(role))
 
-            btn_actions = QToolButton()
+            # Actions menu
+            btn_actions = QToolButton(self)
             btn_actions.setText("Actions")
-            btn_actions.setPopupMode(QToolButton.InstantPopup)   # ← FIX: menu opens instantly
+            btn_actions.setPopupMode(QToolButton.InstantPopup)
             btn_actions.setMinimumWidth(120)
             btn_actions.setMinimumHeight(32)
 
             menu = QMenu(btn_actions)
 
+            # Menu items
             action_perm = menu.addAction("Edit Permissions")
             action_perm.triggered.connect(lambda _, u=user: self.edit_permissions(u))
 
@@ -74,22 +88,32 @@ class AdminControlPanel(QWidget):
 
             btn_actions.setMenu(menu)
 
-            container = QWidget()
-            layout = QVBoxLayout(container)
-            layout.addWidget(btn_actions)
-            layout.setAlignment(Qt.AlignCenter)
+            # Store references so BasePage can disable them
+            btn_actions._menu_actions = {
+                "perm": action_perm,
+                "reset": action_reset,
+                "edit": action_edit,
+                "delete": action_delete
+            }
+
+            container = QWidget(self)
+            c_layout = QVBoxLayout(container)
+            c_layout.addWidget(btn_actions)
+            c_layout.setAlignment(Qt.AlignCenter)
 
             self.table.setCellWidget(row, 3, container)
             self.table.setRowHeight(row, 40)
             self.table.horizontalHeader().setStretchLastSection(True)
 
-
-
-    # -----------------------------
+    # ---------------------------------------------------------
     # PERMISSIONS EDITOR
-    # -----------------------------
+    # ---------------------------------------------------------
     def edit_permissions(self, user):
-        from page_registry import PAGE_REGISTRY   # ← FIX: local import
+        if self._is_read_only():
+            QMessageBox.warning(self, "Permission Denied", "Read-only mode")
+            return
+
+        from page_registry import PAGE_REGISTRY
         username = user["username"]
         permissions = user.get("permissions", {})
 
@@ -132,13 +156,16 @@ class AdminControlPanel(QWidget):
         save_btn.clicked.connect(save)
         dlg.show()
 
-    # -----------------------------
+    # ---------------------------------------------------------
     # RESET PASSWORD
-    # -----------------------------
+    # ---------------------------------------------------------
     def reset_password(self, user):
-        username = user["username"]
+        if self._is_read_only():
+            QMessageBox.warning(self, "Permission Denied", "Read-only mode")
+            return
 
-        temp_pw = "Temp123!"  # You can randomize this later
+        username = user["username"]
+        temp_pw = "Temp123!"
         hashed = bcrypt.hashpw(temp_pw.encode(), bcrypt.gensalt())
 
         if update_password(username, hashed):
@@ -151,10 +178,14 @@ class AdminControlPanel(QWidget):
         else:
             QMessageBox.critical(self, "Error", "Failed to reset password")
 
-    # -----------------------------
+    # ---------------------------------------------------------
     # EDIT USER FIELDS
-    # -----------------------------
+    # ---------------------------------------------------------
     def edit_user_fields(self, user):
+        if self._is_read_only():
+            QMessageBox.warning(self, "Permission Denied", "Read-only mode")
+            return
+
         username = user["username"]
 
         dlg = QWidget()
@@ -195,10 +226,14 @@ class AdminControlPanel(QWidget):
         save_btn.clicked.connect(save)
         dlg.show()
 
-    # -----------------------------
+    # ---------------------------------------------------------
     # DELETE USER
-    # -----------------------------
+    # ---------------------------------------------------------
     def delete_user(self, user):
+        if self._is_read_only():
+            QMessageBox.warning(self, "Permission Denied", "Read-only mode")
+            return
+
         username = user["username"]
 
         confirm = QMessageBox.question(
@@ -216,3 +251,10 @@ class AdminControlPanel(QWidget):
             self.load_users()
         else:
             QMessageBox.critical(self, "Error", "Failed to delete user")
+
+    # ---------------------------------------------------------
+    # INTERNAL: Check if page is in read-only mode
+    # ---------------------------------------------------------
+    def _is_read_only(self):
+        # BasePage sets this attribute automatically
+        return getattr(self, "_BasePage__read_only", False)

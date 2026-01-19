@@ -1,23 +1,29 @@
-# main_app.py
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QStackedWidget, QMessageBox
 from logger import logger
 from page_registry import PAGE_REGISTRY
+from functools import partial
 from database import get_user
+
+
 
 
 class MainApp(QMainWindow):
     def __init__(self, user):
         super().__init__()
-
+        # Limit height
         self.setMinimumHeight(600)
         self.setMaximumHeight(900)
+
+
         self.setWindowTitle("Main Application")
 
-        self.user = user
+        self.user = user  # <-- CRITICAL FIX
+
         self.username = user.get("username", "Unknown")
+        self.role = user.get("role", "guest")
         self.permissions = user.get("permissions", {})
 
-        logger.info(f"MainApp started for '{self.username}'")
+        logger.info(f"MainApp started for user '{self.username}' with role '{self.role}'")
 
         self.setup_ui()
 
@@ -25,21 +31,21 @@ class MainApp(QMainWindow):
         container = QWidget()
         layout = QVBoxLayout(container)
 
+        # Stacked widget for pages
         self.stack = QStackedWidget()
         layout.addWidget(self.stack)
 
+        # Navigation buttons
         self.nav_buttons = QVBoxLayout()
         layout.addLayout(self.nav_buttons)
 
         self.pages = []
         self.build_pages()
-        self.build_navigation_buttons()
 
         self.setCentralWidget(container)
 
     def build_pages(self):
-        """Create page objects and add them to the stack."""
-        for title, info in PAGE_REGISTRY.items():
+        for index, (title, info) in enumerate(PAGE_REGISTRY.items()):
             page_class = info["class"]
 
             if title == "Profile":
@@ -50,8 +56,10 @@ class MainApp(QMainWindow):
             self.pages.append(page)
             self.stack.addWidget(page)
 
+        # Build navigation after pages exist
+        self.build_navigation_buttons()
+
     def build_navigation_buttons(self):
-        """Build sidebar buttons based on current permissions."""
         for index, (title, info) in enumerate(PAGE_REGISTRY.items()):
             permission = self.permissions.get(title)
 
@@ -59,44 +67,75 @@ class MainApp(QMainWindow):
                 continue
 
             btn = QPushButton(title)
-            btn.setObjectName("nav")
+            page = self.pages[index]
 
-            # Evaluate permission at click time
             btn.clicked.connect(
-                lambda _, i=index, t=title: self.switch_page(i, t)
+                lambda _, i=index, p=page, t=title: self.switch_page(i, p, self.permissions.get(t))
             )
 
             self.nav_buttons.addWidget(btn)
 
     def refresh_navigation(self):
-        """Reload user permissions and rebuild navigation."""
+        # Reload user from DB
+        from database import get_user
         updated_user = get_user(self.username)
         if updated_user:
             self.user = updated_user
             self.permissions = updated_user.get("permissions", {})
 
-        # Clear old buttons
+        # Clear existing buttons
         while self.nav_buttons.count():
             item = self.nav_buttons.takeAt(0)
             widget = item.widget()
             if widget:
                 widget.deleteLater()
 
+        # Rebuild navigation
         self.build_navigation_buttons()
 
-    def switch_page(self, index, title):
-        """Switch to a page and apply read-only mode."""
+
+    # def switch_page(self, index, page, permission):
+    #     """
+    #     Switch to a page and apply read-only mode if needed.
+    #     """
+    #     # print("DEBUG:", page.title, "permission =", permission)
+    #     try:
+    #         logger.info(
+    #             f"User '{self.username}' switched to page '{page.title}' "
+    #             f"(permission: {permission})"
+    #         )
+
+    #         # Apply read-only mode
+    #         page.set_read_only(permission == "ro")
+
+    #         # Switch page
+    #         self.stack.setCurrentIndex(index)
+
+    #     except Exception as e:
+    #         logger.error(f"Failed to switch page: {e}")
+    #         QMessageBox.critical(self, "Error", "Could not switch page")
+
+    def switch_page(self, index, page, permission):
+        """
+        Switch to a page and apply read-only mode if needed.
+        """
         try:
-            permission = self.permissions.get(title)
-            page = self.pages[index]
+            logger.info(
+                f"User '{self.username}' switched to page '{page.title}' "
+                f"(permission: {permission})"
+            )
 
-            logger.info(f"Switching to '{title}' with permission '{permission}'")
+            # DEBUG: see what we're actually passing in
+            print("DEBUG SWITCH:", page.title, "permission =", permission)
 
+            # Apply read-only mode
             page.set_read_only(permission == "ro")
+
+            # Switch page
             self.stack.setCurrentIndex(index)
 
         except Exception as e:
             import traceback
-            traceback.print_exc()
+            traceback.print_exc()  # print full traceback to console
             logger.error(f"Failed to switch page: {e}")
-            QMessageBox.critical(self, "Error", str(e))
+            QMessageBox.critical(self, "Error", str(e))  # show real message

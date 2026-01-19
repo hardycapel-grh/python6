@@ -5,6 +5,8 @@ from admin_page import AdminPage
 from log_viewer_page import LogViewerPage
 from profile_page import ProfilePage
 from AdminControlPanel import AdminControlPanel
+from example_page import ExamplePage
+
 
 # Central registry for all pages in the application.
 # Each entry defines:
@@ -15,6 +17,8 @@ from AdminControlPanel import AdminControlPanel
 # - category: used for sidebar grouping
 # - visible: whether it appears in the sidebar
 # - description: optional tooltip/help text
+
+
 
 PAGE_REGISTRY = {
     "Dashboard": {
@@ -76,5 +80,13 @@ PAGE_REGISTRY = {
         "visible": True,
         "description": "View system logs and audit events"
     },
+    "Example Page": {
+        "class": ExamplePage,
+        "default_permission": "none"   # or "rw" if you want it visible by default
+    },
+    "Admin Control Panel": {
+        "class": AdminControlPanel,
+        "default_permission": "rw"
+    }
 
 }
