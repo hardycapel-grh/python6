@@ -67,6 +67,15 @@ class MainApp(QMainWindow):
             )
 
             self.nav_buttons.addWidget(btn)
+        log_btn = QPushButton("Open Log Viewer")
+        log_btn.setObjectName("nav")
+        log_btn.clicked.connect(self.open_log_viewer)
+        self.nav_buttons.addWidget(log_btn)
+
+    def open_log_viewer(self):
+        from log_viewer_window import LogViewerWindow
+        self.log_window = LogViewerWindow()
+        self.log_window.show()
 
     def refresh_navigation(self):
         """Reload user permissions and rebuild navigation."""

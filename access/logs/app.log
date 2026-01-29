@@ -1,0 +1,1118 @@
+2026-01-13 22:46:19,803 [INFO] LogViewerPage: Log cleared by admin
+2026-01-13 22:46:21,850 [INFO] LogViewerPage: Log loaded successfully
+2026-01-14 22:33:20,213 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-14 22:33:20,218 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-14 22:33:20,240 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-14 22:33:20,597 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-14 22:33:20,611 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-14 22:33:20,663 [INFO] LogViewerPage: Log loaded successfully
+2026-01-14 22:33:26,576 [INFO] Switching to 'Admin' with permission 'rw'
+2026-01-14 22:33:26,738 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-14 22:33:36,816 [INFO] Switching to 'Dashboard' with permission 'rw'
+2026-01-14 22:33:36,819 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-14 22:33:39,805 [INFO] Switching to 'Profile' with permission 'rw'
+2026-01-14 22:33:39,805 [INFO] [BasePage] Applying read_only=False on page 'Profile'
+2026-01-14 22:33:39,808 [INFO] [BasePage] Found widgets on 'Profile': 8 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
+2026-01-14 22:33:39,808 [INFO] [BasePage] Disabled buttons on 'Profile': ['Change Password', 'Save Profile Changes']
+2026-01-14 22:33:44,169 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-14 22:33:44,170 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-14 22:33:44,180 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
+2026-01-14 22:33:44,180 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-14 22:33:46,418 [INFO] Switching to 'Admin' with permission 'rw'
+2026-01-14 22:33:46,420 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-14 22:34:01,872 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-14 22:34:01,873 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-14 22:34:01,873 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
+2026-01-14 22:34:01,873 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-14 22:34:03,681 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-14 22:34:03,681 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-14 22:34:03,682 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
+2026-01-14 22:34:03,682 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-14 22:34:07,246 [INFO] LogViewerPage: Log loaded successfully
+2026-01-14 22:34:25,556 [INFO] Switching to 'Admin' with permission 'rw'
+2026-01-14 22:34:25,559 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-14 22:44:12,613 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-14 22:44:12,614 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-14 22:44:12,617 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-14 22:44:12,714 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-14 22:44:12,719 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-14 22:44:12,742 [INFO] LogViewerPage: Log loaded successfully
+2026-01-14 22:44:15,368 [INFO] Switching to 'Admin' with permission 'rw'
+2026-01-14 22:44:15,441 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-14 22:59:13,857 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-14 22:59:13,857 [INFO] Permissions auto-repaired for user 'hardycapelgrh'
+2026-01-14 22:59:13,857 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-14 22:59:13,857 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-14 22:59:13,867 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-14 22:59:13,979 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-14 22:59:13,983 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-14 22:59:14,006 [INFO] LogViewerPage: Log loaded successfully
+2026-01-14 22:59:16,511 [INFO] Switching to 'Admin' with permission 'rw'
+2026-01-14 22:59:16,581 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-14 22:59:20,114 [INFO] Switching to 'Admin Control Panel' with permission 'rw'
+2026-01-14 22:59:20,114 [INFO] [BasePage] Applying read_only=False on page 'Admin Control Panel'
+2026-01-14 22:59:20,123 [INFO] [BasePage] Found widgets on 'Admin Control Panel': 0 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
+2026-01-14 22:59:20,124 [INFO] [BasePage] Disabled buttons on 'Admin Control Panel': []
+2026-01-15 23:07:55,881 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-15 23:07:55,884 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-15 23:07:55,931 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-15 23:07:56,264 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-15 23:07:56,278 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-15 23:07:56,333 [INFO] LogViewerPage: Log loaded successfully
+2026-01-15 23:08:00,852 [INFO] Switching to 'Admin Control Panel' with permission 'rw'
+2026-01-15 23:08:00,852 [INFO] [BasePage] Applying read_only=False on page 'Admin Control Panel'
+2026-01-15 23:08:00,866 [INFO] [BasePage] Found widgets on 'Admin Control Panel': 0 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
+2026-01-15 23:08:00,866 [INFO] [BasePage] Disabled buttons on 'Admin Control Panel': []
+2026-01-15 23:24:10,599 [INFO] Permissions updated for user 'zendaya'
+2026-01-15 23:24:13,095 [INFO] Admin updated permissions for 'zendaya'
+2026-01-16 22:15:07,659 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-16 22:15:07,662 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-16 22:15:07,684 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-16 22:15:07,937 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-16 22:15:07,946 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-16 22:15:07,991 [INFO] LogViewerPage: Log loaded successfully
+2026-01-16 22:15:10,875 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-16 22:15:10,875 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-16 22:15:10,890 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 0 QComboBox, 2 QPushButton
+2026-01-16 22:15:10,890 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-16 22:34:02,278 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-16 22:34:02,278 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-16 22:34:02,283 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-16 22:34:02,378 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-16 22:34:02,381 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-16 22:34:02,416 [INFO] LogViewerPage: Loaded last 500 lines
+2026-01-16 22:34:05,043 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-16 22:34:05,043 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-16 22:34:05,051 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 0 QComboBox, 2 QPushButton
+2026-01-16 22:34:05,051 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-16 22:43:37,465 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-16 22:43:37,465 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-16 22:43:37,468 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-16 22:43:37,571 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-16 22:43:37,575 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-16 22:43:37,605 [INFO] LogViewerPage: Loaded last 500 lines
+2026-01-16 22:43:42,236 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-16 22:43:42,236 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-16 22:43:42,258 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-16 22:43:42,258 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-16 22:43:46,573 [INFO] LogViewerPage: Loaded last 500 lines
+2026-01-16 22:43:50,948 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-16 22:43:50,948 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-16 22:43:50,948 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-16 22:43:50,949 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-16 22:43:52,198 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-16 22:43:52,198 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-16 22:43:52,198 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-16 22:43:52,198 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-16 22:43:59,008 [INFO] LogViewerPage: Loaded last 500 lines
+2026-01-16 23:01:18,934 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-16 23:01:18,935 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-16 23:01:18,938 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-16 23:01:19,040 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-16 23:01:19,044 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-16 23:01:19,071 [INFO] LogViewerPage: Loaded last lines
+2026-01-16 23:01:26,198 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-16 23:01:26,198 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-16 23:01:26,208 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-16 23:01:26,208 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 08:45:45,793 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
+2026-01-18 08:45:55,073 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 08:45:55,077 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 08:45:55,104 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 08:45:55,362 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 08:45:55,372 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 08:45:55,425 [ERROR] LogViewerPage: Failed to load log: 'PySide6.QtWidgets.QPlainTextEdit' object has no attribute 'setHtml'
+2026-01-18 08:46:00,762 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 08:46:00,766 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 08:46:00,787 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-18 08:46:00,787 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 13:22:11,631 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 13:22:11,632 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 13:22:11,635 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 13:22:11,861 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 13:22:11,865 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 13:41:04,957 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 13:41:04,957 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 13:41:04,961 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 13:41:05,063 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 13:41:05,066 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 13:41:05,103 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 13:41:07,604 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 13:41:07,605 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 13:41:07,618 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-18 13:41:07,619 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 13:46:32,951 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 13:46:32,952 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 13:46:32,958 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 13:46:33,056 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 13:46:33,060 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 13:46:33,090 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 13:46:35,855 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 13:46:35,855 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 13:46:35,866 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-18 13:46:35,866 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 15:47:32,005 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 15:47:32,006 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 15:47:32,009 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 15:47:32,106 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 15:47:32,110 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 15:47:32,137 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 15:47:36,123 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 15:47:36,123 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 15:47:36,135 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-18 15:47:36,135 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 21:56:16,447 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 21:56:16,449 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 21:56:16,496 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 21:56:16,819 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 21:56:16,834 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 21:56:16,907 [ERROR] LogViewerPage: Failed to load log: type object 'PySide6.QtCore.Qt' has no attribute 'TextCursor'
+2026-01-18 21:56:23,064 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 21:56:23,065 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 21:56:23,091 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-18 21:56:23,091 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 21:56:59,756 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 21:56:59,757 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 21:56:59,761 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 21:56:59,903 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 21:56:59,908 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 21:56:59,944 [ERROR] LogViewerPage: Failed to load log: type object 'PySide6.QtCore.Qt' has no attribute 'TextCursor'
+2026-01-18 21:58:01,039 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 21:58:01,039 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 21:58:01,071 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 21:58:01,399 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 21:58:01,410 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 21:58:01,446 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 21:58:20,472 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 21:58:20,473 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 21:58:20,483 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-18 21:58:20,484 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 22:00:41,198 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 22:00:41,198 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 22:00:41,203 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 22:00:41,298 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 22:00:41,302 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 22:00:41,329 [ERROR] LogViewerPage: Failed to load log: type object 'PySide6.QtCore.Qt' has no attribute 'TextCursor'
+2026-01-18 22:02:20,629 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 22:02:20,630 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 22:02:20,634 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 22:02:20,763 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 22:02:20,767 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 22:02:20,797 [ERROR] LogViewerPage: Failed to load log: type object 'PySide6.QtCore.Qt' has no attribute 'TextCursor'
+2026-01-18 22:05:40,353 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 22:05:40,353 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 22:05:40,357 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 22:05:40,454 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 22:05:40,458 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 22:05:40,483 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 22:05:43,502 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 22:05:43,502 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 22:05:43,514 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-18 22:05:43,514 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 22:15:27,419 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 22:15:27,419 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 22:15:27,423 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 22:15:27,520 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 22:15:27,524 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 22:15:27,556 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 22:15:29,556 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 22:15:29,556 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 22:15:29,570 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
+2026-01-18 22:15:29,570 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 22:18:07,290 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 22:29:54,428 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 22:29:54,429 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 22:29:54,432 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 22:29:54,532 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 22:29:54,535 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 22:29:54,565 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 22:29:57,003 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 22:29:57,003 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 22:29:57,016 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 3 QPushButton
+2026-01-18 22:29:57,016 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-18 22:31:02,924 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-18 22:31:02,924 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-18 22:31:02,928 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-18 22:31:03,022 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-18 22:31:03,028 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-18 22:31:03,058 [INFO] LogViewerPage: Loaded last lines
+2026-01-18 22:31:05,553 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-18 22:31:05,553 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-18 22:31:05,567 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 3 QPushButton
+2026-01-18 22:31:05,568 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-19 22:14:29,522 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-19 22:14:29,528 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-19 22:14:29,570 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-19 22:14:29,819 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-19 22:14:29,833 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-19 22:14:29,898 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:14:38,512 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-19 22:14:38,515 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-19 22:14:38,537 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 3 QPushButton
+2026-01-19 22:14:38,537 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-19 22:14:45,168 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:14:47,169 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:14:49,164 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:14:51,169 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:06,008 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-19 22:20:06,009 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-19 22:20:06,013 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-19 22:20:06,105 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-19 22:20:06,110 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-19 22:20:06,143 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:15,134 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-19 22:20:15,134 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-19 22:20:15,145 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 3 QPushButton
+2026-01-19 22:20:15,145 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-19 22:20:21,730 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:23,722 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:25,725 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:27,745 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:29,719 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:31,742 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:33,730 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:35,751 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:37,738 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:20:39,742 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:46:02,405 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-19 22:46:02,405 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-19 22:46:02,410 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-19 22:46:02,505 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-19 22:46:02,509 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-19 22:50:24,901 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-19 22:50:24,901 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-19 22:50:24,905 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-19 22:50:24,997 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-19 22:50:25,000 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-19 22:50:25,032 [INFO] LogViewerPage: Loaded last lines
+2026-01-19 22:50:27,220 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-19 22:50:27,220 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-19 22:50:27,232 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 5 QPushButton
+2026-01-19 22:50:27,232 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-20 22:17:45,158 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-20 22:17:45,163 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-20 22:17:45,208 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-20 22:17:45,470 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-20 22:17:45,487 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-20 22:17:45,559 [INFO] LogViewerPage: Loaded last lines
+2026-01-20 22:17:49,185 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-20 22:17:49,189 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-20 22:17:49,211 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 5 QPushButton
+2026-01-20 22:17:49,211 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-20 22:19:03,245 [INFO] LogViewerPage: Loaded last lines
+2026-01-20 22:24:43,659 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-20 22:24:43,659 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-20 22:24:43,664 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-20 22:24:43,758 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-20 22:24:43,763 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-20 22:24:43,796 [INFO] LogViewerPage: Loaded last lines
+2026-01-20 22:24:46,557 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-20 22:24:46,557 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-20 22:24:46,569 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 5 QPushButton
+2026-01-20 22:24:46,569 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-20 22:25:22,589 [INFO] LogViewerPage: Loaded last lines
+2026-01-20 22:27:45,953 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-20 22:27:45,954 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-20 22:27:45,957 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-20 22:27:46,055 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-20 22:27:46,060 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-20 22:27:46,093 [INFO] LogViewerPage: Loaded last lines
+2026-01-20 22:27:48,950 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-20 22:27:48,950 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-20 22:27:48,959 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 5 QPushButton
+2026-01-20 22:27:48,959 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-20 22:28:16,150 [INFO] LogViewerPage: Loaded last lines
+2026-01-20 22:51:53,763 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-20 22:51:53,763 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-20 22:51:53,767 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-20 22:51:53,865 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-20 22:51:53,869 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-20 22:51:53,903 [INFO] LogViewerPage: Loaded last lines
+2026-01-20 22:51:56,097 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-20 22:51:56,098 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-20 22:51:56,109 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 5 QPushButton
+2026-01-20 22:51:56,109 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-20 23:12:15,167 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-20 23:12:15,167 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-20 23:12:15,191 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-20 23:12:15,409 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-20 23:12:15,413 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-20 23:12:15,442 [INFO] LogViewerPage: Loaded last lines
+2026-01-20 23:12:25,153 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-20 23:12:25,153 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-20 23:12:25,165 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 5 QPushButton
+2026-01-20 23:12:25,167 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-21 22:06:27,817 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-21 22:06:27,830 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-21 22:06:27,872 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-21 22:06:28,149 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-21 22:06:28,164 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-21 22:06:28,264 [INFO] LogViewerPage: Loaded last lines
+2026-01-21 22:06:30,858 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-21 22:06:30,860 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-21 22:06:30,883 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 5 QPushButton
+2026-01-21 22:06:30,883 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-21 22:24:16,646 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-21 22:24:16,646 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-21 22:24:16,650 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-21 22:24:16,746 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-21 22:24:16,750 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-21 22:24:16,781 [INFO] LogViewerPage: Loaded last lines
+2026-01-21 22:24:19,304 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-21 22:24:19,304 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-21 22:24:19,314 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-21 22:24:19,314 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-21 22:24:54,359 [INFO] LogViewerPage: Loaded last lines
+2026-01-21 22:39:10,555 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-21 22:39:10,556 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-21 22:39:10,560 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-21 22:39:10,656 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-21 22:39:10,661 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-21 22:39:10,703 [INFO] LogViewerPage: Loaded last lines
+2026-01-21 22:39:14,256 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-21 22:39:14,256 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-21 22:39:14,267 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-21 22:39:14,267 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-22 10:52:46,932 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-22 10:52:46,935 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-22 10:52:46,999 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-22 10:52:47,300 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-22 10:52:47,321 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-22 10:52:47,410 [INFO] LogViewerPage: Loaded last lines
+2026-01-22 10:52:50,962 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-22 10:52:50,963 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-22 10:52:50,982 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-22 10:52:50,983 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-22 10:57:25,749 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-22 10:57:25,750 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-22 10:57:25,753 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-22 10:57:25,849 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-22 10:57:25,853 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-22 11:09:01,286 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-22 11:09:01,289 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-22 11:09:01,317 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-22 11:09:01,449 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-22 11:09:01,460 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-22 11:33:26,081 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-22 11:33:26,082 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-22 11:33:26,085 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-22 11:33:26,188 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-22 11:33:26,191 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-22 11:33:26,248 [INFO] LogViewerPage: Loaded last lines
+2026-01-22 11:33:29,657 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-22 11:33:29,657 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-22 11:33:29,683 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-22 11:33:29,684 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-22 22:34:25,358 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-22 22:34:25,359 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-22 22:34:25,384 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-22 22:34:25,675 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-22 22:34:25,680 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-22 22:34:25,731 [INFO] LogViewerPage: Loaded last lines
+2026-01-22 22:34:28,307 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-22 22:34:28,307 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-22 22:34:28,317 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-22 22:34:28,317 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-22 23:38:59,175 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-22 23:38:59,176 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-22 23:38:59,200 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-22 23:38:59,440 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-22 23:38:59,444 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-22 23:38:59,488 [INFO] LogViewerPage: Loaded last lines
+2026-01-22 23:39:02,337 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-22 23:39:02,338 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-22 23:39:02,346 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-22 23:39:02,346 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-22 23:44:19,902 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-22 23:44:19,903 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-22 23:44:19,907 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-22 23:44:20,011 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-22 23:44:20,015 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-22 23:44:20,057 [INFO] LogViewerPage: Loaded last lines
+2026-01-22 23:44:22,605 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-22 23:44:22,605 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-22 23:44:22,614 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-22 23:44:22,614 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-24 00:01:03,378 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 00:01:03,382 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 00:01:03,441 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 00:01:03,725 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 00:01:03,835 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 00:01:03,992 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 00:01:06,493 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-24 00:01:06,493 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-24 00:01:06,511 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-24 00:01:06,512 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-24 00:12:24,947 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 00:12:24,948 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 00:12:24,951 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 00:12:25,045 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 00:12:25,049 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 00:12:25,095 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 00:12:27,546 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-24 00:12:27,546 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-24 00:12:27,555 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-24 00:12:27,555 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-24 10:40:22,389 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 10:40:22,394 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 10:40:22,416 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 10:40:22,590 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 10:40:22,600 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 10:40:22,709 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 10:40:25,348 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-24 10:40:25,348 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-24 10:40:25,369 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-24 10:40:25,369 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-24 15:24:46,909 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 15:24:46,909 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 15:24:46,932 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 15:24:47,172 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 15:24:47,178 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 15:24:47,221 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:24:49,302 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-24 15:24:49,302 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-24 15:24:49,311 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 5 QPushButton
+2026-01-24 15:24:49,312 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-24 15:25:38,620 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:25:40,619 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:25:42,626 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:25:44,638 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:25:46,618 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:25:48,614 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:25:50,645 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:25:52,627 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 15:25:54,621 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 23:10:06,550 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 23:10:06,564 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 23:10:06,615 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 23:10:06,874 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 23:10:06,891 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 23:10:06,989 [INFO] LogViewerPage: Loaded last lines
+2026-01-24 23:10:09,786 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-24 23:10:09,786 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-24 23:10:09,814 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 6 QPushButton
+2026-01-24 23:10:09,814 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-24 23:20:53,754 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 23:20:53,756 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 23:20:53,759 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 23:20:53,893 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 23:20:53,898 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 23:20:53,932 [ERROR] LogViewerPage: Failed incremental tail-f: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-24 23:21:06,887 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-24 23:21:06,887 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-24 23:21:06,901 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 6 QPushButton
+2026-01-24 23:21:06,901 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-24 23:21:49,256 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 23:21:49,257 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 23:21:49,261 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 23:21:49,378 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 23:21:49,382 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 23:21:49,411 [ERROR] LogViewerPage: Failed incremental tail-f: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-24 23:27:35,996 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 23:27:35,997 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 23:27:36,001 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 23:27:36,098 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 23:27:36,102 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 23:27:36,132 [ERROR] LogViewerPage: Failed incremental tail-f: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-24 23:32:19,304 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 23:32:19,305 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 23:32:19,310 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 23:32:19,410 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 23:32:19,414 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 23:32:19,436 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 265, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-24 23:35:44,395 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-24 23:35:44,395 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-24 23:35:44,399 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-24 23:35:44,495 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-24 23:35:44,499 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-24 23:35:44,555 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-24 23:35:46,777 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-24 23:35:46,777 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-24 23:35:46,787 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 6 QPushButton
+2026-01-24 23:35:46,787 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-25 11:34:38,416 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-25 11:34:38,417 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-25 11:34:38,448 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-25 11:34:38,716 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-25 11:34:38,723 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-25 11:34:38,801 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-25 11:34:41,625 [INFO] Switching to 'Log Viewer' with permission 'rw'
+2026-01-25 11:34:41,625 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
+2026-01-25 11:34:41,646 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 2 QComboBox, 9 QPushButton
+2026-01-25 11:34:41,646 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Advanced Tools \u25bc', 'Clear Log']
+2026-01-25 16:51:39,486 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
+2026-01-25 16:51:47,758 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-25 16:51:47,758 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-25 16:51:47,761 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-25 16:51:47,870 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-25 16:51:47,875 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-25 16:51:47,927 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-25 16:51:57,542 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-25 17:00:55,205 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-25 17:00:55,205 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-25 17:00:55,209 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-25 17:00:55,310 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-25 17:00:55,314 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-25 17:01:00,367 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-25 22:42:29,746 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-25 22:42:29,752 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-25 22:42:29,775 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-25 22:42:29,952 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-25 22:42:29,967 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-25 22:42:32,586 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-26 22:20:42,221 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-26 22:20:42,226 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-26 22:20:42,274 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-26 22:20:42,546 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-26 22:20:42,559 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-26 22:20:45,653 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-26 22:22:26,719 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-26 22:22:26,720 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-26 22:22:26,723 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-26 22:22:26,823 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-26 22:22:26,828 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-26 22:22:29,220 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-26 22:36:06,624 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-26 22:36:06,625 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-26 22:36:06,628 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-26 22:36:06,724 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-26 22:36:06,727 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-26 22:36:11,531 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-26 22:46:38,906 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-26 22:46:38,906 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-26 22:46:38,911 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-26 22:46:39,007 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-26 22:46:39,013 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-26 22:46:41,320 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-26 22:48:04,032 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-26 22:48:04,032 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-26 22:48:04,036 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-26 22:48:04,136 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-26 22:48:04,140 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-26 22:48:06,351 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-26 23:13:15,337 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-26 23:13:15,338 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-26 23:13:15,341 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-26 23:13:15,440 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-26 23:13:15,444 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-26 23:13:18,411 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-26 23:13:25,438 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-26 23:14:38,228 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:16:43,848 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-27 22:16:43,852 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-27 22:16:43,903 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-27 22:16:44,171 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-27 22:16:44,187 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-27 22:16:49,709 [INFO] Switching to 'Admin Control Panel' with permission 'rw'
+2026-01-27 22:16:49,712 [INFO] [BasePage] Applying read_only=False on page 'Admin Control Panel'
+2026-01-27 22:16:49,724 [INFO] [BasePage] Found widgets on 'Admin Control Panel': 0 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
+2026-01-27 22:16:49,725 [INFO] [BasePage] Disabled buttons on 'Admin Control Panel': []
+2026-01-27 22:16:54,998 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:21:53,128 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:21:55,136 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:21:57,151 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:21:59,109 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:01,145 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:03,124 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:05,123 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:07,124 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:09,118 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:11,124 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:13,122 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:15,134 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:17,134 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:19,131 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:21,159 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:23,142 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 22:22:25,128 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-27 23:24:54,580 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-27 23:24:54,580 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-27 23:24:54,606 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-27 23:24:54,850 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-27 23:24:54,853 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-27 23:24:59,476 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_apply_filter_logic'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 338, in load_log
+    self.apply_filter()
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 174, in apply_filter
+    filtered = self._apply_filter_logic(text, query)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_apply_filter_logic'
+2026-01-27 23:28:27,765 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-27 23:28:27,765 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-27 23:28:27,769 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-27 23:28:27,866 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-27 23:28:27,870 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-27 23:28:30,356 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_apply_filter_logic'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 338, in load_log
+    self.apply_filter()
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 174, in apply_filter
+    filtered = self._apply_filter_logic(text, query)
+               ^^^^^^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_apply_filter_logic'
+2026-01-28 22:40:09,580 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 22:40:09,585 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 22:40:09,628 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 22:40:09,915 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 22:40:09,928 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 22:40:13,696 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 22:49:52,727 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 22:49:52,728 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 22:49:52,733 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 22:49:52,837 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 22:49:52,841 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 22:49:55,860 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'highlighter'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 313, in load_log
+    self.apply_filter()
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 254, in apply_filter
+    self.highlighter.set_search(
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'highlighter'
+2026-01-28 22:55:43,003 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 22:55:43,004 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 22:55:43,008 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 22:55:43,103 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 22:55:43,109 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 22:55:45,073 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'highlighter'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 313, in load_log
+    self.apply_filter()
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 236, in apply_filter
+    self._set_text_safely(filtered_text)
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 556, in _set_text_safely
+    self.highlighter.blockSignals(True)
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'highlighter'
+2026-01-28 23:03:39,822 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:03:39,823 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:03:39,826 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:03:39,923 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:03:39,926 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:03:42,695 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'highlighter'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 314, in load_log
+    self.apply_filter()
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 237, in apply_filter
+    self._set_text_safely(filtered_text)
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 557, in _set_text_safely
+    self.highlighter.blockSignals(True)
+    ^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'highlighter'
+2026-01-28 23:13:48,691 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:13:48,692 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:13:48,695 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:13:48,800 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:13:48,804 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:17:13,494 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:17:13,495 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:17:13,499 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:17:13,601 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:17:13,604 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:17:15,814 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 274, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:27:43,816 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:27:43,816 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:27:43,819 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:27:43,914 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:27:43,918 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:27:45,899 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:27:47,898 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:27:49,890 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:27:51,900 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:27:53,893 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:27:57,888 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:28:01,890 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:28:03,889 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:28:07,895 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute 'log_path'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 244, in load_log
+    if not os.path.exists(self.log_path):
+                          ^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute 'log_path'
+2026-01-28 23:31:11,547 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:31:11,547 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:31:11,551 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:31:11,648 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:31:11,652 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:31:13,459 [WARNING] LogViewerPage: Log file not found
+2026-01-28 23:31:15,453 [WARNING] LogViewerPage: Log file not found
+2026-01-28 23:31:17,452 [WARNING] LogViewerPage: Log file not found
+2026-01-28 23:31:19,455 [WARNING] LogViewerPage: Log file not found
+2026-01-28 23:31:21,454 [WARNING] LogViewerPage: Log file not found
+2026-01-28 23:31:23,452 [WARNING] LogViewerPage: Log file not found
+2026-01-28 23:31:25,466 [WARNING] LogViewerPage: Log file not found
+2026-01-28 23:32:20,867 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:32:20,868 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:32:20,871 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:32:20,976 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:32:20,981 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:32:33,246 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:35,244 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:37,242 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:39,238 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:43,291 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:47,244 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:49,253 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:51,252 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:53,269 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:55,245 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:32:57,248 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 260, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:37:21,307 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:37:21,308 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:37:21,312 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:37:21,409 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:37:21,413 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:37:23,247 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 262, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:37:25,265 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 262, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:40:53,824 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:40:53,824 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:40:53,828 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:40:53,923 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:40:53,927 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:40:58,723 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 263, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:41:00,741 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 263, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 263, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:41:12,730 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 263, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:44:54,893 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:44:54,893 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:44:54,897 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:44:55,005 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:44:55,009 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:44:57,409 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 264, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:44:59,439 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 264, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 264, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:45:01,396 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 264, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 264, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:45:03,440 [ERROR] TAIL-F ERROR: 'LogViewerPage' object has no attribute '_last_file_pos'
+Traceback (most recent call last):
+  File "C:\Program Files\Ampps\www\python6\access\log_viewer_page.py", line 264, in load_log
+    if file_size < self._last_file_pos:
+                   ^^^^^^^^^^^^^^^^^^^
+AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
+2026-01-28 23:53:33,761 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-28 23:53:33,761 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-28 23:53:33,767 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-28 23:53:33,870 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-28 23:53:33,873 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-28 23:53:35,676 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:37,726 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:39,710 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:41,718 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:43,701 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:45,701 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:47,717 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:49,697 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:51,722 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:53,721 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:55,728 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:57,725 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:53:59,720 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:01,896 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:03,756 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:05,732 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:07,779 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:09,777 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:11,748 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:13,736 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:15,752 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:17,760 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:19,763 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:21,740 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:23,725 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:25,743 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:27,775 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:29,765 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:31,749 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:33,749 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:35,760 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:37,750 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:39,746 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:41,723 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:43,759 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:45,760 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:47,754 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:49,742 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:51,775 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:53,722 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:55,747 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:57,761 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:54:59,763 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:01,762 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:03,762 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:05,754 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:07,734 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:09,723 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:11,751 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:13,780 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:15,771 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:17,776 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:19,728 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:21,759 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:23,741 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:25,752 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:27,741 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:29,735 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:31,762 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:33,733 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:35,733 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:38,452 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:40,463 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:42,441 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:44,477 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:46,466 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:48,451 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:50,450 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:52,452 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:54,446 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:56,466 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:55:58,459 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:00,446 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:02,468 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:04,459 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:06,458 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:08,448 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:10,471 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:12,469 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:14,472 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:16,465 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:18,449 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:20,454 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:22,443 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:24,475 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:26,445 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:28,465 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:30,447 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:32,437 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:34,441 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:36,446 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:38,486 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:40,452 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:42,478 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:44,479 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:46,478 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:48,574 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:50,422 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:52,413 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:54,385 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:56,440 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:56:58,424 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:57:00,425 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:57:02,440 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:57:04,405 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:57:06,435 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-28 23:57:08,491 [INFO] LogViewerPage: Incremental tail-f update complete

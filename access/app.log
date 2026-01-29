@@ -1,315 +1,73 @@
-2026-01-13 22:46:19,803 [INFO] LogViewerPage: Log cleared by admin
-2026-01-13 22:46:21,850 [INFO] LogViewerPage: Log loaded successfully
-2026-01-14 22:33:20,213 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-14 22:33:20,218 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-14 22:33:20,240 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-14 22:33:20,597 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-14 22:33:20,611 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-14 22:33:20,663 [INFO] LogViewerPage: Log loaded successfully
-2026-01-14 22:33:26,576 [INFO] Switching to 'Admin' with permission 'rw'
-2026-01-14 22:33:26,738 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
-  PySide6.QtCore.QObject.findChildren(tuple)
-Supported signatures:
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-2026-01-14 22:33:36,816 [INFO] Switching to 'Dashboard' with permission 'rw'
-2026-01-14 22:33:36,819 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
-  PySide6.QtCore.QObject.findChildren(tuple)
-Supported signatures:
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-2026-01-14 22:33:39,805 [INFO] Switching to 'Profile' with permission 'rw'
-2026-01-14 22:33:39,805 [INFO] [BasePage] Applying read_only=False on page 'Profile'
-2026-01-14 22:33:39,808 [INFO] [BasePage] Found widgets on 'Profile': 8 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
-2026-01-14 22:33:39,808 [INFO] [BasePage] Disabled buttons on 'Profile': ['Change Password', 'Save Profile Changes']
-2026-01-14 22:33:44,169 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-14 22:33:44,170 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-14 22:33:44,180 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
-2026-01-14 22:33:44,180 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-14 22:33:46,418 [INFO] Switching to 'Admin' with permission 'rw'
-2026-01-14 22:33:46,420 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
-  PySide6.QtCore.QObject.findChildren(tuple)
-Supported signatures:
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-2026-01-14 22:34:01,872 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-14 22:34:01,873 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-14 22:34:01,873 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
-2026-01-14 22:34:01,873 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-14 22:34:03,681 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-14 22:34:03,681 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-14 22:34:03,682 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
-2026-01-14 22:34:03,682 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-14 22:34:07,246 [INFO] LogViewerPage: Log loaded successfully
-2026-01-14 22:34:25,556 [INFO] Switching to 'Admin' with permission 'rw'
-2026-01-14 22:34:25,559 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
-  PySide6.QtCore.QObject.findChildren(tuple)
-Supported signatures:
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-2026-01-14 22:44:12,613 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-14 22:44:12,614 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-14 22:44:12,617 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-14 22:44:12,714 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-14 22:44:12,719 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-14 22:44:12,742 [INFO] LogViewerPage: Log loaded successfully
-2026-01-14 22:44:15,368 [INFO] Switching to 'Admin' with permission 'rw'
-2026-01-14 22:44:15,441 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
-  PySide6.QtCore.QObject.findChildren(tuple)
-Supported signatures:
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-2026-01-14 22:59:13,857 [INFO] Permissions updated for user 'hardycapelgrh'
-2026-01-14 22:59:13,857 [INFO] Permissions auto-repaired for user 'hardycapelgrh'
-2026-01-14 22:59:13,857 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-14 22:59:13,857 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-14 22:59:13,867 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-14 22:59:13,979 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-14 22:59:13,983 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-14 22:59:14,006 [INFO] LogViewerPage: Log loaded successfully
-2026-01-14 22:59:16,511 [INFO] Switching to 'Admin' with permission 'rw'
-2026-01-14 22:59:16,581 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
-  PySide6.QtCore.QObject.findChildren(tuple)
-Supported signatures:
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
-2026-01-14 22:59:20,114 [INFO] Switching to 'Admin Control Panel' with permission 'rw'
-2026-01-14 22:59:20,114 [INFO] [BasePage] Applying read_only=False on page 'Admin Control Panel'
-2026-01-14 22:59:20,123 [INFO] [BasePage] Found widgets on 'Admin Control Panel': 0 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
-2026-01-14 22:59:20,124 [INFO] [BasePage] Disabled buttons on 'Admin Control Panel': []
-2026-01-15 23:07:55,881 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-15 23:07:55,884 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-15 23:07:55,931 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-15 23:07:56,264 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-15 23:07:56,278 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-15 23:07:56,333 [INFO] LogViewerPage: Log loaded successfully
-2026-01-15 23:08:00,852 [INFO] Switching to 'Admin Control Panel' with permission 'rw'
-2026-01-15 23:08:00,852 [INFO] [BasePage] Applying read_only=False on page 'Admin Control Panel'
-2026-01-15 23:08:00,866 [INFO] [BasePage] Found widgets on 'Admin Control Panel': 0 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
-2026-01-15 23:08:00,866 [INFO] [BasePage] Disabled buttons on 'Admin Control Panel': []
-2026-01-15 23:24:10,599 [INFO] Permissions updated for user 'zendaya'
-2026-01-15 23:24:13,095 [INFO] Admin updated permissions for 'zendaya'
-2026-01-16 22:15:07,659 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-16 22:15:07,662 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-16 22:15:07,684 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-16 22:15:07,937 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-16 22:15:07,946 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-16 22:15:07,991 [INFO] LogViewerPage: Log loaded successfully
-2026-01-16 22:15:10,875 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-16 22:15:10,875 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-16 22:15:10,890 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 0 QComboBox, 2 QPushButton
-2026-01-16 22:15:10,890 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-16 22:34:02,278 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-16 22:34:02,278 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-16 22:34:02,283 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-16 22:34:02,378 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-16 22:34:02,381 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-16 22:34:02,416 [INFO] LogViewerPage: Loaded last 500 lines
-2026-01-16 22:34:05,043 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-16 22:34:05,043 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-16 22:34:05,051 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 0 QComboBox, 2 QPushButton
-2026-01-16 22:34:05,051 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-16 22:43:37,465 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-16 22:43:37,465 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-16 22:43:37,468 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-16 22:43:37,571 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-16 22:43:37,575 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-16 22:43:37,605 [INFO] LogViewerPage: Loaded last 500 lines
-2026-01-16 22:43:42,236 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-16 22:43:42,236 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-16 22:43:42,258 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-16 22:43:42,258 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-16 22:43:46,573 [INFO] LogViewerPage: Loaded last 500 lines
-2026-01-16 22:43:50,948 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-16 22:43:50,948 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-16 22:43:50,948 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-16 22:43:50,949 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-16 22:43:52,198 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-16 22:43:52,198 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-16 22:43:52,198 [INFO] [BasePage] Found widgets on 'Log Viewer': 0 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-16 22:43:52,198 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-16 22:43:59,008 [INFO] LogViewerPage: Loaded last 500 lines
-2026-01-16 23:01:18,934 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-16 23:01:18,935 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-16 23:01:18,938 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-16 23:01:19,040 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-16 23:01:19,044 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-16 23:01:19,071 [INFO] LogViewerPage: Loaded last lines
-2026-01-16 23:01:26,198 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-16 23:01:26,198 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-16 23:01:26,208 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-16 23:01:26,208 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 08:45:45,793 [WARNING] Login failed: incorrect password for 'hardycapelgrh'
-2026-01-18 08:45:55,073 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 08:45:55,077 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 08:45:55,104 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 08:45:55,362 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 08:45:55,372 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 08:45:55,425 [ERROR] LogViewerPage: Failed to load log: 'PySide6.QtWidgets.QPlainTextEdit' object has no attribute 'setHtml'
-2026-01-18 08:46:00,762 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 08:46:00,766 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 08:46:00,787 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 0 QTextEdit, 1 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-18 08:46:00,787 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 13:22:11,631 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 13:22:11,632 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 13:22:11,635 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 13:22:11,861 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 13:22:11,865 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 13:41:04,957 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 13:41:04,957 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 13:41:04,961 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 13:41:05,063 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 13:41:05,066 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 13:41:05,103 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 13:41:07,604 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 13:41:07,605 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 13:41:07,618 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-18 13:41:07,619 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 13:46:32,951 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 13:46:32,952 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 13:46:32,958 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 13:46:33,056 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 13:46:33,060 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 13:46:33,090 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 13:46:35,855 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 13:46:35,855 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 13:46:35,866 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-18 13:46:35,866 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 15:47:32,005 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 15:47:32,006 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 15:47:32,009 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 15:47:32,106 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 15:47:32,110 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 15:47:32,137 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 15:47:36,123 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 15:47:36,123 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 15:47:36,135 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-18 15:47:36,135 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 21:56:16,447 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 21:56:16,449 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 21:56:16,496 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 21:56:16,819 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 21:56:16,834 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 21:56:16,907 [ERROR] LogViewerPage: Failed to load log: type object 'PySide6.QtCore.Qt' has no attribute 'TextCursor'
-2026-01-18 21:56:23,064 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 21:56:23,065 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 21:56:23,091 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-18 21:56:23,091 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 21:56:59,756 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 21:56:59,757 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 21:56:59,761 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 21:56:59,903 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 21:56:59,908 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 21:56:59,944 [ERROR] LogViewerPage: Failed to load log: type object 'PySide6.QtCore.Qt' has no attribute 'TextCursor'
-2026-01-18 21:58:01,039 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 21:58:01,039 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 21:58:01,071 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 21:58:01,399 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 21:58:01,410 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 21:58:01,446 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 21:58:20,472 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 21:58:20,473 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 21:58:20,483 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-18 21:58:20,484 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 22:00:41,198 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 22:00:41,198 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 22:00:41,203 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 22:00:41,298 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 22:00:41,302 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 22:00:41,329 [ERROR] LogViewerPage: Failed to load log: type object 'PySide6.QtCore.Qt' has no attribute 'TextCursor'
-2026-01-18 22:02:20,629 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 22:02:20,630 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 22:02:20,634 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 22:02:20,763 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 22:02:20,767 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 22:02:20,797 [ERROR] LogViewerPage: Failed to load log: type object 'PySide6.QtCore.Qt' has no attribute 'TextCursor'
-2026-01-18 22:05:40,353 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 22:05:40,353 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 22:05:40,357 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 22:05:40,454 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 22:05:40,458 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 22:05:40,483 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 22:05:43,502 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 22:05:43,502 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 22:05:43,514 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-18 22:05:43,514 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 22:15:27,419 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 22:15:27,419 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 22:15:27,423 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 22:15:27,520 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 22:15:27,524 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 22:15:27,556 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 22:15:29,556 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 22:15:29,556 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 22:15:29,570 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 2 QPushButton
-2026-01-18 22:15:29,570 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 22:18:07,290 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 22:29:54,428 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 22:29:54,429 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 22:29:54,432 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 22:29:54,532 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 22:29:54,535 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 22:29:54,565 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 22:29:57,003 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 22:29:57,003 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 22:29:57,016 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 3 QPushButton
-2026-01-18 22:29:57,016 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-18 22:31:02,924 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-18 22:31:02,924 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-18 22:31:02,928 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-18 22:31:03,022 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-18 22:31:03,028 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-18 22:31:03,058 [INFO] LogViewerPage: Loaded last lines
-2026-01-18 22:31:05,553 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-18 22:31:05,553 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-18 22:31:05,567 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 3 QPushButton
-2026-01-18 22:31:05,568 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-19 22:14:29,522 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-19 22:14:29,528 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-19 22:14:29,570 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-19 22:14:29,819 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-19 22:14:29,833 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-19 22:14:29,898 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:14:38,512 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-19 22:14:38,515 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-19 22:14:38,537 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 3 QPushButton
-2026-01-19 22:14:38,537 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-19 22:14:45,168 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:14:47,169 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:14:49,164 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:14:51,169 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:06,008 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-19 22:20:06,009 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-19 22:20:06,013 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-19 22:20:06,105 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-19 22:20:06,110 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-19 22:20:06,143 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:15,134 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-19 22:20:15,134 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-19 22:20:15,145 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 3 QPushButton
-2026-01-19 22:20:15,145 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
-2026-01-19 22:20:21,730 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:23,722 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:25,725 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:27,745 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:29,719 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:31,742 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:33,730 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:35,751 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:37,738 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:20:39,742 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:46:02,405 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-19 22:46:02,405 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-19 22:46:02,410 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-19 22:46:02,505 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-19 22:46:02,509 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-19 22:50:24,901 [INFO] User 'hardycapelgrh' logged in successfully
-2026-01-19 22:50:24,901 [INFO] MainApp started for 'hardycapelgrh'
-2026-01-19 22:50:24,905 [INFO] DataTablePage: No data found in 'records' collection
-2026-01-19 22:50:24,997 [INFO] ChartsPage: Sample chart drawn successfully
-2026-01-19 22:50:25,000 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
-2026-01-19 22:50:25,032 [INFO] LogViewerPage: Loaded last lines
-2026-01-19 22:50:27,220 [INFO] Switching to 'Log Viewer' with permission 'rw'
-2026-01-19 22:50:27,220 [INFO] [BasePage] Applying read_only=False on page 'Log Viewer'
-2026-01-19 22:50:27,232 [INFO] [BasePage] Found widgets on 'Log Viewer': 1 QLineEdit, 1 QTextEdit, 0 QPlainTextEdit, 1 QComboBox, 5 QPushButton
-2026-01-19 22:50:27,232 [INFO] [BasePage] Disabled buttons on 'Log Viewer': ['Clear Log']
+2026-01-29 17:03:28,189 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-29 17:03:28,193 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-29 17:03:28,239 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-29 17:03:28,492 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-29 17:03:28,505 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-29 17:03:30,740 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:32,738 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:34,737 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:36,736 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:38,739 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:40,737 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:42,737 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:44,737 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:46,738 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:48,736 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:50,734 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:52,739 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:54,755 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:56,735 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:03:58,735 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:00,737 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:02,736 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:04,738 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:06,738 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:08,737 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:10,739 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:12,743 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:14,753 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:16,729 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:18,730 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:20,748 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:22,737 [WARNING] LogViewerPage: Log file not found
+2026-01-29 17:04:47,364 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-29 17:04:47,364 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-29 17:04:47,368 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-29 17:04:47,464 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-29 17:04:47,468 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-29 17:04:49,197 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:04:51,197 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:04:53,205 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:04:55,219 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:04:57,198 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:04:59,202 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:05:01,177 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:05:03,206 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:05:05,207 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:05:07,179 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:05:09,171 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:05:11,172 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:34:05,191 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-29 17:34:05,191 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-29 17:34:05,195 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-29 17:34:05,295 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-29 17:34:05,300 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-29 17:34:08,190 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:34:48,899 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:34:50,874 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:34:52,875 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:34:54,890 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:34:56,912 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:34:58,870 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:35:00,863 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:35:02,884 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:35:04,875 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:35:06,891 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:35:08,866 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 17:36:11,969 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 22:36:36,627 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-29 22:36:36,632 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-29 22:36:36,677 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-29 22:36:36,954 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-29 22:36:36,970 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-29 22:36:39,251 [INFO] LogViewerPage: Incremental tail-f update complete

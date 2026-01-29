@@ -2,7 +2,7 @@ from dashboard_page import DashboardPage
 from data_table_page import DataTablePage
 from charts_page import ChartsPage
 from admin_page import AdminPage
-from log_viewer_page import LogViewerPage
+# from log_viewer_page import LogViewerPage
 from profile_page import ProfilePage
 from AdminControlPanel import AdminControlPanel
 from example_page import ExamplePage
@@ -71,15 +71,8 @@ PAGE_REGISTRY = {
         "description": "Admin-only tools and system management"
     },
 
-    "Log Viewer": {
-        "class": LogViewerPage,
-        "slug": "log_viewer",
-        "default_permission": None,
-        "requires_admin": True,
-        "category": "Admin Tools",
-        "visible": True,
-        "description": "View system logs and audit events"
-    },
+    # Log Viewer removed — now opened in its own window
+    
     "Example Page": {
         "class": ExamplePage,
         "default_permission": "none"   # or "rw" if you want it visible by default
