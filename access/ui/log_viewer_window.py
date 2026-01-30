@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QMainWindow, QDockWidget, QListWidget
 from PySide6.QtCore import Qt
-from log_viewer_page import LogViewerPage
+from ui.log_viewer_page import LogViewerPage
 
 class LogViewerWindow(QMainWindow):
     def __init__(self):

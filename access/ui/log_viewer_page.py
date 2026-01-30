@@ -8,10 +8,10 @@ import os
 import re
 from collections import deque
 
-from logger import logger
+from ui.logger import logger
 from base_page import BasePage, QComboBox, QLineEdit
 from PySide6.QtWidgets import QFrame
-from search_highlighter import SearchHighlighter
+from ui.search_highlighter import SearchHighlighter
 
 
 class LogViewerPage(BasePage):
@@ -24,7 +24,7 @@ class LogViewerPage(BasePage):
         BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
         # Build a path to logs/app.log relative to this file
-        self.log_path = os.path.abspath(os.path.join(BASE_DIR, "logs", "app.log"))
+        self.log_path = os.path.abspath(os.path.join(BASE_DIR,"..", "logs", "app.log"))
 
         # 1. Build UI
         self.build_ui()
@@ -34,7 +34,7 @@ class LogViewerPage(BasePage):
         self._last_file_pos = 0
 
         # 3. Highlighter
-        from search_highlighter import SearchHighlighter
+        from ui.search_highlighter import SearchHighlighter
         self.highlighter = SearchHighlighter(self.text_area.document())
 
         # 4. Connect signals

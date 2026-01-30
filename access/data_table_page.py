@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QTableWidget, QTableWidgetItem, QPushButton, QLineEdit, QTextEdit, QComboBox
 from PySide6.QtCore import Qt
 
-from logger import logger
+from ui.logger import logger
 from database import db   # direct access to MongoDB for table data
 
 

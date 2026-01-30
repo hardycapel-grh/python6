@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
 
 from database import get_all_users, delete_user
 from permission_editor_dialog import PermissionEditorDialog
-from logger import logger
+from ui.logger import logger
 
 
 class UserManagerDialog(QDialog):

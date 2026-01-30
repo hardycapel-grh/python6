@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButt
 import bcrypt
 import re
 
-from logger import logger
+from ui.logger import logger
 from database import create_user
 from page_registry import PAGE_REGISTRY
 

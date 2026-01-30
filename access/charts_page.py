@@ -4,7 +4,7 @@ from PySide6.QtCore import Qt
 from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
-from logger import logger
+from ui.logger import logger
 
 
 class ChartsPage(QWidget):

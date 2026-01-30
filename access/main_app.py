@@ -1,6 +1,6 @@
 # main_app.py
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QStackedWidget, QMessageBox
-from logger import logger
+from ui.logger import logger
 from page_registry import PAGE_REGISTRY
 from database import get_user
 
@@ -73,7 +73,7 @@ class MainApp(QMainWindow):
         self.nav_buttons.addWidget(log_btn)
 
     def open_log_viewer(self):
-        from log_viewer_window import LogViewerWindow
+        from ui.log_viewer_window import LogViewerWindow
         self.log_window = LogViewerWindow()
         self.log_window.show()
 

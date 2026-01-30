@@ -3,7 +3,7 @@ from PySide6.QtWidgets import (
 )
 
 from database import get_user, update_permissions
-from logger import logger
+from ui.logger import logger
 
 
 

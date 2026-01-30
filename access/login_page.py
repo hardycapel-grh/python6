@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QTextEdit, QComboBox
 import bcrypt
 
-from logger import logger
+from ui.logger import logger
 from database import get_user, update_permissions, update_user_fields
 from main_app import MainApp
 

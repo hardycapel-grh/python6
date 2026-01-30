@@ -3,7 +3,7 @@ from PySide6.QtWidgets import (
     QWidget, QLineEdit, QTextEdit, QPlainTextEdit,
     QComboBox, QPushButton
 )
-from logger import logger
+from ui.logger import logger
 
 
 class BasePage(QWidget):

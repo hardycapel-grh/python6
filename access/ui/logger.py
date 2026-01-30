@@ -5,7 +5,7 @@ import os
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 
 # Build the correct log path
-log_path = os.path.abspath(os.path.join(BASE_DIR, "logs", "app.log"))
+log_path = os.path.abspath(os.path.join(BASE_DIR,"..", "logs", "app.log"))
 
 # Ensure the logs folder exists
 os.makedirs(os.path.dirname(log_path), exist_ok=True)
