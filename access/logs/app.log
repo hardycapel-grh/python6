@@ -1116,3 +1116,10 @@ AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
 2026-01-28 23:57:04,405 [INFO] LogViewerPage: Incremental tail-f update complete
 2026-01-28 23:57:06,435 [INFO] LogViewerPage: Incremental tail-f update complete
 2026-01-28 23:57:08,491 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 23:21:26,395 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-29 23:21:26,396 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-29 23:21:26,399 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-29 23:21:26,506 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-29 23:21:26,510 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-29 23:21:28,748 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-29 23:21:38,549 [INFO] LogViewerPage: Incremental tail-f update complete
