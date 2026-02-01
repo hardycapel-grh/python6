@@ -1,7 +1,7 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QTextEdit, QComboBox
 import bcrypt
 
-from ui.logger import logger
+from ui.components.logger import logger
 from database import get_user, update_permissions, update_user_fields
 from main_app import MainApp
 
@@ -35,7 +35,7 @@ class LoginWindow(QWidget):
         self.setLayout(layout)
 
     def open_register(self):
-        from registration_page import RegistrationWindow
+        from ui.pages.registration_page import RegistrationWindow
         self.reg_window = RegistrationWindow()
         self.reg_window.show()
 

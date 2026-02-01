@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 import bcrypt
 
-from ui.logger import logger
+from ui.components.logger import logger
 from database import update_user_fields, update_password
 from base_page import BasePage
 

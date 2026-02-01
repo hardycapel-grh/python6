@@ -1180,3 +1180,65 @@ AttributeError: 'LogViewerPage' object has no attribute '_last_file_pos'
 2026-01-30 22:23:09,023 [INFO] [BasePage] Applying read_only=False on page 'Admin Control Panel'
 2026-01-30 22:23:09,024 [INFO] [BasePage] Found widgets on 'Admin Control Panel': 0 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
 2026-01-30 22:23:09,024 [INFO] [BasePage] Disabled buttons on 'Admin Control Panel': []
+2026-01-30 22:48:56,329 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-30 22:48:56,329 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-30 22:48:56,334 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-30 22:48:56,441 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-30 22:48:56,446 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-30 22:50:13,109 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-30 22:50:13,109 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-30 22:50:13,113 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-30 22:50:13,213 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-30 22:50:13,216 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-30 22:50:15,274 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-30 22:54:18,853 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-30 22:54:18,854 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-30 22:54:18,857 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-30 22:54:18,965 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-30 22:54:18,972 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-30 22:55:42,710 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-30 22:55:42,712 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-30 22:55:42,716 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-30 22:55:42,811 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-30 22:55:42,815 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-30 22:59:18,451 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-30 22:59:18,451 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-30 22:59:18,454 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-30 22:59:18,552 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-30 22:59:18,556 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-30 22:59:20,496 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-30 23:25:40,376 [INFO] User 'winston' created successfully
+2026-01-30 23:25:42,083 [INFO] User 'winston' registered successfully
+2026-01-30 23:30:02,917 [INFO] User 'winston' logged in successfully
+2026-01-30 23:30:02,930 [INFO] Fields updated for user 'winston'
+2026-01-30 23:30:02,930 [INFO] Auto-repaired missing fields for user 'winston'
+2026-01-30 23:30:02,930 [INFO] MainApp started for 'winston'
+2026-01-30 23:30:02,940 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-30 23:30:03,198 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-30 23:30:03,203 [INFO] ProfilePage: Loaded profile for 'winston'
+2026-01-30 23:30:09,751 [INFO] Switching to 'Admin Control Panel' with permission 'rw'
+2026-01-30 23:30:09,752 [INFO] [BasePage] Applying read_only=False on page 'Admin Control Panel'
+2026-01-30 23:30:09,756 [INFO] [BasePage] Found widgets on 'Admin Control Panel': 0 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
+2026-01-30 23:30:09,756 [INFO] [BasePage] Disabled buttons on 'Admin Control Panel': []
+2026-01-30 23:41:25,635 [INFO] User 'polo' created successfully
+2026-01-30 23:41:27,566 [INFO] User 'polo' registered successfully
+2026-02-01 00:29:19,396 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-01 00:29:19,397 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-01 00:29:19,400 [INFO] DataTablePage: No data found in 'records' collection
+2026-02-01 00:29:19,503 [INFO] ChartsPage: Sample chart drawn successfully
+2026-02-01 00:29:19,507 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-02-01 00:29:23,117 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-01 00:29:52,653 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-01 00:29:54,632 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-01 00:29:56,651 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-01 00:29:58,698 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-01 00:30:00,640 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-01 00:30:02,665 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-01 00:30:04,671 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-01 00:32:56,930 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-01 00:33:15,556 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-01 00:33:15,557 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-01 00:33:15,561 [INFO] DataTablePage: No data found in 'records' collection
+2026-02-01 00:33:15,673 [INFO] ChartsPage: Sample chart drawn successfully
+2026-02-01 00:33:15,680 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-02-01 00:33:20,784 [INFO] LogViewerPage: Incremental tail-f update complete

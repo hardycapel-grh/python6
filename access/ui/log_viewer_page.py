@@ -8,10 +8,10 @@ import os
 import re
 from collections import deque
 
-from ui.logger import logger
+from ui.components.logger import logger
 from base_page import BasePage, QComboBox, QLineEdit
 from PySide6.QtWidgets import QFrame
-from ui.search_highlighter import SearchHighlighter
+from ui.components.search_highlighter import SearchHighlighter
 
 
 class LogViewerPage(BasePage):
@@ -34,7 +34,7 @@ class LogViewerPage(BasePage):
         self._last_file_pos = 0
 
         # 3. Highlighter
-        from ui.search_highlighter import SearchHighlighter
+        from ui.components.search_highlighter import SearchHighlighter
         self.highlighter = SearchHighlighter(self.text_area.document())
 
         # 4. Connect signals

@@ -1,11 +1,11 @@
-from dashboard_page import DashboardPage
-from data_table_page import DataTablePage
-from charts_page import ChartsPage
-from admin_page import AdminPage
+from ui.pages.dashboard_page import DashboardPage
+from ui.pages.data_table_page import DataTablePage
+from ui.pages.charts_page import ChartsPage
+from ui.pages.admin_page import AdminPage
 # from log_viewer_page import LogViewerPage
-from profile_page import ProfilePage
+from ui.pages.profile_page import ProfilePage
 from AdminControlPanel import AdminControlPanel
-from example_page import ExamplePage
+from ui.pages.example_page import ExamplePage
 
 
 # Central registry for all pages in the application.

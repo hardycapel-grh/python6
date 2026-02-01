@@ -6,7 +6,7 @@ from PySide6.QtCore import Qt
 
 import bcrypt
 
-from ui.logger import logger
+from ui.components.logger import logger
 from database import (
     get_all_users, update_permissions, delete_user,
     update_password, update_user_fields

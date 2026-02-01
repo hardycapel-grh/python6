@@ -1,6 +1,6 @@
 # main_app.py
 from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QPushButton, QStackedWidget, QMessageBox
-from ui.logger import logger
+from ui.components.logger import logger
 from page_registry import PAGE_REGISTRY
 from database import get_user
 

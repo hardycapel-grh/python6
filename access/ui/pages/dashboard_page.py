@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QPushButton, QLineEdit, QTextEdit, QComboBox
 from PySide6.QtCore import Qt
-from ui.logger import logger
+from ui.components.logger import logger
 
 
 

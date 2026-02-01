@@ -1,0 +1,91 @@
+2026-01-31 23:37:51,988 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-31 23:37:51,992 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-31 23:37:52,026 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-31 23:37:52,313 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-31 23:37:52,323 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-31 23:37:54,452 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:35,185 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:37,212 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:39,215 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:41,191 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:43,186 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:45,180 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:47,186 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:49,191 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:51,206 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:53,179 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:55,171 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:57,170 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:38:59,217 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:01,187 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:03,169 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:05,211 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:07,183 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:09,189 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:11,174 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:13,212 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:15,208 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:17,172 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:19,202 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:21,193 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:23,201 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:25,219 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:39:27,199 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:49:40,531 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-31 23:49:40,531 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-31 23:49:40,535 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-31 23:49:40,631 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-31 23:49:40,634 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-31 23:49:43,266 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:50:58,840 [INFO] User 'pebbles' created successfully
+2026-01-31 23:51:00,330 [INFO] User 'pebbles' registered successfully
+2026-01-31 23:52:41,567 [INFO] User 'hardycapelgrh' logged in successfully
+2026-01-31 23:52:41,567 [INFO] MainApp started for 'hardycapelgrh'
+2026-01-31 23:52:41,571 [INFO] DataTablePage: No data found in 'records' collection
+2026-01-31 23:52:41,672 [INFO] ChartsPage: Sample chart drawn successfully
+2026-01-31 23:52:41,676 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-01-31 23:52:43,711 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-01-31 23:52:58,655 [INFO] Switching to 'Admin Control Panel' with permission 'rw'
+2026-01-31 23:52:58,658 [INFO] [BasePage] Applying read_only=False on page 'Admin Control Panel'
+2026-01-31 23:52:58,670 [INFO] [BasePage] Found widgets on 'Admin Control Panel': 0 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
+2026-01-31 23:52:58,670 [INFO] [BasePage] Disabled buttons on 'Admin Control Panel': []
+2026-01-31 23:53:10,276 [INFO] Permissions updated for user 'hardycapelgrh'
+2026-01-31 23:53:11,925 [INFO] Admin updated permissions for 'hardycapelgrh'
+2026-01-31 23:53:17,679 [INFO] Switching to 'Example Page' with permission 'ro'
+2026-01-31 23:53:17,679 [INFO] [BasePage] Applying read_only=True on page 'Example Page'
+2026-01-31 23:53:17,680 [INFO] [BasePage] Found widgets on 'Example Page': 1 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 1 QPushButton
+2026-01-31 23:53:17,680 [INFO] [BasePage] Disabled buttons on 'Example Page': ['Save']
+2026-01-31 23:53:19,882 [INFO] Switching to 'Admin' with permission 'rw'
+2026-01-31 23:53:20,038 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-31 23:53:22,632 [INFO] Switching to 'Profile' with permission 'rw'
+2026-01-31 23:53:22,632 [INFO] [BasePage] Applying read_only=False on page 'Profile'
+2026-01-31 23:53:22,632 [INFO] [BasePage] Found widgets on 'Profile': 8 QLineEdit, 0 QTextEdit, 0 QPlainTextEdit, 0 QComboBox, 2 QPushButton
+2026-01-31 23:53:22,633 [INFO] [BasePage] Disabled buttons on 'Profile': ['Change Password', 'Save Profile Changes']
+2026-01-31 23:53:27,689 [INFO] Switching to 'Charts' with permission 'rw'
+2026-01-31 23:53:27,693 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-31 23:53:30,261 [INFO] Switching to 'Data Table' with permission 'ro'
+2026-01-31 23:53:30,265 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-01-31 23:53:32,377 [INFO] Switching to 'Dashboard' with permission 'rw'
+2026-01-31 23:53:32,380 [ERROR] Failed to switch page: 'PySide6.QtCore.QObject.findChildren' called with wrong argument types:
+  PySide6.QtCore.QObject.findChildren(tuple)
+Supported signatures:
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], /, name: str = {}, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+  PySide6.QtCore.QObject.findChildren(type: Type[~PlaceholderType], pattern: PySide6.QtCore.QRegularExpression | str, /, options: PySide6.QtCore.Qt.FindChildOption = Instance(Qt.FindChildrenRecursively))
+2026-02-01 00:23:37,945 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-01 00:23:37,945 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-01 00:23:37,948 [INFO] DataTablePage: No data found in 'records' collection
+2026-02-01 00:23:38,046 [INFO] ChartsPage: Sample chart drawn successfully
+2026-02-01 00:23:38,051 [INFO] ProfilePage: Loaded profile for 'hardycapelgrh'
+2026-02-01 00:23:40,264 [INFO] LogViewerPage: Incremental tail-f update complete

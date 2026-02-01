@@ -2,7 +2,7 @@ from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButt
 import bcrypt
 import re
 
-from ui.logger import logger
+from ui.components.logger import logger
 from database import create_user
 from page_registry import PAGE_REGISTRY
 
@@ -20,14 +20,14 @@ class RegistrationWindow(QWidget):
         self.username = QLineEdit()
         self.username.setPlaceholderText("Username")
 
-        # Email
-        self.email = QLineEdit()
-        self.email.setPlaceholderText("Email")
-
         # Password
         self.password = QLineEdit()
         self.password.setPlaceholderText("Password")
         self.password.setEchoMode(QLineEdit.Password)
+
+        # Email
+        self.email = QLineEdit()
+        self.email.setPlaceholderText("Email")
 
         # Register button
         register_btn = QPushButton("Register")
@@ -35,8 +35,8 @@ class RegistrationWindow(QWidget):
 
         layout.addWidget(QLabel("Registration Page"))
         layout.addWidget(self.username)
-        layout.addWidget(self.email)
         layout.addWidget(self.password)
+        layout.addWidget(self.email)
         layout.addWidget(register_btn)
 
         self.setLayout(layout)

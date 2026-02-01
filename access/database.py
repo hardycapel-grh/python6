@@ -1,5 +1,5 @@
 from pymongo import MongoClient
-from ui.logger import logger
+from ui.components.logger import logger
 
 # -----------------------------------
 #  CONNECT TO MONGODB
