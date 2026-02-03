@@ -45,6 +45,9 @@ class LoginWindow(QWidget):
         username = self.username.text().strip()
         password = self.password.text().strip()
 
+        # NEW: log the attempt
+        logger.info(f"Login attempt: {username}")
+
         if not username or not password:
             QMessageBox.warning(self, "Error", "Please enter both username and password")
             logger.warning("Login failed: missing username or password")

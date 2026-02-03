@@ -46,12 +46,15 @@ class RegistrationWindow(QWidget):
         email = self.email.text().strip()
         password = self.password.text().strip()
 
+        # Log the attempt
+        logger.info(f"Registration attempt: username='{username}', email='{email}'")
+
         # -----------------------------
         # Required fields
         # -----------------------------
         if not username or not email or not password:
             QMessageBox.warning(self, "Error", "All fields are required")
-            logger.warning("Registration failed: missing fields")
+            logger.warning("Registration failed: missing required fields")
             return
 
         # -----------------------------
@@ -59,10 +62,12 @@ class RegistrationWindow(QWidget):
         # -----------------------------
         if " " in username:
             QMessageBox.warning(self, "Error", "Username cannot contain spaces")
+            logger.warning(f"Registration failed: username '{username}' contains spaces")
             return
 
         if len(username) < 3:
             QMessageBox.warning(self, "Error", "Username must be at least 3 characters long")
+            logger.warning(f"Registration failed: username '{username}' too short")
             return
 
         # -----------------------------
@@ -74,32 +79,42 @@ class RegistrationWindow(QWidget):
             return
 
         # -----------------------------
-        # Password validation (same rules as change password)
+        # Password validation
         # -----------------------------
         if len(password) < 8:
             QMessageBox.warning(self, "Error", "Password must be at least 8 characters long")
+            logger.warning(f"Registration failed for '{username}': password too short")
             return
 
         if not any(c.islower() for c in password):
             QMessageBox.warning(self, "Error", "Password must contain a lowercase letter")
+            logger.warning(f"Registration failed for '{username}': missing lowercase letter")
             return
 
         if not any(c.isupper() for c in password):
             QMessageBox.warning(self, "Error", "Password must contain an uppercase letter")
+            logger.warning(f"Registration failed for '{username}': missing uppercase letter")
             return
 
         if not any(c.isdigit() for c in password):
             QMessageBox.warning(self, "Error", "Password must contain a number")
+            logger.warning(f"Registration failed for '{username}': missing number")
             return
 
         if not any(c in "!@#$%^&*()-_=+[]{};:,.<>?/\\|" for c in password):
             QMessageBox.warning(self, "Error", "Password must contain a special character")
+            logger.warning(f"Registration failed for '{username}': missing special character")
             return
 
         # -----------------------------
-        # Hash password (raw bytes)
+        # Hash password
         # -----------------------------
-        hashed_pw = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        try:
+            hashed_pw = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
+        except Exception as e:
+            logger.error(f"Registration failed for '{username}': password hashing error: {e}")
+            QMessageBox.critical(self, "Error", "Internal error while processing password")
+            return
 
         # -----------------------------
         # Default permissions
@@ -108,6 +123,7 @@ class RegistrationWindow(QWidget):
             page: info["default_permission"]
             for page, info in PAGE_REGISTRY.items()
         }
+        logger.info(f"Default permissions assigned for '{username}'")
 
         # -----------------------------
         # Create user in DB
@@ -120,7 +136,7 @@ class RegistrationWindow(QWidget):
             self.close()
         else:
             QMessageBox.critical(self, "Error", "Registration failed")
-            logger.error(f"Registration failed for '{username}'")
+            logger.error(f"Registration failed for '{username}': username may already exist")
 
     def set_read_only(self, ro: bool):
         """Enable or disable editing for all input widgets."""
