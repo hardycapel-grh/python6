@@ -6,6 +6,7 @@ from database import get_user, update_permissions, update_user_fields
 from main_app import MainApp
 
 
+
 class LoginWindow(QWidget):
     def __init__(self):
         super().__init__()
@@ -35,8 +36,8 @@ class LoginWindow(QWidget):
         self.setLayout(layout)
 
     def open_register(self):
-        from ui.pages.registration_page import RegistrationWindow
-        self.reg_window = RegistrationWindow()
+        from ui.pages.registration_page import RegistrationPage
+        self.reg_window = RegistrationPage()
         self.reg_window.show()
 
     def login(self):
@@ -45,7 +46,6 @@ class LoginWindow(QWidget):
         username = self.username.text().strip()
         password = self.password.text().strip()
 
-        # NEW: log the attempt
         logger.info(f"Login attempt: {username}")
 
         if not username or not password:
@@ -60,18 +60,29 @@ class LoginWindow(QWidget):
             logger.warning(f"Login failed: user '{username}' not found")
             return
 
-        # Check password
+        # -------------------------
+        # FIXED: bcrypt password check
+        # -------------------------
         try:
-            if not bcrypt.checkpw(password.encode(), user["password"]):
+            stored_hash = user.get("password_hash")
+            if not stored_hash:
+                logger.error(f"User '{username}' has no password_hash field")
+                QMessageBox.critical(self, "Error", "Account is corrupted")
+                return
+
+            if not bcrypt.checkpw(password.encode(), stored_hash.encode()):
                 QMessageBox.warning(self, "Error", "Incorrect password")
                 logger.warning(f"Login failed: incorrect password for '{username}'")
                 return
+
         except Exception as e:
             logger.error(f"Password check failed for '{username}': {e}")
             QMessageBox.critical(self, "Error", "Internal authentication error")
             return
 
-        # Auto-repair missing permissions using PAGE_REGISTRY
+        # -------------------------
+        # Permissions auto-repair
+        # -------------------------
         repaired = False
         for page_name, info in PAGE_REGISTRY.items():
             if page_name not in user["permissions"]:
@@ -84,15 +95,15 @@ class LoginWindow(QWidget):
 
         logger.info(f"User '{username}' logged in successfully")
 
+        # -------------------------
         # Auto-repair missing fields
+        # -------------------------
         updated = False
 
-        # Example: new field "theme"
         if "theme" not in user:
             user["theme"] = "light"
             updated = True
 
-        # Example: new field "last_login"
         if "last_login" not in user:
             user["last_login"] = None
             updated = True
@@ -101,12 +112,13 @@ class LoginWindow(QWidget):
             user["email"] = ""
             updated = True
 
-        # Save repairs
         if updated:
             update_user_fields(username, user)
             logger.info(f"Auto-repaired missing fields for user '{username}'")
 
+        # -------------------------
         # Open main app
+        # -------------------------
         self.main_app = MainApp(user)
         self.main_app.show()
         self.close()
@@ -125,3 +137,21 @@ class LoginWindow(QWidget):
         for btn in self.findChildren(QPushButton):
             if btn.objectName() not in ("nav", "close", "back"):
                 btn.setEnabled(not ro)
+
+    def apply_permissions(self, perm):
+        if perm == "rw":
+            return
+
+        # Disable all buttons
+        for btn in self.findChildren(QPushButton):
+            btn.setEnabled(False)
+
+        # Disable editable widgets
+        for t in (QLineEdit, QTextEdit, QComboBox):
+            for widget in self.findChildren(t):
+                widget.setEnabled(False)
+
+        # Optional banner
+        banner = QLabel("Read-Only Mode")
+        banner.setStyleSheet("color: orange; font-weight: bold;")
+        self.layout().insertWidget(0, banner)

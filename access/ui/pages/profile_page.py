@@ -164,3 +164,21 @@ class ProfilePage(BasePage):
         else:
             QMessageBox.critical(self, "Error", "Failed to change password")
             logger.error(f"ProfilePage: Failed to change password for '{username}'")
+
+    def apply_permissions(self, perm):
+        if perm == "rw":
+            return
+
+        # Disable all buttons
+        for btn in self.findChildren(QPushButton):
+            btn.setEnabled(False)
+
+        # Disable editable widgets
+        for t in (QLineEdit, QTextEdit, QComboBox):
+            for widget in self.findChildren(t):
+                widget.setEnabled(False)
+
+        # Optional banner
+        banner = QLabel("Read-Only Mode")
+        banner.setStyleSheet("color: orange; font-weight: bold;")
+        self.layout().insertWidget(0, banner)

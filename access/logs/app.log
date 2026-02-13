@@ -76,3 +76,196 @@
 2026-02-03 23:06:16,549 [INFO] Log Viewer opened
 2026-02-03 23:07:16,113 [INFO] LogViewerPage: Incremental tail-f update complete
 2026-02-03 23:07:16,148 [INFO] Log Viewer opened
+2026-02-04 22:51:13,035 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-04 22:51:38,370 [INFO] Login attempt: hardycapelgrh
+2026-02-04 22:51:38,652 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-04 22:51:38,668 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-04 22:51:42,163 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-04 22:51:42,252 [INFO] Log Viewer opened
+2026-02-04 22:55:01,039 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-04 22:55:26,493 [INFO] Login attempt: hardycapelgrh
+2026-02-04 22:55:26,792 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-04 22:55:26,794 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-04 22:55:29,874 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-04 22:55:29,928 [INFO] Log Viewer opened
+2026-02-04 22:55:33,551 [INFO] Admin Control Panel opened by 'hardycapelgrh'
+2026-02-04 22:55:33,567 [INFO] Admin Control Panel opened
+2026-02-05 22:34:19,984 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-05 22:34:46,044 [INFO] Login attempt: hardycapelgrh
+2026-02-05 22:34:46,330 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-05 22:34:46,353 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-05 22:34:50,191 [INFO] Admin Control Panel opened by 'hardycapelgrh'
+2026-02-05 22:34:50,209 [INFO] Admin Control Panel opened
+2026-02-05 22:34:56,786 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-05 22:34:56,876 [INFO] Log Viewer opened
+2026-02-05 22:50:36,515 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-05 22:50:54,742 [INFO] Login attempt: hardycapelgrh
+2026-02-05 22:50:55,026 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-05 22:50:55,028 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-05 22:50:57,383 [INFO] Admin Control Panel opened by 'hardycapelgrh'
+2026-02-05 22:50:57,400 [INFO] Admin Control Panel opened
+2026-02-05 22:58:06,788 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-05 22:58:48,259 [INFO] Login attempt: hardycapelgrh
+2026-02-05 22:58:48,541 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-05 22:58:48,542 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-05 22:58:52,557 [INFO] Admin Control Panel opened by 'hardycapelgrh'
+2026-02-05 22:58:52,577 [INFO] Admin Control Panel opened
+2026-02-05 23:00:17,274 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-05 23:00:34,906 [INFO] Login attempt: hardycapelgrh
+2026-02-05 23:00:35,186 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-05 23:00:35,188 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-05 23:00:38,058 [INFO] Admin Control Panel opened by 'hardycapelgrh'
+2026-02-05 23:00:38,073 [INFO] Admin Control Panel opened
+2026-02-05 23:21:38,961 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-05 23:21:54,734 [INFO] Login attempt: hardycapelgrh
+2026-02-05 23:21:55,012 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-05 23:21:55,013 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-05 23:22:03,729 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-05 23:22:03,781 [INFO] Log Viewer opened
+2026-02-05 23:27:34,901 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-05 23:27:53,739 [INFO] Login attempt: hardycapelgrh
+2026-02-05 23:27:53,994 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-05 23:27:53,995 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-05 23:27:56,204 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-05 23:27:56,256 [INFO] Log Viewer opened
+2026-02-05 23:33:59,249 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-05 23:34:15,718 [INFO] Login attempt: hardycapelgrh
+2026-02-05 23:34:15,974 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-05 23:34:15,975 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-05 23:34:18,153 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-05 23:34:18,197 [INFO] Log Viewer opened
+2026-02-05 23:34:21,662 [INFO] Admin Control Panel opened by 'hardycapelgrh'
+2026-02-05 23:34:21,692 [INFO] Admin Control Panel opened
+2026-02-06 07:38:21,587 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-06 07:38:44,503 [INFO] Login attempt: hardycapelgrh
+2026-02-06 07:38:44,804 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-06 07:38:44,809 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-06 07:38:47,248 [INFO] Admin Control Panel opened by 'hardycapelgrh'
+2026-02-06 07:38:47,279 [INFO] Admin Control Panel opened
+2026-02-06 13:55:26,911 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-06 13:56:14,365 [INFO] Registration attempt: username='lisa251063', email='lisa251063@gmail.com'
+2026-02-06 13:56:14,631 [INFO] Default permissions assigned for 'lisa251063'
+2026-02-06 13:56:14,668 [INFO] User 'lisa251063' created successfully
+2026-02-06 13:56:18,964 [INFO] User 'lisa251063' registered successfully
+2026-02-07 23:04:48,031 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-07 23:05:11,757 [INFO] Login attempt: hardycapelgrh
+2026-02-07 23:05:12,025 [INFO] User 'hardycapelgrh' logged in successfully
+2026-02-07 23:05:12,058 [INFO] MainApp started for 'hardycapelgrh'
+2026-02-07 23:05:15,084 [INFO] Admin Control Panel opened by 'hardycapelgrh'
+2026-02-07 23:05:15,112 [INFO] Admin Control Panel opened
+2026-02-07 23:05:18,790 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-07 23:05:18,892 [INFO] Log Viewer opened
+2026-02-07 23:05:27,549 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-07 23:10:25,417 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-07 23:13:08,117 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-07 23:14:47,144 [INFO] User 'hawklord' registered successfully
+2026-02-08 21:43:20,240 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-08 21:43:41,090 [INFO] Login attempt: hardycapelgrh
+2026-02-08 21:43:41,128 [ERROR] User 'hardycapelgrh' has no password_hash field
+2026-02-08 21:45:32,511 [INFO] User 'hardycapel' registered successfully
+2026-02-08 21:45:54,438 [INFO] Login attempt: hardycapel
+2026-02-08 21:45:54,705 [INFO] User 'hardycapel' logged in successfully
+2026-02-08 21:45:54,720 [INFO] Fields updated for user 'hardycapel'
+2026-02-08 21:45:54,720 [INFO] Auto-repaired missing fields for user 'hardycapel'
+2026-02-08 21:45:54,740 [INFO] MainApp started for 'hardycapel'
+2026-02-08 21:45:58,039 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-08 21:45:58,057 [INFO] Admin Control Panel opened
+2026-02-08 21:51:03,774 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-08 21:51:18,734 [INFO] Login attempt: hardycapel
+2026-02-08 21:51:19,008 [INFO] User 'hardycapel' logged in successfully
+2026-02-08 21:51:19,009 [INFO] MainApp started for 'hardycapel'
+2026-02-08 21:51:21,509 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-08 21:51:21,526 [INFO] Admin Control Panel opened
+2026-02-09 21:57:58,433 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-09 21:58:25,115 [INFO] Login attempt: hardycapel
+2026-02-09 21:58:25,390 [INFO] User 'hardycapel' logged in successfully
+2026-02-09 21:58:25,418 [INFO] MainApp started for 'hardycapel'
+2026-02-09 21:58:27,978 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-09 21:58:27,997 [INFO] Admin Control Panel opened
+2026-02-09 21:58:58,828 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-09 22:00:03,270 [WARNING] Registration failed: duplicate username 'lisa251063'
+2026-02-09 22:00:16,453 [INFO] User 'lisahardy' registered successfully
+2026-02-09 22:00:32,849 [INFO] Login attempt: lisahardy
+2026-02-09 22:00:33,103 [INFO] User 'lisahardy' logged in successfully
+2026-02-09 22:00:33,105 [INFO] Fields updated for user 'lisahardy'
+2026-02-09 22:00:33,105 [INFO] Auto-repaired missing fields for user 'lisahardy'
+2026-02-09 22:00:33,106 [INFO] MainApp started for 'lisahardy'
+2026-02-09 22:07:25,571 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-09 22:07:43,219 [INFO] Login attempt: lisahardy
+2026-02-09 22:07:45,218 [WARNING] Login failed: incorrect password for 'lisahardy'
+2026-02-09 22:07:51,114 [INFO] Login attempt: lisahardy
+2026-02-09 22:07:51,383 [INFO] User 'lisahardy' logged in successfully
+2026-02-09 22:07:51,384 [INFO] MainApp started for 'lisahardy'
+2026-02-09 22:31:55,096 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-09 22:32:12,439 [INFO] Login attempt: lisahardy
+2026-02-09 22:32:12,720 [INFO] User 'lisahardy' logged in successfully
+2026-02-09 22:32:12,722 [INFO] MainApp started for 'lisahardy'
+2026-02-09 22:32:14,968 [INFO] Admin Control Panel opened by 'lisahardy'
+2026-02-09 22:32:14,992 [INFO] Admin Control Panel opened
+2026-02-11 17:51:57,231 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-11 17:57:57,976 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-11 23:10:47,815 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-11 23:11:09,265 [INFO] Login attempt: hardycapel
+2026-02-11 23:11:11,246 [WARNING] Login failed: incorrect password for 'hardycapel'
+2026-02-11 23:11:25,047 [INFO] Login attempt: hardycapel
+2026-02-11 23:11:25,351 [INFO] Permissions updated for user 'hardycapel'
+2026-02-11 23:11:25,351 [INFO] Permissions auto-repaired for user 'hardycapel'
+2026-02-11 23:11:25,352 [INFO] User 'hardycapel' logged in successfully
+2026-02-11 23:11:25,371 [INFO] MainApp started for 'hardycapel'
+2026-02-11 23:11:28,835 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-11 23:11:28,928 [INFO] Log Viewer opened
+2026-02-11 23:11:36,245 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-11 23:11:36,282 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-11 23:11:36,312 [INFO] Admin Control Panel opened
+2026-02-11 23:24:41,715 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-11 23:25:05,866 [INFO] Login attempt: hardycapel
+2026-02-11 23:25:06,124 [INFO] User 'hardycapel' logged in successfully
+2026-02-11 23:25:06,125 [INFO] MainApp started for 'hardycapel'
+2026-02-11 23:25:08,719 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-11 23:25:08,731 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-11 23:25:08,745 [INFO] Admin Control Panel opened
+2026-02-12 22:00:03,703 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-12 22:00:24,902 [INFO] Login attempt: hardycapel
+2026-02-12 22:00:25,157 [INFO] User 'hardycapel' logged in successfully
+2026-02-12 22:00:25,162 [INFO] MainApp started for 'hardycapel'
+2026-02-12 22:00:30,370 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-12 22:00:30,492 [INFO] Log Viewer opened
+2026-02-12 23:14:53,564 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-12 23:16:28,946 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-12 23:16:44,317 [INFO] Login attempt: hardycapel
+2026-02-12 23:16:44,589 [INFO] User 'hardycapel' logged in successfully
+2026-02-12 23:16:44,650 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-12 23:16:44,685 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-12 23:16:44,685 [INFO] MainApp started for 'hardycapel'
+2026-02-12 23:16:47,234 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-12 23:16:47,291 [INFO] Log Viewer opened
+2026-02-12 23:17:55,594 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-12 23:18:10,860 [INFO] Login attempt: hardycapel
+2026-02-12 23:18:11,131 [INFO] User 'hardycapel' logged in successfully
+2026-02-12 23:18:11,147 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-12 23:18:11,182 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-12 23:18:11,184 [INFO] MainApp started for 'hardycapel'
+2026-02-12 23:28:37,091 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-12 23:29:30,612 [INFO] Login attempt: hardycapel
+2026-02-12 23:29:30,874 [INFO] User 'hardycapel' logged in successfully
+2026-02-12 23:29:30,914 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-12 23:29:30,926 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-12 23:29:30,926 [INFO] MainApp started for 'hardycapel'
+2026-02-12 23:43:25,336 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-12 23:43:44,954 [INFO] Login attempt: hardycapel
+2026-02-12 23:43:45,225 [INFO] User 'hardycapel' logged in successfully
+2026-02-12 23:43:45,272 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-12 23:43:45,272 [INFO] MainApp started for 'hardycapel'
+2026-02-12 23:43:47,486 [INFO] LogViewerPage: Incremental tail-f update complete
+2026-02-12 23:43:47,544 [INFO] Log Viewer opened
+2026-02-12 23:44:10,885 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-13 06:41:37,706 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-13 06:42:00,658 [INFO] Login attempt: hardycapel
+2026-02-13 06:42:00,954 [INFO] User 'hardycapel' logged in successfully
+2026-02-13 06:42:01,096 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-13 06:42:01,098 [INFO] MainApp started for 'hardycapel'
+2026-02-13 13:58:03,020 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-13 13:58:18,711 [INFO] Login attempt: hardycapel
+2026-02-13 13:58:18,964 [INFO] User 'hardycapel' logged in successfully
+2026-02-13 13:58:19,096 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-13 13:58:19,097 [INFO] MainApp started for 'hardycapel'

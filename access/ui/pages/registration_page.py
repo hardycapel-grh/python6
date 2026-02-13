@@ -1,154 +1,76 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QTextEdit, QComboBox
-import bcrypt
-import re
-
-from ui.components.logger import logger
-from database import create_user
-from page_registry import PAGE_REGISTRY
-
-EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[a-zA-Z0-9]+$")
+from PySide6.QtWidgets import (
+    QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QTextEdit, QComboBox
+)
+from services.registration_service import RegistrationService
+from ui.pages.login_page import LoginWindow
 
 
-class RegistrationWindow(QWidget):
+class RegistrationPage(QWidget):
     def __init__(self):
         super().__init__()
-        self.setWindowTitle("Register")
 
-        layout = QVBoxLayout()
+        self.service = RegistrationService()
 
-        # Username
-        self.username = QLineEdit()
-        self.username.setPlaceholderText("Username")
+        layout = QVBoxLayout(self)
 
-        # Password
-        self.password = QLineEdit()
-        self.password.setPlaceholderText("Password")
-        self.password.setEchoMode(QLineEdit.Password)
+        self.username_input = QLineEdit()
+        self.username_input.setPlaceholderText("Username")
 
-        # Email
-        self.email = QLineEdit()
-        self.email.setPlaceholderText("Email")
+        self.email_input = QLineEdit()
+        self.email_input.setPlaceholderText("Email")
 
-        # Register button
-        register_btn = QPushButton("Register")
-        register_btn.clicked.connect(self.register)
+        self.password_input = QLineEdit()
+        self.password_input.setPlaceholderText("Password")
+        self.password_input.setEchoMode(QLineEdit.Password)
 
-        layout.addWidget(QLabel("Registration Page"))
-        layout.addWidget(self.username)
-        layout.addWidget(self.password)
-        layout.addWidget(self.email)
-        layout.addWidget(register_btn)
+        self.confirm_input = QLineEdit()
+        self.confirm_input.setPlaceholderText("Confirm Password")
+        self.confirm_input.setEchoMode(QLineEdit.Password)
 
-        self.setLayout(layout)
+        self.register_button = QPushButton("Register")
+        self.register_button.clicked.connect(self.handle_register)
 
-    def register(self):
-        username = self.username.text().strip()
-        email = self.email.text().strip()
-        password = self.password.text().strip()
+        layout.addWidget(self.username_input)
+        layout.addWidget(self.email_input)
+        layout.addWidget(self.password_input)
+        layout.addWidget(self.confirm_input)
+        layout.addWidget(self.register_button)
 
-        # Log the attempt
-        logger.info(f"Registration attempt: username='{username}', email='{email}'")
+    def handle_register(self):
+        username = self.username_input.text().strip()
+        email = self.email_input.text().strip()
+        password = self.password_input.text()
+        confirm = self.confirm_input.text()
 
-        # -----------------------------
-        # Required fields
-        # -----------------------------
-        if not username or not email or not password:
-            QMessageBox.warning(self, "Error", "All fields are required")
-            logger.warning("Registration failed: missing required fields")
+        valid, error = self.service.validate(username, email, password, confirm)
+
+        if not valid:
+            QMessageBox.warning(self, "Registration Error", error)
             return
 
-        # -----------------------------
-        # Username validation
-        # -----------------------------
-        if " " in username:
-            QMessageBox.warning(self, "Error", "Username cannot contain spaces")
-            logger.warning(f"Registration failed: username '{username}' contains spaces")
+        self.service.register_user(username, email, password)
+
+        QMessageBox.information(self, "Success", "Registration successful!")
+
+        # Close registration window and open login
+        self.close()
+        self.login_window = LoginWindow()
+        self.login_window.show()
+
+    def apply_permissions(self, perm):
+        if perm == "rw":
             return
 
-        if len(username) < 3:
-            QMessageBox.warning(self, "Error", "Username must be at least 3 characters long")
-            logger.warning(f"Registration failed: username '{username}' too short")
-            return
-
-        # -----------------------------
-        # Email validation
-        # -----------------------------
-        if not EMAIL_REGEX.match(email):
-            QMessageBox.warning(self, "Error", "Invalid email address")
-            logger.warning(f"Registration failed: invalid email '{email}'")
-            return
-
-        # -----------------------------
-        # Password validation
-        # -----------------------------
-        if len(password) < 8:
-            QMessageBox.warning(self, "Error", "Password must be at least 8 characters long")
-            logger.warning(f"Registration failed for '{username}': password too short")
-            return
-
-        if not any(c.islower() for c in password):
-            QMessageBox.warning(self, "Error", "Password must contain a lowercase letter")
-            logger.warning(f"Registration failed for '{username}': missing lowercase letter")
-            return
-
-        if not any(c.isupper() for c in password):
-            QMessageBox.warning(self, "Error", "Password must contain an uppercase letter")
-            logger.warning(f"Registration failed for '{username}': missing uppercase letter")
-            return
-
-        if not any(c.isdigit() for c in password):
-            QMessageBox.warning(self, "Error", "Password must contain a number")
-            logger.warning(f"Registration failed for '{username}': missing number")
-            return
-
-        if not any(c in "!@#$%^&*()-_=+[]{};:,.<>?/\\|" for c in password):
-            QMessageBox.warning(self, "Error", "Password must contain a special character")
-            logger.warning(f"Registration failed for '{username}': missing special character")
-            return
-
-        # -----------------------------
-        # Hash password
-        # -----------------------------
-        try:
-            hashed_pw = bcrypt.hashpw(password.encode(), bcrypt.gensalt())
-        except Exception as e:
-            logger.error(f"Registration failed for '{username}': password hashing error: {e}")
-            QMessageBox.critical(self, "Error", "Internal error while processing password")
-            return
-
-        # -----------------------------
-        # Default permissions
-        # -----------------------------
-        permissions = {
-            page: info["default_permission"]
-            for page, info in PAGE_REGISTRY.items()
-        }
-        logger.info(f"Default permissions assigned for '{username}'")
-
-        # -----------------------------
-        # Create user in DB
-        # -----------------------------
-        success = create_user(username, hashed_pw, "user", permissions, email)
-
-        if success:
-            QMessageBox.information(self, "Success", "User registered successfully")
-            logger.info(f"User '{username}' registered successfully")
-            self.close()
-        else:
-            QMessageBox.critical(self, "Error", "Registration failed")
-            logger.error(f"Registration failed for '{username}': username may already exist")
-
-    def set_read_only(self, ro: bool):
-        """Enable or disable editing for all input widgets."""
-        for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
-            if isinstance(widget, QLineEdit):
-                widget.setReadOnly(ro)
-            elif isinstance(widget, QTextEdit):
-                widget.setReadOnly(ro)
-            elif isinstance(widget, QComboBox):
-                widget.setEnabled(not ro)
-
-        # Disable buttons that modify data
+        # Disable all buttons
         for btn in self.findChildren(QPushButton):
-            if btn.objectName() not in ("nav", "close", "back"):
-                btn.setEnabled(not ro)
+            btn.setEnabled(False)
+
+        # Disable editable widgets
+        for t in (QLineEdit, QTextEdit, QComboBox):
+            for widget in self.findChildren(t):
+                widget.setEnabled(False)
+
+        # Optional banner
+        banner = QLabel("Read-Only Mode")
+        banner.setStyleSheet("color: orange; font-weight: bold;")
+        self.layout().insertWidget(0, banner)

@@ -1,7 +1,9 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QStackedWidget
+from PySide6.QtWidgets import QMainWindow, QWidget, QVBoxLayout, QHBoxLayout, QListWidget, QStackedWidget, QMessageBox
+from ui.windows.admin_control_window import AdminControlWindow
 from ui.windows.log_viewer_window import LogViewerWindow
 from ui.components.logger import logger
 from page_registry import PAGE_REGISTRY
+
 
 
 class MainApp(QMainWindow):
@@ -13,12 +15,15 @@ class MainApp(QMainWindow):
         self.setWindowTitle("Main Application")
         self.resize(1200, 800)
 
+        self.admin_window = AdminControlWindow(self.user, parent=self)
+
         root = QWidget()
         root_layout = QHBoxLayout(root)
 
         # Sidebar
         self.sidebar = QListWidget()
         self.sidebar.addItem("Log Viewer")  # Always present
+        self.sidebar.addItem("Admin Control Panel")
 
         for page_name in PAGE_REGISTRY.keys():
             self.sidebar.addItem(page_name)
@@ -44,6 +49,10 @@ class MainApp(QMainWindow):
         if name == "Log Viewer":
             self.open_log_viewer()
             return
+        
+        if name == "Admin Control Panel":
+            self.open_admin_panel()
+            return
 
         self.load_page(name)
 
@@ -56,6 +65,22 @@ class MainApp(QMainWindow):
         self.log_window.raise_()
         self.log_window.activateWindow()
         logger.info("Log Viewer opened")
+
+    def open_admin_panel(self):
+        perm = self.user["permissions"].get("Admin Control Panel", None)
+
+        if perm in [None, "none"]:
+            QMessageBox.warning(self, "Access Denied", "You do not have permission to open the Admin Control Panel.")
+            return
+
+        # Create only if needed
+        if not hasattr(self, "admin_window") or self.admin_window is None:
+            from ui.windows.admin_control_window import AdminControlWindow
+            self.admin_window = AdminControlWindow(self.user, parent=self)
+
+        self.admin_window.show()
+        self.admin_window.raise_()
+        self.admin_window.activateWindow()
 
     def load_page(self, name):
         info = PAGE_REGISTRY.get(name)

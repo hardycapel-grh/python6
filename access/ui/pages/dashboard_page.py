@@ -46,3 +46,21 @@ class DashboardPage(QWidget):
         for btn in self.findChildren(QPushButton):
             if btn.objectName() not in ("nav", "close", "back"):
                 btn.setEnabled(not ro)
+
+    def apply_permissions(self, perm):
+        if perm == "rw":
+            return
+
+        # Disable all buttons
+        for btn in self.findChildren(QPushButton):
+            btn.setEnabled(False)
+
+        # Disable editable widgets
+        for t in (QLineEdit, QTextEdit, QComboBox):
+            for widget in self.findChildren(t):
+                widget.setEnabled(False)
+
+        # Optional banner
+        banner = QLabel("Read-Only Mode")
+        banner.setStyleSheet("color: orange; font-weight: bold;")
+        self.layout().insertWidget(0, banner)
