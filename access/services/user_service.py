@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+import bcrypt
 
 class UserService:
     def __init__(self):
@@ -6,6 +7,33 @@ class UserService:
         self.db = self.client["test"]
         self.users = self.db["users"]
         self.roles = self.db["roles"]
+
+    def hash_password(self, password):
+        return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
+    def create_user(self, username, password, role, status):
+    # Check if user exists
+        if self.get_user(username):
+            raise ValueError("User already exists")
+
+        # Hash password using bcrypt
+        hashed_password = self.hash_password(password)
+
+        # Load role permissions
+        permissions = self.get_role_permissions(role)
+
+        # Build user document
+        user_doc = {
+            "username": username,
+            "password_hash": hashed_password,   # <-- FIXED
+            "role": role,
+            "status": status,
+            "permissions": permissions
+        }
+
+        # Insert into DB
+        self.add_user(user_doc)
+
 
     def get_user_by_username(self, username):
         return self.users.find_one({"username": username})

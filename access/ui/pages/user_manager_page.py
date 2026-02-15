@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
     QListWidget, QLabel, QPushButton, QLineEdit, QTextEdit, QComboBox
 )
 from services.user_service import UserService
+from PySide6.QtCore import Qt
 
 
 class UserManagerPage(QWidget):
@@ -24,13 +25,15 @@ class UserManagerPage(QWidget):
         self.add_button = QPushButton("Add User")
         self.edit_button = QPushButton("Edit User")
         self.delete_button = QPushButton("Delete User")
-
+        self.reset_button = QPushButton("Reset Password")
+        
         # Right side layout
         right_layout = QVBoxLayout()
         right_layout.addWidget(self.details_label)
         right_layout.addWidget(self.add_button)
         right_layout.addWidget(self.edit_button)
         right_layout.addWidget(self.delete_button)
+        right_layout.addWidget(self.reset_button)
         right_layout.addStretch()
 
         layout.addWidget(self.user_list, 1)
@@ -51,6 +54,11 @@ class UserManagerPage(QWidget):
 
         # Connect after population
         self.user_list.currentItemChanged.connect(self.show_user_details)
+        self.add_button.clicked.connect(self.open_add_user_dialog)
+        self.edit_button.clicked.connect(self.open_edit_user_dialog)
+        self.delete_button.clicked.connect(self.open_delete_user_dialog)
+        self.reset_button.clicked.connect(self.open_reset_password_dialog)
+        self.details_label.setTextFormat(Qt.RichText)
 
     def show_user_details(self, current, previous):
         if not current:
@@ -93,3 +101,80 @@ class UserManagerPage(QWidget):
         banner = QLabel("Read-Only Mode")
         banner.setStyleSheet("color: orange; font-weight: bold;")
         self.layout().insertWidget(0, banner)
+
+    def open_add_user_dialog(self):
+        from ui.dialogs.add_user_dialog import AddUserDialog
+
+        dialog = AddUserDialog(self)
+        if dialog.exec():
+            # Refresh user list
+            self.user_list.clear()
+            users = self.service.get_all_users()
+            usernames = [u.get("username", "<no username>") for u in users]
+            self.user_list.addItems(usernames)
+
+    def open_edit_user_dialog(self):
+        current = self.user_list.currentItem()
+        if not current:
+            return
+
+        username = current.text()
+
+        from ui.dialogs.edit_user_dialog import EditUserDialog
+        dialog = EditUserDialog(username, self)
+
+        if dialog.exec():
+            # Refresh user list
+            self.user_list.clear()
+            users = self.service.get_all_users()
+            usernames = [u.get("username", "<no username>") for u in users]
+            self.user_list.addItems(usernames)
+
+            # Re-select the edited user
+            items = self.user_list.findItems(username, Qt.MatchExactly)
+            if items:
+                self.user_list.setCurrentItem(items[0])
+
+    from PySide6.QtCore import Qt
+
+    def open_delete_user_dialog(self):
+        current = self.user_list.currentItem()
+        if not current:
+            return
+
+        username = current.text()
+
+        from ui.dialogs.delete_user_dialog import DeleteUserDialog
+        dialog = DeleteUserDialog(username, self)
+
+        if dialog.exec():
+            # Refresh user list
+            self.user_list.clear()
+            users = self.service.get_all_users()
+            usernames = [u.get("username", "<no username>") for u in users]
+            self.user_list.addItems(usernames)
+
+            # Reset details panel
+            self.details_label.setText("Select a user to view details")
+
+    def open_reset_password_dialog(self):
+        current = self.user_list.currentItem()
+        if not current:
+            return
+
+        username = current.text()
+
+        from ui.dialogs.reset_password_dialog import ResetPasswordDialog
+        dialog = ResetPasswordDialog(username, self)
+
+        if dialog.exec():
+            # Refresh user list
+            self.user_list.clear()
+            users = self.service.get_all_users()
+            usernames = [u.get("username", "<no username>") for u in users]
+            self.user_list.addItems(usernames)
+
+            # Re-select the user
+            items = self.user_list.findItems(username, Qt.MatchExactly)
+            if items:
+                self.user_list.setCurrentItem(items[0])
