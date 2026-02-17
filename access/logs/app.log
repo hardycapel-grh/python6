@@ -350,3 +350,56 @@
 2026-02-15 00:02:32,691 [INFO] User 'wilma' logged in successfully
 2026-02-15 00:02:32,747 [INFO] Admin Control Panel opened by 'wilma'
 2026-02-15 00:02:32,747 [INFO] MainApp started for 'wilma'
+2026-02-15 00:04:27,855 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-15 00:04:47,401 [INFO] Login attempt: hardycapel
+2026-02-15 00:04:47,683 [INFO] User 'hardycapel' logged in successfully
+2026-02-15 00:04:47,701 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-15 00:04:47,701 [INFO] MainApp started for 'hardycapel'
+2026-02-15 08:46:43,009 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-15 08:47:02,918 [INFO] Login attempt: hardycapel
+2026-02-15 08:47:03,247 [INFO] User 'hardycapel' logged in successfully
+2026-02-15 08:47:03,339 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-15 08:47:03,341 [INFO] MainApp started for 'hardycapel'
+2026-02-15 22:44:56,714 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-15 22:45:17,951 [INFO] Login attempt: hardycapel
+2026-02-15 22:45:18,231 [INFO] User 'hardycapel' logged in successfully
+2026-02-15 22:45:18,394 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-15 22:45:18,396 [INFO] MainApp started for 'hardycapel'
+2026-02-15 22:46:35,035 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-15 22:47:04,196 [INFO] Login attempt: testing
+2026-02-15 22:47:04,458 [INFO] User 'testing' must change password before continuing
+2026-02-15 22:47:54,469 [INFO] Admin Control Panel opened by 'testing'
+2026-02-15 22:47:54,470 [INFO] MainApp started for 'testing'
+2026-02-15 22:48:02,094 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-15 22:48:16,188 [INFO] Login attempt: testing
+2026-02-15 22:48:16,436 [INFO] Permissions updated for user 'testing'
+2026-02-15 22:48:16,436 [INFO] Permissions auto-repaired for user 'testing'
+2026-02-15 22:48:16,437 [INFO] User 'testing' logged in successfully
+2026-02-15 22:48:16,465 [INFO] Admin Control Panel opened by 'testing'
+2026-02-15 22:48:16,465 [INFO] MainApp started for 'testing'
+2026-02-16 22:42:47,721 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-16 22:43:16,178 [INFO] Login attempt: hardycapel
+2026-02-16 22:43:16,472 [INFO] User 'hardycapel' logged in successfully
+2026-02-16 22:43:16,752 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-16 22:43:16,755 [INFO] MainApp started for 'hardycapel'
+2026-02-16 22:50:56,924 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-16 22:51:23,306 [INFO] Login attempt: daphne
+2026-02-16 22:51:23,605 [INFO] User 'daphne' must change password before continuing
+2026-02-16 22:56:22,171 [INFO] Login attempt: daphne
+2026-02-16 22:56:22,433 [INFO] User 'daphne' must change password before continuing
+2026-02-16 22:58:42,005 [INFO] Admin Control Panel opened by 'daphne'
+2026-02-16 22:58:42,006 [INFO] MainApp started for 'daphne'
+2026-02-16 22:58:57,055 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-16 22:59:18,666 [INFO] Login attempt: daphne
+2026-02-16 22:59:18,919 [INFO] Permissions updated for user 'daphne'
+2026-02-16 22:59:18,919 [INFO] Permissions auto-repaired for user 'daphne'
+2026-02-16 22:59:18,919 [INFO] User 'daphne' logged in successfully
+2026-02-16 22:59:18,932 [INFO] Fields updated for user 'daphne'
+2026-02-16 22:59:18,932 [INFO] Auto-repaired missing fields for user 'daphne'
+2026-02-16 22:59:18,985 [INFO] Admin Control Panel opened by 'daphne'
+2026-02-16 22:59:18,986 [INFO] MainApp started for 'daphne'
+2026-02-17 21:55:42,639 [INFO] Logger initialised. Writing to: C:\Program Files\Ampps\www\python6\access\logs\app.log
+2026-02-17 21:56:06,127 [INFO] Login attempt: hardycapel
+2026-02-17 21:56:06,483 [INFO] User 'hardycapel' logged in successfully
+2026-02-17 21:56:06,666 [INFO] Admin Control Panel opened by 'hardycapel'
+2026-02-17 21:56:06,667 [INFO] MainApp started for 'hardycapel'

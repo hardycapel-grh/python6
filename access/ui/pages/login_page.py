@@ -69,6 +69,9 @@ class LoginWindow(QWidget):
                 logger.error(f"User '{username}' has no password_hash field")
                 QMessageBox.critical(self, "Error", "Account is corrupted")
                 return
+            
+
+            
 
             if not bcrypt.checkpw(password.encode(), stored_hash.encode()):
                 QMessageBox.warning(self, "Error", "Incorrect password")
@@ -79,6 +82,16 @@ class LoginWindow(QWidget):
             logger.error(f"Password check failed for '{username}': {e}")
             QMessageBox.critical(self, "Error", "Internal authentication error")
             return
+        
+        # -------------------------
+        # Force password change check
+        # -------------------------
+        if user.get("must_change_password"):
+            logger.info(f"User '{username}' must change password before continuing")
+            self.open_force_password_change_window(username)
+            return
+        
+        
 
         # -------------------------
         # Permissions auto-repair
@@ -155,3 +168,14 @@ class LoginWindow(QWidget):
         banner = QLabel("Read-Only Mode")
         banner.setStyleSheet("color: orange; font-weight: bold;")
         self.layout().insertWidget(0, banner)
+
+    def open_force_password_change_window(self, username):
+        from ui.windows.force_password_change_window import ForcePasswordChangeWindow
+        dialog = ForcePasswordChangeWindow(username, self)
+
+        if dialog.exec():
+            # After successful password change, continue login normally
+            updated_user = get_user(username)
+            self.main_app = MainApp(updated_user)
+            self.main_app.show()
+            self.close()

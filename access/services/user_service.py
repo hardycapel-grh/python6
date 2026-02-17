@@ -12,7 +12,7 @@ class UserService:
         return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
     def create_user(self, username, password, role, status):
-    # Check if user exists
+        # Check if user exists
         if self.get_user(username):
             raise ValueError("User already exists")
 
@@ -28,7 +28,8 @@ class UserService:
             "password_hash": hashed_password,   # <-- FIXED
             "role": role,
             "status": status,
-            "permissions": permissions
+            "permissions": permissions,
+            "must_change_password": False       # <-- NEW FIELD
         }
 
         # Insert into DB

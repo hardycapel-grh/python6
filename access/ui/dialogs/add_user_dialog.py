@@ -5,7 +5,7 @@ from PySide6.QtWidgets import (
 import secrets
 import string
 from services.user_service import UserService
-
+import bcrypt
 
 class AddUserDialog(QDialog):
     def __init__(self, parent=None):
