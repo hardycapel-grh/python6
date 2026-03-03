@@ -71,15 +71,13 @@ def get_all_users():
 # -----------------------------------
 #  UPDATE PERMISSIONS
 # -----------------------------------
-def update_permissions(username, new_permissions):
-    """
-    Update a user's permissions dictionary.
-    """
+def update_permissions(username: str, permissions: dict) -> bool:
     try:
         result = users.update_one(
             {"username": username},
-            {"$set": {"permissions": new_permissions}}
+            {"$set": {"permissions": permissions}}
         )
+        return result.modified_count > 0
 
         if result.matched_count == 0:
             logger.error(f"update_permissions: No user found with username '{username}'")
@@ -171,3 +169,16 @@ def update_user_fields(username, fields):
     except Exception as e:
         logger.error(f"Failed to update fields for '{username}': {e}")
         return False
+    
+def get_permissions_for_user(username: str) -> dict:
+    """
+    Return the permissions dictionary for a given username.
+    If the user does not exist or has no permissions field,
+    return an empty dict.
+    """
+    user = users.find_one({"username": username}, {"permissions": 1})
+
+    if not user:
+        return {}
+
+    return user.get("permissions", {}) or {}
