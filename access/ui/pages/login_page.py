@@ -1,16 +1,19 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QTextEdit, QComboBox
+from PySide6.QtWidgets import (
+    QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton,
+    QMessageBox, QTextEdit, QComboBox
+)
 import bcrypt
 
 from ui.components.logger import logger
-from database import get_user, update_permissions, update_user_fields
-from main_app import MainApp
-
+from services.mongo_service import MongoService
 
 
 class LoginWindow(QWidget):
     def __init__(self):
         super().__init__()
         self.setWindowTitle("Login")
+
+        self.mongo = MongoService()
 
         layout = QVBoxLayout()
 
@@ -53,49 +56,27 @@ class LoginWindow(QWidget):
             logger.warning("Login failed: missing username or password")
             return
 
-        user = get_user(username)
+        # -------------------------------------------------
+        # NEW: MongoDB authentication (bcrypt inside service)
+        # -------------------------------------------------
+        user = self.mongo.authenticate(username, password)
 
         if not user:
-            QMessageBox.warning(self, "Error", "User not found")
-            logger.warning(f"Login failed: user '{username}' not found")
+            QMessageBox.warning(self, "Error", "Invalid username or password")
+            logger.warning(f"Login failed for '{username}'")
             return
 
-        # -------------------------
-        # FIXED: bcrypt password check
-        # -------------------------
-        try:
-            stored_hash = user.get("password_hash")
-            if not stored_hash:
-                logger.error(f"User '{username}' has no password_hash field")
-                QMessageBox.critical(self, "Error", "Account is corrupted")
-                return
-            
-
-            
-
-            if not bcrypt.checkpw(password.encode(), stored_hash.encode()):
-                QMessageBox.warning(self, "Error", "Incorrect password")
-                logger.warning(f"Login failed: incorrect password for '{username}'")
-                return
-
-        except Exception as e:
-            logger.error(f"Password check failed for '{username}': {e}")
-            QMessageBox.critical(self, "Error", "Internal authentication error")
-            return
-        
-        # -------------------------
-        # Force password change check
-        # -------------------------
+        # -------------------------------------------------
+        # Force password change
+        # -------------------------------------------------
         if user.get("must_change_password"):
             logger.info(f"User '{username}' must change password before continuing")
             self.open_force_password_change_window(username)
             return
-        
-        
 
-        # -------------------------
+        # -------------------------------------------------
         # Permissions auto-repair
-        # -------------------------
+        # -------------------------------------------------
         repaired = False
         for page_name, info in PAGE_REGISTRY.items():
             if page_name not in user["permissions"]:
@@ -103,14 +84,14 @@ class LoginWindow(QWidget):
                 repaired = True
 
         if repaired:
-            update_permissions(username, user["permissions"])
+            self.mongo.update_permissions(username, user["permissions"])
             logger.info(f"Permissions auto-repaired for user '{username}'")
 
         logger.info(f"User '{username}' logged in successfully")
 
-        # -------------------------
+        # -------------------------------------------------
         # Auto-repair missing fields
-        # -------------------------
+        # -------------------------------------------------
         updated = False
 
         if "theme" not in user:
@@ -126,18 +107,18 @@ class LoginWindow(QWidget):
             updated = True
 
         if updated:
-            update_user_fields(username, user)
+            self.mongo.update_permissions(username, user["permissions"])
             logger.info(f"Auto-repaired missing fields for user '{username}'")
 
-        # -------------------------
-        # Open main app
-        # -------------------------
+        # -------------------------------------------------
+        # Open MainApp (import here to avoid circular import)
+        # -------------------------------------------------
+        from main_app import MainApp
         self.main_app = MainApp(user)
         self.main_app.show()
         self.close()
 
     def set_read_only(self, ro: bool):
-        """Enable or disable editing for all input widgets."""
         for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
             if isinstance(widget, QLineEdit):
                 widget.setReadOnly(ro)
@@ -146,7 +127,6 @@ class LoginWindow(QWidget):
             elif isinstance(widget, QComboBox):
                 widget.setEnabled(not ro)
 
-        # Disable buttons that modify data
         for btn in self.findChildren(QPushButton):
             if btn.objectName() not in ("nav", "close", "back"):
                 btn.setEnabled(not ro)
@@ -155,16 +135,13 @@ class LoginWindow(QWidget):
         if perm == "rw":
             return
 
-        # Disable all buttons
         for btn in self.findChildren(QPushButton):
             btn.setEnabled(False)
 
-        # Disable editable widgets
         for t in (QLineEdit, QTextEdit, QComboBox):
             for widget in self.findChildren(t):
                 widget.setEnabled(False)
 
-        # Optional banner
         banner = QLabel("Read-Only Mode")
         banner.setStyleSheet("color: orange; font-weight: bold;")
         self.layout().insertWidget(0, banner)
@@ -174,8 +151,8 @@ class LoginWindow(QWidget):
         dialog = ForcePasswordChangeWindow(username, self)
 
         if dialog.exec():
-            # After successful password change, continue login normally
-            updated_user = get_user(username)
+            updated_user = self.mongo.db.users.find_one({"username": username}, {"_id": 0})
+            from main_app import MainApp
             self.main_app = MainApp(updated_user)
             self.main_app.show()
             self.close()

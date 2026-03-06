@@ -87,3 +87,153 @@
 2026-03-03 18:33:11,822 [INFO] Switched to page: Users
 2026-03-03 18:33:13,751 [INFO] Sidebar clicked: Permissions
 2026-03-03 18:33:13,752 [INFO] Switched to page: Permissions
+2026-03-03 18:38:00,925 [INFO] User 'newtest' registered successfully
+2026-03-03 18:38:32,488 [INFO] Login attempt: hardycapel
+2026-03-03 18:38:32,771 [INFO] User 'hardycapel' logged in successfully
+2026-03-03 18:38:32,771 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-03 18:38:38,645 [INFO] Main sidebar clicked: Log Viewer
+2026-03-03 18:38:38,645 [INFO] Log Viewer initialised
+2026-03-03 18:38:38,647 [INFO] LogViewerPage loaded
+2026-03-03 18:38:38,666 [INFO] Log file loaded into viewer
+2026-03-03 18:38:38,667 [INFO] Page registered: Viewer
+2026-03-03 18:38:38,694 [INFO] Opened window: LogViewerWindow
+2026-03-03 18:39:04,755 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-03 18:39:04,756 [INFO] Admin Control Panel initialised
+2026-03-03 18:39:04,757 [INFO] UserManagerPage loaded
+2026-03-03 18:39:04,757 [INFO] Page registered: Users
+2026-03-03 18:39:04,758 [INFO] PermissionEditorPage loaded
+2026-03-03 18:39:04,758 [INFO] Page registered: Permissions
+2026-03-03 18:39:04,777 [INFO] Opened window: AdminControlWindow
+2026-03-03 18:39:06,621 [INFO] Sidebar clicked: Permissions
+2026-03-03 18:39:06,622 [INFO] Switched to page: Permissions
+2026-03-03 18:39:18,948 [INFO] Main sidebar clicked: Log Viewer
+2026-03-03 18:39:18,971 [INFO] Opened window: LogViewerWindow
+2026-03-03 21:53:44,653 [INFO] Login attempt: hardycapel
+2026-03-03 21:53:44,925 [INFO] User 'hardycapel' logged in successfully
+2026-03-03 21:53:44,925 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-03 21:53:48,050 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-03 21:53:48,051 [INFO] Admin Control Panel initialised
+2026-03-03 21:53:48,053 [INFO] UserManagerPage loaded
+2026-03-03 21:53:48,053 [INFO] Page registered: Users
+2026-03-03 21:53:48,053 [INFO] PermissionEditorPage loaded
+2026-03-03 21:53:48,054 [INFO] Page registered: Permissions
+2026-03-03 21:53:48,070 [INFO] Opened window: AdminControlWindow
+2026-03-03 21:53:49,524 [INFO] Sidebar clicked: Users
+2026-03-03 21:53:49,524 [INFO] Switched to page: Users
+2026-03-03 21:53:50,447 [INFO] Sidebar clicked: Permissions
+2026-03-03 21:53:50,447 [INFO] Switched to page: Permissions
+2026-03-03 22:11:17,577 [INFO] Login attempt: hardycapel
+2026-03-03 22:11:17,848 [INFO] User 'hardycapel' logged in successfully
+2026-03-03 22:11:17,848 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-03 22:11:20,164 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-03 22:11:20,165 [INFO] Admin Control Panel initialised
+2026-03-03 22:11:20,174 [INFO] UserManagerPage loaded
+2026-03-03 22:11:20,208 [INFO] Connected to MongoDB
+2026-03-03 22:11:20,225 [INFO] Loaded 18 users from MongoDB
+2026-03-03 22:11:20,234 [INFO] User table populated
+2026-03-03 22:11:20,235 [INFO] Page registered: Users
+2026-03-03 22:11:20,235 [INFO] PermissionEditorPage loaded
+2026-03-03 22:11:20,235 [INFO] Page registered: Permissions
+2026-03-03 22:11:20,255 [INFO] Opened window: AdminControlWindow
+2026-03-03 22:11:22,623 [INFO] Sidebar clicked: Users
+2026-03-03 22:11:22,623 [INFO] Switched to page: Users
+2026-03-03 22:11:25,565 [INFO] Sidebar clicked: Permissions
+2026-03-03 22:11:25,566 [INFO] Switched to page: Permissions
+2026-03-03 22:11:26,685 [INFO] Sidebar clicked: Users
+2026-03-03 22:11:26,686 [INFO] Switched to page: Users
+2026-03-04 23:35:03,440 [INFO] Connected to MongoDB
+2026-03-04 23:35:19,630 [INFO] Login attempt: hardycapel
+2026-03-04 23:35:19,945 [INFO] User 'hardycapel' authenticated successfully
+2026-03-04 23:35:19,945 [INFO] User 'hardycapel' logged in successfully
+2026-03-04 23:35:19,962 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-04 23:35:22,594 [INFO] Main sidebar clicked: Log Viewer
+2026-03-04 23:35:22,595 [INFO] Log Viewer initialised
+2026-03-04 23:35:22,616 [INFO] LogViewerPage loaded
+2026-03-04 23:35:22,630 [INFO] Log file loaded into viewer
+2026-03-04 23:35:22,631 [INFO] Page registered: Viewer
+2026-03-04 23:35:22,696 [INFO] Opened window: LogViewerWindow
+2026-03-04 23:35:26,269 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-04 23:35:26,270 [INFO] Admin Control Panel initialised
+2026-03-04 23:35:26,277 [INFO] UserManagerPage loaded
+2026-03-04 23:35:26,282 [INFO] Connected to MongoDB
+2026-03-04 23:35:26,292 [INFO] Loaded 18 users from MongoDB
+2026-03-04 23:35:26,298 [INFO] User table populated
+2026-03-04 23:35:26,298 [INFO] Page registered: Users
+2026-03-04 23:35:26,299 [INFO] PermissionEditorPage loaded
+2026-03-04 23:35:26,299 [INFO] Page registered: Permissions
+2026-03-04 23:35:26,327 [INFO] Opened window: AdminControlWindow
+2026-03-04 23:35:32,799 [INFO] Sidebar clicked: Permissions
+2026-03-04 23:35:32,804 [INFO] Switched to page: Permissions
+2026-03-04 23:35:34,417 [INFO] Sidebar clicked: Users
+2026-03-04 23:35:34,418 [INFO] Switched to page: Users
+2026-03-04 23:36:32,583 [INFO] Connected to MongoDB
+2026-03-04 23:37:14,890 [INFO] User 'another' registered successfully
+2026-03-04 23:37:16,491 [INFO] Connected to MongoDB
+2026-03-04 23:44:56,034 [INFO] Login attempt: hardycapel
+2026-03-04 23:44:56,290 [INFO] User 'hardycapel' authenticated successfully
+2026-03-04 23:44:56,290 [INFO] User 'hardycapel' logged in successfully
+2026-03-04 23:44:56,301 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-04 23:45:02,105 [INFO] Main sidebar clicked: Log Viewer
+2026-03-04 23:45:02,105 [INFO] Log Viewer initialised
+2026-03-04 23:45:02,107 [INFO] LogViewerPage loaded
+2026-03-04 23:45:02,121 [INFO] Log file loaded into viewer
+2026-03-04 23:45:02,122 [INFO] Page registered: Viewer
+2026-03-04 23:45:02,150 [INFO] Opened window: LogViewerWindow
+2026-03-04 23:45:13,810 [INFO] Sidebar clicked: Viewer
+2026-03-04 23:45:13,810 [INFO] Switched to page: Viewer
+2026-03-04 23:45:18,087 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-04 23:45:18,087 [INFO] Admin Control Panel initialised
+2026-03-04 23:45:18,090 [INFO] UserManagerPage loaded
+2026-03-04 23:45:18,096 [INFO] Connected to MongoDB
+2026-03-04 23:45:18,109 [INFO] Loaded 19 users from MongoDB
+2026-03-04 23:45:18,113 [INFO] User table populated
+2026-03-04 23:45:18,113 [INFO] Page registered: Users
+2026-03-04 23:45:18,113 [INFO] PermissionEditorPage loaded
+2026-03-04 23:45:18,113 [INFO] Page registered: Permissions
+2026-03-04 23:45:18,143 [INFO] Opened window: AdminControlWindow
+2026-03-04 23:45:22,981 [INFO] Sidebar clicked: Permissions
+2026-03-04 23:45:22,982 [INFO] Switched to page: Permissions
+2026-03-04 23:45:24,447 [INFO] Sidebar clicked: Users
+2026-03-04 23:45:24,448 [INFO] Switched to page: Users
+2026-03-04 23:49:55,897 [INFO] Connected to MongoDB
+2026-03-04 23:50:09,848 [INFO] Login attempt: another
+2026-03-04 23:50:10,127 [INFO] User 'another' authenticated successfully
+2026-03-04 23:50:10,127 [INFO] User 'another' logged in successfully
+2026-03-04 23:50:10,153 [INFO] Fields updated for user 'another'
+2026-03-04 23:50:10,153 [INFO] Auto-repaired missing fields for user 'another'
+2026-03-04 23:50:10,169 [INFO] MainApp initialised for user 'another'
+2026-03-05 23:20:37,293 [INFO] Connected to MongoDB
+2026-03-05 23:20:54,851 [INFO] Login attempt: hardycapel
+2026-03-05 23:20:55,197 [INFO] User 'hardycapel' authenticated successfully
+2026-03-05 23:20:55,197 [INFO] User 'hardycapel' logged in successfully
+2026-03-05 23:20:55,215 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-05 23:20:58,328 [INFO] Main sidebar clicked: Log Viewer
+2026-03-05 23:20:58,329 [INFO] Log Viewer initialised
+2026-03-05 23:20:58,349 [INFO] LogViewerPage loaded
+2026-03-05 23:20:58,365 [INFO] Log file loaded into viewer
+2026-03-05 23:20:58,369 [INFO] Page registered: Viewer
+2026-03-05 23:20:58,443 [INFO] Opened window: LogViewerWindow
+2026-03-05 23:21:15,577 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-05 23:21:15,578 [INFO] Admin Control Panel initialised
+2026-03-05 23:21:15,586 [INFO] UserManagerPage loaded
+2026-03-05 23:21:15,590 [INFO] Connected to MongoDB
+2026-03-05 23:21:15,600 [INFO] Loaded 19 users from MongoDB
+2026-03-05 23:21:15,606 [INFO] User table populated
+2026-03-05 23:21:15,607 [INFO] Page registered: Users
+2026-03-05 23:21:15,607 [INFO] PermissionEditorPage loaded
+2026-03-05 23:21:15,607 [INFO] Page registered: Permissions
+2026-03-05 23:21:15,635 [INFO] Opened window: AdminControlWindow
+2026-03-05 23:21:50,868 [INFO] Connected to MongoDB
+2026-03-05 23:22:30,327 [INFO] User 'thecure' registered successfully
+2026-03-05 23:22:32,201 [INFO] Connected to MongoDB
+2026-03-05 23:23:27,175 [INFO] Connected to MongoDB
+2026-03-05 23:24:46,677 [INFO] User 'harryxxx' registered successfully
+2026-03-05 23:24:48,155 [INFO] Connected to MongoDB
+2026-03-05 23:25:32,653 [INFO] User 'grhtest' registered successfully
+2026-03-05 23:25:34,150 [INFO] Connected to MongoDB
+2026-03-05 23:25:49,520 [INFO] Login attempt: grhtest
+2026-03-05 23:25:49,793 [INFO] User 'grhtest' authenticated successfully
+2026-03-05 23:25:49,793 [INFO] User 'grhtest' logged in successfully
+2026-03-05 23:25:49,797 [INFO] Permissions updated for 'grhtest'
+2026-03-05 23:25:49,797 [INFO] Auto-repaired missing fields for user 'grhtest'
+2026-03-05 23:25:49,811 [INFO] MainApp initialised for user 'grhtest'
