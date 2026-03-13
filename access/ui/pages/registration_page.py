@@ -16,8 +16,7 @@ class RegistrationPage(QWidget):
         self.username_input = QLineEdit()
         self.username_input.setPlaceholderText("Username")
 
-        self.email_input = QLineEdit()
-        self.email_input.setPlaceholderText("Email")
+
 
         self.password_input = QLineEdit()
         self.password_input.setPlaceholderText("Password")
@@ -27,13 +26,16 @@ class RegistrationPage(QWidget):
         self.confirm_input.setPlaceholderText("Confirm Password")
         self.confirm_input.setEchoMode(QLineEdit.Password)
 
+        self.email_input = QLineEdit()
+        self.email_input.setPlaceholderText("Email")
+
         self.register_button = QPushButton("Register")
         self.register_button.clicked.connect(self.handle_register)
 
         layout.addWidget(self.username_input)
-        layout.addWidget(self.email_input)
         layout.addWidget(self.password_input)
         layout.addWidget(self.confirm_input)
+        layout.addWidget(self.email_input)
         layout.addWidget(self.register_button)
 
     def handle_register(self):

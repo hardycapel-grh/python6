@@ -1,6 +1,7 @@
 from pymongo import MongoClient
 from ui.components.logger import logger
 import bcrypt
+from datetime import datetime
 
 
 class MongoService:
@@ -42,7 +43,16 @@ class MongoService:
     # -------------------------------------------------
     # User creation (registration + admin add user)
     # -------------------------------------------------
-    def create_user(self, username, password, permissions=None, email="", must_change_password=False):
+    def create_user(
+        self,
+        username,
+        password,
+        permissions=None,
+        email="",
+        role="user",
+        phone="",
+        must_change_password=False
+    ):
         try:
             if self.db.users.find_one({"username": username}):
                 logger.warning(f"User '{username}' already exists")
@@ -50,15 +60,18 @@ class MongoService:
 
             hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
-            user_doc = {
-                "username": username,
-                "password_hash": hashed,
-                "permissions": permissions or {},
-                "email": email,
-                "must_change_password": must_change_password,
-                "theme": "light",
-                "last_login": None
-            }
+            # Use canonical schema
+            user_doc = self.default_user_document(
+                username=username,
+                email=email,
+                password_hash=hashed
+            )
+
+            # Override fields if admin provided them
+            user_doc["permissions"] = permissions or user_doc["permissions"]
+            user_doc["role"] = role
+            user_doc["phone"] = phone
+            user_doc["must_change_password"] = must_change_password
 
             self.db.users.insert_one(user_doc)
             logger.info(f"User '{username}' created")
@@ -71,7 +84,9 @@ class MongoService:
     # -------------------------------------------------
     # Password reset (admin)
     # -------------------------------------------------
-    def reset_password(self, username, new_password, force_change=True):
+    def reset_password(self, username, new_password, force_change=False):
+        # print("DEBUG: running reset_password from:", __file__)
+
         try:
             hashed = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
@@ -82,12 +97,13 @@ class MongoService:
                     "must_change_password": force_change
                 }}
             )
+
             logger.info(f"Password reset for '{username}'")
-            return True
+            return True, None
 
         except Exception as e:
             logger.error(f"Failed to reset password for '{username}': {e}")
-            return False
+            return False, str(e)
 
     # -------------------------------------------------
     # Clear force-password-change flag
@@ -148,3 +164,18 @@ class MongoService:
         except Exception as e:
             logger.error(f"Failed to load users: {e}")
             return []
+        
+    def default_user_document(self, username, email, password_hash):
+        return {
+            "username": username,
+            "email": email,
+            "password_hash": password_hash,
+            "role": "user",
+            "permissions": {},
+            "phone": "",
+            "last_login": None,
+            "must_change_password": False,
+            "theme": "light",
+            "status": "Active",
+            "created_at": datetime.utcnow()
+        }

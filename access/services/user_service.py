@@ -1,8 +1,11 @@
 from pymongo import MongoClient
+from services.mongo_service import MongoService
 import bcrypt
 
 class UserService:
     def __init__(self):
+        self.mongo = MongoService()
+        self.users = self.mongo.db.users
         self.client = MongoClient("mongodb://localhost:27017")
         self.db = self.client["test"]
         self.users = self.db["users"]

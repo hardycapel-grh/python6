@@ -50,23 +50,18 @@ class RegistrationService:
     # REGISTRATION
     # -------------------------
     def register_user(self, username, email, password):
-        # Hash password
         password_hash = bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
 
-        # Load default permissions for role "User"
-        permissions = self.user_service.get_role_permissions("User")
+        # Use canonical schema from MongoService
+        user_doc = self.user_service.mongo.default_user_document(
+            username=username,
+            email=email,
+            password_hash=password_hash
+        )
+        
 
-        user_doc = {
-            "username": username,
-            "email": email,
-            "password_hash": password_hash,
-            "role": "User",
-            "permissions": permissions,
-            "status": "Active",
-            "created_at": datetime.utcnow().isoformat()
-        }
+        # Insert using the MongoService DB handle
+        self.user_service.mongo.db.users.insert_one(user_doc)
 
-        self.user_service.users.insert_one(user_doc)
         logger.info(f"User '{username}' registered successfully")
-
         return True
