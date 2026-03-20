@@ -748,3 +748,288 @@
 2026-03-10 22:52:18,426 [INFO] User table populated
 2026-03-10 22:52:29,304 [INFO] Loaded 27 users from MongoDB
 2026-03-10 22:52:29,307 [INFO] User table populated
+2026-03-13 23:17:49,711 [INFO] Connected to MongoDB
+2026-03-13 23:18:06,884 [INFO] Login attempt: hardycapel
+2026-03-13 23:18:07,239 [INFO] User 'hardycapel' authenticated successfully
+2026-03-13 23:18:07,487 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-13 23:18:07,501 [INFO] Hiding 'Log Viewer' (missing permission: view_logs)
+2026-03-13 23:18:07,501 [INFO] Hiding 'Admin Control Panel' (missing permission: manage_users)
+2026-03-14 00:12:46,794 [INFO] Connected to MongoDB
+2026-03-14 00:13:04,054 [INFO] Login attempt: hardycapel
+2026-03-14 00:13:04,316 [INFO] User 'hardycapel' authenticated successfully
+2026-03-14 00:43:05,977 [INFO] Connected to MongoDB
+2026-03-14 00:43:21,800 [INFO] Login attempt: hardycapel
+2026-03-14 00:43:22,052 [INFO] User 'hardycapel' authenticated successfully
+2026-03-14 00:43:22,090 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-14 00:43:24,250 [INFO] Main sidebar clicked: Log Viewer
+2026-03-14 00:43:24,250 [INFO] Log Viewer initialised
+2026-03-14 00:43:24,263 [INFO] LogViewerPage loaded
+2026-03-14 00:43:24,282 [INFO] Log file loaded into viewer
+2026-03-14 00:43:24,284 [INFO] Page registered: Viewer
+2026-03-14 00:43:24,342 [INFO] Opened window: LogViewerWindow
+2026-03-14 00:43:29,447 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-14 00:43:29,448 [INFO] Admin Control Panel initialised
+2026-03-14 00:43:29,458 [INFO] UserManagerPage loaded
+2026-03-14 00:43:29,464 [INFO] Connected to MongoDB
+2026-03-14 00:43:29,475 [INFO] Loaded 27 users from MongoDB
+2026-03-14 00:43:29,480 [INFO] User table populated
+2026-03-14 00:43:29,481 [INFO] Page registered: Users
+2026-03-14 00:43:29,481 [INFO] PermissionEditorPage loaded
+2026-03-14 00:43:29,481 [INFO] Page registered: Permissions
+2026-03-14 00:43:29,506 [INFO] Opened window: AdminControlWindow
+2026-03-14 00:43:35,536 [INFO] Sidebar clicked: Permissions
+2026-03-14 00:43:35,537 [INFO] Switched to page: Permissions
+2026-03-14 00:43:36,984 [INFO] Sidebar clicked: Users
+2026-03-14 00:43:36,985 [INFO] Switched to page: Users
+2026-03-14 22:54:20,614 [INFO] Connected to MongoDB
+2026-03-14 22:54:36,535 [INFO] Login attempt: hardycapel
+2026-03-14 22:54:36,828 [INFO] User 'hardycapel' authenticated successfully
+2026-03-14 22:54:37,093 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-14 22:54:37,118 [INFO] Hiding 'Log Viewer' (missing permission: view_logs)
+2026-03-14 22:54:37,119 [INFO] Hiding 'Admin Control Panel' (missing permission: manage_users)
+2026-03-14 22:58:26,441 [INFO] Connected to MongoDB
+2026-03-14 22:58:39,657 [INFO] Login attempt: hardycapel
+2026-03-14 22:58:39,947 [INFO] User 'hardycapel' authenticated successfully
+2026-03-14 22:58:40,023 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-14 22:58:42,596 [INFO] Main sidebar clicked: Log Viewer
+2026-03-14 22:58:42,596 [INFO] Log Viewer initialised
+2026-03-14 22:58:42,620 [INFO] LogViewerPage loaded
+2026-03-14 22:58:42,641 [INFO] Log file loaded into viewer
+2026-03-14 22:58:42,643 [INFO] Page registered: Viewer
+2026-03-14 22:58:42,691 [INFO] Opened window: LogViewerWindow
+2026-03-14 22:58:46,254 [INFO] Sidebar clicked: Viewer
+2026-03-14 22:58:46,254 [INFO] Switched to page: Viewer
+2026-03-14 22:58:49,239 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-14 22:58:49,240 [INFO] Admin Control Panel initialised
+2026-03-14 22:58:49,254 [INFO] UserManagerPage loaded
+2026-03-14 22:58:49,284 [INFO] Connected to MongoDB
+2026-03-14 22:58:49,319 [INFO] Loaded 1 users from MongoDB
+2026-03-14 22:58:49,329 [INFO] User table populated
+2026-03-14 22:58:49,331 [INFO] Page registered: Users
+2026-03-14 22:58:49,331 [INFO] PermissionEditorPage loaded
+2026-03-14 22:58:49,331 [INFO] Page registered: Permissions
+2026-03-14 22:58:49,362 [INFO] Opened window: AdminControlWindow
+2026-03-15 00:07:48,099 [INFO] Connected to MongoDB
+2026-03-15 00:08:05,099 [INFO] Login attempt: hardycapel
+2026-03-15 00:08:05,363 [INFO] User 'hardycapel' authenticated successfully
+2026-03-15 00:08:05,420 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-15 00:08:08,060 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-15 00:08:08,060 [INFO] Admin Control Panel initialised
+2026-03-15 00:08:08,064 [INFO] UserManagerPage loaded
+2026-03-15 00:08:08,069 [INFO] Connected to MongoDB
+2026-03-15 00:08:08,077 [INFO] Loaded 2 users from MongoDB
+2026-03-15 00:08:08,078 [INFO] User table populated
+2026-03-15 00:08:08,079 [INFO] Page registered: Users
+2026-03-15 00:08:08,083 [INFO] Connected to MongoDB
+2026-03-15 00:08:08,109 [INFO] Page registered: Permissions
+2026-03-15 00:08:08,129 [INFO] Opened window: AdminControlWindow
+2026-03-15 00:08:15,135 [INFO] Sidebar clicked: Permissions
+2026-03-15 00:08:15,139 [INFO] Switched to page: Permissions
+2026-03-15 00:13:08,539 [INFO] Connected to MongoDB
+2026-03-15 00:13:25,694 [INFO] Login attempt: hardycapel
+2026-03-15 00:13:25,945 [INFO] User 'hardycapel' authenticated successfully
+2026-03-15 00:13:25,980 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-15 00:13:28,272 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-15 00:13:28,273 [INFO] Admin Control Panel initialised
+2026-03-15 00:13:28,277 [INFO] UserManagerPage loaded
+2026-03-15 00:13:28,281 [INFO] Connected to MongoDB
+2026-03-15 00:13:28,317 [INFO] Loaded 2 users from MongoDB
+2026-03-15 00:13:28,319 [INFO] User table populated
+2026-03-15 00:13:28,320 [INFO] Page registered: Users
+2026-03-15 00:13:28,325 [INFO] Connected to MongoDB
+2026-03-15 00:13:28,367 [INFO] Page registered: Permissions
+2026-03-15 00:13:28,398 [INFO] Opened window: AdminControlWindow
+2026-03-15 00:13:35,565 [INFO] Sidebar clicked: Permissions
+2026-03-15 00:13:35,566 [INFO] Switched to page: Permissions
+2026-03-15 00:14:43,106 [INFO] Connected to MongoDB
+2026-03-15 00:14:57,837 [INFO] Login attempt: newadmin
+2026-03-15 00:14:58,120 [INFO] User 'newadmin' authenticated successfully
+2026-03-15 00:14:58,156 [INFO] MainApp initialised for user 'newadmin'
+2026-03-15 00:14:59,984 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-15 00:14:59,984 [INFO] Admin Control Panel initialised
+2026-03-15 00:14:59,988 [INFO] UserManagerPage loaded
+2026-03-15 00:14:59,995 [INFO] Connected to MongoDB
+2026-03-15 00:15:00,003 [INFO] Loaded 2 users from MongoDB
+2026-03-15 00:15:00,006 [INFO] User table populated
+2026-03-15 00:15:00,007 [INFO] Page registered: Users
+2026-03-15 00:15:00,014 [INFO] Connected to MongoDB
+2026-03-15 00:15:00,029 [INFO] Page registered: Permissions
+2026-03-15 00:15:00,048 [INFO] Opened window: AdminControlWindow
+2026-03-15 00:15:02,196 [INFO] Sidebar clicked: Permissions
+2026-03-15 00:15:02,197 [INFO] Switched to page: Permissions
+2026-03-15 22:54:24,663 [INFO] Connected to MongoDB
+2026-03-15 22:54:40,023 [INFO] Login attempt: hardycapel
+2026-03-15 22:54:40,366 [INFO] User 'hardycapel' authenticated successfully
+2026-03-15 22:54:40,609 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-15 22:54:40,635 [INFO] Admin Control Panel initialised
+2026-03-15 22:58:56,884 [INFO] Connected to MongoDB
+2026-03-15 22:59:19,147 [INFO] Login attempt: hardycapel
+2026-03-15 22:59:19,444 [INFO] User 'hardycapel' authenticated successfully
+2026-03-15 22:59:19,526 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-15 22:59:19,528 [INFO] Admin Control Panel initialised
+2026-03-15 23:06:51,025 [INFO] Connected to MongoDB
+2026-03-15 23:07:07,934 [INFO] Login attempt: hardycapel
+2026-03-15 23:07:08,222 [INFO] User 'hardycapel' authenticated successfully
+2026-03-15 23:07:08,298 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-15 23:07:08,299 [INFO] Admin Control Panel initialised
+2026-03-16 22:45:44,583 [INFO] Connected to MongoDB
+2026-03-16 22:46:00,161 [INFO] Login attempt: hardycapel
+2026-03-16 22:46:00,459 [INFO] User 'hardycapel' authenticated successfully
+2026-03-16 22:46:00,673 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-16 23:01:26,390 [INFO] Connected to MongoDB
+2026-03-16 23:01:40,885 [INFO] Login attempt: hardycapel
+2026-03-16 23:01:41,209 [INFO] User 'hardycapel' authenticated successfully
+2026-03-16 23:01:41,286 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-16 23:01:41,343 [INFO] Opened window: <lambda>
+2026-03-16 23:01:45,132 [INFO] Main sidebar clicked: Log Viewer
+2026-03-16 23:01:45,149 [INFO] LogViewerPage loaded
+2026-03-16 23:01:45,171 [INFO] Log file loaded into viewer
+2026-03-16 23:01:45,186 [INFO] Opened window: LogViewerWindow
+2026-03-16 23:01:52,623 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-16 23:01:54,588 [INFO] Main sidebar clicked: Log Viewer
+2026-03-16 23:01:54,606 [INFO] Opened window: LogViewerWindow
+2026-03-16 23:14:51,918 [INFO] Connected to MongoDB
+2026-03-16 23:15:09,451 [INFO] Login attempt: hardycapel
+2026-03-16 23:15:09,738 [INFO] User 'hardycapel' authenticated successfully
+2026-03-16 23:15:09,798 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-16 23:15:12,460 [INFO] Main sidebar clicked: Log Viewer
+2026-03-16 23:15:12,463 [INFO] LogViewerPage loaded
+2026-03-16 23:15:12,483 [INFO] Log file loaded into viewer
+2026-03-16 23:15:16,946 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-16 23:19:52,705 [INFO] Connected to MongoDB
+2026-03-16 23:20:12,547 [INFO] Login attempt: hardycapel
+2026-03-16 23:20:12,826 [INFO] User 'hardycapel' authenticated successfully
+2026-03-16 23:20:12,863 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-16 23:21:59,931 [INFO] Main sidebar clicked: Log Viewer
+2026-03-16 23:21:59,934 [INFO] LogViewerPage loaded
+2026-03-16 23:21:59,955 [INFO] Log file loaded into viewer
+2026-03-16 23:22:32,654 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-17 22:00:59,944 [INFO] Connected to MongoDB
+2026-03-17 22:01:18,461 [INFO] Login attempt: hardycapel
+2026-03-17 22:01:18,851 [INFO] User 'hardycapel' authenticated successfully
+2026-03-17 22:01:19,054 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-17 22:01:29,794 [INFO] Main sidebar clicked: Log Viewer
+2026-03-17 22:02:46,657 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-17 22:03:06,927 [INFO] Connected to MongoDB
+2026-03-17 22:12:16,294 [INFO] Connected to MongoDB
+2026-03-17 22:12:29,978 [INFO] Login attempt: hardycapel
+2026-03-17 22:12:30,284 [INFO] User 'hardycapel' authenticated successfully
+2026-03-17 22:12:30,363 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-17 22:12:32,715 [INFO] Main sidebar clicked: Log Viewer
+2026-03-17 22:12:32,739 [INFO] LogViewerPage loaded
+2026-03-17 22:12:32,758 [INFO] Log file loaded into viewer
+2026-03-17 22:24:30,754 [INFO] Connected to MongoDB
+2026-03-17 22:24:47,722 [INFO] Login attempt: hardycapel
+2026-03-17 22:24:47,975 [INFO] User 'hardycapel' authenticated successfully
+2026-03-17 22:24:48,011 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-17 22:24:49,938 [INFO] Main sidebar clicked: Log Viewer
+2026-03-17 22:24:49,941 [INFO] LogViewerPage loaded
+2026-03-17 22:24:49,962 [INFO] Log file loaded into viewer
+2026-03-17 22:45:22,784 [INFO] Connected to MongoDB
+2026-03-17 22:45:37,846 [INFO] Login attempt: hardycapel
+2026-03-17 22:45:38,132 [INFO] User 'hardycapel' authenticated successfully
+2026-03-17 22:45:38,194 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-17 22:45:40,164 [INFO] Main sidebar clicked: Log Viewer
+2026-03-17 22:45:41,809 [INFO] LogViewerPage loaded
+2026-03-17 22:45:41,830 [INFO] Log file loaded into viewer
+2026-03-17 22:46:13,506 [INFO] Main sidebar clicked: Admin Control Panel
+2026-03-17 22:46:19,825 [INFO] Connected to MongoDB
+2026-03-17 22:46:28,770 [INFO] UserManagerPage loaded
+2026-03-17 22:46:28,775 [INFO] Connected to MongoDB
+2026-03-17 22:46:28,835 [INFO] Loaded 2 users from MongoDB
+2026-03-17 22:46:28,859 [INFO] User table populated
+2026-03-17 23:01:58,196 [INFO] Connected to MongoDB
+2026-03-17 23:02:13,506 [INFO] Login attempt: hardycapel
+2026-03-17 23:02:13,762 [INFO] User 'hardycapel' authenticated successfully
+2026-03-17 23:02:13,831 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-17 23:02:15,932 [INFO] Main sidebar clicked: Log Viewer
+2026-03-17 23:02:20,228 [INFO] LogViewerPage loaded
+2026-03-17 23:02:20,244 [INFO] Log file loaded into viewer
+2026-03-18 21:55:50,106 [INFO] Connected to MongoDB
+2026-03-18 21:56:10,215 [INFO] Login attempt: hardycapel
+2026-03-18 21:56:10,560 [INFO] User 'hardycapel' authenticated successfully
+2026-03-18 21:56:10,665 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-18 21:56:13,882 [INFO] Main sidebar clicked: Log Viewer
+2026-03-18 21:56:17,148 [INFO] LogViewerPage loaded
+2026-03-18 21:56:17,166 [INFO] Log file loaded into viewer
+2026-03-18 21:58:40,219 [INFO] Connected to MongoDB
+2026-03-18 21:58:52,186 [INFO] Login attempt: hardycapel
+2026-03-18 21:58:52,446 [INFO] User 'hardycapel' authenticated successfully
+2026-03-18 21:58:52,505 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-18 21:59:03,288 [INFO] Main sidebar clicked: Log Viewer
+2026-03-18 21:59:05,448 [INFO] LogViewerPage loaded
+2026-03-18 21:59:05,466 [INFO] Log file loaded into viewer
+2026-03-18 22:03:52,903 [INFO] Connected to MongoDB
+2026-03-18 22:04:08,516 [INFO] Login attempt: hardycapel
+2026-03-18 22:04:08,787 [INFO] User 'hardycapel' authenticated successfully
+2026-03-18 22:04:08,958 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-18 22:04:11,764 [INFO] Main sidebar clicked: Log Viewer
+2026-03-18 22:04:14,362 [INFO] LogViewerPage loaded
+2026-03-18 22:04:14,386 [INFO] Log file loaded into viewer
+2026-03-18 22:04:18,146 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:04:19,137 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:04:20,139 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:04:22,297 [INFO] Log file loaded into viewer
+2026-03-18 22:05:05,632 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:05:06,629 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:05:07,633 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:05:08,614 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:05:08,945 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:05:09,622 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:05:11,329 [INFO] Log file loaded into viewer
+2026-03-18 22:30:31,162 [INFO] Connected to MongoDB
+2026-03-18 22:30:53,511 [INFO] Login attempt: hardycapel
+2026-03-18 22:30:53,788 [INFO] User 'hardycapel' authenticated successfully
+2026-03-18 22:30:53,860 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-18 22:31:00,166 [INFO] Main sidebar clicked: Log Viewer
+2026-03-18 22:31:03,972 [INFO] LogViewerPage loaded
+2026-03-18 22:31:03,998 [INFO] Log file loaded into viewer
+2026-03-18 22:31:08,976 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:09,995 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:10,977 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:11,978 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:12,975 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:13,972 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:14,996 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:15,978 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:16,980 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:17,985 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:18,993 [ERROR] Failed to read log file: 'PySide6.QtGui.QTextCursor' object has no attribute 'End'
+2026-03-18 22:31:20,927 [INFO] Log file loaded into viewer
+2026-03-18 22:52:29,371 [INFO] Connected to MongoDB
+2026-03-18 22:52:45,075 [INFO] Login attempt: hardycapel
+2026-03-18 22:52:45,377 [INFO] User 'hardycapel' authenticated successfully
+2026-03-18 22:52:45,474 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-18 22:52:47,428 [INFO] Main sidebar clicked: Log Viewer
+2026-03-18 22:53:06,117 [INFO] Connected to MongoDB
+2026-03-18 22:53:21,385 [INFO] Login attempt: hardycapel
+2026-03-18 22:53:21,658 [INFO] User 'hardycapel' authenticated successfully
+2026-03-18 22:53:21,700 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-18 22:53:28,402 [INFO] Main sidebar clicked: Log Viewer
+2026-03-19 21:42:10,797 [INFO] Connected to MongoDB
+2026-03-19 21:42:24,531 [INFO] Login attempt: hardycapel
+2026-03-19 21:42:24,865 [INFO] User 'hardycapel' authenticated successfully
+2026-03-19 21:42:24,983 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-19 21:42:36,162 [INFO] Main sidebar clicked: Log Viewer
+2026-03-19 23:14:54,904 [INFO] Connected to MongoDB
+2026-03-19 23:15:10,885 [INFO] Login attempt: hardycapel
+2026-03-19 23:15:11,158 [INFO] User 'hardycapel' authenticated successfully
+2026-03-19 23:15:11,351 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-19 23:15:44,119 [INFO] Main sidebar clicked: Log Viewer
+2026-03-19 23:15:44,122 [INFO] Registering page 'Viewer' in LogViewerWindow
+2026-03-19 23:15:47,139 [INFO] Sidebar clicked: Viewer in LogViewerWindow
+2026-03-19 23:20:41,840 [INFO] Connected to MongoDB
+2026-03-19 23:20:57,032 [INFO] Login attempt: hardycapel
+2026-03-19 23:20:57,334 [INFO] User 'hardycapel' authenticated successfully
+2026-03-19 23:20:57,387 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-19 23:21:00,402 [INFO] Main sidebar clicked: Log Viewer
+2026-03-19 23:21:00,403 [INFO] Registering page 'Viewer'
+2026-03-19 23:21:02,188 [INFO] Sidebar clicked: Viewer
+2026-03-19 23:32:30,025 [INFO] Connected to MongoDB
+2026-03-19 23:32:47,801 [INFO] Login attempt: hardycapel
+2026-03-19 23:32:48,071 [INFO] User 'hardycapel' authenticated successfully
+2026-03-19 23:32:48,138 [INFO] MainApp initialised for user 'hardycapel'
+2026-03-19 23:32:50,151 [INFO] Main sidebar clicked: Log Viewer
+2026-03-19 23:32:50,153 [INFO] Registering page 'Viewer'
+2026-03-19 23:32:51,821 [INFO] Sidebar clicked: Viewer
+2026-03-19 23:32:51,828 [INFO] LogViewerPage loaded

@@ -38,11 +38,17 @@ class LoginWindow(QWidget):
 
         self.setLayout(layout)
 
+    # ---------------------------------------------------------
+    # Registration window
+    # ---------------------------------------------------------
     def open_register(self):
         from ui.pages.registration_page import RegistrationPage
         self.reg_window = RegistrationPage()
         self.reg_window.show()
 
+    # ---------------------------------------------------------
+    # Login logic
+    # ---------------------------------------------------------
     def login(self):
         from page_registry import PAGE_REGISTRY  # safe import
 
@@ -57,11 +63,11 @@ class LoginWindow(QWidget):
             return
 
         # -------------------------------------------------
-        # NEW: MongoDB authentication (bcrypt inside service)
+        # Authenticate via MongoDB
         # -------------------------------------------------
-        user = self.mongo.authenticate(username, password)
+        db_user = self.mongo.authenticate(username, password)
 
-        if not user:
+        if not db_user:
             QMessageBox.warning(self, "Error", "Invalid username or password")
             logger.warning(f"Login failed for '{username}'")
             return
@@ -69,55 +75,53 @@ class LoginWindow(QWidget):
         # -------------------------------------------------
         # Force password change
         # -------------------------------------------------
-        if user.get("must_change_password"):
+        if db_user.get("must_change_password"):
             logger.info(f"User '{username}' must change password before continuing")
             self.open_force_password_change_window(username)
             return
-
-        # -------------------------------------------------
-        # Permissions auto-repair
-        # -------------------------------------------------
-        repaired = False
-        for page_name, info in PAGE_REGISTRY.items():
-            if page_name not in user["permissions"]:
-                user["permissions"][page_name] = info["default_permission"]
-                repaired = True
-
-        if repaired:
-            self.mongo.update_permissions(username, user["permissions"])
-            logger.info(f"Permissions auto-repaired for user '{username}'")
-
-        logger.info(f"User '{username}' logged in successfully")
 
         # -------------------------------------------------
         # Auto-repair missing fields
         # -------------------------------------------------
         updated = False
 
-        if "theme" not in user:
-            user["theme"] = "light"
+        if "theme" not in db_user:
+            db_user["theme"] = "light"
             updated = True
 
-        if "last_login" not in user:
-            user["last_login"] = None
+        if "last_login" not in db_user:
+            db_user["last_login"] = None
             updated = True
 
-        if "email" not in user:
-            user["email"] = ""
+        if "email" not in db_user:
+            db_user["email"] = ""
             updated = True
 
         if updated:
-            self.mongo.update_permissions(username, user["permissions"])
+            self.mongo.update_permissions(username, db_user["permissions"])
             logger.info(f"Auto-repaired missing fields for user '{username}'")
 
         # -------------------------------------------------
-        # Open MainApp (import here to avoid circular import)
+        # Convert dict → User object
+        # -------------------------------------------------
+        from models.user import User
+        user = User(
+            username=db_user["username"],
+            role=db_user["role"],
+            permissions=db_user["permissions"]
+        )
+
+        # -------------------------------------------------
+        # Open MainApp
         # -------------------------------------------------
         from main_app import MainApp
         self.main_app = MainApp(user)
         self.main_app.show()
         self.close()
 
+    # ---------------------------------------------------------
+    # Read-only mode helpers (unchanged)
+    # ---------------------------------------------------------
     def set_read_only(self, ro: bool):
         for widget in self.findChildren((QLineEdit, QTextEdit, QComboBox)):
             if isinstance(widget, QLineEdit):
@@ -146,13 +150,25 @@ class LoginWindow(QWidget):
         banner.setStyleSheet("color: orange; font-weight: bold;")
         self.layout().insertWidget(0, banner)
 
+    # ---------------------------------------------------------
+    # Force password change flow
+    # ---------------------------------------------------------
     def open_force_password_change_window(self, username):
         from ui.windows.force_password_change_window import ForcePasswordChangeWindow
         dialog = ForcePasswordChangeWindow(username, self)
 
         if dialog.exec():
             updated_user = self.mongo.db.users.find_one({"username": username}, {"_id": 0})
+
+            # Convert dict → User object
+            from models.user import User
+            user = User(
+                username=updated_user["username"],
+                role=updated_user["role"],
+                permissions=updated_user["permissions"]
+            )
+
             from main_app import MainApp
-            self.main_app = MainApp(updated_user)
+            self.main_app = MainApp(user)
             self.main_app.show()
             self.close()

@@ -3,8 +3,10 @@ from ui.pages.log_viewer_page import LogViewerPage
 
 
 class LogViewerWindow(WindowWithSidebar):
+    REQUIRED_PERMISSION = "logs.read"
+
     def __init__(self):
         super().__init__("Log Viewer")
 
-        # Only one page for now
-        self.add_page("Viewer", LogViewerPage())
+    def _setup_pages(self):
+        self.add_page("Viewer", LogViewerPage)
