@@ -1,4 +1,5 @@
 from pymongo import MongoClient
+from bson.objectid import ObjectId
 from ui.components.logger import logger
 import bcrypt
 from datetime import datetime
@@ -9,17 +10,21 @@ class MongoService:
         try:
             self.client = MongoClient(uri)
             self.db = self.client[db_name]
+
+            # FIX: define users collection
+            self.users = self.db["users"]
+
             logger.info("Connected to MongoDB")
         except Exception as e:
             logger.error(f"MongoDB connection failed: {e}")
             raise
 
     # -------------------------------------------------
-    # Authentication (login)
+    # Authentication
     # -------------------------------------------------
     def authenticate(self, username, password):
         try:
-            user = self.db.users.find_one({"username": username})
+            user = self.users.find_one({"username": username})
             if not user:
                 logger.info(f"Login failed: user '{username}' not found")
                 return None
@@ -41,141 +46,86 @@ class MongoService:
             return None
 
     # -------------------------------------------------
-    # User creation (registration + admin add user)
+    # Create user (Add User dialog)
     # -------------------------------------------------
-    def create_user(
-        self,
-        username,
-        password,
-        permissions=None,
-        email="",
-        role="user",
-        phone="",
-        must_change_password=False
-    ):
+    def create_user(self, user_doc):
         try:
-            if self.db.users.find_one({"username": username}):
-                logger.warning(f"User '{username}' already exists")
-                return False, "User already exists"
-
-            hashed = bcrypt.hashpw(password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-
-            # Use canonical schema
-            user_doc = self.default_user_document(
-                username=username,
-                email=email,
-                password_hash=hashed
-            )
-
-            # Override fields if admin provided them
-            user_doc["permissions"] = permissions or user_doc["permissions"]
-            user_doc["role"] = role
-            user_doc["phone"] = phone
-            user_doc["must_change_password"] = must_change_password
-
-            self.db.users.insert_one(user_doc)
-            logger.info(f"User '{username}' created")
-            return True, None
-
+            self.users.insert_one(user_doc)
+            logger.info(f"User '{user_doc['username']}' created")
         except Exception as e:
-            logger.error(f"Failed to create user '{username}': {e}")
-            return False, str(e)
+            raise RuntimeError(f"Failed to create user: {e}")
 
     # -------------------------------------------------
-    # Password reset (admin)
+    # Update user (Edit User dialog)
     # -------------------------------------------------
-    def reset_password(self, username, new_password, force_change=False):
-        # print("DEBUG: running reset_password from:", __file__)
-
+    def update_user(self, user_id, update_doc):
         try:
-            hashed = bcrypt.hashpw(new_password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
-
-            self.db.users.update_one(
-                {"username": username},
-                {"$set": {
-                    "password_hash": hashed,
-                    "must_change_password": force_change
-                }}
+            self.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": update_doc}
             )
-
-            logger.info(f"Password reset for '{username}'")
-            return True, None
-
+            logger.info(f"User '{user_id}' updated")
         except Exception as e:
-            logger.error(f"Failed to reset password for '{username}': {e}")
-            return False, str(e)
+            raise RuntimeError(f"Failed to update user: {e}")
 
     # -------------------------------------------------
-    # Clear force-password-change flag
+    # Get user by ID
     # -------------------------------------------------
-    def clear_force_password_change(self, username):
+    def get_user_by_id(self, user_id):
         try:
-            self.db.users.update_one(
-                {"username": username},
-                {"$set": {"must_change_password": False}}
-            )
-            logger.info(f"Force-password-change cleared for '{username}'")
-            return True
-
+            return self.users.find_one({"_id": ObjectId(user_id)})
         except Exception as e:
-            logger.error(f"Failed to clear force-password-change for '{username}': {e}")
-            return False
+            raise RuntimeError(f"Failed to fetch user: {e}")
 
     # -------------------------------------------------
-    # Update permissions
+    # Get all users (Users page)
     # -------------------------------------------------
-    def update_permissions(self, username, permissions):
+    def get_all_users(self):
         try:
-            self.db.users.update_one(
-                {"username": username},
-                {"$set": {"permissions": permissions}}
-            )
-            logger.info(f"Permissions updated for '{username}'")
-            return True
+            users = list(self.users.find({}, {
+                "_id": 1,
+                "username": 1,
+                "email": 1,
+                "role": 1,
+                "status": 1,
+                "permissions": 1,
+                "created_at": 1,
+                "last_login": 1
+            }))
 
-        except Exception as e:
-            logger.error(f"Failed to update permissions for '{username}': {e}")
-            return False
+            # Convert ObjectId to string for UI
+            for u in users:
+                u["_id"] = str(u["_id"])
 
-    # -------------------------------------------------
-    # Update arbitrary user fields
-    # -------------------------------------------------
-    def update_user_fields(self, username, fields):
-        try:
-            self.db.users.update_one(
-                {"username": username},
-                {"$set": fields}
-            )
-            logger.info(f"Updated fields for '{username}': {list(fields.keys())}")
-            return True
-
-        except Exception as e:
-            logger.error(f"Failed to update fields for '{username}': {e}")
-            return False
-
-    # -------------------------------------------------
-    # Retrieve all users (Admin Users page)
-    # -------------------------------------------------
-    def get_users(self):
-        try:
-            users = list(self.db.users.find({}, {"_id": 0}))
-            logger.info(f"Loaded {len(users)} users from MongoDB")
             return users
+
         except Exception as e:
-            logger.error(f"Failed to load users: {e}")
-            return []
+            raise RuntimeError(f"Failed to fetch users: {e}")
+
+    def delete_user(self, user_id):
+        try:
+            self.users.delete_one({"_id": ObjectId(user_id)})
+        except Exception as e:
+            raise RuntimeError(f"Failed to delete user: {e}")
         
-    def default_user_document(self, username, email, password_hash):
+    def build_user_document(self, username, email, password, role="user", status="Active"):
         return {
             "username": username,
             "email": email,
-            "password_hash": password_hash,
-            "role": "user",
-            "permissions": {},
-            "phone": "",
+            "password_hash": self.hash_password(password),
+            "role": role,
+            "permissions": ["logs.read", "users.read"] if role == "user" else [],
+            "status": status,
+            "created_at": datetime.utcnow().isoformat(),
             "last_login": None,
-            "must_change_password": False,
-            "theme": "light",
-            "status": "Active",
-            "created_at": datetime.utcnow()
+            "theme": "light"
         }
+
+    def hash_password(self, password: str) -> str:
+        return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+
+    def email_exists(self, email: str) -> bool:
+        return self.users.find_one({"email": email}) is not None
+
+    def username_exists(self, username: str) -> bool:
+        return self.users.find_one({"username": username}) is not None

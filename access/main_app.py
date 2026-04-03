@@ -43,7 +43,8 @@ class MainApp(QMainWindow):
 
         self._add_sidebar_item("Admin Control Panel",
                             AdminControlWindow,
-                            lambda: AdminControlWindow(self.user))
+                            lambda: AdminControlWindow())
+    
 
     def _add_sidebar_item(self, label: str, window_class, window_factory):
         required = getattr(window_class, "REQUIRED_PERMISSION", None)

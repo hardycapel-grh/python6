@@ -2,21 +2,18 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QLabel, QLineEdit, QPushButton, QMessageBox, QTextEdit, QComboBox
 )
 from services.registration_service import RegistrationService
-from ui.pages.login_page import LoginWindow
 
 
 class RegistrationPage(QWidget):
-    def __init__(self):
+    def __init__(self, user_service):
         super().__init__()
 
-        self.service = RegistrationService()
+        self.service = RegistrationService(user_service)
 
         layout = QVBoxLayout(self)
 
         self.username_input = QLineEdit()
         self.username_input.setPlaceholderText("Username")
-
-
 
         self.password_input = QLineEdit()
         self.password_input.setPlaceholderText("Password")
@@ -56,23 +53,6 @@ class RegistrationPage(QWidget):
 
         # Close registration window and open login
         self.close()
+        from ui.pages.login_page import LoginWindow
         self.login_window = LoginWindow()
         self.login_window.show()
-
-    def apply_permissions(self, perm):
-        if perm == "rw":
-            return
-
-        # Disable all buttons
-        for btn in self.findChildren(QPushButton):
-            btn.setEnabled(False)
-
-        # Disable editable widgets
-        for t in (QLineEdit, QTextEdit, QComboBox):
-            for widget in self.findChildren(t):
-                widget.setEnabled(False)
-
-        # Optional banner
-        banner = QLabel("Read-Only Mode")
-        banner.setStyleSheet("color: orange; font-weight: bold;")
-        self.layout().insertWidget(0, banner)

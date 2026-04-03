@@ -1,3 +1,5 @@
+import email
+
 from pymongo import MongoClient
 from services.mongo_service import MongoService
 import bcrypt
@@ -26,14 +28,23 @@ class UserService:
         permissions = self.get_role_permissions(role)
 
         # Build user document
-        user_doc = {
-            "username": username,
-            "password_hash": hashed_password,   # <-- FIXED
-            "role": role,
-            "status": status,
-            "permissions": permissions,
-            "must_change_password": False       # <-- NEW FIELD
-        }
+        # user_doc = {
+        #     "username": username,
+        #     "password_hash": hashed_password,   # <-- FIXED
+        #     "role": role,
+        #     "status": status,
+        #     "permissions": permissions,
+        #     "must_change_password": False       # <-- NEW FIELD
+        # }
+
+        user_doc = self.mongo.build_user_document(
+            username,
+            email,
+            password,
+            role,
+            status
+        )
+
 
         # Insert into DB
         self.add_user(user_doc)

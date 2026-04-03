@@ -1,0 +1,120 @@
+Application Architecture Notes
+
+This document captures the core architectural principles, patterns, and conventions used throughout the application. It exists to ensure continuity, consistency, and clarity as the project grows. Treat this file as the authoritative reference for how new windows, pages, and features should be structured.
+
+1. Core UI Architecture
+    WindowWithSidebar
+        This is the foundational UI class for all tool windows. It provides:
+        A left-hand sidebar for navigation
+        A QStackedWidget for page display
+        Lazy page creation via factories
+        A consistent layout across all tools
+    Rules:
+        All tool windows must subclass WindowWithSidebar.
+        Subclasses must implement _setup_pages() and call add_page(name, factory).
+        Pages must be registered only inside _setup_pages().
+        No business logic belongs in this class.
+2. Tool Windows
+    A tool window is a top-level feature area (e.g., Log Viewer, Admin Console).
+    Rules for Tool Windows:
+        Must subclass WindowWithSidebar.
+        Must define REQUIRED_PERMISSION to control access.
+        Must register pages inside _setup_pages().
+        Must not contain business logic.
+        Must not contain UI logic beyond page registration.
+    Example Pattern:
+    class MyToolWindow(WindowWithSidebar):
+        REQUIRED_PERMISSION = "tool.use"
+        def __init__(self):
+            super().__init__("My Tool")
+        def _setup_pages(self):
+            self.add_page("Main", MainPage)
+            self.add_page("Settings", SettingsPage)
+3. Pages
+    A page is a self-contained QWidget that handles a specific feature.
+    Rules for Pages:
+        Must subclass QWidget.
+        Must contain all UI and logic for that feature.
+        Must not know about permissions.
+        Must not know about navigation.
+        Must not reference the parent window.
+        Should be small, focused, and maintainable.
+    Benefits:
+        Easy to test
+        Easy to replace or extend
+        No cross-window coupling
+4. Permissions Architecture
+    Permissions are enforced only at the window level.
+    Rules:
+        MainApp checks REQUIRED_PERMISSION before opening a window.
+        Windows do not check permissions internally.
+        Pages do not check permissions.
+        Permissions must not be duplicated or scattered.
+        This prevents permission spaghetti and keeps the system predictable.
+5. MainApp Responsibilities
+    MainApp acts as the application router.
+    Responsibilities:
+        Displaying and managing tool windows
+        Enforcing permissions
+        Preventing duplicate windows
+        Managing the main navigation sidebar
+        Non-responsibilities:
+        Business logic
+        UI logic inside tool windows
+        Page-specific behaviour
+6. Logging Architecture
+    The application uses a central logger. The Log Viewer is designed to:
+        Read the log file safely
+        Support search, filtering, highlighting
+        Support tailing and auto-scroll
+        Open the log folder
+        Rules:
+        All modules should use logger.info(), logger.warning(), logger.error(), etc.
+        Log format should remain consistent so filters work reliably.
+7. UI Design Principles
+    Consistency:
+        All tool windows share the same layout.
+        All pages follow the same structure.
+        Modularity:
+        Each page is self-contained.
+        Each window is a container for pages.
+    Lazy Loading:
+        Pages are created only when clicked.
+        Reduces startup time and memory usage.
+        Clarity:
+        UI code is grouped into logical sections:
+        Controls row
+        Search row
+        Filter row
+        Main content
+8. Current State
+    WindowWithSidebar is stable and reusable.
+    LogViewerWindow fully implemented.
+    LogViewerPage supports:
+        Search
+        Log-level filters
+        Highlighting
+        Auto-scroll
+        Tail -f
+        Open folder
+        Permissions enforced at window level.
+        MainApp routing stable.
+9. Next Steps
+    Build Admin Control Panel using this architecture:
+        UsersPage
+        RolesPage
+        PermissionsPage
+        AuditLogPage
+        Add permission editing UI.
+        Add role inheritance.
+        Add audit log viewer.
+10. Copilot Primer
+    When assisting with this project, follow these architectural rules:
+        Use WindowWithSidebar for all tool windows.
+        Register pages only inside _setup_pages().
+        Pages are isolated QWidget subclasses.
+        Permissions enforced only in MainApp.
+        Windows contain no business logic.
+        Pages contain no navigation or permission logic.
+        UI remains modular, lazy-loaded, and consistent.
+        This document ensures architectural continuity across sessions and contributors.

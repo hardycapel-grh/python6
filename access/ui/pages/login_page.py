@@ -13,6 +13,9 @@ class LoginWindow(QWidget):
         super().__init__()
         self.setWindowTitle("Login")
 
+        from services.user_service import UserService
+        self.user_service = UserService()
+
         self.mongo = MongoService()
 
         layout = QVBoxLayout()
@@ -38,12 +41,15 @@ class LoginWindow(QWidget):
 
         self.setLayout(layout)
 
+
+
+
     # ---------------------------------------------------------
     # Registration window
     # ---------------------------------------------------------
     def open_register(self):
         from ui.pages.registration_page import RegistrationPage
-        self.reg_window = RegistrationPage()
+        self.reg_window = RegistrationPage(self.user_service)
         self.reg_window.show()
 
     # ---------------------------------------------------------

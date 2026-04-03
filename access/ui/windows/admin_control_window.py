@@ -1,14 +1,20 @@
+# ui/windows/admin_control_window.py
+
 from ui.windows.window_with_sidebar import WindowWithSidebar
-from ui.pages.user_manager_page import UserManagerPage
-from ui.pages.permission_editor_page import PermissionEditorPage
+from ui.pages.admin.users_page import UsersPage
+from ui.pages.admin.roles_page import RolesPage
+from ui.pages.admin.permissions_page import PermissionsPage
+from ui.pages.admin.audit_log_page import AuditLogPage
+
 
 class AdminControlWindow(WindowWithSidebar):
-    REQUIRED_PERMISSION = "users.read"
+    REQUIRED_PERMISSION = "admin.access"
 
-    def __init__(self, current_user):
-        self.current_user = current_user
+    def __init__(self):
         super().__init__("Admin Control Panel")
 
     def _setup_pages(self):
-        self.add_page("Users", lambda: UserManagerPage())
-        self.add_page("Permissions", lambda: PermissionEditorPage(self.current_user))
+        self.add_page("Users", UsersPage)
+        self.add_page("Roles", RolesPage)
+        self.add_page("Permissions", PermissionsPage)
+        self.add_page("Audit Log", AuditLogPage)
