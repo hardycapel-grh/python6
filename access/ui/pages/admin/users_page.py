@@ -1,37 +1,36 @@
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton,
-    QTableView, QMessageBox, QDialog, QLineEdit
+    QTableView, QMessageBox, QDialog, QLineEdit, QComboBox, QStyledItemDelegate
 )
-from PySide6.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel
+from PySide6.QtCore import Qt, QAbstractTableModel, QSortFilterProxyModel, QRectF
+from PySide6.QtGui import QTextDocument, QPainter
 
 from services.mongo_service import MongoService
+from services.permission_service import has_permission
 from ui.components.logger import logger
 from ui.dialogs.edit_user_dialog import EditUserDialog
-from PySide6.QtWidgets import QComboBox
-
-from PySide6.QtWidgets import QStyledItemDelegate
-from PySide6.QtGui import QTextDocument, QAbstractTextDocumentLayout, QPainter
-from PySide6.QtCore import QRectF
+from services.user_service import UserService
 
 
+# =========================================================
+# Highlight Delegate
+# =========================================================
 class HighlightDelegate(QStyledItemDelegate):
     def __init__(self, parent, get_search_text):
         super().__init__(parent)
-        self.get_search_text = get_search_text  # function to retrieve current search text
+        self.get_search_text = get_search_text
 
     def paint(self, painter, option, index):
         text = index.data(Qt.DisplayRole)
         search = self.get_search_text().strip()
 
-        # If no search text, paint normally
         if not search or search.lower() not in text.lower():
             super().paint(painter, option, index)
             return
 
-        # Build highlighted HTML
         highlighted = text.replace(
             search,
-            f"<span style='background-color: yellow; color: black;'>{search}</span>",
+            f"<span style='background-color: yellow; color: black;'>{search}</span>"
         )
 
         doc = QTextDocument()
@@ -70,14 +69,12 @@ class UsersTableModel(QAbstractTableModel):
         col = index.column()
 
         if role == Qt.DisplayRole:
-            if col == 0:
-                return user.get("username", "")
-            if col == 1:
-                return user.get("email", "")
-            if col == 2:
-                return user.get("role", "")
-            if col == 3:
-                return user.get("status", "")
+            return [
+                user.get("username", ""),
+                user.get("email", ""),
+                user.get("role", ""),
+                user.get("status", "")
+            ][col]
 
         return None
 
@@ -91,18 +88,29 @@ class UsersTableModel(QAbstractTableModel):
 # Users Page
 # =========================================================
 class UsersPage(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, user, parent=None):
         super().__init__(parent)
-        from services.user_service import UserService
-        self.user_service = UserService()
+
+        self.current_user = user
         self.mongo = MongoService()
+        self.user_service = UserService()
         self.users = []
 
-        layout = QVBoxLayout(self)
+        # ---------------------------------------------------------
+        # 1. WINDOW-LEVEL PERMISSION ENFORCEMENT
+        # ---------------------------------------------------------
+        if not has_permission(self.current_user, "users.read"):
+            QMessageBox.warning(self, "Access Denied",
+                                "You do not have permission to view Users.")
+            self.close()
+            return
 
         # ---------------------------------------------------------
-        # Toolbar
+        # 2. BUILD UI
         # ---------------------------------------------------------
+        layout = QVBoxLayout(self)
+
+        # Toolbar
         toolbar = QHBoxLayout()
 
         self.refresh_btn = QPushButton("Refresh")
@@ -113,17 +121,17 @@ class UsersPage(QWidget):
         self.add_btn.clicked.connect(self.open_add_user_dialog)
         toolbar.addWidget(self.add_btn)
 
-        edit_btn = QPushButton("Edit User")
-        edit_btn.clicked.connect(self._edit_selected_user)
-        toolbar.addWidget(edit_btn)
+        self.edit_btn = QPushButton("Edit User")
+        self.edit_btn.clicked.connect(self._edit_selected_user)
+        toolbar.addWidget(self.edit_btn)
 
-        delete_btn = QPushButton("Delete")
-        delete_btn.clicked.connect(self._delete_selected_user)
-        toolbar.addWidget(delete_btn)
+        self.delete_btn = QPushButton("Delete")
+        self.delete_btn.clicked.connect(self._delete_selected_user)
+        toolbar.addWidget(self.delete_btn)
 
-        toggle_btn = QPushButton("Enable / Disable")
-        toggle_btn.clicked.connect(self._toggle_user_status)
-        toolbar.addWidget(toggle_btn)
+        self.toggle_btn = QPushButton("Enable / Disable")
+        self.toggle_btn.clicked.connect(self._toggle_user_status)
+        toolbar.addWidget(self.toggle_btn)
 
         # Search bar
         self.search_input = QLineEdit()
@@ -131,73 +139,63 @@ class UsersPage(QWidget):
         self.search_input.textChanged.connect(self._apply_filter)
         toolbar.addWidget(self.search_input)
 
+        # Role filter
         self.role_filter = QComboBox()
-        self.role_filter.addItem("All Roles")
-        self.role_filter.addItem("admin")
-        self.role_filter.addItem("user")
-        # Add more if you have custom roles
-        self.role_filter.addItem("manager")
-        self.role_filter.addItem("viewer")
-
+        self.role_filter.addItems(["All Roles", "admin", "user", "manager", "viewer"])
         self.role_filter.currentTextChanged.connect(self._apply_role_filter)
         toolbar.addWidget(self.role_filter)
 
+        # Status filter
         self.status_filter = QComboBox()
-        self.status_filter.addItem("All Statuses")
-        self.status_filter.addItem("Active")
-        self.status_filter.addItem("Disabled")
-
+        self.status_filter.addItems(["All Statuses", "Active", "Disabled"])
         self.status_filter.currentTextChanged.connect(self._apply_status_filter)
         toolbar.addWidget(self.status_filter)
-
-
 
         toolbar.addStretch()
         layout.addLayout(toolbar)
 
-        # ---------------------------------------------------------
         # Table
-        # ---------------------------------------------------------
         self.table = QTableView()
         self.table.setSelectionBehavior(QTableView.SelectRows)
         self.table.setSelectionMode(QTableView.SingleSelection)
         self.table.setAlternatingRowColors(True)
-
         self.table.setSortingEnabled(True)
+
         self.highlight_delegate = HighlightDelegate(
             self.table,
             get_search_text=lambda: self.search_input.text()
         )
         self.table.setItemDelegate(self.highlight_delegate)
 
-        # Double-click to edit
         self.table.doubleClicked.connect(self._edit_selected_user)
-
         layout.addWidget(self.table)
 
-        # Load initial data
+        # ---------------------------------------------------------
+        # 3. APPLY UI PERMISSIONS
+        # ---------------------------------------------------------
+        self._apply_ui_permissions()
+
+        # ---------------------------------------------------------
+        # 4. LOAD DATA
+        # ---------------------------------------------------------
         self.load_users()
 
     # ---------------------------------------------------------
-    # Load users from MongoDB
+    # Load users
     # ---------------------------------------------------------
     def load_users(self):
         try:
             logger.info("Loading users from MongoDB…")
             self.users = self.mongo.get_all_users()
 
-            # Base model
             model = UsersTableModel(self.users)
 
-            # Proxy model for filtering + sorting
             self.proxy = QSortFilterProxyModel(self)
             self.proxy.setSourceModel(model)
             self.proxy.setFilterCaseSensitivity(Qt.CaseInsensitive)
             self.proxy.setFilterKeyColumn(-1)
-            self.proxy.setSortCaseSensitivity(Qt.CaseInsensitive)   # ⭐ ADD THIS
+            self.proxy.setSortCaseSensitivity(Qt.CaseInsensitive)
             self.proxy.setDynamicSortFilter(True)
-
-
 
             self.table.setModel(self.proxy)
             self.table.resizeColumnsToContents()
@@ -212,9 +210,7 @@ class UsersPage(QWidget):
     # ---------------------------------------------------------
     def open_add_user_dialog(self):
         from ui.dialogs.add_user_dialog import AddUserDialog
-
         dlg = AddUserDialog(self.user_service, self)
-
         if dlg.exec():
             self.load_users()
 
@@ -227,11 +223,8 @@ class UsersPage(QWidget):
             QMessageBox.warning(self, "No Selection", "Please select a user to edit.")
             return
 
-        # Map proxy → source
         source_index = self.proxy.mapToSource(index)
-        row = source_index.row()
-
-        user_doc = self.proxy.sourceModel().get_user(row)
+        user_doc = self.proxy.sourceModel().get_user(source_index.row())
 
         dialog = EditUserDialog(user_doc, self)
         if dialog.exec() == QDialog.Accepted:
@@ -247,9 +240,7 @@ class UsersPage(QWidget):
             return
 
         source_index = self.proxy.mapToSource(index)
-        row = source_index.row()
-
-        user_doc = self.proxy.sourceModel().get_user(row)
+        user_doc = self.proxy.sourceModel().get_user(source_index.row())
         username = user_doc["username"]
 
         confirm = QMessageBox.question(
@@ -279,12 +270,10 @@ class UsersPage(QWidget):
             return
 
         source_index = self.proxy.mapToSource(index)
-        row = source_index.row()
+        user_doc = self.proxy.sourceModel().get_user(source_index.row())
 
-        user_doc = self.proxy.sourceModel().get_user(row)
         username = user_doc["username"]
         current_status = user_doc.get("status", "Active")
-
         new_status = "Disabled" if current_status == "Active" else "Active"
 
         confirm = QMessageBox.question(
@@ -311,63 +300,53 @@ class UsersPage(QWidget):
         if not hasattr(self, "proxy"):
             return
 
-        # Apply search text across all columns
         self.proxy.setFilterKeyColumn(-1)
         self.proxy.setFilterFixedString(text)
 
-        # Reapply role filter if needed
-        current_role = self.role_filter.currentText()
-        if current_role != "All Roles":
-            self._apply_role_filter(current_role)
+        if self.role_filter.currentText() != "All Roles":
+            self._apply_role_filter(self.role_filter.currentText())
 
-        # Reapply status filter if needed
-        current_status = self.status_filter.currentText()
-        if current_status != "All Statuses":
-            self._apply_status_filter(current_status)
+        if self.status_filter.currentText() != "All Statuses":
+            self._apply_status_filter(self.status_filter.currentText())
 
-        # Repaint table to update highlights
         self.table.viewport().update()
-
-
-
 
     def _apply_role_filter(self, role):
         if not hasattr(self, "proxy"):
             return
 
         if role == "All Roles":
-            # Clear role filter
             self.proxy.setFilterRegularExpression(self.search_input.text())
             return
 
-        # Filter by role AND search text
         pattern = f"^{role}$"
-        self.proxy.setFilterKeyColumn(2)  # column 2 = role
+        self.proxy.setFilterKeyColumn(2)
         self.proxy.setFilterRegularExpression(pattern)
-
-        # Restore search to apply on all columns
         self.proxy.setFilterKeyColumn(-1)
-
 
     def _apply_status_filter(self, status):
         if not hasattr(self, "proxy"):
             return
 
         if status == "All Statuses":
-            # Clear status filter
             self.proxy.setFilterRegularExpression(self.search_input.text())
             return
 
-        # Filter by exact status
         pattern = f"^{status}$"
-        self.proxy.setFilterKeyColumn(3)  # column 3 = Status
+        self.proxy.setFilterKeyColumn(3)
         self.proxy.setFilterRegularExpression(pattern)
-
-        # Restore search to all columns
         self.proxy.setFilterKeyColumn(-1)
 
-        # Reapply role filter if needed
-        current_role = self.role_filter.currentText()
-        if current_role != "All Roles":
-            self._apply_role_filter(current_role)
+        if self.role_filter.currentText() != "All Roles":
+            self._apply_role_filter(self.role_filter.currentText())
 
+    # ---------------------------------------------------------
+    # Apply UI Permissions
+    # ---------------------------------------------------------
+    def _apply_ui_permissions(self):
+        can_write = has_permission(self.current_user, "users.write")
+
+        self.add_btn.setVisible(can_write)
+        self.edit_btn.setVisible(can_write)
+        self.delete_btn.setVisible(can_write)
+        self.toggle_btn.setVisible(can_write)

@@ -6,6 +6,23 @@ from datetime import datetime
 
 
 class MongoService:
+
+    DEFAULT_ROLE_PERMISSIONS = {
+        "viewer": [
+            "basic.view"
+        ],
+
+        "user": [
+            "basic.view",
+            "basic.edit"
+        ],
+
+        "admin": [
+            "*"   # full access
+        ]
+    }
+
+
     def __init__(self, uri="mongodb://localhost:27017", db_name="test"):
         try:
             self.client = MongoClient(uri)
@@ -48,12 +65,23 @@ class MongoService:
     # -------------------------------------------------
     # Create user (Add User dialog)
     # -------------------------------------------------
+        
     def create_user(self, user_doc):
+        # Ensure a role exists
+        role = user_doc.setdefault("role", "viewer")
+
+        # Assign default permissions from the central template
+        default_perms = self.DEFAULT_ROLE_PERMISSIONS.get(role, [])
+        user_doc.setdefault("permissions", default_perms.copy())
+
         try:
             self.users.insert_one(user_doc)
             logger.info(f"User '{user_doc['username']}' created")
         except Exception as e:
             raise RuntimeError(f"Failed to create user: {e}")
+
+
+
 
     # -------------------------------------------------
     # Update user (Edit User dialog)
@@ -108,18 +136,19 @@ class MongoService:
         except Exception as e:
             raise RuntimeError(f"Failed to delete user: {e}")
         
-    def build_user_document(self, username, email, password, role="user", status="Active"):
+    def build_user_document(self, username, email, password, role="viewer", status="Active"):
         return {
             "username": username,
             "email": email,
             "password_hash": self.hash_password(password),
             "role": role,
-            "permissions": ["logs.read", "users.read"] if role == "user" else [],
+            "permissions": [],  # assigned later in create_user()
             "status": status,
             "created_at": datetime.utcnow().isoformat(),
             "last_login": None,
             "theme": "light"
         }
+
 
     def hash_password(self, password: str) -> str:
         return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()

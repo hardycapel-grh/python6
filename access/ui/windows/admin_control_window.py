@@ -10,11 +10,15 @@ from ui.pages.admin.audit_log_page import AuditLogPage
 class AdminControlWindow(WindowWithSidebar):
     REQUIRED_PERMISSION = "admin.access"
 
-    def __init__(self):
+    def __init__(self, user):
+        self.user = user
         super().__init__("Admin Control Panel")
 
     def _setup_pages(self):
-        self.add_page("Users", UsersPage)
+        # Only UsersPage needs the user
+        self.add_page("Users", lambda: UsersPage(self.user))
+
+        # These pages do NOT take a user argument
         self.add_page("Roles", RolesPage)
         self.add_page("Permissions", PermissionsPage)
         self.add_page("Audit Log", AuditLogPage)

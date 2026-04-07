@@ -4,31 +4,11 @@ from PySide6.QtWidgets import (
     QMessageBox
 )
 from PySide6.QtCore import Qt
-from services.mongo_service import MongoService
 from ui.components.logger import logger
-import bcrypt
-import datetime
 import re
 
 
 class AddUserDialog(QDialog):
-    ROLE_PRESETS = {
-        "admin": [
-            "logs.read", "logs.write",
-            "users.read", "users.write",
-            "permissions.read", "permissions.write",
-            "system.read", "system.write",
-            "admin.access"
-        ],
-        "user": [
-            "logs.read",
-            "users.read"
-        ],
-        "viewer": [
-            "logs.read"
-        ]
-    }
-
     def __init__(self, user_service, parent=None):
         super().__init__(parent)
 
@@ -76,7 +56,6 @@ class AddUserDialog(QDialog):
         self.email_validation_label.setStyleSheet("color: red;")
         layout.addWidget(self.email_validation_label)
 
-
         # ---------------------------------------------------------
         # Role
         # ---------------------------------------------------------
@@ -84,8 +63,6 @@ class AddUserDialog(QDialog):
         self.role_combo = QComboBox()
         self.role_combo.addItems(["viewer", "user", "admin"])
         layout.addWidget(self.role_combo)
-
-        self.role_combo.currentTextChanged.connect(self._apply_role_preset)
 
         # ---------------------------------------------------------
         # Status
@@ -104,9 +81,9 @@ class AddUserDialog(QDialog):
         layout.addWidget(self.theme_combo)
 
         # ---------------------------------------------------------
-        # Permissions
+        # Permissions (optional override)
         # ---------------------------------------------------------
-        layout.addWidget(QLabel("Permissions:"))
+        layout.addWidget(QLabel("Permissions (optional override):"))
 
         self.permissions_list = QListWidget()
         self.permissions_list.setSelectionMode(QListWidget.MultiSelection)
@@ -141,14 +118,12 @@ class AddUserDialog(QDialog):
 
         layout.addLayout(btn_row)
 
+        # Validation triggers
         self.username_input.textChanged.connect(self._update_create_button_state)
         self.password_input.textChanged.connect(self._update_create_button_state)
         self.email_input.textChanged.connect(self._update_create_button_state)
-        self.email_input.textChanged.connect(self._validate_email)
 
         self.username_input.setFocus()
-        self._apply_role_preset()
-
 
     # ---------------------------------------------------------
     # Create user
@@ -158,9 +133,7 @@ class AddUserDialog(QDialog):
         email = self.email_input.text().strip()
         password = self.password_input.text().strip()
 
-        # ---------------------------------------------------------
-        # Use the SAME validation as self-registration
-        # ---------------------------------------------------------
+        # Use same validation as registration
         from services.registration_service import RegistrationService
         validator = RegistrationService(self.user_service)
 
@@ -169,15 +142,11 @@ class AddUserDialog(QDialog):
             QMessageBox.warning(self, "Validation Error", error)
             return
 
-        # ---------------------------------------------------------
-        # Collect permissions
-        # ---------------------------------------------------------
+        # Collect admin-selected permissions (optional)
         selected = self.permissions_list.selectedItems()
         permissions = [i.text() for i in selected]
 
-        # ---------------------------------------------------------
-        # Build a complete user document using MongoService
-        # ---------------------------------------------------------
+        # Build user document
         user_doc = self.user_service.mongo.build_user_document(
             username=username,
             email=email,
@@ -186,15 +155,14 @@ class AddUserDialog(QDialog):
             status=self.status_combo.currentText()
         )
 
-        # Override default permissions with admin-selected ones
-        user_doc["permissions"] = permissions
+        # Only override permissions if admin selected some
+        if permissions:
+            user_doc["permissions"] = permissions
 
-        # Override theme if admin selected one
+        # Override theme
         user_doc["theme"] = self.theme_combo.currentText()
 
-        # ---------------------------------------------------------
         # Create user
-        # ---------------------------------------------------------
         try:
             self.user_service.mongo.create_user(user_doc)
             logger.info(f"User '{username}' created successfully.")
@@ -203,62 +171,49 @@ class AddUserDialog(QDialog):
             logger.error(f"Failed to create user: {e}")
             QMessageBox.critical(self, "Error", f"Failed to create user:\n{e}")
 
-
+    # ---------------------------------------------------------
+    # Enter key handling
+    # ---------------------------------------------------------
     def keyPressEvent(self, event):
-        # If Enter/Return is pressed
         if event.key() in (Qt.Key_Return, Qt.Key_Enter):
-            # Do NOT submit if focus is in the permissions list
             if self.permissions_list.hasFocus():
                 return
-
-            # Trigger Create
             self._create_user()
             return
 
-        # Otherwise, pass event to parent
         super().keyPressEvent(event)
 
+    # ---------------------------------------------------------
+    # Password strength
+    # ---------------------------------------------------------
     def _update_password_strength(self):
         pwd = self.password_input.text()
-
         score = 0
 
-        # Length scoring
-        if len(pwd) >= 8:
-            score += 1
-        if len(pwd) >= 12:
-            score += 1
+        if len(pwd) >= 8: score += 1
+        if len(pwd) >= 12: score += 1
+        if any(c.islower() for c in pwd): score += 1
+        if any(c.isupper() for c in pwd): score += 1
+        if any(c.isdigit() for c in pwd): score += 1
+        if any(c in "!@#$%^&*()-_=+[]{};:,.<>?/\\|" for c in pwd): score += 1
 
-        # Character variety
-        if any(c.islower() for c in pwd):
-            score += 1
-        if any(c.isupper() for c in pwd):
-            score += 1
-        if any(c.isdigit() for c in pwd):
-            score += 1
-        if any(c in "!@#$%^&*()-_=+[]{};:,.<>?/\\|" for c in pwd):
-            score += 1
-
-        # Determine strength label + colour
         if score <= 2:
-            text = "Weak"
-            color = "red"
+            text, color = "Weak", "red"
         elif score <= 4:
-            text = "Fair"
-            color = "orange"
+            text, color = "Fair", "orange"
         elif score <= 6:
-            text = "Good"
-            color = "goldenrod"
+            text, color = "Good", "goldenrod"
         else:
-            text = "Strong"
-            color = "green"
+            text, color = "Strong", "green"
 
         self.password_strength_label.setText(f"Strength: {text}")
         self.password_strength_label.setStyleSheet(f"color: {color}; font-weight: bold;")
 
+    # ---------------------------------------------------------
+    # Email validation
+    # ---------------------------------------------------------
     def _validate_email(self):
         email = self.email_input.text().strip()
-
         pattern = r"^[\w\.-]+@[\w\.-]+\.\w+$"
 
         if re.match(pattern, email):
@@ -269,25 +224,13 @@ class AddUserDialog(QDialog):
             self.email_validation_label.setText("Invalid email format")
             self.email_validation_label.setStyleSheet("color: red; font-weight: bold;")
             return False
-        
+
+    # ---------------------------------------------------------
+    # Enable/disable Create button
+    # ---------------------------------------------------------
     def _update_create_button_state(self):
         email_valid = self._validate_email()
         username_ok = len(self.username_input.text().strip()) > 0
         password_ok = len(self.password_input.text().strip()) > 0
 
         self.create_btn.setEnabled(email_valid and username_ok and password_ok)
-
-    def _apply_role_preset(self):
-        role = self.role_combo.currentText()
-        preset = self.ROLE_PRESETS.get(role, [])
-
-        # Clear all selections
-        for i in range(self.permissions_list.count()):
-            item = self.permissions_list.item(i)
-            item.setSelected(False)
-
-        # Apply preset
-        for i in range(self.permissions_list.count()):
-            item = self.permissions_list.item(i)
-            if item.text() in preset:
-                item.setSelected(True)

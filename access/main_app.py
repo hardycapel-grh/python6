@@ -10,6 +10,8 @@ class MainApp(QMainWindow):
 
         # Convert dict → User object (we'll define this next)
         self.user = user
+        self.current_user = user
+
         self._open_windows = {}
 
         self.setWindowTitle("Main Application")
@@ -37,13 +39,19 @@ class MainApp(QMainWindow):
     # Sidebar construction
     # ---------------------------------------------------------
     def _build_sidebar(self):
-        self._add_sidebar_item("Log Viewer",
-                            LogViewerWindow,
-                            lambda: LogViewerWindow())
+        self._add_sidebar_item(
+            "Log Viewer",
+            LogViewerWindow,
+            lambda: LogViewerWindow()
+        )
 
-        self._add_sidebar_item("Admin Control Panel",
-                            AdminControlWindow,
-                            lambda: AdminControlWindow())
+        self._add_sidebar_item(
+            "Admin Control Panel",
+            AdminControlWindow,
+            lambda: AdminControlWindow(self.user)
+        )
+
+
     
 
     def _add_sidebar_item(self, label: str, window_class, window_factory):

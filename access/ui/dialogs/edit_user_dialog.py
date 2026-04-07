@@ -11,22 +11,6 @@ import re
 
 
 class EditUserDialog(QDialog):
-    ROLE_PRESETS = {
-        "admin": [
-            "logs.read", "logs.write",
-            "users.read", "users.write",
-            "permissions.read", "permissions.write",
-            "system.read", "system.write",
-            "admin.access"
-        ],
-        "user": [
-            "logs.read",
-            "users.read"
-        ],
-        "viewer": [
-            "logs.read"
-        ]
-    }
 
     def __init__(self, user_doc, parent=None):
         super().__init__(parent)
@@ -82,7 +66,6 @@ class EditUserDialog(QDialog):
         self.role_combo.setCurrentText(user_doc["role"])
         layout.addWidget(self.role_combo)
 
-        self.role_combo.currentTextChanged.connect(self._apply_role_preset)
 
         # ---------------------------------------------------------
         # Status

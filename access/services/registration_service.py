@@ -29,7 +29,7 @@ class RegistrationService:
                 username=username,
                 email=email,
                 password=password,
-                role="user",
+                # role="viewer",
                 status="Active"
             )
 
