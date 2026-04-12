@@ -3,6 +3,8 @@ from bson.objectid import ObjectId
 from ui.components.logger import logger
 import bcrypt
 from datetime import datetime
+from ui.components.logger_utils import log_event
+
 
 
 class MongoService:
@@ -66,7 +68,7 @@ class MongoService:
     # Create user (Add User dialog)
     # -------------------------------------------------
         
-    def create_user(self, user_doc):
+    def create_user(self, user_doc, performed_by):
         # Ensure a role exists
         role = user_doc.setdefault("role", "viewer")
 
@@ -76,25 +78,61 @@ class MongoService:
 
         try:
             self.users.insert_one(user_doc)
-            logger.info(f"User '{user_doc['username']}' created")
+
+            # AUDIT LOG
+            log_event(
+                "info",
+                "User created",
+                by=performed_by,
+                target=user_doc.get("username"),
+                role=role,
+                permissions=",".join(user_doc.get("permissions", []))
+            )
+
         except Exception as e:
+            log_event(
+                "error",
+                "User creation failed",
+                by=performed_by,
+                target=user_doc.get("username"),
+                error=str(e)
+            )
             raise RuntimeError(f"Failed to create user: {e}")
 
-
-
-
-    # -------------------------------------------------
-    # Update user (Edit User dialog)
-    # -------------------------------------------------
-    def update_user(self, user_id, update_doc):
+    def update_user(self, user_id, update_doc, performed_by):
         try:
+            # Perform update
             self.users.update_one(
                 {"_id": ObjectId(user_id)},
                 {"$set": update_doc}
             )
-            logger.info(f"User '{user_id}' updated")
+
+            # Determine which fields changed
+            changed_fields = ", ".join(update_doc.keys())
+
+            # Fetch username for audit clarity
+            user = self.users.find_one({"_id": ObjectId(user_id)})
+            username = user.get("username") if user else user_id
+
+            # AUDIT LOG
+            log_event(
+                "info",
+                "User updated",
+                by=performed_by,
+                target=username,
+                fields=changed_fields
+            )
+
         except Exception as e:
+            log_event(
+                "error",
+                "User update failed",
+                by=performed_by,
+                target=user_id,
+                error=str(e)
+            )
             raise RuntimeError(f"Failed to update user: {e}")
+
 
     # -------------------------------------------------
     # Get user by ID
@@ -130,11 +168,33 @@ class MongoService:
         except Exception as e:
             raise RuntimeError(f"Failed to fetch users: {e}")
 
-    def delete_user(self, user_id):
+    def delete_user(self, user_id, performed_by):
         try:
+            # Fetch username for audit clarity BEFORE deletion
+            user = self.users.find_one({"_id": ObjectId(user_id)})
+            username = user.get("username") if user else user_id
+
+            # Perform deletion
             self.users.delete_one({"_id": ObjectId(user_id)})
+
+            # AUDIT LOG
+            log_event(
+                "warn",
+                "User deleted",
+                by=performed_by,
+                target=username
+            )
+
         except Exception as e:
+            log_event(
+                "error",
+                "User deletion failed",
+                by=performed_by,
+                target=user_id,
+                error=str(e)
+            )
             raise RuntimeError(f"Failed to delete user: {e}")
+
         
     def build_user_document(self, username, email, password, role="viewer", status="Active"):
         return {
@@ -158,3 +218,112 @@ class MongoService:
 
     def username_exists(self, username: str) -> bool:
         return self.users.find_one({"username": username}) is not None
+    
+    def update_permissions(self, user_id, new_permissions, performed_by):
+        try:
+            # Fetch old permissions for diff
+            user = self.users.find_one({"_id": ObjectId(user_id)})
+            username = user.get("username") if user else user_id
+            old_permissions = set(user.get("permissions", [])) if user else set()
+
+            new_permissions_set = set(new_permissions)
+
+            added = new_permissions_set - old_permissions
+            removed = old_permissions - new_permissions_set
+
+            # Perform update
+            self.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {"permissions": list(new_permissions_set)}}
+            )
+
+            # AUDIT LOG
+            log_event(
+                "info",
+                "Permissions updated",
+                by=performed_by,
+                target=username,
+                added=",".join(added) if added else "",
+                removed=",".join(removed) if removed else ""
+            )
+
+        except Exception as e:
+            log_event(
+                "error",
+                "Permission update failed",
+                by=performed_by,
+                target=user_id,
+                error=str(e)
+            )
+            raise RuntimeError(f"Failed to update permissions: {e}")
+
+    def update_role(self, user_id, new_role, performed_by):
+        try:
+            # Fetch user for clarity
+            user = self.users.find_one({"_id": ObjectId(user_id)})
+            username = user.get("username") if user else user_id
+
+            # Determine new permissions from role template
+            new_permissions = self.DEFAULT_ROLE_PERMISSIONS.get(new_role, [])
+
+            # Perform update
+            self.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {
+                    "role": new_role,
+                    "permissions": new_permissions
+                }}
+            )
+
+            # AUDIT LOG
+            log_event(
+                "info",
+                "Role updated",
+                by=performed_by,
+                target=username,
+                role=new_role,
+                permissions=",".join(new_permissions)
+            )
+
+        except Exception as e:
+            log_event(
+                "error",
+                "Role update failed",
+                by=performed_by,
+                target=user_id,
+                error=str(e)
+            )
+            raise RuntimeError(f"Failed to update role: {e}")
+
+def reset_password(self, user_id, new_password, performed_by):
+    try:
+        # Fetch username for audit clarity
+        user = self.users.find_one({"_id": ObjectId(user_id)})
+        username = user.get("username") if user else user_id
+
+        # Hash new password
+        new_hash = self.hash_password(new_password)
+
+        # Perform update
+        self.users.update_one(
+            {"_id": ObjectId(user_id)},
+            {"$set": {"password_hash": new_hash}}
+        )
+
+        # AUDIT LOG
+        log_event(
+            "warn",
+            "Password reset",
+            by=performed_by,
+            target=username
+        )
+
+    except Exception as e:
+        log_event(
+            "error",
+            "Password reset failed",
+            by=performed_by,
+            target=user_id,
+            error=str(e)
+        )
+        raise RuntimeError(f"Failed to reset password: {e}")

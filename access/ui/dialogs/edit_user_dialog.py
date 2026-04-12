@@ -11,12 +11,13 @@ import re
 
 
 class EditUserDialog(QDialog):
-
-    def __init__(self, user_doc, parent=None):
+    def __init__(self, user_doc, current_user, parent=None):
         super().__init__(parent)
 
         self.user_doc = user_doc
+        self.current_user = current_user   # ← ADD THIS
         self.mongo = MongoService()
+
 
         self.setWindowTitle(f"Edit User: {user_doc['username']}")
         self.setMinimumWidth(400)
@@ -167,7 +168,12 @@ class EditUserDialog(QDialog):
             update_doc["password_hash"] = bcrypt.hashpw(new_password.encode(), bcrypt.gensalt()).decode()
 
         try:
-            self.mongo.update_user(self.user_doc["_id"], update_doc)
+            # self.mongo.update_user(self.user_doc["_id"], update_doc)
+            self.mongo.update_user(
+                self.user_doc["_id"],
+                update_doc,
+                performed_by=self.current_user.username
+            )
             logger.info(f"User '{username}' updated successfully.")
             self.accept()
         except Exception as e:

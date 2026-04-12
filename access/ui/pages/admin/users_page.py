@@ -226,9 +226,13 @@ class UsersPage(QWidget):
         source_index = self.proxy.mapToSource(index)
         user_doc = self.proxy.sourceModel().get_user(source_index.row())
 
-        dialog = EditUserDialog(user_doc, self)
-        if dialog.exec() == QDialog.Accepted:
-            self.load_users()
+        dialog = EditUserDialog(
+            user_doc=user_doc,
+            current_user=self.current_user,   # ← pass it in
+            parent=self
+        )
+        dialog.exec()
+
 
     # ---------------------------------------------------------
     # Delete User

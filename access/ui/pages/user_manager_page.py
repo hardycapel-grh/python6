@@ -143,9 +143,12 @@ class UserManagerPage(QWidget):
             key = self.table.horizontalHeaderItem(col).text()
             user_data[key] = self.table.item(row, col).text()
 
-        dlg = EditUserDialog(self.mongo, user_data, self)
-        if dlg.exec():
-            self.load_users()
+        dlg = EditUserDialog(
+            user_doc=user_data,
+            current_user=self.current_user,   # ← pass it in
+            parent=self
+        )
+        dlg.exec()
 
     def delete_user(self):
         username = self.get_selected_username()
@@ -184,6 +187,9 @@ class UserManagerPage(QWidget):
             key = self.table.horizontalHeaderItem(col).text()
             user_data[key] = self.table.item(row, col).text()
 
-        dlg = EditUserDialog(self.mongo, user_data, self)
-        if dlg.exec():
-            self.load_users()
+        dlg = EditUserDialog(
+            user_doc=user_data,
+            current_user=self.current_user,   # ← pass it in
+            parent=self
+        )
+        dlg.exec()

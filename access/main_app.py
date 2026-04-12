@@ -1,98 +1,144 @@
-from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QListWidget, QListWidgetItem
+from cProfile import label
+
+from PySide6.QtWidgets import (
+    QMainWindow, QWidget, QHBoxLayout,
+    QListWidget, QStackedWidget
+)
 from ui.components.logger import logger
 from ui.windows.log_viewer_window import LogViewerWindow
 from ui.windows.admin_control_window import AdminControlWindow
+from ui.components.logger_utils import log_event
+
 
 
 class MainApp(QMainWindow):
     def __init__(self, user):
         super().__init__()
+        self.setMinimumSize(1200, 800)
+        self.resize(1400, 900)
 
-        # Convert dict → User object (we'll define this next)
         self.user = user
-        self.current_user = user
 
+        # Storage for sidebar factories
+        self.sidebar_items = {}
+
+        # Sidebar widget
+        self.sidebar_list = QListWidget()
+        self.sidebar_list.setFixedWidth(200)
+        self.sidebar_list.itemClicked.connect(self._handle_sidebar_click)
+
+        # Track open windows
         self._open_windows = {}
 
-        self.setWindowTitle("Main Application")
-        self.resize(1200, 800)
+        # Main content area
+        self.main_pane = QStackedWidget()
 
-        logger.info(f"MainApp initialised for user '{self.user.username}'")
+        # Layout
+        container = QWidget()
+        layout = QHBoxLayout(container)
+        layout.addWidget(self.sidebar_list)
+        layout.addWidget(self.main_pane)
+        self.setCentralWidget(container)
 
-        # Root layout
-        root = QWidget()
-        root_layout = QHBoxLayout(root)
-        self.setCentralWidget(root)
-
-        # Sidebar
-        self.sidebar = QListWidget()
-        root_layout.addWidget(self.sidebar, 1)
-
-        # Build sidebar with permission-aware items
+        # Build sidebar AFTER UI is ready
         self._build_sidebar()
 
-        # Connect click handler
-        self.sidebar.itemClicked.connect(self._handle_sidebar_click)
+        # Log initial UI tree
+        log_event("info", "MainApp started", user=self.user.username)
 
 
     # ---------------------------------------------------------
     # Sidebar construction
     # ---------------------------------------------------------
     def _build_sidebar(self):
+        log_event("info", "Building sidebar", user=self.user.username)
+
         self._add_sidebar_item(
             "Log Viewer",
             LogViewerWindow,
-            lambda: LogViewerWindow()
-        )
-
+            lambda: LogViewerWindow(self.user),   # <-- MUST pass user
+            required_permission="logs.read"
+)
         self._add_sidebar_item(
             "Admin Control Panel",
             AdminControlWindow,
-            lambda: AdminControlWindow(self.user)
+            lambda: AdminControlWindow(self.user),
+            required_permission="admin.access"
         )
 
-
+    # ---------------------------------------------------------
+    # Add sidebar item with permission filtering
+    # ---------------------------------------------------------
+    def _add_sidebar_item(self, label, window_class, factory, required_permission=None):
     
+        log_event("debug", "Registering sidebar item",
+                label=label, required_permission=required_permission)
 
-    def _add_sidebar_item(self, label: str, window_class, window_factory):
-        required = getattr(window_class, "REQUIRED_PERMISSION", None)
+        # Permission filtering
+        if required_permission:
+            perms = getattr(self.user, "permissions", [])
+            if required_permission not in perms and "*" not in perms:
+                log_event("warn", "Sidebar item blocked",
+                        user=self.user.username,
+                        label=label,
+                        required_permission=required_permission)
+                return
 
-        if required and not self.user.has_permission(required):
-            logger.info(f"Hiding '{label}' (missing permission: {required})")
-            return
+        # Store factory
+        self.sidebar_items[label] = factory
+        log_event("debug", "Sidebar item stored",
+                label=label, factory=str(factory))
 
-        item = QListWidgetItem(label)
-        item.setData(1000, window_factory)  # store FACTORY, not class
-        self.sidebar.addItem(item)
+        # Add label to sidebar
+        self.sidebar_list.addItem(label)
+        log_event("info", "Sidebar item added",
+                label=label, user=self.user.username)
+
 
     # ---------------------------------------------------------
     # Sidebar click handler
     # ---------------------------------------------------------
     def _handle_sidebar_click(self, item):
-        window_factory = item.data(1000)
-        label = item.text()
+        label = item.text().strip()
 
-        logger.info(f"Main sidebar clicked: {label}")
+        log_event("info", "Sidebar clicked",
+                user=self.user.username, label=label)
+
+        window_factory = self.sidebar_items.get(label)
+
+        if window_factory is None:
+            log_event("error", "No window factory found",
+                    user=self.user.username, label=label)
+            return
+
         self._open_window(window_factory)
+
 
     # ---------------------------------------------------------
     # Permission-aware window opening
     # ---------------------------------------------------------
-    
     def _open_window(self, window_factory):
-        # If already open, bring it to front
+        # Reuse existing window
         if window_factory in self._open_windows:
+            log_event("info", "Window reused",
+                    user=self.user.username,
+                    window=str(window_factory))
+
             window = self._open_windows[window_factory]
             window.show()
             window.raise_()
             window.activateWindow()
             return
 
-        # Create window lazily
+        # Create new window
+        log_event("info", "Opening new window",
+                user=self.user.username,
+                window=str(window_factory))
+
         window = window_factory()
         self._open_windows[window_factory] = window
-        
         window.show()
+
 
     # ---------------------------------------------------------
     # Permission denied popup

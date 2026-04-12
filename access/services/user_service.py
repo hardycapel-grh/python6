@@ -71,3 +71,14 @@ class UserService:
 
     def update_user(self, username, updates):
         self.users.update_one({"username": username}, {"$set": updates})
+
+    def has_permission(self, perm: str) -> bool:
+        user = self.current_user
+        if not user:
+            return False
+
+        # Admin wildcard
+        if "*" in user.get("permissions", []):
+            return True
+
+        return perm in user.get("permissions", [])
