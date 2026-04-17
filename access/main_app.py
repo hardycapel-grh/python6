@@ -8,16 +8,19 @@ from ui.components.logger import logger
 from ui.windows.log_viewer_window import LogViewerWindow
 from ui.windows.admin_control_window import AdminControlWindow
 from ui.components.logger_utils import log_event
+from ui.dialogs.profile_dialogs import ProfileDialog, ChangePasswordDialog
+
 
 
 
 class MainApp(QMainWindow):
-    def __init__(self, user):
+    def __init__(self, user, mongo):
         super().__init__()
         self.setMinimumSize(1200, 800)
         self.resize(1400, 900)
 
         self.user = user
+        self.mongo = mongo
 
         # Storage for sidebar factories
         self.sidebar_items = {}
@@ -62,8 +65,21 @@ class MainApp(QMainWindow):
         self._add_sidebar_item(
             "Admin Control Panel",
             AdminControlWindow,
-            lambda: AdminControlWindow(self.user),
+            lambda: AdminControlWindow(self.user, self.mongo),
             required_permission="admin.access"
+        )
+
+            # --- New: self-service items (no special permission) ---
+        self._add_sidebar_item(
+            "My Profile",
+            ProfileDialog,
+            lambda: ProfileDialog(self.mongo, self.user, self)
+        )
+
+        self._add_sidebar_item(
+            "Change Password",
+            ChangePasswordDialog,
+            lambda: ChangePasswordDialog(self.mongo, self.user, self)
         )
 
     # ---------------------------------------------------------

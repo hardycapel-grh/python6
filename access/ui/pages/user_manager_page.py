@@ -5,10 +5,11 @@ from PySide6.QtWidgets import (
 )
 from ui.components.logger import logger
 from services.mongo_service import MongoService
-from ui.dialogs.user_dialogs import (
-    AddUserDialog, EditUserDialog,
-    DeleteUserDialog, ResetPasswordDialog
-)
+from ui.dialogs.user_dialogs import AddUserDialog
+from ui.dialogs.user_dialogs import EditUserDialog
+from ui.dialogs.user_dialogs import DeleteUserDialog
+from ui.dialogs.user_dialogs import ResetPasswordDialog
+
 
 
 class UserManagerPage(QWidget):
@@ -127,7 +128,7 @@ class UserManagerPage(QWidget):
         return username
 
     def add_user(self):
-        dlg = AddUserDialog(self.mongo, self)
+        dlg = AddUserDialog(self.mongo, self.current_user, parent=self)
         if dlg.exec():
             self.load_users()
 
@@ -143,11 +144,7 @@ class UserManagerPage(QWidget):
             key = self.table.horizontalHeaderItem(col).text()
             user_data[key] = self.table.item(row, col).text()
 
-        dlg = EditUserDialog(
-            user_doc=user_data,
-            current_user=self.current_user,   # ← pass it in
-            parent=self
-        )
+        dlg = EditUserDialog(self.mongo, user_data, self.current_user, parent=self)
         dlg.exec()
 
     def delete_user(self):
@@ -155,7 +152,14 @@ class UserManagerPage(QWidget):
         if not username:
             return
 
-        dlg = DeleteUserDialog(self.mongo, username, self)
+        # Build user_data dict from table row
+        row = self.table.currentRow()
+        user_data = {}
+        for col in range(self.table.columnCount()):
+            key = self.table.horizontalHeaderItem(col).text()
+            user_data[key] = self.table.item(row, col).text()
+
+        dlg = DeleteUserDialog(self.mongo, user_data, self.current_user, parent=self)
         if dlg.exec():
             self.load_users()
 
@@ -164,7 +168,14 @@ class UserManagerPage(QWidget):
         if not username:
             return
 
-        dlg = ResetPasswordDialog(self.mongo, username, self)
+        # Build user_data dict from table row
+        row = self.table.currentRow()
+        user_data = {}
+        for col in range(self.table.columnCount()):
+            key = self.table.horizontalHeaderItem(col).text()
+            user_data[key] = self.table.item(row, col).text()
+
+        dlg = ResetPasswordDialog(self.mongo, user_data, self.current_user, parent=self)
         if dlg.exec():
             self.load_users()
 

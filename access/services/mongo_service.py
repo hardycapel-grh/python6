@@ -1,42 +1,67 @@
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from ui.components.logger import logger
-import bcrypt
-from datetime import datetime
 from ui.components.logger_utils import log_event
-
+from datetime import datetime
+import bcrypt
+import re
 
 
 class MongoService:
 
+    EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
+
     DEFAULT_ROLE_PERMISSIONS = {
-        "viewer": [
-            "basic.view"
-        ],
-
-        "user": [
-            "basic.view",
-            "basic.edit"
-        ],
-
-        "admin": [
-            "*"   # full access
-        ]
+        "viewer": ["basic.view"],
+        "user": ["basic.view", "basic.edit"],
+        "manager": ["basic.view", "basic.edit", "users.read", "users.write"],
+        "admin": ["*"]
     }
-
 
     def __init__(self, uri="mongodb://localhost:27017", db_name="test"):
         try:
             self.client = MongoClient(uri)
             self.db = self.client[db_name]
-
-            # FIX: define users collection
             self.users = self.db["users"]
-
             logger.info("Connected to MongoDB")
         except Exception as e:
             logger.error(f"MongoDB connection failed: {e}")
             raise
+
+    # -------------------------------------------------
+    # Helpers
+    # -------------------------------------------------
+    def validate_email_format(self, email: str) -> bool:
+        return bool(self.EMAIL_REGEX.match(email))
+
+    def email_exists(self, email: str, exclude_user_id=None) -> bool:
+        query = {"email": email}
+        if exclude_user_id:
+            query["_id"] = {"$ne": ObjectId(exclude_user_id)}
+        return self.users.find_one(query) is not None
+
+    def username_exists(self, username: str, exclude_user_id=None) -> bool:
+        query = {"username": username}
+        if exclude_user_id:
+            query["_id"] = {"$ne": ObjectId(exclude_user_id)}
+        return self.users.find_one(query) is not None
+
+    def hash_password(self, password: str) -> str:
+        return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
+    
+    def build_user_document(self, username, email, password, role="viewer", status="Active"):
+        return {
+            "username": username,
+            "email": email,
+            "password_hash": self.hash_password(password),
+            "role": role,
+            "permissions": self.DEFAULT_ROLE_PERMISSIONS.get(role, []),
+            "status": status,
+            "created_at": datetime.utcnow(),
+            "last_login": None,
+            "theme": "light"
+        }
+
 
     # -------------------------------------------------
     # Authentication
@@ -53,7 +78,7 @@ class MongoService:
                 logger.error(f"User '{username}' has no password_hash field")
                 return None
 
-            if bcrypt.checkpw(password.encode("utf-8"), stored_hash.encode("utf-8")):
+            if bcrypt.checkpw(password.encode(), stored_hash.encode()):
                 logger.info(f"User '{username}' authenticated successfully")
                 return user
 
@@ -65,21 +90,26 @@ class MongoService:
             return None
 
     # -------------------------------------------------
-    # Create user (Add User dialog)
+    # Create user
     # -------------------------------------------------
-        
     def create_user(self, user_doc, performed_by):
-        # Ensure a role exists
+        # Email validation
+        if not self.validate_email_format(user_doc["email"]):
+            raise RuntimeError("Invalid email format.")
+
+        if self.email_exists(user_doc["email"]):
+            raise RuntimeError("Email already in use.")
+
+        # Ensure role exists
         role = user_doc.setdefault("role", "viewer")
 
-        # Assign default permissions from the central template
+        # Assign default permissions
         default_perms = self.DEFAULT_ROLE_PERMISSIONS.get(role, [])
         user_doc.setdefault("permissions", default_perms.copy())
 
         try:
             self.users.insert_one(user_doc)
 
-            # AUDIT LOG
             log_event(
                 "info",
                 "User created",
@@ -99,22 +129,30 @@ class MongoService:
             )
             raise RuntimeError(f"Failed to create user: {e}")
 
+    # -------------------------------------------------
+    # Update user (admin)
+    # -------------------------------------------------
     def update_user(self, user_id, update_doc, performed_by):
+
+        # Email validation
+        if "email" in update_doc:
+            if not self.validate_email_format(update_doc["email"]):
+                raise RuntimeError("Invalid email format.")
+
+            if self.email_exists(update_doc["email"], exclude_user_id=user_id):
+                raise RuntimeError("Email already in use.")
+
         try:
-            # Perform update
             self.users.update_one(
                 {"_id": ObjectId(user_id)},
                 {"$set": update_doc}
             )
 
-            # Determine which fields changed
             changed_fields = ", ".join(update_doc.keys())
 
-            # Fetch username for audit clarity
             user = self.users.find_one({"_id": ObjectId(user_id)})
             username = user.get("username") if user else user_id
 
-            # AUDIT LOG
             log_event(
                 "info",
                 "User updated",
@@ -133,51 +171,16 @@ class MongoService:
             )
             raise RuntimeError(f"Failed to update user: {e}")
 
-
     # -------------------------------------------------
-    # Get user by ID
+    # Delete user (admin)
     # -------------------------------------------------
-    def get_user_by_id(self, user_id):
-        try:
-            return self.users.find_one({"_id": ObjectId(user_id)})
-        except Exception as e:
-            raise RuntimeError(f"Failed to fetch user: {e}")
-
-    # -------------------------------------------------
-    # Get all users (Users page)
-    # -------------------------------------------------
-    def get_all_users(self):
-        try:
-            users = list(self.users.find({}, {
-                "_id": 1,
-                "username": 1,
-                "email": 1,
-                "role": 1,
-                "status": 1,
-                "permissions": 1,
-                "created_at": 1,
-                "last_login": 1
-            }))
-
-            # Convert ObjectId to string for UI
-            for u in users:
-                u["_id"] = str(u["_id"])
-
-            return users
-
-        except Exception as e:
-            raise RuntimeError(f"Failed to fetch users: {e}")
-
     def delete_user(self, user_id, performed_by):
         try:
-            # Fetch username for audit clarity BEFORE deletion
             user = self.users.find_one({"_id": ObjectId(user_id)})
             username = user.get("username") if user else user_id
 
-            # Perform deletion
             self.users.delete_one({"_id": ObjectId(user_id)})
 
-            # AUDIT LOG
             log_event(
                 "warn",
                 "User deleted",
@@ -195,56 +198,32 @@ class MongoService:
             )
             raise RuntimeError(f"Failed to delete user: {e}")
 
-        
-    def build_user_document(self, username, email, password, role="viewer", status="Active"):
-        return {
-            "username": username,
-            "email": email,
-            "password_hash": self.hash_password(password),
-            "role": role,
-            "permissions": [],  # assigned later in create_user()
-            "status": status,
-            "created_at": datetime.utcnow().isoformat(),
-            "last_login": None,
-            "theme": "light"
-        }
-
-
-    def hash_password(self, password: str) -> str:
-        return bcrypt.hashpw(password.encode(), bcrypt.gensalt()).decode()
-
-    def email_exists(self, email: str) -> bool:
-        return self.users.find_one({"email": email}) is not None
-
-    def username_exists(self, username: str) -> bool:
-        return self.users.find_one({"username": username}) is not None
-    
+    # -------------------------------------------------
+    # Update permissions (admin)
+    # -------------------------------------------------
     def update_permissions(self, user_id, new_permissions, performed_by):
         try:
-            # Fetch old permissions for diff
             user = self.users.find_one({"_id": ObjectId(user_id)})
             username = user.get("username") if user else user_id
-            old_permissions = set(user.get("permissions", [])) if user else set()
 
-            new_permissions_set = set(new_permissions)
+            old = set(user.get("permissions", []))
+            new = set(new_permissions)
 
-            added = new_permissions_set - old_permissions
-            removed = old_permissions - new_permissions_set
+            added = new - old
+            removed = old - new
 
-            # Perform update
             self.users.update_one(
                 {"_id": ObjectId(user_id)},
-                {"$set": {"permissions": list(new_permissions_set)}}
+                {"$set": {"permissions": list(new)}}
             )
 
-            # AUDIT LOG
             log_event(
                 "info",
                 "Permissions updated",
                 by=performed_by,
                 target=username,
-                added=",".join(added) if added else "",
-                removed=",".join(removed) if removed else ""
+                added=",".join(added),
+                removed=",".join(removed)
             )
 
         except Exception as e:
@@ -257,16 +236,16 @@ class MongoService:
             )
             raise RuntimeError(f"Failed to update permissions: {e}")
 
+    # -------------------------------------------------
+    # Update role (admin)
+    # -------------------------------------------------
     def update_role(self, user_id, new_role, performed_by):
         try:
-            # Fetch user for clarity
             user = self.users.find_one({"_id": ObjectId(user_id)})
             username = user.get("username") if user else user_id
 
-            # Determine new permissions from role template
             new_permissions = self.DEFAULT_ROLE_PERMISSIONS.get(new_role, [])
 
-            # Perform update
             self.users.update_one(
                 {"_id": ObjectId(user_id)},
                 {"$set": {
@@ -275,7 +254,6 @@ class MongoService:
                 }}
             )
 
-            # AUDIT LOG
             log_event(
                 "info",
                 "Role updated",
@@ -295,35 +273,109 @@ class MongoService:
             )
             raise RuntimeError(f"Failed to update role: {e}")
 
-def reset_password(self, user_id, new_password, performed_by):
-    try:
-        # Fetch username for audit clarity
-        user = self.users.find_one({"_id": ObjectId(user_id)})
-        username = user.get("username") if user else user_id
+    # -------------------------------------------------
+    # Admin password reset
+    # -------------------------------------------------
+    def reset_password(self, user_id, new_password, performed_by):
+        try:
+            user = self.users.find_one({"_id": ObjectId(user_id)})
+            username = user.get("username") if user else user_id
 
-        # Hash new password
-        new_hash = self.hash_password(new_password)
+            new_hash = self.hash_password(new_password)
 
-        # Perform update
-        self.users.update_one(
-            {"_id": ObjectId(user_id)},
-            {"$set": {"password_hash": new_hash}}
-        )
+            self.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {"password_hash": new_hash}}
+            )
 
-        # AUDIT LOG
-        log_event(
-            "warn",
-            "Password reset",
-            by=performed_by,
-            target=username
-        )
+            log_event(
+                "warn",
+                "Password reset",
+                by=performed_by,
+                target=username
+            )
 
-    except Exception as e:
-        log_event(
-            "error",
-            "Password reset failed",
-            by=performed_by,
-            target=user_id,
-            error=str(e)
-        )
-        raise RuntimeError(f"Failed to reset password: {e}")
+        except Exception as e:
+            log_event(
+                "error",
+                "Password reset failed",
+                by=performed_by,
+                target=user_id,
+                error=str(e)
+            )
+            raise RuntimeError(f"Failed to reset password: {e}")
+
+    # -------------------------------------------------
+    # User self-service: update profile
+    # -------------------------------------------------
+    def update_profile(self, user_id, fields, performed_by):
+
+        if "email" in fields:
+            if not self.validate_email_format(fields["email"]):
+                raise RuntimeError("Invalid email format.")
+
+            if self.email_exists(fields["email"], exclude_user_id=user_id):
+                raise RuntimeError("Email already in use.")
+
+        try:
+            self.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": fields}
+            )
+
+            changed = ", ".join(fields.keys())
+
+            log_event(
+                "info",
+                "Profile updated",
+                by=performed_by,
+                target=performed_by,
+                fields=changed
+            )
+
+        except Exception as e:
+            log_event(
+                "error",
+                "Profile update failed",
+                by=performed_by,
+                target=performed_by,
+                error=str(e)
+            )
+            raise
+
+    # -------------------------------------------------
+    # User self-service: change password
+    # -------------------------------------------------
+    def change_password(self, user_id, old_pw, new_pw, performed_by):
+        try:
+            user = self.users.find_one({"_id": ObjectId(user_id)})
+            if not user:
+                raise RuntimeError("User not found.")
+
+            stored_hash = user.get("password_hash")
+            if not bcrypt.checkpw(old_pw.encode(), stored_hash.encode()):
+                raise RuntimeError("Current password is incorrect.")
+
+            new_hash = self.hash_password(new_pw)
+
+            self.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {"password_hash": new_hash}}
+            )
+
+            log_event(
+                "info",
+                "Password changed",
+                by=performed_by,
+                target=performed_by
+            )
+
+        except Exception as e:
+            log_event(
+                "error",
+                "Password change failed",
+                by=performed_by,
+                target=performed_by,
+                error=str(e)
+            )
+            raise

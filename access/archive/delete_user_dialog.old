@@ -1,0 +1,32 @@
+
+from PySide6.QtWidgets import QDialog, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QMessageBox
+
+class DeleteUserDialog(QDialog):
+    def __init__(self, mongo, user_data, parent=None):
+        super().__init__(parent)
+        self.mongo = mongo
+        self.user_data = user_data
+        self.setWindowTitle("Delete User")
+
+        layout = QVBoxLayout(self)
+        layout.addWidget(QLabel(f"Are you sure you want to delete '{user_data['username']}'?"))
+
+        btns = QHBoxLayout()
+        yes = QPushButton("Delete")
+        no = QPushButton("Cancel")
+        yes.clicked.connect(self.delete_user)
+        no.clicked.connect(self.reject)
+        btns.addWidget(yes)
+        btns.addWidget(no)
+        layout.addLayout(btns)
+
+    def delete_user(self):
+        try:
+            self.mongo.delete_user(
+                self.user_data["_id"],
+                performed_by=self.parent().current_user.username
+            )
+            self.accept()
+
+        except Exception as e:
+            QMessageBox.critical(self, "Error", str(e))

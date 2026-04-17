@@ -121,7 +121,7 @@ class LoginWindow(QWidget):
         # Open MainApp
         # -------------------------------------------------
         from main_app import MainApp
-        self.main_app = MainApp(user)
+        self.main_app = MainApp(user, self.mongo)
         self.main_app.show()
         self.close()
 
@@ -175,6 +175,6 @@ class LoginWindow(QWidget):
             )
 
             from main_app import MainApp
-            self.main_app = MainApp(user)
+            self.main_app = MainApp(user, self.mongo)
             self.main_app.show()
             self.close()

@@ -7,13 +7,12 @@ from ui.components.logger_utils import log_event
 
 
 class AdminControlWindow(WindowWithSidebar):
-    def __init__(self, user):
+    def __init__(self, user, mongo):
+        # FIRST assign attributes
         self.user = user
-        self.current_user = user  # required by WindowWithSidebar
+        self.mongo = mongo
 
-        log_event("info", "AdminControlWindow opened",
-                  user=self.user.username)
-
+        # THEN call parent constructor
         super().__init__("Admin Control Panel")
 
     def _setup_pages(self):
@@ -21,7 +20,7 @@ class AdminControlWindow(WindowWithSidebar):
                   user=self.user.username)
 
         self.add_page("Users",
-                      lambda: UsersPage(self.user),
+                      lambda: UsersPage(self.user, self.mongo),
                       required_permission="users.read")
 
         self.add_page("Roles",

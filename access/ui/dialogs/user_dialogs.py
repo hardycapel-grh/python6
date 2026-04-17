@@ -1,229 +1,135 @@
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QLineEdit, QLabel,
-    QPushButton, QHBoxLayout, QMessageBox
+    QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
+    QPushButton, QMessageBox, QComboBox
 )
+from bson.objectid import ObjectId
 
-from PySide6.QtGui import QPalette, QColor
-from PySide6.QtCore import Qt
-from datetime import datetime
 
 class AddUserDialog(QDialog):
-    def __init__(self, mongo, parent=None):
+    def __init__(self, mongo, current_user, parent=None):
         super().__init__(parent)
         self.mongo = mongo
+        self.current_user = current_user
+
         self.setWindowTitle("Add User")
 
         layout = QVBoxLayout(self)
 
-        # -------------------------
-        # Input fields
-        # -------------------------
-        self.username = QLineEdit()
-        self.password = QLineEdit()
-        self.password.setEchoMode(QLineEdit.Password)
-        self.email = QLineEdit()
-        self.phone = QLineEdit()
-
-        # Password strength label
-        self.pw_strength = QLabel("")
-        self.pw_strength.setStyleSheet("font-weight: bold;")
-
+        # Username
         layout.addWidget(QLabel("Username"))
+        self.username = QLineEdit()
         layout.addWidget(self.username)
 
-        layout.addWidget(QLabel("Password"))
-        layout.addWidget(self.password)
-        layout.addWidget(self.pw_strength)
 
+
+        # Password
+        layout.addWidget(QLabel("Password"))
+        self.password = QLineEdit()
+        self.password.setEchoMode(QLineEdit.Password)
+        layout.addWidget(self.password)
+
+        # Email
         layout.addWidget(QLabel("Email"))
+        self.email = QLineEdit()
         layout.addWidget(self.email)
 
-        layout.addWidget(QLabel("Phone"))
-        layout.addWidget(self.phone)
+        # Role
+        layout.addWidget(QLabel("Role"))
+        self.role = QComboBox()
+        self.role.addItems(["viewer", "user", "manager", "admin"])
+        layout.addWidget(self.role)
 
-        # -------------------------
         # Buttons
-        # -------------------------
         btns = QHBoxLayout()
         save = QPushButton("Create")
         cancel = QPushButton("Cancel")
-
-        save.clicked.connect(self.create_user)
+        save.clicked.connect(self._create_user)
         cancel.clicked.connect(self.reject)
-
         btns.addWidget(save)
         btns.addWidget(cancel)
         layout.addLayout(btns)
 
-        # -------------------------
-        # Behaviour enhancements
-        # -------------------------
-        self.username.setFocus()                 # Autofocus
-        self.password.textChanged.connect(self.update_pw_strength)
-
-        # Enter submits the form
-        self.username.returnPressed.connect(self.create_user)
-        self.password.returnPressed.connect(self.create_user)
-        self.email.returnPressed.connect(self.create_user)
-        self.phone.returnPressed.connect(self.create_user)
-
-    # -------------------------------------------------
-    # Password strength indicator
-    # -------------------------------------------------
-    def update_pw_strength(self):
-        pw = self.password.text()
-
-        if len(pw) < 6:
-            self.pw_strength.setText("Weak")
-            self.pw_strength.setStyleSheet("color: red; font-weight: bold;")
-            return
-
-        score = 0
-        if any(c.islower() for c in pw): score += 1
-        if any(c.isupper() for c in pw): score += 1
-        if any(c.isdigit() for c in pw): score += 1
-        if any(not c.isalnum() for c in pw): score += 1
-
-        if score <= 1:
-            self.pw_strength.setText("Weak")
-            self.pw_strength.setStyleSheet("color: red; font-weight: bold;")
-        elif score == 2:
-            self.pw_strength.setText("Medium")
-            self.pw_strength.setStyleSheet("color: orange; font-weight: bold;")
-        else:
-            self.pw_strength.setText("Strong")
-            self.pw_strength.setStyleSheet("color: green; font-weight: bold;")
-
-    # -------------------------------------------------
-    # Validation
-    # -------------------------------------------------
-    def validate_inputs(self):
-        if not self.username.text().strip():
-            return False, "Username is required."
-
-        if not self.password.text().strip():
-            return False, "Password is required."
-
+    def _create_user(self):
+        username = self.username.text().strip()
         email = self.email.text().strip()
-        if not email:
-            return False, "Email is required."
+        password = self.password.text().strip()
+        role = self.role.currentText()
 
-        if "@" not in email or "." not in email:
-            return False, "Email format looks invalid."
-
-        return True, None
-
-    # -------------------------------------------------
-    # Create user (calls MongoService)
-    # -------------------------------------------------
-    def create_user(self):
-        valid, err = self.validate_inputs()
-        if not valid:
-            QMessageBox.warning(self, "Invalid Input", err)
+        if not username or not email or not password:
+            QMessageBox.warning(self, "Missing Data", "All fields are required.")
             return
-
-        user_doc = {
-            "username": self.username.text(),
-            "email": self.email.text(),
-            "phone": self.phone.text(),
-            "password_hash": self.mongo.hash_password(self.password.text()),
-            "role": "user",
-            "status": "Active",
-            "created_at": datetime.utcnow().isoformat(),
-            "last_login": None,
-            "theme": "light"
-        }
 
         try:
-            self.mongo.create_user(
-                user_doc,
-                performed_by=self.parent().current_user.username
-            )
+            user_doc = {
+                "username": username,
+                "email": email,
+                "password_hash": self.mongo.hash_password(password),
+                "role": role,
+                "status": "Active",
+                "created_at": "now",
+                "last_login": None,
+                "theme": "light"
+            }
+
+            self.mongo.create_user(user_doc, performed_by=self.current_user.username)
             self.accept()
 
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
 
 
-
-
 class EditUserDialog(QDialog):
-    def __init__(self, mongo, user_data, parent=None):
+    def __init__(self, mongo, user_data, current_user, parent=None):
         super().__init__(parent)
         self.mongo = mongo
         self.user_data = user_data
-        self.setWindowTitle(f"Edit User: {user_data['username']}")
+        self.current_user = current_user
+
+        self.setWindowTitle(f"Edit User: {user_data.get('username')}")
 
         layout = QVBoxLayout(self)
 
-        # -------------------------
-        # Input fields
-        # -------------------------
-        self.email = QLineEdit(user_data.get("email", ""))
-        self.phone = QLineEdit(user_data.get("phone", ""))
-
+        # Email
         layout.addWidget(QLabel("Email"))
+        self.email = QLineEdit(user_data.get("email", ""))
         layout.addWidget(self.email)
 
-        layout.addWidget(QLabel("Phone"))
-        layout.addWidget(self.phone)
+        # Role
+        layout.addWidget(QLabel("Role"))
+        self.role = QComboBox()
+        self.role.addItems(["viewer", "user", "manager", "admin"])
+        self.role.setCurrentText(user_data.get("role", "viewer"))
+        layout.addWidget(self.role)
 
-        # -------------------------
+        # Status
+        layout.addWidget(QLabel("Status"))
+        self.status = QComboBox()
+        self.status.addItems(["Active", "Disabled"])
+        self.status.setCurrentText(user_data.get("status", "Active"))
+        layout.addWidget(self.status)
+
         # Buttons
-        # -------------------------
         btns = QHBoxLayout()
         save = QPushButton("Save")
         cancel = QPushButton("Cancel")
-
-        save.clicked.connect(self.save_changes)
+        save.clicked.connect(self._save)
         cancel.clicked.connect(self.reject)
-
         btns.addWidget(save)
         btns.addWidget(cancel)
         layout.addLayout(btns)
 
-        # -------------------------
-        # Behaviour enhancements
-        # -------------------------
-        self.email.setFocus()  # Autofocus on first editable field
-
-        # Enter submits the form
-        self.email.returnPressed.connect(self.save_changes)
-        self.phone.returnPressed.connect(self.save_changes)
-
-    # -------------------------------------------------
-    # Validation
-    # -------------------------------------------------
-    def validate_inputs(self):
-        email = self.email.text().strip()
-
-        if not email:
-            return False, "Email is required."
-
-        if "@" not in email or "." not in email:
-            return False, "Email format looks invalid."
-
-        return True, None
-
-    # -------------------------------------------------
-    # Save changes (calls MongoService)
-    # -------------------------------------------------
-    def save_changes(self):
-        valid, err = self.validate_inputs()
-        if not valid:
-            QMessageBox.warning(self, "Invalid Input", err)
-            return
-
+    def _save(self):
         update_doc = {
-            "email": self.email.text(),
-            "phone": self.phone.text()
+            "email": self.email.text().strip(),
+            "role": self.role.currentText(),
+            "status": self.status.currentText()
         }
 
         try:
             self.mongo.update_user(
                 self.user_data["_id"],
                 update_doc,
-                performed_by=self.parent().current_user.username
+                performed_by=self.current_user.username
             )
             self.accept()
 
@@ -231,31 +137,32 @@ class EditUserDialog(QDialog):
             QMessageBox.critical(self, "Error", str(e))
 
 
-
 class DeleteUserDialog(QDialog):
-    def __init__(self, mongo, user_data, parent=None):
+    def __init__(self, mongo, user_data, current_user, parent=None):
         super().__init__(parent)
         self.mongo = mongo
         self.user_data = user_data
+        self.current_user = current_user
+
         self.setWindowTitle("Delete User")
 
         layout = QVBoxLayout(self)
-        layout.addWidget(QLabel(f"Are you sure you want to delete '{user_data['username']}'?"))
+        layout.addWidget(QLabel(f"Delete user '{user_data.get('username')}'?"))
 
         btns = QHBoxLayout()
         yes = QPushButton("Delete")
         no = QPushButton("Cancel")
-        yes.clicked.connect(self.delete_user)
+        yes.clicked.connect(self._delete)
         no.clicked.connect(self.reject)
         btns.addWidget(yes)
         btns.addWidget(no)
         layout.addLayout(btns)
 
-    def delete_user(self):
+    def _delete(self):
         try:
             self.mongo.delete_user(
                 self.user_data["_id"],
-                performed_by=self.parent().current_user.username
+                performed_by=self.current_user.username
             )
             self.accept()
 
@@ -264,87 +171,45 @@ class DeleteUserDialog(QDialog):
 
 
 class ResetPasswordDialog(QDialog):
-    def __init__(self, mongo, username, parent=None):
+    def __init__(self, mongo, user_data, current_user, parent=None):
         super().__init__(parent)
         self.mongo = mongo
-        self.username = username
-        self.setWindowTitle(f"Reset Password: {username}")
+        self.user_data = user_data
+        self.current_user = current_user
+
+        self.setWindowTitle("Reset Password")
 
         layout = QVBoxLayout(self)
 
+        layout.addWidget(QLabel(f"Reset password for '{user_data.get('username')}'"))
+        layout.addWidget(QLabel("New Password"))
         self.new_pw = QLineEdit()
         self.new_pw.setEchoMode(QLineEdit.Password)
-
-        self.pw_strength = QLabel("")
-        self.pw_strength.setStyleSheet("font-weight: bold;")
-
-        layout.addWidget(QLabel("New Password"))
         layout.addWidget(self.new_pw)
-        layout.addWidget(self.pw_strength)
 
         btns = QHBoxLayout()
         save = QPushButton("Reset")
         cancel = QPushButton("Cancel")
-
-        save.clicked.connect(self.reset_pw)      # ← important
+        save.clicked.connect(self._reset)
         cancel.clicked.connect(self.reject)
-
         btns.addWidget(save)
         btns.addWidget(cancel)
         layout.addLayout(btns)
 
-        self.new_pw.setFocus()
-        self.new_pw.textChanged.connect(self.update_pw_strength)
-        self.new_pw.returnPressed.connect(self.reset_pw)
+    def _reset(self):
+        new_pw = self.new_pw.text().strip()
 
-    def update_pw_strength(self):
-        pw = self.new_pw.text()
-        if len(pw) < 6:
-            self.pw_strength.setText("Weak")
-            self.pw_strength.setStyleSheet("color: red; font-weight: bold;")
-            return
-
-        score = 0
-        if any(c.islower() for c in pw): score += 1
-        if any(c.isupper() for c in pw): score += 1
-        if any(c.isdigit() for c in pw): score += 1
-        if any(not c.isalnum() for c in pw): score += 1
-
-        if score <= 1:
-            self.pw_strength.setText("Weak")
-            self.pw_strength.setStyleSheet("color: red; font-weight: bold;")
-        elif score == 2:
-            self.pw_strength.setText("Medium")
-            self.pw_strength.setStyleSheet("color: orange; font-weight: bold;")
-        else:
-            self.pw_strength.setText("Strong")
-            self.pw_strength.setStyleSheet("color: green; font-weight: bold;")
-
-    def validate_inputs(self):
-        pw = self.new_pw.text().strip()
-        if not pw:
-            return False, "Password is required."
-        if len(pw) < 6:
-            return False, "Password must be at least 6 characters."
-        return True, None
-
-    def reset_pw(self):
-        valid, err = self.validate_inputs()
-        if not valid:
-            QMessageBox.warning(self, "Invalid Input", err)
+        if len(new_pw) < 6:
+            QMessageBox.warning(self, "Error", "Password must be at least 6 characters.")
             return
 
         try:
             self.mongo.reset_password(
                 self.user_data["_id"],
-                self.new_pw.text(),
-                performed_by=self.parent().current_user.username
+                new_pw,
+                performed_by=self.current_user.username
             )
             self.accept()
 
-            from ui.components.toast import Toast
-            Toast(self.parent(), "Password reset successfully")
-
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
-

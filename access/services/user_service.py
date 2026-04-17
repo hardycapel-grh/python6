@@ -1,7 +1,9 @@
 import email
 
 from pymongo import MongoClient
+from bson import ObjectId
 from services.mongo_service import MongoService
+from ui.components.logger_utils import log_event
 import bcrypt
 
 class UserService:
@@ -82,3 +84,74 @@ class UserService:
             return True
 
         return perm in user.get("permissions", [])
+    
+    def update_profile(self, user_id, fields, performed_by):
+        try:
+            # Email validation
+            if "email" in fields:
+                if not self.validate_email_format(fields["email"]):
+                    raise RuntimeError("Invalid email format.")
+
+                if self.email_exists(fields["email"], exclude_user_id=user_id):
+                    raise RuntimeError("Email already in use.")
+
+            self.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": fields}
+            )
+
+            changed = ", ".join(fields.keys())
+
+            log_event(
+                "info",
+                "Profile updated",
+                by=performed_by,
+                target=performed_by,
+                fields=changed
+            )
+
+        except Exception as e:
+            log_event(
+                "error",
+                "Profile update failed",
+                by=performed_by,
+                target=performed_by,
+                error=str(e)
+            )
+            raise
+
+    def change_password(self, user_id, old_pw, new_pw, performed_by):
+        try:
+            user = self.users.find_one({"_id": ObjectId(user_id)})
+            if not user:
+                raise RuntimeError("User not found.")
+
+            stored_hash = user.get("password_hash")
+            if not bcrypt.checkpw(old_pw.encode(), stored_hash.encode()):
+                raise RuntimeError("Current password is incorrect.")
+
+            new_hash = self.hash_password(new_pw)
+
+            self.users.update_one(
+                {"_id": ObjectId(user_id)},
+                {"$set": {"password_hash": new_hash}}
+            )
+
+            log_event(
+                "info",
+                "Password changed",
+                by=performed_by,
+                target=performed_by
+            )
+
+        except Exception as e:
+            log_event(
+                "error",
+                "Password change failed",
+                by=performed_by,
+                target=performed_by,
+                error=str(e)
+            )
+            raise
+
+

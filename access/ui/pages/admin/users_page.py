@@ -8,7 +8,7 @@ from PySide6.QtGui import QTextDocument, QPainter
 from services.mongo_service import MongoService
 from services.permission_service import has_permission
 from ui.components.logger import logger
-from ui.dialogs.edit_user_dialog import EditUserDialog
+from ui.dialogs.user_dialogs import EditUserDialog
 from services.user_service import UserService
 
 
@@ -88,12 +88,11 @@ class UsersTableModel(QAbstractTableModel):
 # Users Page
 # =========================================================
 class UsersPage(QWidget):
-    def __init__(self, user, parent=None):
+    def __init__(self, user, mongo, parent=None):
         super().__init__(parent)
 
         self.current_user = user
-        self.mongo = MongoService()
-        self.user_service = UserService()
+        self.mongo = mongo
         self.users = []
 
         # ---------------------------------------------------------
@@ -186,7 +185,7 @@ class UsersPage(QWidget):
     def load_users(self):
         try:
             logger.info("Loading users from MongoDB…")
-            self.users = self.mongo.get_all_users()
+            self.users = list(self.mongo.users.find())
 
             model = UsersTableModel(self.users)
 
@@ -209,14 +208,15 @@ class UsersPage(QWidget):
     # Add User
     # ---------------------------------------------------------
     def open_add_user_dialog(self):
-        from ui.dialogs.add_user_dialog import AddUserDialog
-        dlg = AddUserDialog(self.user_service, self)
+        from ui.dialogs.user_dialogs import AddUserDialog
+        dlg = AddUserDialog(self.mongo, self.current_user, parent=self)
         if dlg.exec():
             self.load_users()
 
     # ---------------------------------------------------------
     # Edit User
     # ---------------------------------------------------------
+    
     def _edit_selected_user(self):
         index = self.table.currentIndex()
         if not index.isValid():
@@ -225,12 +225,13 @@ class UsersPage(QWidget):
 
         source_index = self.proxy.mapToSource(index)
         user_doc = self.proxy.sourceModel().get_user(source_index.row())
-
         dialog = EditUserDialog(
-            user_doc=user_doc,
-            current_user=self.current_user,   # ← pass it in
+            self.mongo,
+            user_doc,
+            self.current_user,
             parent=self
         )
+
         dialog.exec()
 
 
@@ -258,7 +259,10 @@ class UsersPage(QWidget):
             return
 
         try:
-            self.mongo.delete_user(user_doc["_id"])
+            self.mongo.delete_user(
+                user_doc["_id"],
+                performed_by=self.current_user.username
+            )
             logger.info(f"User '{username}' deleted.")
             self.load_users()
         except Exception as e:
@@ -291,7 +295,11 @@ class UsersPage(QWidget):
             return
 
         try:
-            self.mongo.update_user(user_doc["_id"], {"status": new_status})
+            self.mongo.update_user(
+                user_doc["_id"],
+                {"status": new_status},
+                performed_by=self.current_user.username
+            )
             logger.info(f"User '{username}' status changed to {new_status}")
             self.load_users()
         except Exception as e:

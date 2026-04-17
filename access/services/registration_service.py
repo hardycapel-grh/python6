@@ -29,12 +29,14 @@ class RegistrationService:
                 username=username,
                 email=email,
                 password=password,
-                # role="viewer",
                 status="Active"
             )
 
             # Insert into database
-            self.user_service.mongo.create_user(user_doc)
+            self.user_service.mongo.create_user(
+                user_doc,
+                performed_by="self-register"
+            )
 
             logger.info(f"User '{username}' registered successfully")
 
