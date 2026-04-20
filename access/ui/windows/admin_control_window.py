@@ -23,9 +23,9 @@ class AdminControlWindow(WindowWithSidebar):
                       lambda: UsersPage(self.user, self.mongo),
                       required_permission="users.read")
 
-        self.add_page("Roles",
-                      RolesPage,
-                      required_permission="permissions.read")
+        self.add_page("Roles", 
+                      lambda: RolesPage(self.mongo))
+
 
         self.add_page("Permissions",
                       PermissionsPage,

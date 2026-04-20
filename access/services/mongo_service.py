@@ -379,3 +379,67 @@ class MongoService:
                 error=str(e)
             )
             raise
+
+    def get_all_roles(self):
+        return list(self.db["roles"].find({}, {"_id": 0}))
+
+    def get_role(self, name):
+        return self.db["roles"].find_one({"name": name})
+        
+    def create_role(self, name, permissions, description, performed_by):
+        if self.get_role(name):
+            raise RuntimeError("Role already exists.")
+
+        role_doc = {
+            "name": name,
+            "permissions": permissions,
+            "description": description
+        }
+
+        self.db["roles"].insert_one(role_doc)
+
+        log_event(
+            "info",
+            "Role created",
+            by=performed_by,
+            target=name,
+            permissions=",".join(permissions)
+        )
+
+    def update_role(self, name, permissions, description, performed_by):
+        if not self.get_role(name):
+            raise RuntimeError("Role does not exist.")
+
+        self.db["roles"].update_one(
+            {"name": name},
+            {"$set": {
+                "permissions": permissions,
+                "description": description
+            }}
+        )
+
+        log_event(
+            "info",
+            "Role updated",
+            by=performed_by,
+            target=name,
+            permissions=",".join(permissions)
+        )
+
+    def count_users_with_role(self, name):
+        return self.users.count_documents({"role": name})
+
+    def delete_role(self, name, performed_by):
+        count = self.count_users_with_role(name)
+        if count > 0:
+            raise RuntimeError(f"Cannot delete role '{name}' because {count} users have it.")
+
+        self.db["roles"].delete_one({"name": name})
+
+        log_event(
+            "warn",
+            "Role deleted",
+            by=performed_by,
+            target=name
+        )
+
