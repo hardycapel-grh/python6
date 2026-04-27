@@ -2,7 +2,7 @@ from cProfile import label
 
 from PySide6.QtWidgets import (
     QMainWindow, QWidget, QHBoxLayout,
-    QListWidget, QStackedWidget
+    QListWidget, QStackedWidget, QMessageBox
 )
 from ui.components.logger import logger
 from ui.windows.log_viewer_window import LogViewerWindow
@@ -21,6 +21,7 @@ class MainApp(QMainWindow):
 
         self.user = user
         self.mongo = mongo
+
 
         # Storage for sidebar factories
         self.sidebar_items = {}
@@ -49,6 +50,11 @@ class MainApp(QMainWindow):
         # Log initial UI tree
         log_event("info", "MainApp started", user=self.user.username)
 
+    def has_permission(self, perm_name: str) -> bool:
+        perms = getattr(self.user, "permissions", [])
+        return perm_name in perms or "*" in perms
+
+
 
     # ---------------------------------------------------------
     # Sidebar construction
@@ -65,7 +71,7 @@ class MainApp(QMainWindow):
         self._add_sidebar_item(
             "Admin Control Panel",
             AdminControlWindow,
-            lambda: AdminControlWindow(self.user, self.mongo),
+            lambda: self._wrap_admin_window(),
             required_permission="admin.access"
         )
 
@@ -167,3 +173,15 @@ class MainApp(QMainWindow):
             "Permission Denied",
             "You do not have permission to access this feature.",
         )
+
+    def show_permission_denied(self):
+        QMessageBox.warning(
+            self,
+            "Permission Denied",
+            "You do not have permission to perform this action."
+        )
+
+    def _wrap_admin_window(self):
+        win = AdminControlWindow(self.user, self.mongo, parent=self)
+        win.setParent(self)   # ⭐ REQUIRED because WindowWithSidebar ignores parent
+        return win

@@ -442,4 +442,77 @@ class MongoService:
             by=performed_by,
             target=name
         )
+    
+    # -----------------------------
+    # PERMISSIONS COLLECTION
+    # -----------------------------
+
+    def get_all_permissions(self):
+        return list(self.db["permissions"].find({}, {"_id": 0}))
+
+
+    def get_permission(self, name):
+        return self.db["permissions"].find_one({"name": name})
+
+
+    def create_permission(self, name, category, description, performed_by):
+        if self.get_permission(name):
+            raise RuntimeError(f"Permission '{name}' already exists.")
+
+        doc = {
+            "name": name,
+            "category": category,
+            "description": description
+        }
+
+        self.db["permissions"].insert_one(doc)
+
+        log_event(
+            "info",
+            "Permission created",
+            by=performed_by,
+            target=name
+        )
+
+
+    def update_permission(self, name, category, description, performed_by):
+        if not self.get_permission(name):
+            raise RuntimeError(f"Permission '{name}' does not exist.")
+
+        self.db["permissions"].update_one(
+            {"name": name},
+            {"$set": {
+                "category": category,
+                "description": description
+            }}
+        )
+
+        log_event(
+            "info",
+            "Permission updated",
+            by=performed_by,
+            target=name
+        )
+
+
+    def delete_permission(self, name, performed_by):
+        # Safety check: ensure no roles use this permission
+        count = self.count_roles_using_permission(name)
+        if count > 0:
+            raise RuntimeError(f"Cannot delete permission '{name}' because {count} roles use it.")
+
+        self.db["permissions"].delete_one({"name": name})
+
+        log_event(
+            "warn",
+            "Permission deleted",
+            by=performed_by,
+            target=name
+        )
+
+
+    def count_roles_using_permission(self, permission_name):
+        return self.db["roles"].count_documents({"permissions": permission_name})
+
+
 

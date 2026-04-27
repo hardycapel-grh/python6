@@ -11,6 +11,7 @@ class RolesPage(QWidget):
     def __init__(self, mongo_service, parent=None):
         super().__init__(parent)
         self.mongo = mongo_service
+        self.app = parent
 
         self.layout = QVBoxLayout(self)
 
@@ -24,6 +25,12 @@ class RolesPage(QWidget):
         toolbar.addWidget(self.btn_edit)
         toolbar.addWidget(self.btn_delete)
         toolbar.addStretch()
+
+        # --- Permission enforcement ---
+        self.btn_add.setEnabled(self.app.has_permission("roles.create"))
+        self.btn_edit.setEnabled(self.app.has_permission("roles.edit"))
+        self.btn_delete.setEnabled(self.app.has_permission("roles.delete"))
+
 
         self.layout.addLayout(toolbar)
 
@@ -70,13 +77,25 @@ class RolesPage(QWidget):
 
     # ---------------------------------------------------------
     def add_role(self):
+        if not self.app.has_permission("roles.create"):
+            self.app.show_permission_denied()
+            return
+
         dialog = RoleEditorDialog(self.mongo, mode="add")
         if dialog.exec():
             self.refresh()
 
 
+
     # ---------------------------------------------------------
+
+
     def edit_role(self):
+        # --- Permission enforcement ---
+        if not self.app.has_permission("roles.edit"):
+            self.app.show_permission_denied()
+            return
+
         role_name = self.get_selected_role()
         if not role_name:
             QMessageBox.warning(self, "No selection", "Please select a role to edit.")
@@ -87,8 +106,14 @@ class RolesPage(QWidget):
             self.refresh()
 
 
+
     # ---------------------------------------------------------
     def delete_role(self):
+    # --- Permission enforcement ---
+        if not self.app.has_permission("roles.delete"):
+            self.app.show_permission_denied()
+            return
+
         role_name = self.get_selected_role()
         if not role_name:
             QMessageBox.warning(self, "No selection", "Please select a role to delete.")
@@ -113,3 +138,4 @@ class RolesPage(QWidget):
             self.mongo.delete_role(role_name, performed_by="admin")
             logger.info(f"Role '{role_name}' deleted.")
             self.refresh()
+

@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QListWidget,
     QPushButton, QLineEdit, QListWidgetItem
 )
+from PySide6.QtCore import Qt
 
 
 class PermissionsSelectorWidget(QWidget):
@@ -13,10 +14,14 @@ class PermissionsSelectorWidget(QWidget):
 
         self.list = QListWidget()
         layout.addWidget(self.list)
+        self.list.setFocusPolicy(Qt.StrongFocus)
+
 
         # Add permission box
         add_layout = QHBoxLayout()
         self.input = QLineEdit()
+        self.input.returnPressed.connect(self.add_permission)
+
         self.btn_add = QPushButton("Add")
         add_layout.addWidget(self.input)
         add_layout.addWidget(self.btn_add)
@@ -28,9 +33,10 @@ class PermissionsSelectorWidget(QWidget):
     # ---------------------------------------------------------
     def add_permission(self):
         text = self.input.text().strip()
-        if text:
+        if text and text not in self.get_permissions():
             self.list.addItem(text)
-            self.input.clear()
+        self.input.clear()
+
 
 
     # ---------------------------------------------------------
@@ -43,3 +49,38 @@ class PermissionsSelectorWidget(QWidget):
     # ---------------------------------------------------------
     def get_permissions(self):
         return [self.list.item(i).text() for i in range(self.list.count())]
+    
+    def load_known_permissions(self, mongo):
+        self.known = [p["name"] for p in mongo.get_all_permissions()]
+
+    def keyPressEvent(self, event):
+        key = event.key()
+
+        # --- Delete selected permission ---
+        if key in (Qt.Key_Delete, Qt.Key_Backspace):
+            row = self.list.currentRow()
+            if row >= 0:
+                self.list.takeItem(row)
+            return
+
+        # --- Move selection up ---
+        if key == Qt.Key_Up:
+            row = self.list.currentRow()
+            if row > 0:
+                self.list.setCurrentRow(row - 1)
+            return
+
+        # --- Move selection down ---
+        if key == Qt.Key_Down:
+            row = self.list.currentRow()
+            if row < self.list.count() - 1:
+                self.list.setCurrentRow(row + 1)
+            return
+
+        # --- Ctrl+A: select all ---
+        if key == Qt.Key_A and event.modifiers() & Qt.ControlModifier:
+            self.list.selectAll()
+            return
+
+        # Default behaviour
+        super().keyPressEvent(event)

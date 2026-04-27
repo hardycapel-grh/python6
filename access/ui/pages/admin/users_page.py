@@ -94,6 +94,7 @@ class UsersPage(QWidget):
         self.current_user = user
         self.mongo = mongo
         self.users = []
+        self.app = parent
 
         # ---------------------------------------------------------
         # 1. WINDOW-LEVEL PERMISSION ENFORCEMENT
@@ -131,6 +132,12 @@ class UsersPage(QWidget):
         self.toggle_btn = QPushButton("Enable / Disable")
         self.toggle_btn.clicked.connect(self._toggle_user_status)
         toolbar.addWidget(self.toggle_btn)
+
+        self.add_btn.setEnabled(self.app.has_permission("users.create"))
+        self.edit_btn.setEnabled(self.app.has_permission("users.edit"))
+        self.delete_btn.setEnabled(self.app.has_permission("users.delete"))
+
+
 
         # Search bar
         self.search_input = QLineEdit()
@@ -209,15 +216,23 @@ class UsersPage(QWidget):
     # ---------------------------------------------------------
     def open_add_user_dialog(self):
         from ui.dialogs.user_dialogs import AddUserDialog
+        if not self.app.has_permission("users.create"):
+            self.app.show_permission_denied()
+            return
         dlg = AddUserDialog(self.mongo, self.current_user, parent=self)
         if dlg.exec():
             self.load_users()
+
 
     # ---------------------------------------------------------
     # Edit User
     # ---------------------------------------------------------
     
     def _edit_selected_user(self):
+        if not self.app.has_permission("users.edit"):
+            self.app.show_permission_denied()
+            return
+
         index = self.table.currentIndex()
         if not index.isValid():
             QMessageBox.warning(self, "No Selection", "Please select a user to edit.")
@@ -225,20 +240,25 @@ class UsersPage(QWidget):
 
         source_index = self.proxy.mapToSource(index)
         user_doc = self.proxy.sourceModel().get_user(source_index.row())
+
         dialog = EditUserDialog(
             self.mongo,
             user_doc,
             self.current_user,
             parent=self
         )
-
         dialog.exec()
+
 
 
     # ---------------------------------------------------------
     # Delete User
     # ---------------------------------------------------------
     def _delete_selected_user(self):
+        if not self.app.has_permission("users.delete"):
+            self.app.show_permission_denied()
+            return
+
         index = self.table.currentIndex()
         if not index.isValid():
             QMessageBox.warning(self, "No Selection", "Please select a user to delete.")
@@ -267,6 +287,7 @@ class UsersPage(QWidget):
             self.load_users()
         except Exception as e:
             QMessageBox.critical(self, "Error", f"Failed to delete user:\n{e}")
+
 
     # ---------------------------------------------------------
     # Enable / Disable User
@@ -358,7 +379,8 @@ class UsersPage(QWidget):
     def _apply_ui_permissions(self):
         can_write = has_permission(self.current_user, "users.write")
 
-        self.add_btn.setVisible(can_write)
-        self.edit_btn.setVisible(can_write)
-        self.delete_btn.setVisible(can_write)
-        self.toggle_btn.setVisible(can_write)
+        self.add_btn.setVisible(self.app.has_permission("users.create"))
+        self.edit_btn.setVisible(self.app.has_permission("users.edit"))
+        self.delete_btn.setVisible(self.app.has_permission("users.delete"))
+        self.toggle_btn.setVisible(self.app.has_permission("users.edit"))
+

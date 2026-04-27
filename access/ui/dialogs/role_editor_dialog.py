@@ -33,6 +33,14 @@ class RoleEditorDialog(QDialog):
         self.perm_widget = PermissionsSelectorWidget()
         layout.addWidget(self.perm_widget)
 
+        self.perm_widget.load_known_permissions(self.mongo)
+
+        # ⭐ Auto‑focus logic
+        if mode == "add":
+            self.name_edit.setFocus()
+        else:
+            self.desc_edit.setFocus()
+
         # --- Buttons ---
         btns = QHBoxLayout()
         self.btn_save = QPushButton("Save")
@@ -43,6 +51,10 @@ class RoleEditorDialog(QDialog):
 
         self.btn_save.clicked.connect(self.save)
         self.btn_cancel.clicked.connect(self.reject)
+
+        # ⭐ ADD THESE TWO LINES RIGHT HERE ⭐
+        self.name_edit.returnPressed.connect(self.save)
+        self.desc_edit.returnPressed.connect(self.save)
 
         if mode == "edit":
             self.load_role()
@@ -56,6 +68,15 @@ class RoleEditorDialog(QDialog):
 
         self.desc_edit.setText(role.get("description", ""))
         self.perm_widget.set_permissions(role["permissions"])
+
+        # Auto‑select description text when editing
+        self.desc_edit.selectAll()
+
+        # Auto‑select the first permission in the list
+        if self.perm_widget.list.count() > 0:
+            self.perm_widget.list.setCurrentRow(0)
+
+
 
 
     # ---------------------------------------------------------

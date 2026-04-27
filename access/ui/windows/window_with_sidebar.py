@@ -3,13 +3,14 @@ from ui.components.logger_utils import log_event
 
 
 class WindowWithSidebar(QMainWindow):
-    def __init__(self, title):
-        super().__init__()
+    def __init__(self, title, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle(title)
+
         
         self.resize(1200, 800)
         self.setMinimumSize(1000, 700)
 
-        self.setWindowTitle(title)
 
         # Required internal structures
         self.pages = {}
