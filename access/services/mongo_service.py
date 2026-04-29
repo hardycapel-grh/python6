@@ -170,6 +170,15 @@ class MongoService:
                 error=str(e)
             )
             raise RuntimeError(f"Failed to update user: {e}")
+        
+    def update_user_permissions(self, user_id, permissions, performed_by):
+        self.users.update_one(
+            {"_id": user_id},
+            {"$set": {"permissions": permissions}}
+        )
+        logger.info(f"Updated permissions for user {user_id} by {performed_by}")
+
+    
 
     # -------------------------------------------------
     # Delete user (admin)

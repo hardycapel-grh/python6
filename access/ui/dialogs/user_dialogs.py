@@ -3,6 +3,8 @@ from PySide6.QtWidgets import (
     QPushButton, QMessageBox, QComboBox
 )
 from bson.objectid import ObjectId
+from ui.components.permissions_selector_widget import PermissionsSelectorWidget
+
 
 
 class AddUserDialog(QDialog):
@@ -108,6 +110,13 @@ class EditUserDialog(QDialog):
         self.status.setCurrentText(user_data.get("status", "Active"))
         layout.addWidget(self.status)
 
+        self.permissions_widget = PermissionsSelectorWidget(
+            self.mongo,
+            selected=self.user_data.get("permissions", [])
+        )
+        layout.addWidget(self.permissions_widget)
+
+
         # Buttons
         btns = QHBoxLayout()
         save = QPushButton("Save")
@@ -125,16 +134,29 @@ class EditUserDialog(QDialog):
             "status": self.status.currentText()
         }
 
+        # NEW: collect selected permissions from the widget
+        updated_permissions = self.permissions_widget.get_selected_permissions()
+
         try:
+            # Update basic fields
             self.mongo.update_user(
                 self.user_data["_id"],
                 update_doc,
                 performed_by=self.current_user.username
             )
+
+            # NEW: update permissions override
+            self.mongo.update_user_permissions(
+                self.user_data["_id"],
+                updated_permissions,
+                performed_by=self.current_user.username
+            )
+
             self.accept()
 
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
+
 
 
 class DeleteUserDialog(QDialog):

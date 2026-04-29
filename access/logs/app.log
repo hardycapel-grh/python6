@@ -2385,3 +2385,222 @@
 2026-04-27 22:12:49,148 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001E1168BE2A0>'
 2026-04-27 22:12:49,154 [INFO] Loading users from MongoDB…
 2026-04-27 22:12:49,161 [INFO] Loaded 2 users.
+2026-04-27 22:39:04,027 [INFO] Connected to MongoDB
+2026-04-27 22:39:04,034 [INFO] Connected to MongoDB
+2026-04-27 22:39:18,117 [INFO] Login attempt: hardycapel
+2026-04-27 22:39:18,414 [INFO] User 'hardycapel' authenticated successfully
+2026-04-27 22:39:18,495 [INFO] Building sidebar: user='hardycapel'
+2026-04-27 22:39:18,495 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-04-27 22:39:18,495 [DEBUG] Sidebar item stored: label='Log Viewer', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001D28C3FE660>'
+2026-04-27 22:39:18,495 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-04-27 22:39:18,495 [DEBUG] Registering sidebar item: label='Admin Control Panel', required_permission='admin.access'
+2026-04-27 22:39:18,496 [DEBUG] Sidebar item stored: label='Admin Control Panel', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001D28C475620>'
+2026-04-27 22:39:18,496 [INFO] Sidebar item added: label='Admin Control Panel', user='hardycapel'
+2026-04-27 22:39:18,496 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-04-27 22:39:18,496 [DEBUG] Sidebar item stored: label='My Profile', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001D28C3FE840>'
+2026-04-27 22:39:18,496 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-04-27 22:39:18,496 [DEBUG] Registering sidebar item: label='Change Password', required_permission='None'
+2026-04-27 22:39:18,496 [DEBUG] Sidebar item stored: label='Change Password', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001D28EFC1D00>'
+2026-04-27 22:39:18,496 [INFO] Sidebar item added: label='Change Password', user='hardycapel'
+2026-04-27 22:39:18,496 [INFO] MainApp started: user='hardycapel'
+2026-04-27 22:39:20,311 [INFO] Sidebar clicked: user='hardycapel', label='Admin Control Panel'
+2026-04-27 22:39:20,311 [INFO] Opening new window: user='hardycapel', window='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001D28C475620>'
+2026-04-27 22:39:20,312 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-04-27 22:39:20,312 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-04-27 22:39:20,313 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001D28EFC1DA0>'
+2026-04-27 22:39:20,313 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-04-27 22:39:20,313 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-04-27 22:39:20,313 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001D28EFC1E40>'
+2026-04-27 22:39:20,313 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-04-27 22:39:20,313 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-04-27 22:39:20,313 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001D28EFC1EE0>'
+2026-04-27 22:39:20,313 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-04-27 22:39:20,313 [DEBUG] Registering admin page: page='Audit Log', required_permission='logs.read'
+2026-04-27 22:39:20,314 [DEBUG] Admin page stored: page='Audit Log', factory='<class 'ui.pages.admin.audit_log_page.AuditLogPage'>'
+2026-04-27 22:39:20,314 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-04-27 22:39:21,640 [INFO] Admin sidebar clicked: user='hardycapel', page='Users'
+2026-04-27 22:39:21,640 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001D28EFC1DA0>'
+2026-04-27 22:39:21,645 [INFO] Loading users from MongoDB…
+2026-04-27 22:39:21,651 [INFO] Loaded 2 users.
+2026-04-27 22:42:36,369 [INFO] Connected to MongoDB
+2026-04-27 22:42:36,383 [INFO] Connected to MongoDB
+2026-04-27 22:42:49,133 [INFO] Login attempt: hardycapel
+2026-04-27 22:42:49,384 [INFO] User 'hardycapel' authenticated successfully
+2026-04-27 22:42:49,448 [INFO] Building sidebar: user='hardycapel'
+2026-04-27 22:42:49,448 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-04-27 22:42:49,448 [DEBUG] Sidebar item stored: label='Log Viewer', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000020707AEE520>'
+2026-04-27 22:42:49,448 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-04-27 22:42:49,448 [DEBUG] Registering sidebar item: label='Admin Control Panel', required_permission='admin.access'
+2026-04-27 22:42:49,448 [DEBUG] Sidebar item stored: label='Admin Control Panel', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000020707B654E0>'
+2026-04-27 22:42:49,448 [INFO] Sidebar item added: label='Admin Control Panel', user='hardycapel'
+2026-04-27 22:42:49,449 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-04-27 22:42:49,449 [DEBUG] Sidebar item stored: label='My Profile', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000020707AEE700>'
+2026-04-27 22:42:49,449 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-04-27 22:42:49,449 [DEBUG] Registering sidebar item: label='Change Password', required_permission='None'
+2026-04-27 22:42:49,449 [DEBUG] Sidebar item stored: label='Change Password', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000002070AEB1BC0>'
+2026-04-27 22:42:49,449 [INFO] Sidebar item added: label='Change Password', user='hardycapel'
+2026-04-27 22:42:49,449 [INFO] MainApp started: user='hardycapel'
+2026-04-27 22:42:51,855 [INFO] Sidebar clicked: user='hardycapel', label='Admin Control Panel'
+2026-04-27 22:42:51,855 [INFO] Opening new window: user='hardycapel', window='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000020707B654E0>'
+2026-04-27 22:42:51,856 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-04-27 22:42:51,857 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-04-27 22:42:51,857 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002070AEB1C60>'
+2026-04-27 22:42:51,857 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-04-27 22:42:51,857 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-04-27 22:42:51,857 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002070AEB1D00>'
+2026-04-27 22:42:51,858 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-04-27 22:42:51,858 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-04-27 22:42:51,858 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002070AEB1DA0>'
+2026-04-27 22:42:51,858 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-04-27 22:42:51,858 [DEBUG] Registering admin page: page='Audit Log', required_permission='logs.read'
+2026-04-27 22:42:51,858 [DEBUG] Admin page stored: page='Audit Log', factory='<class 'ui.pages.admin.audit_log_page.AuditLogPage'>'
+2026-04-27 22:42:51,858 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-04-27 22:42:52,969 [INFO] Admin sidebar clicked: user='hardycapel', page='Users'
+2026-04-27 22:42:52,969 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002070AEB1C60>'
+2026-04-27 22:42:52,974 [INFO] Loading users from MongoDB…
+2026-04-27 22:42:52,982 [INFO] Loaded 2 users.
+2026-04-27 22:53:06,673 [INFO] Connected to MongoDB
+2026-04-27 22:53:06,684 [INFO] Connected to MongoDB
+2026-04-27 22:53:24,823 [INFO] Login attempt: hardycapel
+2026-04-27 22:53:25,061 [INFO] User 'hardycapel' authenticated successfully
+2026-04-27 22:53:25,105 [INFO] Building sidebar: user='hardycapel'
+2026-04-27 22:53:25,105 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-04-27 22:53:25,105 [DEBUG] Sidebar item stored: label='Log Viewer', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000017FB2C3E5C0>'
+2026-04-27 22:53:25,105 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-04-27 22:53:25,105 [DEBUG] Registering sidebar item: label='Admin Control Panel', required_permission='admin.access'
+2026-04-27 22:53:25,105 [DEBUG] Sidebar item stored: label='Admin Control Panel', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000017FB2CB5580>'
+2026-04-27 22:53:25,105 [INFO] Sidebar item added: label='Admin Control Panel', user='hardycapel'
+2026-04-27 22:53:25,105 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-04-27 22:53:25,105 [DEBUG] Sidebar item stored: label='My Profile', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000017FB2C3E7A0>'
+2026-04-27 22:53:25,105 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-04-27 22:53:25,106 [DEBUG] Registering sidebar item: label='Change Password', required_permission='None'
+2026-04-27 22:53:25,106 [DEBUG] Sidebar item stored: label='Change Password', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000017FB78E9C60>'
+2026-04-27 22:53:25,106 [INFO] Sidebar item added: label='Change Password', user='hardycapel'
+2026-04-27 22:53:25,106 [INFO] MainApp started: user='hardycapel'
+2026-04-27 22:53:27,233 [INFO] Sidebar clicked: user='hardycapel', label='Admin Control Panel'
+2026-04-27 22:53:27,233 [INFO] Opening new window: user='hardycapel', window='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000017FB2CB5580>'
+2026-04-27 22:53:27,234 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-04-27 22:53:27,234 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-04-27 22:53:27,235 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000017FB2C3E340>'
+2026-04-27 22:53:27,235 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-04-27 22:53:27,235 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-04-27 22:53:27,235 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000017FB29C7380>'
+2026-04-27 22:53:27,235 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-04-27 22:53:27,235 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-04-27 22:53:27,235 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000017FB78E9EE0>'
+2026-04-27 22:53:27,235 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-04-27 22:53:27,236 [DEBUG] Registering admin page: page='Audit Log', required_permission='logs.read'
+2026-04-27 22:53:27,236 [DEBUG] Admin page stored: page='Audit Log', factory='<class 'ui.pages.admin.audit_log_page.AuditLogPage'>'
+2026-04-27 22:53:27,236 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-04-27 22:53:28,434 [INFO] Admin sidebar clicked: user='hardycapel', page='Users'
+2026-04-27 22:53:28,434 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000017FB2C3E340>'
+2026-04-27 22:53:28,439 [INFO] Loading users from MongoDB…
+2026-04-27 22:53:28,449 [INFO] Loaded 2 users.
+2026-04-28 22:19:33,844 [INFO] Connected to MongoDB
+2026-04-28 22:19:33,852 [INFO] Connected to MongoDB
+2026-04-28 22:19:51,533 [INFO] Login attempt: hardycapel
+2026-04-28 22:19:51,797 [INFO] User 'hardycapel' authenticated successfully
+2026-04-28 22:19:52,116 [INFO] Building sidebar: user='hardycapel'
+2026-04-28 22:19:52,116 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-04-28 22:19:52,116 [DEBUG] Sidebar item stored: label='Log Viewer', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001A3EC07E660>'
+2026-04-28 22:19:52,118 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-04-28 22:19:52,119 [DEBUG] Registering sidebar item: label='Admin Control Panel', required_permission='admin.access'
+2026-04-28 22:19:52,119 [DEBUG] Sidebar item stored: label='Admin Control Panel', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001A3EC0F5620>'
+2026-04-28 22:19:52,119 [INFO] Sidebar item added: label='Admin Control Panel', user='hardycapel'
+2026-04-28 22:19:52,119 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-04-28 22:19:52,119 [DEBUG] Sidebar item stored: label='My Profile', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001A3EC07E840>'
+2026-04-28 22:19:52,119 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-04-28 22:19:52,119 [DEBUG] Registering sidebar item: label='Change Password', required_permission='None'
+2026-04-28 22:19:52,119 [DEBUG] Sidebar item stored: label='Change Password', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001A3EEC09D00>'
+2026-04-28 22:19:52,119 [INFO] Sidebar item added: label='Change Password', user='hardycapel'
+2026-04-28 22:19:52,119 [INFO] MainApp started: user='hardycapel'
+2026-04-28 22:19:54,003 [INFO] Sidebar clicked: user='hardycapel', label='Admin Control Panel'
+2026-04-28 22:19:54,003 [INFO] Opening new window: user='hardycapel', window='<function MainApp._build_sidebar.<locals>.<lambda> at 0x000001A3EC0F5620>'
+2026-04-28 22:19:54,005 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-04-28 22:19:54,005 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-04-28 22:19:54,005 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001A3EC07E480>'
+2026-04-28 22:19:54,005 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-04-28 22:19:54,006 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-04-28 22:19:54,006 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001A3EEC09EE0>'
+2026-04-28 22:19:54,006 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-04-28 22:19:54,006 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-04-28 22:19:54,006 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001A3EEC09F80>'
+2026-04-28 22:19:54,006 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-04-28 22:19:54,006 [DEBUG] Registering admin page: page='Audit Log', required_permission='logs.read'
+2026-04-28 22:19:54,007 [DEBUG] Admin page stored: page='Audit Log', factory='<class 'ui.pages.admin.audit_log_page.AuditLogPage'>'
+2026-04-28 22:19:54,007 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-04-28 22:19:58,849 [INFO] Admin sidebar clicked: user='hardycapel', page='Users'
+2026-04-28 22:19:58,849 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001A3EC07E480>'
+2026-04-28 22:19:58,873 [INFO] Loading users from MongoDB…
+2026-04-28 22:19:58,895 [INFO] Loaded 2 users.
+2026-04-28 22:20:29,284 [INFO] Admin sidebar clicked: user='hardycapel', page='Permissions'
+2026-04-28 22:20:29,284 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001A3EEC09F80>'
+2026-04-28 22:51:25,946 [INFO] Permission updated: by='admin', target='users.read'
+2026-04-28 22:51:25,946 [INFO] Permission 'users.read' updated.
+2026-04-28 22:51:48,614 [INFO] Permission updated: by='admin', target='users.write'
+2026-04-28 22:51:48,614 [INFO] Permission 'users.write' updated.
+2026-04-29 22:11:06,123 [INFO] Connected to MongoDB
+2026-04-29 22:11:06,134 [INFO] Connected to MongoDB
+2026-04-29 22:11:28,650 [INFO] Login attempt: hardycapel
+2026-04-29 22:11:28,911 [INFO] User 'hardycapel' authenticated successfully
+2026-04-29 22:11:29,173 [INFO] Building sidebar: user='hardycapel'
+2026-04-29 22:11:29,173 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-04-29 22:11:29,173 [DEBUG] Sidebar item stored: label='Log Viewer', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x00000262838EE3E0>'
+2026-04-29 22:11:29,175 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-04-29 22:11:29,175 [DEBUG] Registering sidebar item: label='Admin Control Panel', required_permission='admin.access'
+2026-04-29 22:11:29,175 [DEBUG] Sidebar item stored: label='Admin Control Panel', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000026283965620>'
+2026-04-29 22:11:29,175 [INFO] Sidebar item added: label='Admin Control Panel', user='hardycapel'
+2026-04-29 22:11:29,175 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-04-29 22:11:29,175 [DEBUG] Sidebar item stored: label='My Profile', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x00000262838EE840>'
+2026-04-29 22:11:29,175 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-04-29 22:11:29,175 [DEBUG] Registering sidebar item: label='Change Password', required_permission='None'
+2026-04-29 22:11:29,175 [DEBUG] Sidebar item stored: label='Change Password', factory='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000026285CB9D00>'
+2026-04-29 22:11:29,175 [INFO] Sidebar item added: label='Change Password', user='hardycapel'
+2026-04-29 22:11:29,175 [INFO] MainApp started: user='hardycapel'
+2026-04-29 22:11:36,589 [INFO] Sidebar clicked: user='hardycapel', label='Admin Control Panel'
+2026-04-29 22:11:36,589 [INFO] Opening new window: user='hardycapel', window='<function MainApp._build_sidebar.<locals>.<lambda> at 0x0000026283965620>'
+2026-04-29 22:11:36,590 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-04-29 22:11:36,590 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-04-29 22:11:36,591 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x00000262838EE660>'
+2026-04-29 22:11:36,591 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-04-29 22:11:36,591 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-04-29 22:11:36,591 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x00000262838EE5C0>'
+2026-04-29 22:11:36,591 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-04-29 22:11:36,591 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-04-29 22:11:36,591 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000026285CB9E40>'
+2026-04-29 22:11:36,591 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-04-29 22:11:36,591 [DEBUG] Registering admin page: page='Audit Log', required_permission='logs.read'
+2026-04-29 22:11:36,592 [DEBUG] Admin page stored: page='Audit Log', factory='<class 'ui.pages.admin.audit_log_page.AuditLogPage'>'
+2026-04-29 22:11:36,592 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-04-29 22:11:38,450 [INFO] Admin sidebar clicked: user='hardycapel', page='Permissions'
+2026-04-29 22:11:38,450 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000026285CB9E40>'
+2026-04-29 22:12:07,677 [INFO] Permission updated: by='admin', target='permissions.read'
+2026-04-29 22:12:07,677 [INFO] Permission 'permissions.read' updated.
+2026-04-29 22:12:36,087 [INFO] Permission updated: by='admin', target='permissions.write'
+2026-04-29 22:12:36,087 [INFO] Permission 'permissions.write' updated.
+2026-04-29 22:12:59,045 [INFO] Permission updated: by='admin', target='system.read'
+2026-04-29 22:12:59,045 [INFO] Permission 'system.read' updated.
+2026-04-29 22:13:15,596 [INFO] Permission updated: by='admin', target='system.write'
+2026-04-29 22:13:15,596 [INFO] Permission 'system.write' updated.
+2026-04-29 22:13:37,251 [INFO] Permission updated: by='admin', target='admin.access'
+2026-04-29 22:13:37,252 [INFO] Permission 'admin.access' updated.
+2026-04-29 22:13:58,478 [INFO] Permission updated: by='admin', target='users.create'
+2026-04-29 22:13:58,479 [INFO] Permission 'users.create' updated.
+2026-04-29 22:16:16,346 [INFO] Permission updated: by='admin', target='users.edit'
+2026-04-29 22:16:16,347 [INFO] Permission 'users.edit' updated.
+2026-04-29 22:17:34,657 [INFO] Permission updated: by='admin', target='users.delete'
+2026-04-29 22:17:34,657 [INFO] Permission 'users.delete' updated.
+2026-04-29 22:17:54,460 [INFO] Permission updated: by='admin', target='roles.create'
+2026-04-29 22:17:54,460 [INFO] Permission 'roles.create' updated.
+2026-04-29 22:18:16,287 [INFO] Permission updated: by='admin', target='roles.edit'
+2026-04-29 22:18:16,287 [INFO] Permission 'roles.edit' updated.
+2026-04-29 22:18:41,002 [INFO] Permission updated: by='admin', target='roles.delete'
+2026-04-29 22:18:41,002 [INFO] Permission 'roles.delete' updated.
+2026-04-29 22:18:59,946 [INFO] Permission updated: by='admin', target='roles.read'
+2026-04-29 22:18:59,946 [INFO] Permission 'roles.read' updated.
+2026-04-29 22:19:28,718 [INFO] Permission updated: by='admin', target='permissions.create'
+2026-04-29 22:19:28,718 [INFO] Permission 'permissions.create' updated.
+2026-04-29 22:19:43,128 [INFO] Permission updated: by='admin', target='permissions.edit'
+2026-04-29 22:19:43,128 [INFO] Permission 'permissions.edit' updated.
+2026-04-29 22:20:01,238 [INFO] Permission updated: by='admin', target='permissions.delete'
+2026-04-29 22:20:01,238 [INFO] Permission 'permissions.delete' updated.
