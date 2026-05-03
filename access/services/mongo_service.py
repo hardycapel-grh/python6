@@ -22,11 +22,18 @@ class MongoService:
         try:
             self.client = MongoClient(uri)
             self.db = self.client[db_name]
+
+            # Collections
             self.users = self.db["users"]
+            self.roles = self.db["roles"]
+            self.permissions = self.db["permissions"]
+            self.logs = self.db["logs"]
+
             logger.info("Connected to MongoDB")
         except Exception as e:
             logger.error(f"MongoDB connection failed: {e}")
             raise
+
 
     # -------------------------------------------------
     # Helpers
@@ -173,10 +180,12 @@ class MongoService:
         
     def update_user_permissions(self, user_id, permissions, performed_by):
         self.users.update_one(
-            {"_id": user_id},
+            {"_id": ObjectId(user_id)},
             {"$set": {"permissions": permissions}}
         )
         logger.info(f"Updated permissions for user {user_id} by {performed_by}")
+
+
 
     
 
@@ -457,7 +466,8 @@ class MongoService:
     # -----------------------------
 
     def get_all_permissions(self):
-        return list(self.db["permissions"].find({}, {"_id": 0}))
+        return list(self.permissions.find({}, {"_id": 0, "name": 1, "category": 1, "description": 1}))
+
 
 
     def get_permission(self, name):
@@ -519,9 +529,18 @@ class MongoService:
             target=name
         )
 
+    def count_users_using_permission(self, permission_name):
+        return self.users.count_documents({"permissions": permission_name})
 
     def count_roles_using_permission(self, permission_name):
-        return self.db["roles"].count_documents({"permissions": permission_name})
+        return self.roles.count_documents({"permissions": permission_name})
+
+    def count_total_usage_of_permission(self, permission_name):
+        users = self.count_users_using_permission(permission_name)
+        roles = self.count_roles_using_permission(permission_name)
+        return users + roles
+
+
 
 
 

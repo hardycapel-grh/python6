@@ -1,9 +1,9 @@
-# role_editor_dialog.py
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
     QPushButton, QMessageBox
 )
-from ui.widgets.permissions_selector import PermissionsSelectorWidget
+from ui.components.permissions_selector_widget import PermissionsSelectorWidget
+
 from ui.components.logger import logger
 
 
@@ -30,12 +30,22 @@ class RoleEditorDialog(QDialog):
 
         # --- Permissions ---
         layout.addWidget(QLabel("Permissions:"))
-        self.perm_widget = PermissionsSelectorWidget()
+
+        # NEW: instantiate selector with mongo + selected list
+        selected = []
+        if mode == "edit":
+            role = self.mongo.get_role(role_name)
+            selected = role.get("permissions", [])
+
+        self.perm_widget = PermissionsSelectorWidget(
+            mongo=self.mongo,
+            selected=selected
+        )
+
+        
         layout.addWidget(self.perm_widget)
 
-        self.perm_widget.load_known_permissions(self.mongo)
-
-        # ⭐ Auto‑focus logic
+        # Autofocus
         if mode == "add":
             self.name_edit.setFocus()
         else:
@@ -52,7 +62,6 @@ class RoleEditorDialog(QDialog):
         self.btn_save.clicked.connect(self.save)
         self.btn_cancel.clicked.connect(self.reject)
 
-        # ⭐ ADD THESE TWO LINES RIGHT HERE ⭐
         self.name_edit.returnPressed.connect(self.save)
         self.desc_edit.returnPressed.connect(self.save)
 
@@ -63,27 +72,22 @@ class RoleEditorDialog(QDialog):
     # ---------------------------------------------------------
     def load_role(self):
         role = self.mongo.get_role(self.role_name)
+
         self.name_edit.setText(role["name"])
-        self.name_edit.setDisabled(True)  # LOCKED
+        self.name_edit.setDisabled(True)
 
         self.desc_edit.setText(role.get("description", ""))
-        self.perm_widget.set_permissions(role["permissions"])
-
-        # Auto‑select description text when editing
         self.desc_edit.selectAll()
-
-        # Auto‑select the first permission in the list
-        if self.perm_widget.list.count() > 0:
-            self.perm_widget.list.setCurrentRow(0)
-
-
 
 
     # ---------------------------------------------------------
     def save(self):
         name = self.name_edit.text().strip()
         desc = self.desc_edit.text().strip()
-        perms = self.perm_widget.get_permissions()
+
+        # NEW: correct API for the new widget
+        perms = self.perm_widget.get_selected_permissions()
+
 
         if not name:
             QMessageBox.warning(self, "Missing name", "Role name cannot be empty.")

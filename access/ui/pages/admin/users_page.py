@@ -247,6 +247,7 @@ class UsersPage(QWidget):
             self.current_user,
             parent=self
         )
+        dialog.saved.connect(self.load_users)   # ← refresh automatically  
         dialog.exec()
 
 

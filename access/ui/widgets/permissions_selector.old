@@ -7,8 +7,10 @@ from PySide6.QtCore import Qt
 
 
 class PermissionsSelectorWidget(QWidget):
-    def __init__(self, parent=None):
+    def __init__(self, mongo, selected=None, parent=None):
         super().__init__(parent)
+        self.mongo = mongo
+        self.selected = set(selected or [])
 
         layout = QVBoxLayout(self)
 

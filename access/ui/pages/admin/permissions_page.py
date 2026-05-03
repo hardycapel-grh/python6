@@ -57,7 +57,8 @@ class PermissionsPage(QWidget):
             name = perm["name"]
             category = perm.get("category", "")
             desc = perm.get("description", "")
-            used_by = self.mongo.count_roles_using_permission(name)
+            used_by = self.mongo.count_total_usage_of_permission(name)
+
 
             self.table.setItem(row, 0, QTableWidgetItem(name))
             self.table.setItem(row, 1, QTableWidgetItem(category))

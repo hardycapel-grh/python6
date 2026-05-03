@@ -4,6 +4,8 @@ from PySide6.QtWidgets import (
 )
 from bson.objectid import ObjectId
 from ui.components.permissions_selector_widget import PermissionsSelectorWidget
+from PySide6.QtCore import Signal
+
 
 
 
@@ -81,6 +83,7 @@ class AddUserDialog(QDialog):
 
 
 class EditUserDialog(QDialog):
+    saved = Signal()
     def __init__(self, mongo, user_data, current_user, parent=None):
         super().__init__(parent)
         self.mongo = mongo
@@ -134,28 +137,28 @@ class EditUserDialog(QDialog):
             "status": self.status.currentText()
         }
 
-        # NEW: collect selected permissions from the widget
         updated_permissions = self.permissions_widget.get_selected_permissions()
 
         try:
-            # Update basic fields
             self.mongo.update_user(
                 self.user_data["_id"],
                 update_doc,
                 performed_by=self.current_user.username
             )
 
-            # NEW: update permissions override
             self.mongo.update_user_permissions(
                 self.user_data["_id"],
                 updated_permissions,
                 performed_by=self.current_user.username
             )
 
+            self.saved.emit()   # ← notify UsersPage
             self.accept()
 
         except Exception as e:
             QMessageBox.critical(self, "Error", str(e))
+
+
 
 
 
