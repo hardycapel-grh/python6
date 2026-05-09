@@ -97,9 +97,34 @@ class RoleEditorDialog(QDialog):
             if self.mode == "add":
                 self.mongo.create_role(name, perms, desc, performed_by="admin")
                 logger.info(f"Role '{name}' created.")
+                self.mongo.audit(
+                    event="role.create",
+                    performed_by="admin",
+                    target=name,
+                    details={
+                        "permissions": list(perms),
+                    }
+                )
+
             else:
+                old_role = self.mongo.get_role(self.role_name)
+                old_permissions = old_role.get("permissions", [])
                 self.mongo.update_role(name, perms, desc, performed_by="admin")
                 logger.info(f"Role '{name}' updated.")
+                self.mongo.audit(
+                    event="role.update",
+                    performed_by="admin",
+                    target=name,
+                    details={
+                        "old": {
+                            "permissions": old_permissions,
+                        },
+                        "new": {
+                            "permissions": list(perms),
+                        }
+                    }
+                )
+
 
             self.accept()
 

@@ -55,6 +55,10 @@ class PermissionEditorDialog(QDialog):
 
         self.category_edit.setText(perm.get("category", ""))
         self.desc_edit.setText(perm.get("description", ""))
+        
+        # Store old values for audit trail
+        self.old_category = perm.get("category", "")
+        self.old_description = perm.get("description", "")
 
 
     # ---------------------------------------------------------
@@ -71,9 +75,35 @@ class PermissionEditorDialog(QDialog):
             if self.mode == "add":
                 self.mongo.create_permission(name, category, desc, performed_by="admin")
                 logger.info(f"Permission '{name}' created.")
+                self.mongo.audit(
+                    event="permission.create",
+                    performed_by="admin",
+                    target=name,
+                    details={
+                        "category": category,
+                        "description": desc
+                    }
+                )
+
             else:
                 self.mongo.update_permission(name, category, desc, performed_by="admin")
                 logger.info(f"Permission '{name}' updated.")
+                self.mongo.audit(
+                    event="permission.update",
+                    performed_by="admin",
+                    target=name,
+                    details={
+                        "old": {
+                            "category": self.old_category,
+                            "description": self.old_description
+                        },
+                        "new": {
+                            "category": category,
+                            "description": desc
+                        }
+                    }
+                )
+
 
             self.accept()
 

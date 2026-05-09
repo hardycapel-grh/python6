@@ -13,8 +13,6 @@ class AuditLogPage(QWidget):
     def __init__(self, mongo: MongoService, parent=None):
         super().__init__(parent)
         self.mongo = mongo
-        # print("AuditLogPage created with mongo:", mongo)
-
 
         self.setWindowTitle("Audit Log")
 

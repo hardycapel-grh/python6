@@ -11,6 +11,7 @@ class AdminControlWindow(WindowWithSidebar):
 
         # Assign attributes BEFORE WindowWithSidebar runs _setup_pages()
         self.user = user
+        self.current_user = user 
         self.mongo = mongo
         self.app = parent
 
@@ -35,6 +36,6 @@ class AdminControlWindow(WindowWithSidebar):
 
         self.add_page("Permissions", 
                       lambda: PermissionsPage(self.mongo, parent=self))
-        self.add_page("Audit Log",
-                      AuditLogPage,
-                      required_permission="logs.read")
+        
+        self.add_page("Audit Log", lambda: AuditLogPage(self.mongo))
+

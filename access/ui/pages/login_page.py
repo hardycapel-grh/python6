@@ -56,6 +56,7 @@ class LoginWindow(QWidget):
     # Login logic
     # ---------------------------------------------------------
     def login(self):
+        # print("LOGIN() WAS CALLED")
         from page_registry import PAGE_REGISTRY  # safe import
 
         username = self.username.text().strip()
@@ -74,6 +75,11 @@ class LoginWindow(QWidget):
         db_user = self.mongo.authenticate(username, password)
 
         if not db_user:
+            self.mongo.audit(
+                event="login.failure",
+                performed_by=username,
+                details="Invalid username or password"
+            )
             QMessageBox.warning(self, "Error", "Invalid username or password")
             logger.warning(f"Login failed for '{username}'")
             return
@@ -82,6 +88,11 @@ class LoginWindow(QWidget):
         # Force password change
         # -------------------------------------------------
         if db_user.get("must_change_password"):
+            self.mongo.audit(
+                event="login.success",
+                performed_by=username,
+                details="User logged in"
+            )
             logger.info(f"User '{username}' must change password before continuing")
             self.open_force_password_change_window(username)
             return
@@ -117,6 +128,12 @@ class LoginWindow(QWidget):
             permissions=db_user["permissions"]
         )
 
+        # AUDIT NORMAL SUCCESS
+        self.mongo.audit(
+            event="login.success",
+            performed_by=username,
+            details="User logged in"
+        )
         # -------------------------------------------------
         # Open MainApp
         # -------------------------------------------------

@@ -134,5 +134,12 @@ class PermissionsPage(QWidget):
         if confirm == QMessageBox.Yes:
             self.mongo.delete_permission(name, performed_by="admin")
             logger.info(f"Permission '{name}' deleted.")
+            self.mongo.audit(
+                event="permission.delete",
+                performed_by=self.app.current_user.username,
+                target=name,
+                details=None
+            )
+
             self.refresh()
 

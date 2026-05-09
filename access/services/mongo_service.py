@@ -28,6 +28,8 @@ class MongoService:
             self.roles = self.db["roles"]
             self.permissions = self.db["permissions"]
             self.logs = self.db["logs"]
+            self.audit_log = self.db["audit_log"]
+
 
             logger.info("Connected to MongoDB")
         except Exception as e:
@@ -117,6 +119,17 @@ class MongoService:
         try:
             self.users.insert_one(user_doc)
 
+            self.audit(
+                event="user.create",
+                performed_by=performed_by,
+                target=user_doc.get("username"),
+                details={
+                    "email": user_doc.get("email"),
+                    "role": user_doc.get("role"),
+                    "permissions": user_doc.get("permissions"),
+                }
+            )
+
             log_event(
                 "info",
                 "User created",
@@ -167,6 +180,13 @@ class MongoService:
                 target=username,
                 fields=changed_fields
             )
+            self.audit(
+                event="user.update",
+                performed_by=performed_by,
+                target=username,
+                details=update_doc
+            )
+
 
         except Exception as e:
             log_event(
@@ -205,6 +225,13 @@ class MongoService:
                 by=performed_by,
                 target=username
             )
+            self.audit(
+                event="user.delete",
+                performed_by=performed_by,
+                target=username,
+                details="User deleted"
+            )
+
 
         except Exception as e:
             log_event(
@@ -243,6 +270,16 @@ class MongoService:
                 added=",".join(added),
                 removed=",".join(removed)
             )
+            self.audit(
+                event="user.update_permissions",
+                performed_by=performed_by,
+                target=username,
+                details={
+                    "added": list(added),
+                    "removed": list(removed)
+                }
+            )
+
 
         except Exception as e:
             log_event(
@@ -280,6 +317,16 @@ class MongoService:
                 role=new_role,
                 permissions=",".join(new_permissions)
             )
+            self.audit(
+                event="user.update_role",
+                performed_by=performed_by,
+                target=username,
+                details={
+                    "new_role": new_role,
+                    "permissions": new_permissions
+                }
+            )
+
 
         except Exception as e:
             log_event(
@@ -312,6 +359,13 @@ class MongoService:
                 by=performed_by,
                 target=username
             )
+            self.audit(
+                event="user.reset_password",
+                performed_by=performed_by,
+                target=username,
+                details="Password reset"
+            )
+
 
         except Exception as e:
             log_event(
@@ -540,6 +594,16 @@ class MongoService:
         roles = self.count_roles_using_permission(permission_name)
         return users + roles
 
+    def audit(self, event, performed_by, target=None, details=None):
+        doc = {
+            "timestamp": datetime.utcnow(),
+            "event": event,
+            "performed_by": performed_by,
+            "target": target,
+            "details": details,
+        }
+        # print("AUDIT CALLED:", event, performed_by)
+        self.audit_log.insert_one(doc)
 
 
 

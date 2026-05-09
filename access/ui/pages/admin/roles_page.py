@@ -137,5 +137,12 @@ class RolesPage(QWidget):
         if confirm == QMessageBox.Yes:
             self.mongo.delete_role(role_name, performed_by="admin")
             logger.info(f"Role '{role_name}' deleted.")
+            self.mongo.audit(
+                event="role.delete",
+                performed_by=self.app.current_user.username,
+                target=role_name,
+                details=None
+            )
+
             self.refresh()
 

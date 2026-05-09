@@ -9,6 +9,8 @@ from ui.windows.log_viewer_window import LogViewerWindow
 from ui.windows.admin_control_window import AdminControlWindow
 from ui.components.logger_utils import log_event
 from ui.dialogs.profile_dialogs import ProfileDialog, ChangePasswordDialog
+from ui.pages.admin.audit_log_page import AuditLogPage
+
 
 
 
