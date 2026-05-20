@@ -5,11 +5,12 @@ from PySide6.QtWidgets import (
     QListWidget, QStackedWidget, QMessageBox
 )
 from ui.components.logger import logger
-from ui.windows.log_viewer_window import LogViewerWindow
+from ui.windows.log_viewer_window import LogViewerPage, LogViewerWindow
 from ui.windows.admin_control_window import AdminControlWindow
 from ui.components.logger_utils import log_event
 from ui.dialogs.profile_dialogs import ProfileDialog, ChangePasswordDialog
 from ui.pages.admin.audit_log_page import AuditLogPage
+from ui.pages.profile_page import ProfilePage
 
 
 
@@ -65,40 +66,34 @@ class MainApp(QMainWindow):
         log_event("info", "Building sidebar", user=self.user.username)
 
         self._add_sidebar_item(
-            "Log Viewer",
-            LogViewerWindow,
-            lambda: LogViewerWindow(self.user),   # <-- MUST pass user
-            required_permission="logs.read"
-)
+            "My Profile",
+            ProfilePage,
+            lambda: ProfilePage(self, self.mongo, None)
+        )
+
         self._add_sidebar_item(
-            "Admin Control Panel",
+            "Log Viewer",
+            LogViewerPage,
+            lambda: LogViewerPage(None),
+            required_permission="logs.read"
+        )
+
+        self._add_sidebar_item(
+            "Admin",
             AdminControlWindow,
-            lambda: self._wrap_admin_window(),
+            lambda: AdminControlWindow(self.user, self.mongo, self),
             required_permission="admin.access"
         )
 
-            # --- New: self-service items (no special permission) ---
-        self._add_sidebar_item(
-            "My Profile",
-            ProfileDialog,
-            lambda: ProfileDialog(self.mongo, self.user, self)
-        )
 
-        self._add_sidebar_item(
-            "Change Password",
-            ChangePasswordDialog,
-            lambda: ChangePasswordDialog(self.mongo, self.user, self)
-        )
 
     # ---------------------------------------------------------
     # Add sidebar item with permission filtering
     # ---------------------------------------------------------
     def _add_sidebar_item(self, label, window_class, factory, required_permission=None):
-    
         log_event("debug", "Registering sidebar item",
                 label=label, required_permission=required_permission)
 
-        # Permission filtering
         if required_permission:
             perms = getattr(self.user, "permissions", [])
             if required_permission not in perms and "*" not in perms:
@@ -108,60 +103,72 @@ class MainApp(QMainWindow):
                         required_permission=required_permission)
                 return
 
-        # Store factory
-        self.sidebar_items[label] = factory
-        log_event("debug", "Sidebar item stored",
-                label=label, factory=str(factory))
+        # Store BOTH class and factory
+        self.sidebar_items[label] = (window_class, factory)
 
-        # Add label to sidebar
         self.sidebar_list.addItem(label)
         log_event("info", "Sidebar item added",
                 label=label, user=self.user.username)
 
 
+
+
+
     # ---------------------------------------------------------
     # Sidebar click handler
     # ---------------------------------------------------------
+
     def _handle_sidebar_click(self, item):
         label = item.text().strip()
 
         log_event("info", "Sidebar clicked",
                 user=self.user.username, label=label)
 
-        window_factory = self.sidebar_items.get(label)
+        entry = self.sidebar_items.get(label)
 
-        if window_factory is None:
-            log_event("error", "No window factory found",
+        if entry is None:
+            log_event("error", "No window entry found",
                     user=self.user.username, label=label)
             return
 
-        self._open_window(window_factory)
+        window_class, factory = entry
+        self._open_window(window_class, factory)
+
+
+
 
 
     # ---------------------------------------------------------
     # Permission-aware window opening
     # ---------------------------------------------------------
-    def _open_window(self, window_factory):
-        # Reuse existing window
-        if window_factory in self._open_windows:
-            log_event("info", "Window reused",
-                    user=self.user.username,
-                    window=str(window_factory))
+    def _open_window(self, window_class, factory):
+        key = window_class.__name__
 
-            window = self._open_windows[window_factory]
+        if key in self._open_windows:
+            window = self._open_windows[key]
             window.show()
             window.raise_()
             window.activateWindow()
             return
 
-        # Create new window
-        log_event("info", "Opening new window",
-                user=self.user.username,
-                window=str(window_factory))
+        try:
+            window = factory()
+        except Exception as e:
+            log_event("error", f"Factory for {key} failed: {e}")
+            raise
 
-        window = window_factory()
-        self._open_windows[window_factory] = window
+        self._open_windows[key] = window
+
         window.show()
+        window.raise_()
+        window.activateWindow()
+
+
+
+
+
+
+
 
 
     # ---------------------------------------------------------

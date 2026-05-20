@@ -9,7 +9,12 @@ import os
 
 class LogViewerPage(QWidget):
     def __init__(self, parent=None):
+        
         super().__init__(parent)
+        self.setMinimumSize(1200, 600)
+        self.resize(1200, 600)
+
+
 
         self._full_content = ""  # raw log text (unfiltered)
 

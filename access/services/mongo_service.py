@@ -1,3 +1,5 @@
+from dataclasses import fields
+
 from pymongo import MongoClient
 from bson.objectid import ObjectId
 from ui.components.logger import logger
@@ -381,6 +383,9 @@ class MongoService:
     # User self-service: update profile
     # -------------------------------------------------
     def update_profile(self, user_id, fields, performed_by):
+        # print("TYPE OF user_id:", type(user_id), user_id)
+
+        fields.pop("_id", None)
 
         if "email" in fields:
             if not self.validate_email_format(fields["email"]):
@@ -604,6 +609,12 @@ class MongoService:
         }
         # print("AUDIT CALLED:", event, performed_by)
         self.audit_log.insert_one(doc)
+
+    def get_user(self, username: str):
+        """
+        Return the full user document including _id.
+        """
+        return self.users.find_one({"username": username})
 
 
 

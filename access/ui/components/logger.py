@@ -45,3 +45,9 @@ def dump_widget_tree(widget: QWidget, indent: int = 0):
 
     for child in widget.findChildren(QWidget, options=widget.FindDirectChildrenOnly):
         dump_widget_tree(child, indent + 2)
+
+def get_entries_for_user(self, username: str):
+    return [
+        entry for entry in self.entries
+        if entry.get("user") == username
+    ]

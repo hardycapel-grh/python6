@@ -1,18 +1,30 @@
-# ui/pages/audit_log_page.py
+# ui/pages/admin/audit_log_page.py
+print(">>> YOU ARE USING THIS FILE:", __file__)
+
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,
-    QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem
+    QLabel, QLineEdit, QPushButton, QTableWidget, QTableWidgetItem,
+    QDialog, QTextEdit
 )
 from PySide6.QtCore import Qt
 from datetime import datetime
+import json
 
 from services.mongo_service import MongoService
+print(">>> FILE LOADED:", __file__)
 
 
 class AuditLogPage(QWidget):
+    
+    print(">>> CLASS BODY EXECUTED")
     def __init__(self, mongo: MongoService, parent=None):
+        print(">>> __init__ START")
+        print(">>> THIS IS THE REAL AUDIT LOG PAGE FILE")
+
         super().__init__(parent)
         self.mongo = mongo
+
+        # print(">>> AUDIT LOG PAGE __init__ CALLED")
 
         self.setWindowTitle("Audit Log")
 
@@ -24,23 +36,23 @@ class AuditLogPage(QWidget):
         filter_layout = QHBoxLayout()
 
         self.event_filter = QLineEdit()
-        self.event_filter.setPlaceholderText("Event (e.g. user.create, login.success)")
+        self.event_filter.setPlaceholderText("Event")
         filter_layout.addWidget(QLabel("Event:"))
         filter_layout.addWidget(self.event_filter)
 
         self.user_filter = QLineEdit()
-        self.user_filter.setPlaceholderText("Performed by (username)")
+        self.user_filter.setPlaceholderText("Performed By")
         filter_layout.addWidget(QLabel("User:"))
         filter_layout.addWidget(self.user_filter)
 
         self.target_filter = QLineEdit()
-        self.target_filter.setPlaceholderText("Target (username / id)")
+        self.target_filter.setPlaceholderText("Target")
         filter_layout.addWidget(QLabel("Target:"))
         filter_layout.addWidget(self.target_filter)
 
-        self.refresh_btn = QPushButton("Refresh")
-        self.refresh_btn.clicked.connect(self.load_data)
-        filter_layout.addWidget(self.refresh_btn)
+        refresh_btn = QPushButton("Refresh")
+        refresh_btn.clicked.connect(self.load_data)
+        filter_layout.addWidget(refresh_btn)
 
         layout.addLayout(filter_layout)
 
@@ -48,6 +60,8 @@ class AuditLogPage(QWidget):
         # Table
         # -------------------------
         self.table = QTableWidget()
+        # print(">>> TABLE OBJECT:", self.table)
+
         self.table.setColumnCount(5)
         self.table.setHorizontalHeaderLabels(
             ["Timestamp", "Event", "Performed By", "Target", "Details"]
@@ -58,8 +72,15 @@ class AuditLogPage(QWidget):
 
         layout.addWidget(self.table)
 
+        # Connect signals BEFORE loading data
+        self.table.cellClicked.connect(lambda r, c: print("CLICK", r, c))
+        self.table.cellDoubleClicked.connect(lambda r, c: print("DOUBLE", r, c))
+        self.table.cellDoubleClicked.connect(self._show_details)
+
+        # Load initial data
         self.load_data()
 
+    # ------------------------------------------------------------
     def build_query(self):
         query = {}
 
@@ -77,10 +98,16 @@ class AuditLogPage(QWidget):
 
         return query
 
+    # ------------------------------------------------------------
     def load_data(self):
         query = self.build_query()
 
-        cursor = self.mongo.audit_log.find(query).sort("timestamp", -1).limit(500)
+        cursor = (
+            self.mongo.audit_log
+            .find(query)
+            .sort("timestamp", -1)
+            .limit(500)
+        )
 
         rows = list(cursor)
         self.table.setRowCount(len(rows))
@@ -101,4 +128,35 @@ class AuditLogPage(QWidget):
             self.table.setItem(row_idx, 1, QTableWidgetItem(event))
             self.table.setItem(row_idx, 2, QTableWidgetItem(performed_by))
             self.table.setItem(row_idx, 3, QTableWidgetItem(str(target)))
-            self.table.setItem(row_idx, 4, QTableWidgetItem(str(details)))
+
+            details_item = QTableWidgetItem("Details…")
+            details_item.setData(Qt.UserRole, details)
+            self.table.setItem(row_idx, 4, details_item)
+
+    # ------------------------------------------------------------
+    def _show_details(self, row, column):
+        if column != 4:
+            return
+
+        item = self.table.item(row, 4)
+        if item is None:
+            return
+
+        details = item.data(Qt.UserRole)
+        if not details:
+            return
+
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Audit Details")
+
+        layout = QVBoxLayout(dlg)
+
+        text = QTextEdit()
+        text.setReadOnly(True)
+        text.setLineWrapMode(QTextEdit.NoWrap)
+        text.setText(json.dumps(details, indent=2))
+
+        layout.addWidget(text)
+
+        dlg.resize(600, 400)
+        dlg.exec()
