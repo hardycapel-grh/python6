@@ -87,6 +87,7 @@ class UsersTableModel(QAbstractTableModel):
 # =========================================================
 # Users Page
 # =========================================================
+
 class UsersPage(QWidget):
     def __init__(self, user, mongo, parent=None):
         super().__init__(parent)
@@ -95,24 +96,23 @@ class UsersPage(QWidget):
         self.mongo = mongo
         self.users = []
 
-        # FIX: use the REAL app, not the window
-        self.app = parent.app
+        # SAFE: parent may or may not have .app
+        self.app = getattr(parent, "app", None)
 
         # ---------------------------------------------------------
         # 1. WINDOW-LEVEL PERMISSION ENFORCEMENT
         # ---------------------------------------------------------
-        if not self.app.has_permission("users.read"):
+        if not self.app or not self.app.has_permission("users.read"):
             QMessageBox.warning(self, "Access Denied",
                                 "You do not have permission to view Users.")
             self.close()
             return
 
         # ---------------------------------------------------------
-        # 2. BUILD UI
+        # 2. BUILD UI (unchanged)
         # ---------------------------------------------------------
         layout = QVBoxLayout(self)
 
-        # Toolbar
         toolbar = QHBoxLayout()
 
         self.refresh_btn = QPushButton("Refresh")
@@ -139,21 +139,16 @@ class UsersPage(QWidget):
         self.edit_btn.setEnabled(self.app.has_permission("users.edit"))
         self.delete_btn.setEnabled(self.app.has_permission("users.delete"))
 
-
-
-        # Search bar
         self.search_input = QLineEdit()
         self.search_input.setPlaceholderText("Search users…")
         self.search_input.textChanged.connect(self._apply_filter)
         toolbar.addWidget(self.search_input)
 
-        # Role filter
         self.role_filter = QComboBox()
         self.role_filter.addItems(["All Roles", "admin", "user", "manager", "viewer"])
         self.role_filter.currentTextChanged.connect(self._apply_role_filter)
         toolbar.addWidget(self.role_filter)
 
-        # Status filter
         self.status_filter = QComboBox()
         self.status_filter.addItems(["All Statuses", "Active", "Disabled"])
         self.status_filter.currentTextChanged.connect(self._apply_status_filter)
@@ -162,7 +157,6 @@ class UsersPage(QWidget):
         toolbar.addStretch()
         layout.addLayout(toolbar)
 
-        # Table
         self.table = QTableView()
         self.table.setSelectionBehavior(QTableView.SelectRows)
         self.table.setSelectionMode(QTableView.SingleSelection)
@@ -179,14 +173,15 @@ class UsersPage(QWidget):
         layout.addWidget(self.table)
 
         # ---------------------------------------------------------
-        # 3. APPLY UI PERMISSIONS
+        # 3. APPLY UI PERMISSIONS (unchanged)
         # ---------------------------------------------------------
         self._apply_ui_permissions()
 
         # ---------------------------------------------------------
-        # 4. LOAD DATA
+        # 4. LOAD DATA (unchanged)
         # ---------------------------------------------------------
         self.load_users()
+
 
     # ---------------------------------------------------------
     # Load users
