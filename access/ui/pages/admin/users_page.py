@@ -94,12 +94,14 @@ class UsersPage(QWidget):
         self.current_user = user
         self.mongo = mongo
         self.users = []
-        self.app = parent
+
+        # FIX: use the REAL app, not the window
+        self.app = parent.app
 
         # ---------------------------------------------------------
         # 1. WINDOW-LEVEL PERMISSION ENFORCEMENT
         # ---------------------------------------------------------
-        if not has_permission(self.current_user, "users.read"):
+        if not self.app.has_permission("users.read"):
             QMessageBox.warning(self, "Access Denied",
                                 "You do not have permission to view Users.")
             self.close()

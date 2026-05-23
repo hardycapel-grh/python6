@@ -1,5 +1,5 @@
 # ui/pages/audit_log_page.py
-print(">>> USING CORRECT AUDIT LOG PAGE FILE")
+# print(">>> USING CORRECT AUDIT LOG PAGE FILE")
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout,

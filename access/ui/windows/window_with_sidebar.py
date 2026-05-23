@@ -1,3 +1,5 @@
+from cProfile import label
+
 from PySide6.QtWidgets import QMainWindow, QWidget, QHBoxLayout, QListWidget, QStackedWidget
 from ui.pages.admin.audit_log_page import AuditLogPage
 from ui.components.logger_utils import log_event
@@ -32,7 +34,12 @@ class WindowWithSidebar(QMainWindow):
         layout.addWidget(self.stack)
 
         self.setCentralWidget(container)
+        # print(">>> ADD_PAGE METHOD:", WindowWithSidebar.add_page)
+        # print(">>> INITIAL SIDEBAR ITEMS:")
+        # for i in range(self.sidebar_list.count()):
+        #     print(" -", self.sidebar_list.item(i).text())
 
+        self.sidebar_list.setEnabled(True)
 
 
     # -----------------------------
@@ -44,9 +51,19 @@ class WindowWithSidebar(QMainWindow):
         user = getattr(self, "current_user", None) or getattr(self, "user", None)
         username = user.username if user else "unknown"
 
+        if user:
+            username = getattr(user, "username", "unknown")
+            perms = getattr(user, "permissions", [])
+        else:
+            username = "NO-USER"
+            perms = []
+
+        # print(f"[ADD_PAGE] label={label}, required={required_permission}, user={username}, perms={perms}")
+
         log_event("debug", "Registering admin page",
                   page=label, required_permission=required_permission)
-
+  
+        
         # Permission filtering
         if required_permission:
             perms = getattr(user, "permissions", [])

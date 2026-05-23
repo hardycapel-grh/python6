@@ -191,6 +191,6 @@ class MainApp(QMainWindow):
         )
 
     def _wrap_admin_window(self):
-        win = AdminControlWindow(self.user, self.mongo, parent=self)
+        win = AdminControlWindow(self.user, self.mongo, app=self, parent=self)
         win.setParent(self)   # ⭐ REQUIRED because WindowWithSidebar ignores parent
         return win
