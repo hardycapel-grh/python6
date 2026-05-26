@@ -7390,3 +7390,336 @@
 2026-05-23 22:30:21,218 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000023391AE7560>'
 2026-05-23 22:30:21,244 [INFO] Loading users from MongoDB…
 2026-05-23 22:30:21,263 [INFO] Loaded 6 users.
+2026-05-24 23:15:54,038 [INFO] Connected to MongoDB
+2026-05-24 23:15:54,049 [INFO] Connected to MongoDB
+2026-05-24 23:16:07,437 [INFO] Login attempt: hardycapel
+2026-05-24 23:16:07,719 [INFO] User 'hardycapel' authenticated successfully
+2026-05-24 23:16:08,033 [INFO] Building sidebar: user='hardycapel'
+2026-05-24 23:16:08,033 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-24 23:16:08,035 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-24 23:16:08,035 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-24 23:16:08,035 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-24 23:16:08,035 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-24 23:16:08,035 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-24 23:16:08,035 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-24 23:16:08,035 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-24 23:16:08,035 [INFO] MainApp started: user='hardycapel'
+2026-05-24 23:16:11,626 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-24 23:16:11,754 [ERROR] Factory for InventoryWindow failed: 'PySide6.QtWidgets.QWidget.setWindowTitle' called with wrong argument types:
+  PySide6.QtWidgets.QWidget.setWindowTitle(MainApp)
+Supported signatures:
+  PySide6.QtWidgets.QWidget.setWindowTitle(arg__1: str, /)
+2026-05-24 23:18:42,353 [INFO] Connected to MongoDB
+2026-05-24 23:18:42,361 [INFO] Connected to MongoDB
+2026-05-24 23:18:58,701 [INFO] Login attempt: hardycapel
+2026-05-24 23:18:58,952 [INFO] User 'hardycapel' authenticated successfully
+2026-05-24 23:18:59,030 [INFO] Building sidebar: user='hardycapel'
+2026-05-24 23:18:59,030 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-24 23:18:59,030 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-24 23:18:59,031 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-24 23:18:59,031 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-24 23:18:59,031 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-24 23:18:59,031 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-24 23:18:59,031 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-24 23:18:59,031 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-24 23:18:59,031 [INFO] MainApp started: user='hardycapel'
+2026-05-24 23:19:00,941 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-24 23:19:00,943 [INFO] InventoryWindow initialized
+2026-05-24 23:19:00,943 [ERROR] Failed to write audit log for inventory.window.open: 'MongoService' object has no attribute 'log_event'
+2026-05-24 23:19:00,943 [ERROR] Factory for InventoryWindow failed: 'InventoryWindow' object has no attribute 'add_sidebar_item'
+2026-05-24 23:23:08,947 [INFO] Connected to MongoDB
+2026-05-24 23:23:08,955 [INFO] Connected to MongoDB
+2026-05-24 23:23:21,952 [INFO] Login attempt: hardycapel
+2026-05-24 23:23:22,196 [INFO] User 'hardycapel' authenticated successfully
+2026-05-24 23:23:22,261 [INFO] Building sidebar: user='hardycapel'
+2026-05-24 23:23:22,261 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-24 23:23:22,261 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-24 23:23:22,261 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-24 23:23:22,261 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-24 23:23:22,261 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-24 23:23:22,261 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-24 23:23:22,261 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-24 23:23:22,261 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-24 23:23:22,262 [INFO] MainApp started: user='hardycapel'
+2026-05-24 23:23:23,848 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-24 23:23:23,849 [INFO] InventoryWindow initialized
+2026-05-24 23:23:23,849 [ERROR] Failed to write audit log for inventory.window.open: 'MongoService' object has no attribute 'log_event'
+2026-05-24 23:23:23,849 [ERROR] Factory for InventoryWindow failed: 'InventoryWindow' object has no attribute '_add_sidebar_item'
+2026-05-24 23:55:11,176 [INFO] Connected to MongoDB
+2026-05-24 23:55:11,184 [INFO] Connected to MongoDB
+2026-05-24 23:55:26,428 [INFO] Login attempt: hardycapel
+2026-05-24 23:55:26,672 [INFO] User 'hardycapel' authenticated successfully
+2026-05-24 23:55:26,758 [INFO] Building sidebar: user='hardycapel'
+2026-05-24 23:55:26,758 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-24 23:55:26,758 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-24 23:55:26,758 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-24 23:55:26,758 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-24 23:55:26,758 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-24 23:55:26,758 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-24 23:55:26,759 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-24 23:55:26,759 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-24 23:55:26,759 [INFO] MainApp started: user='hardycapel'
+2026-05-24 23:55:43,730 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-24 23:55:43,732 [INFO] InventoryWindow initialized: user='hardycapel'
+2026-05-24 23:55:43,732 [ERROR] Failed to write audit log: error=''MongoService' object has no attribute 'log_event''
+2026-05-24 23:55:43,732 [DEBUG] Registering admin page: page='Inventory List', required_permission='inventory.read'
+2026-05-24 23:55:43,733 [DEBUG] Admin page stored: page='Inventory List', factory='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000002296853F560>'
+2026-05-24 23:55:43,733 [INFO] Admin page added: user='hardycapel', page='Inventory List'
+2026-05-24 23:55:46,071 [INFO] Admin sidebar clicked: user='hardycapel', page='Inventory List'
+2026-05-24 23:55:46,071 [INFO] Opening admin page: user='hardycapel', page='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000002296853F560>'
+2026-05-24 23:55:46,072 [INFO] Opening Inventory List Page: user='hardycapel'
+2026-05-24 23:55:46,091 [INFO] InventoryListPage initialized: user='hardycapel'
+2026-05-25 10:19:43,468 [INFO] Connected to MongoDB
+2026-05-25 10:19:43,480 [INFO] Connected to MongoDB
+2026-05-25 10:19:58,604 [INFO] Login attempt: hardycapel
+2026-05-25 10:19:58,926 [INFO] User 'hardycapel' authenticated successfully
+2026-05-25 10:19:59,469 [INFO] Building sidebar: user='hardycapel'
+2026-05-25 10:19:59,469 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-25 10:19:59,476 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-25 10:19:59,476 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-25 10:19:59,476 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-25 10:19:59,477 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-25 10:19:59,477 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-25 10:19:59,477 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-25 10:19:59,477 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-25 10:19:59,477 [INFO] MainApp started: user='hardycapel'
+2026-05-25 10:20:01,539 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-25 10:20:01,544 [INFO] InventoryWindow initialized: user='hardycapel'
+2026-05-25 10:20:01,545 [ERROR] Failed to write audit log: error=''MongoService' object has no attribute 'log_event''
+2026-05-25 10:20:01,546 [DEBUG] Registering admin page: page='Inventory List', required_permission='inventory.read'
+2026-05-25 10:20:01,547 [DEBUG] Admin page stored: page='Inventory List', factory='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x00000253B6E37880>'
+2026-05-25 10:20:01,547 [INFO] Admin page added: user='hardycapel', page='Inventory List'
+2026-05-25 10:20:03,376 [INFO] Admin sidebar clicked: user='hardycapel', page='Inventory List'
+2026-05-25 10:20:03,377 [INFO] Opening admin page: user='hardycapel', page='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x00000253B6E37880>'
+2026-05-25 10:20:03,377 [INFO] Opening Inventory List Page: user='hardycapel'
+2026-05-25 10:20:03,408 [INFO] InventoryListPage initialized: user='hardycapel'
+2026-05-25 10:30:26,975 [INFO] Connected to MongoDB
+2026-05-25 10:30:26,982 [INFO] Connected to MongoDB
+2026-05-25 10:30:38,767 [INFO] Login attempt: hardycapel
+2026-05-25 10:30:39,007 [INFO] User 'hardycapel' authenticated successfully
+2026-05-25 10:30:39,246 [INFO] Building sidebar: user='hardycapel'
+2026-05-25 10:30:39,246 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-25 10:30:39,247 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-25 10:30:39,247 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-25 10:30:39,247 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-25 10:30:39,247 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-25 10:30:39,248 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-25 10:30:39,248 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-25 10:30:39,248 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-25 10:30:39,248 [INFO] MainApp started: user='hardycapel'
+2026-05-25 10:30:40,877 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-25 10:30:40,879 [INFO] InventoryWindow initialized: user='hardycapel'
+2026-05-25 10:30:40,879 [ERROR] Failed to write audit log: error=''MongoService' object has no attribute 'log_event''
+2026-05-25 10:30:40,879 [DEBUG] Registering admin page: page='Inventory List', required_permission='inventory.read'
+2026-05-25 10:30:40,879 [DEBUG] Admin page stored: page='Inventory List', factory='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000002CFD8A77880>'
+2026-05-25 10:30:40,879 [INFO] Admin page added: user='hardycapel', page='Inventory List'
+2026-05-25 10:30:42,822 [INFO] Admin sidebar clicked: user='hardycapel', page='Inventory List'
+2026-05-25 10:30:42,822 [INFO] Opening admin page: user='hardycapel', page='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000002CFD8A77880>'
+2026-05-25 10:30:42,822 [INFO] Opening Inventory List Page: user='hardycapel'
+2026-05-25 10:30:42,845 [INFO] InventoryListPage initialized: user='hardycapel'
+2026-05-25 16:01:11,392 [INFO] Connected to MongoDB
+2026-05-25 16:01:11,402 [INFO] Connected to MongoDB
+2026-05-25 16:01:23,627 [INFO] Login attempt: hardycapel
+2026-05-25 16:01:23,874 [INFO] User 'hardycapel' authenticated successfully
+2026-05-25 16:01:24,003 [INFO] Building sidebar: user='hardycapel'
+2026-05-25 16:01:24,003 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-25 16:01:24,005 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-25 16:01:24,005 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-25 16:01:24,005 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-25 16:01:24,005 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-25 16:01:24,005 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-25 16:01:24,005 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-25 16:01:24,006 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-25 16:01:24,006 [INFO] MainApp started: user='hardycapel'
+2026-05-25 16:01:25,919 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-25 16:01:25,921 [INFO] InventoryWindow initialized: user='hardycapel'
+2026-05-25 16:01:25,921 [ERROR] Failed to write audit log: error=''MongoService' object has no attribute 'log_event''
+2026-05-25 16:01:25,921 [DEBUG] Registering admin page: page='Inventory List', required_permission='inventory.read'
+2026-05-25 16:01:25,921 [DEBUG] Admin page stored: page='Inventory List', factory='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x0000028800EAB7E0>'
+2026-05-25 16:01:25,921 [INFO] Admin page added: user='hardycapel', page='Inventory List'
+2026-05-25 16:01:27,213 [INFO] Admin sidebar clicked: user='hardycapel', page='Inventory List'
+2026-05-25 16:01:27,213 [INFO] Opening admin page: user='hardycapel', page='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x0000028800EAB7E0>'
+2026-05-25 16:01:27,214 [INFO] Opening Inventory List Page: user='hardycapel'
+2026-05-25 16:01:27,238 [INFO] InventoryListPage initialized: user='hardycapel'
+2026-05-25 22:30:28,665 [INFO] Connected to MongoDB
+2026-05-25 22:30:28,674 [INFO] Connected to MongoDB
+2026-05-25 22:30:43,230 [INFO] Login attempt: hardycapel
+2026-05-25 22:30:43,482 [INFO] User 'hardycapel' authenticated successfully
+2026-05-25 22:30:43,593 [INFO] Building sidebar: user='hardycapel'
+2026-05-25 22:30:43,594 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-25 22:30:43,596 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-25 22:30:43,596 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-25 22:30:43,596 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-25 22:30:43,596 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-25 22:30:43,596 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-25 22:30:43,596 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-25 22:30:43,596 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-25 22:30:43,596 [INFO] MainApp started: user='hardycapel'
+2026-05-25 22:30:45,305 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-25 22:30:45,306 [INFO] InventoryWindow initialized: user='hardycapel'
+2026-05-25 22:30:45,307 [ERROR] Failed to write audit log: error=''MongoService' object has no attribute 'log_event''
+2026-05-25 22:30:45,307 [DEBUG] Registering admin page: page='Inventory List', required_permission='inventory.read'
+2026-05-25 22:30:45,307 [DEBUG] Admin page stored: page='Inventory List', factory='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000002537FAE7880>'
+2026-05-25 22:30:45,307 [INFO] Admin page added: user='hardycapel', page='Inventory List'
+2026-05-25 22:30:46,727 [INFO] Admin sidebar clicked: user='hardycapel', page='Inventory List'
+2026-05-25 22:30:46,727 [INFO] Opening admin page: user='hardycapel', page='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000002537FAE7880>'
+2026-05-25 22:30:46,727 [INFO] Opening Inventory List Page: user='hardycapel'
+2026-05-25 22:30:46,766 [INFO] InventoryListPage initialized: user='hardycapel'
+2026-05-25 22:44:33,771 [INFO] Connected to MongoDB
+2026-05-25 22:44:33,781 [INFO] Connected to MongoDB
+2026-05-25 22:44:45,535 [INFO] Login attempt: hardycapel
+2026-05-25 22:44:45,777 [INFO] User 'hardycapel' authenticated successfully
+2026-05-25 22:44:45,821 [INFO] Building sidebar: user='hardycapel'
+2026-05-25 22:44:45,821 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-25 22:44:45,821 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-25 22:44:45,821 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-25 22:44:45,821 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-25 22:44:45,822 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-25 22:44:45,822 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-25 22:44:45,822 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-25 22:44:45,822 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-25 22:44:45,822 [INFO] MainApp started: user='hardycapel'
+2026-05-25 22:44:47,655 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-25 22:44:47,657 [INFO] InventoryWindow initialized: user='hardycapel'
+2026-05-25 22:44:47,657 [ERROR] Failed to write audit log: error=''MongoService' object has no attribute 'log_event''
+2026-05-25 22:44:47,657 [DEBUG] Registering admin page: page='Inventory List', required_permission='inventory.read'
+2026-05-25 22:44:47,657 [DEBUG] Admin page stored: page='Inventory List', factory='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000002152FF277E0>'
+2026-05-25 22:44:47,657 [INFO] Admin page added: user='hardycapel', page='Inventory List'
+2026-05-25 22:44:48,953 [INFO] Admin sidebar clicked: user='hardycapel', page='Inventory List'
+2026-05-25 22:44:48,953 [INFO] Opening admin page: user='hardycapel', page='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000002152FF277E0>'
+2026-05-25 22:44:48,953 [INFO] Opening Inventory List Page: user='hardycapel'
+2026-05-25 22:44:48,985 [INFO] InventoryListPage initialized: user='hardycapel'
+2026-05-26 22:11:18,740 [INFO] Connected to MongoDB
+2026-05-26 22:11:18,747 [INFO] Connected to MongoDB
+2026-05-26 22:11:37,965 [INFO] Login attempt: hardycapel
+2026-05-26 22:11:38,225 [INFO] User 'hardycapel' authenticated successfully
+2026-05-26 22:11:38,522 [INFO] Building sidebar: user='hardycapel'
+2026-05-26 22:11:38,522 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-26 22:11:38,523 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-26 22:11:38,523 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-26 22:11:38,523 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-26 22:11:38,523 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-26 22:11:38,523 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-26 22:11:38,523 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-26 22:11:38,523 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-26 22:11:38,523 [INFO] MainApp started: user='hardycapel'
+2026-05-26 22:11:44,872 [INFO] Sidebar clicked: user='hardycapel', label='Admin'
+2026-05-26 22:11:44,873 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-05-26 22:11:44,873 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-05-26 22:11:44,873 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001B27CCAF740>'
+2026-05-26 22:11:44,873 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-05-26 22:11:44,874 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-05-26 22:11:44,874 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001B27CCAC680>'
+2026-05-26 22:11:44,874 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-05-26 22:11:44,874 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-05-26 22:11:44,874 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001B200AE7BA0>'
+2026-05-26 22:11:44,874 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-05-26 22:11:44,874 [DEBUG] Registering admin page: page='Audit Log', required_permission='None'
+2026-05-26 22:11:44,874 [DEBUG] Admin page stored: page='Audit Log', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001B200AE7C40>'
+2026-05-26 22:11:44,874 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-05-26 22:11:48,349 [INFO] Admin sidebar clicked: user='hardycapel', page='Permissions'
+2026-05-26 22:11:48,349 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001B200AE7BA0>'
+2026-05-26 22:13:15,822 [INFO] Permission created: by='admin', target='inventory.read'
+2026-05-26 22:13:15,822 [INFO] Permission 'inventory.read' created.
+2026-05-26 22:14:16,033 [INFO] Permission created: by='admin', target='inventory.edit'
+2026-05-26 22:14:16,033 [INFO] Permission 'inventory.edit' created.
+2026-05-26 22:14:58,170 [INFO] Permission created: by='admin', target='inventory.create'
+2026-05-26 22:14:58,170 [INFO] Permission 'inventory.create' created.
+2026-05-26 22:15:06,610 [WARNING] Permission deleted: by='admin', target='test1'
+2026-05-26 22:15:06,611 [INFO] Permission 'test1' deleted.
+2026-05-26 22:15:15,534 [INFO] Admin sidebar clicked: user='hardycapel', page='Permissions'
+2026-05-26 22:15:15,535 [INFO] Admin page reused: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000001B200AE7BA0>'
+2026-05-26 22:21:05,743 [INFO] Connected to MongoDB
+2026-05-26 22:21:05,753 [INFO] Connected to MongoDB
+2026-05-26 22:21:20,965 [INFO] Login attempt: hardycapel
+2026-05-26 22:21:21,200 [INFO] User 'hardycapel' authenticated successfully
+2026-05-26 22:21:21,260 [INFO] Building sidebar: user='hardycapel'
+2026-05-26 22:21:21,261 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-26 22:21:21,261 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-26 22:21:21,261 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-26 22:21:21,261 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-26 22:21:21,261 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-26 22:21:21,262 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-26 22:21:21,262 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-26 22:21:21,262 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-26 22:21:21,262 [INFO] MainApp started: user='hardycapel'
+2026-05-26 22:21:24,079 [INFO] Sidebar clicked: user='hardycapel', label='Admin'
+2026-05-26 22:21:24,081 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-05-26 22:21:24,081 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-05-26 22:21:24,081 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000018A97D3B7E0>'
+2026-05-26 22:21:24,081 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-05-26 22:21:24,081 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-05-26 22:21:24,082 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000018A97D3BA60>'
+2026-05-26 22:21:24,082 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-05-26 22:21:24,082 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-05-26 22:21:24,082 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000018A97D3BB00>'
+2026-05-26 22:21:24,082 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-05-26 22:21:24,082 [DEBUG] Registering admin page: page='Audit Log', required_permission='None'
+2026-05-26 22:21:24,082 [DEBUG] Admin page stored: page='Audit Log', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000018A97D3BBA0>'
+2026-05-26 22:21:24,082 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-05-26 22:21:25,129 [INFO] Admin sidebar clicked: user='hardycapel', page='Permissions'
+2026-05-26 22:21:25,129 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000018A97D3BB00>'
+2026-05-26 22:21:52,727 [INFO] Permission created: by='admin', target='test'
+2026-05-26 22:21:52,728 [INFO] Permission 'test' created.
+2026-05-26 22:22:02,230 [WARNING] Permission deleted: by='admin', target='test'
+2026-05-26 22:22:02,230 [INFO] Permission 'test' deleted.
+2026-05-26 22:23:56,289 [INFO] Connected to MongoDB
+2026-05-26 22:23:56,297 [INFO] Connected to MongoDB
+2026-05-26 22:24:09,450 [INFO] Login attempt: hardycapel
+2026-05-26 22:24:09,697 [INFO] User 'hardycapel' authenticated successfully
+2026-05-26 22:24:09,749 [INFO] Building sidebar: user='hardycapel'
+2026-05-26 22:24:09,749 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-26 22:24:09,749 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-26 22:24:09,749 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-26 22:24:09,750 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-26 22:24:09,750 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-26 22:24:09,750 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-26 22:24:09,750 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-26 22:24:09,750 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-26 22:24:09,750 [INFO] MainApp started: user='hardycapel'
+2026-05-26 22:24:13,608 [INFO] Sidebar clicked: user='hardycapel', label='Admin'
+2026-05-26 22:24:13,609 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-05-26 22:24:13,609 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-05-26 22:24:13,609 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000014686C077E0>'
+2026-05-26 22:24:13,609 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-05-26 22:24:13,609 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-05-26 22:24:13,610 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000014686C07A60>'
+2026-05-26 22:24:13,610 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-05-26 22:24:13,610 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-05-26 22:24:13,610 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000014686C07B00>'
+2026-05-26 22:24:13,610 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-05-26 22:24:13,610 [DEBUG] Registering admin page: page='Audit Log', required_permission='None'
+2026-05-26 22:24:13,610 [DEBUG] Admin page stored: page='Audit Log', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000014686C07BA0>'
+2026-05-26 22:24:13,610 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-05-26 22:24:15,202 [INFO] Admin sidebar clicked: user='hardycapel', page='Roles'
+2026-05-26 22:24:15,202 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000014686C07A60>'
+2026-05-26 22:29:14,942 [INFO] Role updated: by='admin', target='viewer', permissions='inventory.read,logs.read,permissions.read,roles.read,users.read'
+2026-05-26 22:29:14,942 [INFO] Role 'viewer' updated.
+2026-05-26 22:29:23,867 [INFO] Role updated: by='admin', target='user', permissions='inventory.edit,inventory.read,logs.read,logs.write,permissions.read,roles.read,users.create,users.read'
+2026-05-26 22:29:23,867 [INFO] Role 'user' updated.
+2026-05-26 22:29:32,350 [INFO] Role updated: by='admin', target='manager', permissions='admin.access,inventory.create,inventory.edit,inventory.read,logs.read,logs.write,permissions.create,permissions.edit,permissions.read,permissions.write,roles.create,roles.edit,roles.read,system.read,users.create,users.edit,users.read,users.write'
+2026-05-26 22:29:32,351 [INFO] Role 'manager' updated.
+2026-05-26 22:30:07,759 [INFO] Connected to MongoDB
+2026-05-26 22:30:07,769 [INFO] Connected to MongoDB
+2026-05-26 22:30:19,482 [INFO] Login attempt: hardycapel
+2026-05-26 22:30:19,753 [INFO] User 'hardycapel' authenticated successfully
+2026-05-26 22:30:19,796 [INFO] Building sidebar: user='hardycapel'
+2026-05-26 22:30:19,796 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-05-26 22:30:19,796 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-05-26 22:30:19,796 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-05-26 22:30:19,796 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-05-26 22:30:19,797 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-05-26 22:30:19,797 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-05-26 22:30:19,797 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-05-26 22:30:19,797 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-05-26 22:30:19,797 [INFO] MainApp started: user='hardycapel'
+2026-05-26 22:30:22,363 [INFO] Sidebar clicked: user='hardycapel', label='Inventory'
+2026-05-26 22:30:22,364 [INFO] InventoryWindow initialized: user='hardycapel'
+2026-05-26 22:30:22,364 [ERROR] Failed to write audit log: error=''MongoService' object has no attribute 'log_event''
+2026-05-26 22:30:22,364 [DEBUG] Registering admin page: page='Inventory List', required_permission='inventory.read'
+2026-05-26 22:30:22,364 [DEBUG] Admin page stored: page='Inventory List', factory='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000001E76C1277E0>'
+2026-05-26 22:30:22,364 [INFO] Admin page added: user='hardycapel', page='Inventory List'
+2026-05-26 22:30:23,780 [INFO] Admin sidebar clicked: user='hardycapel', page='Inventory List'
+2026-05-26 22:30:23,780 [INFO] Opening admin page: user='hardycapel', page='<function InventoryWindow._setup_pages.<locals>.<lambda> at 0x000001E76C1277E0>'
+2026-05-26 22:30:23,780 [INFO] Opening Inventory List Page: user='hardycapel'
+2026-05-26 22:30:23,813 [INFO] InventoryListPage initialized: user='hardycapel'

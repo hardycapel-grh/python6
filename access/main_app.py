@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
 from ui.components.logger import logger
 from ui.windows.log_viewer_window import LogViewerPage, LogViewerWindow
 from ui.windows.admin_control_window import AdminControlWindow
+from ui.windows.inventory_window import InventoryWindow
 from ui.components.logger_utils import log_event
 from ui.dialogs.profile_dialogs import ProfileDialog, ChangePasswordDialog
 from ui.pages.admin.audit_log_page import AuditLogPage
@@ -84,6 +85,14 @@ class MainApp(QMainWindow):
             lambda: AdminControlWindow(self.user, self.mongo, self),
             required_permission="admin.access"
         )
+
+        self._add_sidebar_item(
+            "Inventory",
+            InventoryWindow,
+            lambda: InventoryWindow(self.user, self.mongo, self),
+            required_permission="inventory.read"
+        )
+
 
 
 

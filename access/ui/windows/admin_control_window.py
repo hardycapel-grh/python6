@@ -11,6 +11,8 @@ class AdminControlWindow(WindowWithSidebar):
 
         super().__init__("Admin Control Panel", parent)
         self.user = user
+        self.current_user = user
+
         self.mongo = mongo
 
         # parent here is your MainApp – give AdminControlWindow an .app
