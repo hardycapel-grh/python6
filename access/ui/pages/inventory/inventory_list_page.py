@@ -2,7 +2,7 @@ from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit,
     QLabel, QComboBox, QTableView
 )
-from PySide6.QtCore import Qt, QSortFilterProxyModel
+from PySide6.QtCore import Qt
 
 from ui.components.logger_utils import log_event
 
@@ -112,13 +112,13 @@ class InventoryListPage(QWidget):
 
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels([
-            "SKU", "Name", "Type", "Category", "Make/Buy",
+            "Part Number", "Description", "Type", "Category", "Make/Buy",
             "Supplier", "Stock", "Purchase Cost", "Sell Cost", "Status"
         ])
 
         # Placeholder row (so you can see the table working)
         placeholder = [
-            "ABC123", "Example Item", "Part", "Components", "Buy",
+            "ABC123", "Example Description", "Part", "Components", "Buy",
             "Supplier A", "120", "12.50", "19.99", "Active"
         ]
         row_items = []
@@ -146,44 +146,6 @@ class InventoryListPage(QWidget):
             self.makebuy_filter.currentText()
         )
 
-    # def _apply_filters(self):
-    #     search_text = self.search_box.text().strip().lower()
-    #     type_filter = self.type_filter.currentText()
-    #     status_filter = self.status_filter.currentText()
-    #     makebuy_filter = self.makebuy_filter.currentText()
-
-    #     def filter_accepts(row, parent):
-    #         model = self.proxy.sourceModel()
-    #         if model is None:
-    #             return True
-
-    #         # Extract row data
-    #         row_data = [model.index(row, col).data() for col in range(model.columnCount())]
-
-    #         # Search filter
-    #         if search_text:
-    #             if not any(search_text in str(cell).lower() for cell in row_data):
-    #                 return False
-
-    #         # Type filter
-    #         if type_filter != "All Types":
-    #             if row_data[2] != type_filter:
-    #                 return False
-
-    #         # Status filter
-    #         if status_filter != "All Status":
-    #             if row_data[9] != status_filter:
-    #                 return False
-                
-
-    #         # Make/Buy filter
-    #         if makebuy_filter != "All":
-    #             if row_data[4] != makebuy_filter:
-    #                 return False
-
-    #         return True
-
-    #     self.proxy.setFilterAcceptsRow(filter_accepts)
 
     def _disable_selected_item(self):
         # Get selected row
@@ -196,7 +158,7 @@ class InventoryListPage(QWidget):
         source_index = self.proxy.mapToSource(index)
         model = self.proxy.sourceModel()
 
-        sku = model.index(source_index.row(), 0).data()
+        part_number = model.index(source_index.row(), 0).data()
         item_id = model.index(source_index.row(), 0).data(Qt.UserRole)  # we will set this later
 
         # Confirmation dialog
@@ -204,7 +166,7 @@ class InventoryListPage(QWidget):
         confirm = QMessageBox.question(
             self,
             "Disable Item",
-            f"Are you sure you want to disable item '{sku}'?",
+            f"Are you sure you want to disable item '{part_number}'?",
             QMessageBox.Yes | QMessageBox.No
         )
 
@@ -222,11 +184,11 @@ class InventoryListPage(QWidget):
             self.mongo.log_event(
                 "inventory.disable",
                 performed_by=self.user.username,
-                details=f"Disabled inventory item {sku}"
+                details=f"Disabled inventory item {part_number}"
             )
 
             log_event("info", "Inventory item disabled",
-                    user=self.user.username, sku=sku)
+                    user=self.user.username, part_number=part_number)
 
             self._load_data()  # refresh table
 
