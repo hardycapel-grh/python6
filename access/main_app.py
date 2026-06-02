@@ -13,10 +13,6 @@ from ui.dialogs.profile_dialogs import ProfileDialog, ChangePasswordDialog
 from ui.pages.admin.audit_log_page import AuditLogPage
 from ui.pages.profile_page import ProfilePage
 
-
-
-
-
 class MainApp(QMainWindow):
     def __init__(self, user, mongo):
         super().__init__()
@@ -203,3 +199,9 @@ class MainApp(QMainWindow):
         win = AdminControlWindow(self.user, self.mongo, app=self, parent=self)
         win.setParent(self)   # ⭐ REQUIRED because WindowWithSidebar ignores parent
         return win
+
+    def show_error(self, message):
+        QMessageBox.critical(self, "Error", message)
+
+    def show_info(self, message):
+        QMessageBox.information(self, "Info", message)

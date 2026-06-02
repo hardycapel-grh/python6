@@ -29,8 +29,12 @@ class MongoService:
             self.users = self.db["users"]
             self.roles = self.db["roles"]
             self.permissions = self.db["permissions"]
+            self.inventory = self.db["inventory"]
             self.logs = self.db["logs"]
             self.audit_log = self.db["audit_log"]
+            self.inventory_batches = self.db["inventory_batches"]
+
+            
 
 
             logger.info("Connected to MongoDB")
@@ -609,6 +613,10 @@ class MongoService:
         }
         # print("AUDIT CALLED:", event, performed_by)
         self.audit_log.insert_one(doc)
+
+    def log_event(self, event, performed_by, details=""):
+        return self.audit(event, performed_by, details)
+
 
     def get_user(self, username: str):
         """

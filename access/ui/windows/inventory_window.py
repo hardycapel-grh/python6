@@ -39,3 +39,11 @@ class InventoryWindow(WindowWithSidebar):
 
         from ui.pages.inventory.inventory_list_page import InventoryListPage
         return InventoryListPage(self.user, self.mongo, parent=self)
+
+    def show_error(self, message):
+        from PySide6.QtWidgets import QMessageBox
+        QMessageBox.critical(self, "Error", message)
+
+    def show_info(self, message):
+        from PySide6.QtWidgets import QMessageBox
+        QMessageBox.information(self, "Info", message)

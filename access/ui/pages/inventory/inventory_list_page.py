@@ -5,6 +5,7 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt
 
 from ui.components.logger_utils import log_event
+from bson import ObjectId
 
 
 class InventoryListPage(QWidget):
@@ -19,7 +20,13 @@ class InventoryListPage(QWidget):
 
         self._build_ui()
 
+        self.btn_add.clicked.connect(self._open_add_dialog)
         self.btn_delete.clicked.connect(self._disable_selected_item)
+        self.btn_receive.clicked.connect(self._open_receive_stock_dialog)
+        self.btn_batches.clicked.connect(self._open_batch_list)
+
+
+        # print("USER PERMISSIONS:", self.user.permissions)
 
         self._load_data()
 
@@ -37,15 +44,27 @@ class InventoryListPage(QWidget):
         self.btn_add = QPushButton("Add Item")
         self.btn_edit = QPushButton("Edit Item")
         self.btn_delete = QPushButton("Disable Item")
+        self.btn_receive = QPushButton("Receive Stock")
+        self.btn_batches = QPushButton("View Batches")
+
+
+
+
 
         # Permission-aware buttons
         self.btn_add.setEnabled("inventory.create" in self.user.permissions or "*" in self.user.permissions)
         self.btn_edit.setEnabled("inventory.edit" in self.user.permissions or "*" in self.user.permissions)
         self.btn_delete.setEnabled("inventory.edit" in self.user.permissions or "*" in self.user.permissions)
+        self.btn_receive.setEnabled("inventory.receive" in self.user.permissions or "*" in self.user.permissions)
+        self.btn_batches.setEnabled("inventory.batches.read" in self.user.permissions or "*" in self.user.permissions)
+
+
 
         toolbar.addWidget(self.btn_add)
         toolbar.addWidget(self.btn_edit)
         toolbar.addWidget(self.btn_delete)
+        toolbar.addWidget(self.btn_receive)
+        toolbar.addWidget(self.btn_batches)
         toolbar.addStretch()
 
         layout.addLayout(toolbar)
@@ -104,35 +123,52 @@ class InventoryListPage(QWidget):
     # Load data (placeholder for now)
     # ---------------------------------------------------------
     def _load_data(self):
-        """
-        For now, this loads an empty model.
-        Later we will plug in InventoryTableModel.
-        """
         from PySide6.QtGui import QStandardItemModel, QStandardItem
 
         model = QStandardItemModel()
         model.setHorizontalHeaderLabels([
-            "Part Number", "Description", "Type", "Category", "Make/Buy",
-            "Supplier", "Stock", "Purchase Cost", "Sell Cost", "Status"
+            "Part Number",
+            "Description",
+            "Type",
+            "Category",
+            "Make/Buy",
+            "Supplier",
+            "Status",
+            "Store Type",
+            "Customer",
+            "Ownership"
         ])
 
-        # Placeholder row (so you can see the table working)
-        placeholder = [
-            "ABC123", "Example Description", "Part", "Components", "Buy",
-            "Supplier A", "120", "12.50", "19.99", "Active"
-        ]
-        row_items = []
-        for col, value in enumerate(placeholder):
-            item = QStandardItem(value)
-            if col == 0:
-                # Store MongoDB _id in UserRole
-                item.setData("PLACEHOLDER-ID", Qt.UserRole)
-            row_items.append(item)
+        # Load all items from MongoDB
+        items = list(self.mongo.inventory.find({}))
 
-        model.appendRow(row_items)
+        for item in items:
+            row_items = []
 
+            fields = [
+                item.get("part_number", ""),
+                item.get("description", ""),
+                item.get("type", ""),
+                item.get("category", ""),
+                item.get("make_buy", ""),
+                item.get("supplier", ""),
+                item.get("status", ""),
+                item.get("store_type", ""),
+                item.get("customer", ""),
+                item.get("ownership", "")
+            ]
+
+            for col, value in enumerate(fields):
+                cell = QStandardItem(str(value))
+                if col == 0:
+                    # Store MongoDB _id in UserRole for disable/edit
+                    cell.setData(item["_id"], Qt.UserRole)
+                row_items.append(cell)
+
+            model.appendRow(row_items)
 
         self.proxy.setSourceModel(model)
+
 
     # ---------------------------------------------------------
     # Apply search + filters
@@ -151,7 +187,7 @@ class InventoryListPage(QWidget):
         # Get selected row
         selection = self.table.selectionModel().selectedRows()
         if not selection:
-            self.app.show_error("Please select an item to disable.")
+            self.window().show_error("Please select an item first.")
             return
 
         index = selection[0]
@@ -195,5 +231,102 @@ class InventoryListPage(QWidget):
         except Exception as e:
             log_event("error", "Failed to disable inventory item",
                     user=self.user.username, error=str(e))
-            self.app.show_error(f"Failed to disable item: {e}")
+            self.window().show_error("Please select an item first.")
+
+    def _open_add_dialog(self):
+        from ui.pages.inventory.add_item_dialog import AddItemDialog
+        dlg = AddItemDialog(self.mongo, self.user, self)
+        if dlg.exec():
+            self._load_data()
+
+    def _open_receive_stock_dialog(self):
+        selection = self.table.selectionModel().selectedRows()
+        if not selection:
+            self.window().show_error("Please select an item first.")
+            return
+
+        index = selection[0]
+        source_index = self.proxy.mapToSource(index)
+        model = self.proxy.sourceModel()
+
+        item_id = model.index(source_index.row(), 0).data(Qt.UserRole)
+        item = self.mongo.inventory.find_one({"_id": item_id})
+
+        from ui.pages.inventory.receive_stock_dialog import ReceiveStockDialog
+        dlg = ReceiveStockDialog(self.mongo, self.user, item, self)
+        if dlg.exec():
+            self.window().show_info("Stock received successfully.")
+
+    # def _open_batch_list(self):
+        # print("BATCH BUTTON CLICKED")
+        # print("ITEM ID:", item_id)
+        # print("ITEM:", item)
+
+        # selection = self.table.selectionModel().selectedRows()
+        # if not selection:
+        #     self.window().show_error("Please select an item first.")
+        #     return
+
+        # index = selection[0]
+        # source_index = self.proxy.mapToSource(index)
+        # model = self.proxy.sourceModel()
+
+        # item_id = model.index(source_index.row(), 0).data(Qt.UserRole)
+        # item = self.mongo.inventory.find_one({"_id": item_id})
+
+        # from ui.pages.inventory.batch_list_page import BatchListPage
+        # self.batch_window = BatchListPage(self.mongo, item, self.window())
+        # self.batch_window.show()
+
+
+    def _open_batch_list(self):
+        print("BATCH BUTTON CLICKED")
+
+        selection = self.table.selectionModel().selectedRows()
+        print("SELECTION:", selection)
+
+        if not selection:
+            self.window().show_error("Please select an item first.")
+            return
+
+        index = selection[0]
+        print("INDEX:", index, "ROW:", index.row())
+
+        source_index = self.proxy.mapToSource(index)
+        print("SOURCE INDEX:", source_index, "ROW:", source_index.row() if source_index.isValid() else None)
+
+        model = self.proxy.sourceModel()
+        print("MODEL:", model)
+
+        try:
+            item_id = model.index(source_index.row(), 0).data(Qt.UserRole)
+            print("ITEM ID:", item_id)
+        except Exception as e:
+            print("FAILED TO GET ITEM ID:", e)
+            self.window().show_error(f"Failed to get item ID: {e}")
+            return
+
+        # ⭐ THIS MUST BE HERE — otherwise 'item' does not exist
+        item = self.mongo.inventory.find_one({"_id": ObjectId(item_id)})
+        print("ITEM:", item)
+
+        if not item:
+            print("ITEM NOT FOUND IN DATABASE")
+            self.window().show_error("Item not found in database.")
+            return
+
+        # Test import
+        try:
+            from ui.pages.inventory.batch_list_page import BatchListPage
+            print("IMPORT OK")
+        except Exception as e:
+            print("IMPORT FAILED:", e)
+            self.window().show_error(f"Import failed: {e}")
+            return
+
+        print("CREATING WINDOW")
+        self.batch_window = BatchListPage(self.mongo, item, self.window())
+        print("WINDOW OBJECT:", self.batch_window)
+        self.batch_window.show()
+        print("WINDOW SHOWN")
 
