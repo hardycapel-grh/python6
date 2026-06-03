@@ -33,6 +33,8 @@ class MongoService:
             self.logs = self.db["logs"]
             self.audit_log = self.db["audit_log"]
             self.inventory_batches = self.db["inventory_batches"]
+            self.stores = self.db["stores"]
+
 
             
 
