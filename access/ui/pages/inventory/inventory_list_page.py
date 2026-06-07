@@ -26,7 +26,7 @@ class InventoryListPage(QWidget):
         self.btn_batches.clicked.connect(self._open_batch_list)
 
 
-        # print("USER PERMISSIONS:", self.user.permissions)
+
 
         self._load_data()
 
@@ -257,76 +257,71 @@ class InventoryListPage(QWidget):
         if dlg.exec():
             self.window().show_info("Stock received successfully.")
 
-    # def _open_batch_list(self):
-        # print("BATCH BUTTON CLICKED")
-        # print("ITEM ID:", item_id)
-        # print("ITEM:", item)
-
-        # selection = self.table.selectionModel().selectedRows()
-        # if not selection:
-        #     self.window().show_error("Please select an item first.")
-        #     return
-
-        # index = selection[0]
-        # source_index = self.proxy.mapToSource(index)
-        # model = self.proxy.sourceModel()
-
-        # item_id = model.index(source_index.row(), 0).data(Qt.UserRole)
-        # item = self.mongo.inventory.find_one({"_id": item_id})
-
-        # from ui.pages.inventory.batch_list_page import BatchListPage
-        # self.batch_window = BatchListPage(self.mongo, item, self.window())
-        # self.batch_window.show()
 
 
     def _open_batch_list(self):
-        print("BATCH BUTTON CLICKED")
+        import ui.pages.inventory.batch_list_page as blp
+        import inspect
+
+
+        import ui.pages.inventory.batch_list_page as blp
+
+
+
+        try:
+            from ui.pages.inventory.batch_list_page import BatchListPage
+
+        except Exception as e:
+
+            return
+
+
 
         selection = self.table.selectionModel().selectedRows()
-        print("SELECTION:", selection)
+
 
         if not selection:
             self.window().show_error("Please select an item first.")
             return
 
         index = selection[0]
-        print("INDEX:", index, "ROW:", index.row())
+
 
         source_index = self.proxy.mapToSource(index)
-        print("SOURCE INDEX:", source_index, "ROW:", source_index.row() if source_index.isValid() else None)
+
 
         model = self.proxy.sourceModel()
-        print("MODEL:", model)
+
 
         try:
             item_id = model.index(source_index.row(), 0).data(Qt.UserRole)
-            print("ITEM ID:", item_id)
+
         except Exception as e:
-            print("FAILED TO GET ITEM ID:", e)
+
             self.window().show_error(f"Failed to get item ID: {e}")
             return
 
         # ⭐ THIS MUST BE HERE — otherwise 'item' does not exist
         item = self.mongo.inventory.find_one({"_id": ObjectId(item_id)})
-        print("ITEM:", item)
+
 
         if not item:
-            print("ITEM NOT FOUND IN DATABASE")
+
             self.window().show_error("Item not found in database.")
             return
 
         # Test import
         try:
             from ui.pages.inventory.batch_list_page import BatchListPage
-            print("IMPORT OK")
+
         except Exception as e:
-            print("IMPORT FAILED:", e)
+
             self.window().show_error(f"Import failed: {e}")
             return
 
-        print("CREATING WINDOW")
-        self.batch_window = BatchListPage(self.mongo, item, self.window())
-        print("WINDOW OBJECT:", self.batch_window)
+
+        self.batch_window = BatchListPage(self.mongo, item)
+
         self.batch_window.show()
-        print("WINDOW SHOWN")
+
 

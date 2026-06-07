@@ -1,7 +1,9 @@
 from PySide6.QtWidgets import (
-    QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableView
+    QHeaderView, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableView, QSizePolicy, QDialog, QTextEdit
 )
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex
+# duplicate import removed
+
 
 
 class BatchTableModel(QAbstractTableModel):
@@ -10,15 +12,21 @@ class BatchTableModel(QAbstractTableModel):
         self.batches = batches
 
         self.headers = [
-            "GRN", "Batch", "Qty", "Unit Cost", "Expiry",
-            "Store Type", "Ownership", "Customer", "Received"
+            "GRN",
+            "Batch",
+            "Quantity",
+            "Unit Cost",
+            "Expiry",
+            "Store",
+            "Received"
         ]
+
 
     def rowCount(self, parent=None):
         return len(self.batches)
 
     def columnCount(self, parent=None):
-        return len(self.headers)
+        return 7
 
     def data(self, index, role=Qt.DisplayRole):
         if not index.isValid():
@@ -33,12 +41,14 @@ class BatchTableModel(QAbstractTableModel):
             if col == 2: return batch.get("quantity", "")
             if col == 3: return batch.get("unit_cost", "")
             if col == 4: return batch.get("expiry_date", "")
-            if col == 5: return batch.get("store_type", "")
-            if col == 6: return batch.get("ownership", "")
-            if col == 7: return batch.get("customer", "")
-            if col == 8: return batch.get("received_date", "")
+            if col == 5: return batch.get("store_name", "")
+            if col == 6: return batch.get("received_date", "")
+
+        if role == Qt.UserRole:
+            return batch.get("_id")
 
         return None
+
 
     def headerData(self, section, orientation, role=Qt.DisplayRole):
         if role == Qt.DisplayRole and orientation == Qt.Horizontal:
@@ -53,12 +63,9 @@ class BatchListPage(QWidget):
         self.mongo = mongo
         self.item = item
 
-        # Force proper window behaviour
-        self.setWindowFlag(Qt.Window, True)
-        self.setAttribute(Qt.WA_DeleteOnClose, True)
-        self.setStyleSheet("background-color: white;")
-
         self.setWindowTitle(f"Batches — {item['part_number']}")
+        self.setMinimumSize(600, 400)
+        self.resize(900, 500)
 
         layout = QVBoxLayout(self)
 
@@ -67,8 +74,15 @@ class BatchListPage(QWidget):
         layout.addWidget(title)
 
         self.table = QTableView()
+        self.table.horizontalHeader().setSectionResizeMode(QHeaderView.Stretch)
+        self.table.setSelectionBehavior(QTableView.SelectRows)
+        self.table.setSelectionMode(QTableView.SingleSelection)
         layout.addWidget(self.table)
 
+        # Connect double-click
+        self.table.doubleClicked.connect(self._open_batch_details)
+
+        # Close button row
         btn_row = QHBoxLayout()
         btn_close = QPushButton("Close")
         btn_close.clicked.connect(self.close)
@@ -76,17 +90,53 @@ class BatchListPage(QWidget):
         btn_row.addWidget(btn_close)
         layout.addLayout(btn_row)
 
-        self.resize(900, 500)
-        self.setMinimumSize(600, 400)
-
         self.load_batches()
 
-
     def load_batches(self):
+        stores = {s["_id"]: s for s in self.mongo.stores.find()}
+
         batches = list(self.mongo.inventory_batches.find(
             {"item_id": self.item["_id"]}
         ))
 
+        for b in batches:
+            store = stores.get(b.get("store_id"))
+            b["store_name"] = store["name"] if store else "Unknown"
+
         self.model = BatchTableModel(batches)
         self.table.setModel(self.model)
-        self.table.resizeColumnsToContents()
+
+        self.table.horizontalHeader().setStretchLastSection(True)
+        self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+
+    def _open_batch_details(self, index):
+        row = index.row()
+        batch = self.model.batches[row]
+
+        details = (
+            f"GRN Number: {batch.get('grn_number', '')}\n"
+            f"Batch Number: {batch.get('batch_number', '')}\n"
+            f"Quantity: {batch.get('quantity', '')}\n"
+            f"Unit Cost: {batch.get('unit_cost', '')}\n"
+            f"Expiry Date: {batch.get('expiry_date', '')}\n"
+            f"Store: {batch.get('store_name', '')}\n"
+            f"Received Date: {batch.get('received_date', '')}\n"
+        )
+
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Batch Details")
+        dlg.setMinimumWidth(400)
+
+        layout = QVBoxLayout(dlg)
+
+        text = QTextEdit()
+        text.setReadOnly(True)
+        text.setText(details)
+        layout.addWidget(text)
+
+        btn = QPushButton("Close")
+        btn.clicked.connect(dlg.accept)
+        layout.addWidget(btn)
+
+        dlg.exec()
+

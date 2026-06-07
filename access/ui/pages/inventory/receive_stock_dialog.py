@@ -12,6 +12,8 @@ class ReceiveStockDialog(QDialog):
         """
         item = the inventory_item document
         """
+        from PySide6.QtWidgets import QComboBox
+
         super().__init__(parent)
 
         self.mongo = mongo
@@ -66,31 +68,16 @@ class ReceiveStockDialog(QDialog):
         row.addWidget(self.expiry)
         layout.addLayout(row)
 
-        # Store Type
+        # Store
         row = QHBoxLayout()
-        row.addWidget(QLabel("Store Type:"))
-        self.store_type = QComboBox()
-        self.store_type.addItems(["General", "Customer"])
-        self.store_type.currentIndexChanged.connect(self._toggle_customer_field)
-        row.addWidget(self.store_type)
+        row.addWidget(QLabel("Store:"))
+        self.store_combo = QComboBox()
+        row.addWidget(self.store_combo)
         layout.addLayout(row)
 
-        # Customer (only visible when Store Type = Customer)
-        self.customer_container = QWidget()
-        customer_layout = QHBoxLayout(self.customer_container)
-        customer_layout.addWidget(QLabel("Customer:"))
-        self.customer = QLineEdit()
-        customer_layout.addWidget(self.customer)
-        layout.addWidget(self.customer_container)
-        self.customer_container.setVisible(False)
+        self._load_stores()
 
-        # Ownership
-        row = QHBoxLayout()
-        row.addWidget(QLabel("Ownership:"))
-        self.ownership = QComboBox()
-        self.ownership.addItems(["Company", "Customer"])
-        row.addWidget(self.ownership)
-        layout.addLayout(row)
+
 
         # Buttons
         btn_row = QHBoxLayout()
@@ -106,12 +93,8 @@ class ReceiveStockDialog(QDialog):
 
         layout.addLayout(btn_row)
 
-    # ---------------------------------------------------------
-    # Show/hide customer field
-    # ---------------------------------------------------------
-    def _toggle_customer_field(self):
-        is_customer = self.store_type.currentText() == "Customer"
-        self.customer_container.setVisible(is_customer)
+        
+
 
     # ---------------------------------------------------------
     # Save batch
@@ -158,10 +141,10 @@ class ReceiveStockDialog(QDialog):
             "received_date": QDate.currentDate().toString("yyyy-MM-dd"),
             "expiry_date": self.expiry.date().toString("yyyy-MM-dd"),
 
-            "store_type": self.store_type.currentText(),
-            "customer": self.customer.text().strip() if self.store_type.currentText() == "Customer" else "",
-            "ownership": self.ownership.currentText()
+            "store_id": self.store_combo.currentData(),
+            "owner_customer_id": None
         }
+
 
         try:
             self.mongo.inventory_batches.insert_one(doc)
@@ -184,3 +167,11 @@ class ReceiveStockDialog(QDialog):
             log_event("error", "Failed to receive stock",
                       user=self.user.username, error=str(e))
             QMessageBox.critical(self, "Error", f"Failed to receive stock:\n{e}")
+
+    def _load_stores(self):
+        stores = list(self.mongo.stores.find({"status": "Active"}).sort("name", 1))
+        self.stores = stores
+
+        self.store_combo.clear()
+        for store in stores:
+            self.store_combo.addItem(store["name"], store["_id"])
