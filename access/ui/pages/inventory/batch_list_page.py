@@ -1,5 +1,5 @@
 from PySide6.QtWidgets import (
-    QHeaderView, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableView, QSizePolicy, QDialog, QTextEdit, QMenu, QLineEdit, QComboBox, QMessageBox, QDateEdit
+    QHeaderView, QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton, QTableView, QSizePolicy, QDialog, QTextEdit, QMenu, QLineEdit, QComboBox, QMessageBox, QDateEdit, QCheckBox
 )
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex, QSortFilterProxyModel, QDate
 from PySide6.QtGui import QColor, QBrush, QAction
@@ -271,12 +271,27 @@ class EditBatchDialog(QDialog):
         self.expiry.setDisplayFormat("yyyy-MM-dd")
         layout.addWidget(self.expiry)
 
+        
+
         layout.addWidget(QLabel("Received Date"))
 
         self.received = QDateEdit()
         self.received.setCalendarPopup(True)
         self.received.setDisplayFormat("yyyy-MM-dd")
         layout.addWidget(self.received)
+
+        layout.addWidget(QLabel("Expiry Date"))
+
+        self.expiry = QDateEdit()
+        self.expiry.setCalendarPopup(True)
+        self.expiry.setDisplayFormat("yyyy-MM-dd")
+        layout.addWidget(self.expiry)
+
+        # Add "No expiry" checkbox
+        self.no_expiry = QCheckBox("No expiry date")
+        layout.addWidget(self.no_expiry)
+        self.no_expiry.toggled.connect(lambda checked: self.expiry.setEnabled(not checked))
+
 
         # Pre-fill received date
         raw_received = batch.get("received_date", "")
@@ -290,14 +305,19 @@ class EditBatchDialog(QDialog):
         self.expiry.setMinimumDate(QDate.currentDate())
         self.expiry.setMaximumDate(QDate.currentDate().addYears(10))
 
-
         # Pre-fill the date
         raw = batch.get("expiry_date", "")
         dt = self._parse_date(raw)
+
         if dt:
             self.expiry.setDate(dt)
+            self.no_expiry.setChecked(False)
+            self.expiry.setEnabled(True)
         else:
+            self.no_expiry.setChecked(True)
+            self.expiry.setEnabled(False)
             self.expiry.setDate(QDate.currentDate())
+
 
 
         # Store dropdown
@@ -351,7 +371,6 @@ class EditBatchDialog(QDialog):
             return
 
         # Dates from pickers
-        expiry_qdate = self.expiry.date()
         received_qdate = self.received.date()
 
         # Rule: Received cannot be in the future
@@ -360,17 +379,25 @@ class EditBatchDialog(QDialog):
                                 "Received date cannot be in the future.")
             return
 
-        # Rule: Expiry cannot be before received
-        if expiry_qdate < received_qdate:
-            QMessageBox.warning(self, "Invalid Dates",
-                                "Expiry date cannot be before the received date.")
-            return
+        # Handle "No expiry"
+        if self.no_expiry.isChecked():
+            self._validated_expiry = ""
+        else:
+            expiry_qdate = self.expiry.date()
 
-        # Store validated values
-        self._validated_expiry = expiry_qdate.toString("yyyy-MM-dd")
+            # Rule: Expiry cannot be before received
+            if expiry_qdate < received_qdate:
+                QMessageBox.warning(self, "Invalid Dates",
+                                    "Expiry date cannot be before the received date.")
+                return
+
+            self._validated_expiry = expiry_qdate.toString("yyyy-MM-dd")
+
+        # Store validated received date
         self._validated_received = received_qdate.toString("yyyy-MM-dd")
 
         self.accept()
+
 
 
 
@@ -481,6 +508,12 @@ class BatchListPage(QWidget):
 
         layout.addWidget(self.table)
 
+        # --- Add total quantity footer ---
+        self.total_label = QLabel("Total Quantity: 0")
+        self.total_label.setStyleSheet("font-weight: bold; padding: 6px;")
+        layout.addWidget(self.total_label)
+
+
         # Connect double-click
         self.table.doubleClicked.connect(self._open_batch_details)
 
@@ -535,11 +568,16 @@ class BatchListPage(QWidget):
 
         self.table.horizontalHeader().setStretchLastSection(True)
         self.table.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        total_qty = sum(int(b.get("quantity", 0)) for b in batches)
+        self.total_label.setText(f"Total Quantity: {total_qty:,}")
+
 
 
     def _open_batch_details(self, index):
-        row = index.row()
+        source_index = self.proxy.mapToSource(index)
+        row = source_index.row()
         batch = self.model.batches[row]
+
 
         details = (
             f"GRN Number: {batch.get('grn_number', '')}\n"
@@ -573,8 +611,10 @@ class BatchListPage(QWidget):
         if not index.isValid():
             return
 
-        row = index.row()
+        source_index = self.proxy.mapToSource(index)
+        row = source_index.row()
         batch = self.model.batches[row]
+
 
         menu = QMenu(self)
 
