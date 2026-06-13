@@ -3,6 +3,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex, QSortFilterProxyModel, QDate
 from PySide6.QtGui import QColor, QBrush, QAction
+from datetime import datetime
 
 
 
@@ -428,6 +429,89 @@ class EditBatchDialog(QDialog):
                 continue
 
         return None
+    
+class StockAdjustmentDialog(QDialog):
+    def __init__(self, batch, parent=None):
+        super().__init__(parent)
+        self.batch = batch
+
+        self.setWindowTitle("Adjust Stock")
+        self.setMinimumWidth(350)
+
+        layout = QVBoxLayout(self)
+
+        layout.addWidget(QLabel(
+            f"Batch: {batch.get('batch_number')} (Current Qty: {batch.get('quantity')})"
+        ))
+
+        # Adjustment type
+        layout.addWidget(QLabel("Adjustment Type"))
+        self.type_box = QComboBox()
+        self.type_box.addItems(["Increase", "Decrease"])
+        layout.addWidget(self.type_box)
+
+        # Quantity
+        layout.addWidget(QLabel("Quantity"))
+        self.qty_edit = QLineEdit()
+        layout.addWidget(self.qty_edit)
+
+        # Reason
+        layout.addWidget(QLabel("Reason"))
+        self.reason_box = QComboBox()
+        self.reason_box.addItems([
+            "Stock Take Correction",
+            "Damaged",
+            "Lost",
+            "Expired",
+            "Administrative Correction",
+            "Other"
+        ])
+        layout.addWidget(self.reason_box)
+
+        # Notes
+        layout.addWidget(QLabel("Notes (optional)"))
+        self.notes_edit = QLineEdit()
+        layout.addWidget(self.notes_edit)
+
+        # Buttons
+        btn_row = QHBoxLayout()
+        btn_cancel = QPushButton("Cancel")
+        btn_apply = QPushButton("Apply")
+        btn_apply.setStyleSheet("background-color: #0275d8; color: white;")
+
+        btn_cancel.clicked.connect(self.reject)
+        btn_apply.clicked.connect(self._validate_and_accept)
+
+        btn_row.addStretch()
+        btn_row.addWidget(btn_cancel)
+        btn_row.addWidget(btn_apply)
+        layout.addLayout(btn_row)
+
+    def _validate_and_accept(self):
+        try:
+            qty = int(self.qty_edit.text())
+            if qty <= 0:
+                raise ValueError
+        except:
+            QMessageBox.warning(self, "Invalid Quantity",
+                                "Quantity must be a positive integer.")
+            return
+
+        self.adjust_type = self.type_box.currentText()
+        self.adjust_qty = qty
+        self.reason = self.reason_box.currentText()
+        self.notes = self.notes_edit.text()
+
+        self.accept()
+
+    def get_adjustment(self):
+        return {
+            "type": self.adjust_type,
+            "qty": self.adjust_qty,
+            "reason": self.reason,
+            "notes": self.notes
+        }
+
 
 
 class BatchFilterProxy(QSortFilterProxyModel):
@@ -620,14 +704,17 @@ class BatchListPage(QWidget):
 
         view_action = QAction("View Details", self)
         edit_action = QAction("Edit Batch", self)
+        adjust_action = QAction("Adjust Stock", self)
         delete_action = QAction("Delete Batch", self)
 
         view_action.triggered.connect(lambda: self._open_batch_details(index))
         edit_action.triggered.connect(lambda: self._edit_batch(batch))
+        adjust_action.triggered.connect(lambda: self._adjust_stock(batch))
         delete_action.triggered.connect(lambda: self._delete_batch(batch))
 
         menu.addAction(view_action)
         menu.addAction(edit_action)
+        menu.addAction(adjust_action)
         menu.addAction(delete_action)
 
         menu.exec(self.table.viewport().mapToGlobal(position))
@@ -733,3 +820,42 @@ class BatchListPage(QWidget):
 
     def _apply_filter(self, mode):
         self.proxy.setFilterMode(mode)
+
+    def _adjust_stock(self, batch):
+        dlg = StockAdjustmentDialog(batch, self)
+
+        if dlg.exec() != QDialog.Accepted:
+            return
+
+        adj = dlg.get_adjustment()
+        old_qty = int(batch.get("quantity", 0))
+
+        if adj["type"] == "Increase":
+            new_qty = old_qty + adj["qty"]
+        else:
+            new_qty = old_qty - adj["qty"]
+            if new_qty < 0:
+                QMessageBox.warning(self, "Invalid Adjustment",
+                                    "Stock cannot go below zero.")
+                return
+
+        # Update MongoDB
+        self.mongo.inventory_batches.update_one(
+            {"_id": batch["_id"]},
+            {"$set": {"quantity": new_qty}}
+        )
+
+        # Audit log
+        self.mongo.audit_log.insert_one({
+            "event": "stock.adjust",
+            "item_id": self.item["_id"],
+            "batch_id": batch["_id"],
+            "old_qty": old_qty,
+            "new_qty": new_qty,
+            "reason": adj["reason"],
+            "notes": adj["notes"],
+            "performed_by": "system",  # replace with logged-in user
+            "timestamp": datetime.utcnow(),
+        })
+
+        self.load_batches()
