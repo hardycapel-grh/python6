@@ -39,6 +39,12 @@ class AddItemDialog(QDialog):
         row.addWidget(self.description)
         layout.addLayout(row)
 
+        # Revision
+        layout.addWidget(QLabel("Revision"))
+        self.revision = QLineEdit()
+        self.revision.setText("A")
+        layout.addWidget(self.revision)
+
         # Type
         row = QHBoxLayout()
         row.addWidget(QLabel("Type:"))
@@ -46,6 +52,13 @@ class AddItemDialog(QDialog):
         self.type_box.addItems(["Part", "Assembly", "Tool", "Resource"])
         row.addWidget(self.type_box)
         layout.addLayout(row)
+
+        # UOM
+        layout.addWidget(QLabel("Unit of Measure (UOM)"))
+        self.uom = QComboBox()
+        self.uom.addItems(["EA", "KG", "L", "BOX", "PACK", "M", "CM", "SET"])
+        self.uom.setCurrentText("EA")
+        layout.addWidget(self.uom)
 
         # Category
         row = QHBoxLayout()
@@ -87,15 +100,6 @@ class AddItemDialog(QDialog):
         layout.addLayout(row)
 
         # Customer (only visible when Store Type = Customer)
-        # row = QHBoxLayout()
-        # row.addWidget(QLabel("Customer:"))
-        # self.customer = QLineEdit()
-        # row.addWidget(self.customer)
-        # layout.addLayout(row)
-        # self.customer_row = row
-        # self.customer_row.parent().setVisible(False)
-
-        # Customer (only visible when Store Type = Customer)
         self.customer_container = QWidget()
         customer_layout = QHBoxLayout(self.customer_container)
 
@@ -105,7 +109,6 @@ class AddItemDialog(QDialog):
 
         layout.addWidget(self.customer_container)
         self.customer_container.setVisible(False)
-
 
         # Ownership
         row = QHBoxLayout()
@@ -134,7 +137,7 @@ class AddItemDialog(QDialog):
     # ---------------------------------------------------------
     def _toggle_customer_field(self):
         is_customer = self.store_type.currentText() == "Customer"
-        self.customer_row.parent().setVisible(is_customer)
+        self.customer_container.setVisible(is_customer)
 
     # ---------------------------------------------------------
     # Save item
@@ -142,6 +145,7 @@ class AddItemDialog(QDialog):
     def _save(self):
         part_number = self.part_number.text().strip()
         description = self.description.text().strip()
+        revision = self.revision.text().strip()
 
         if not part_number:
             QMessageBox.warning(self, "Missing Field", "Part Number is required.")
@@ -149,6 +153,10 @@ class AddItemDialog(QDialog):
 
         if not description:
             QMessageBox.warning(self, "Missing Field", "Description is required.")
+            return
+
+        if not revision:
+            QMessageBox.warning(self, "Missing Field", "Revision is required.")
             return
 
         # Check for duplicate part number
@@ -160,7 +168,9 @@ class AddItemDialog(QDialog):
         doc = {
             "part_number": part_number,
             "description": description,
+            "revision": revision,
             "type": self.type_box.currentText(),
+            "uom": self.uom.currentText(),
             "category": self.category.text().strip(),
             "make_buy": self.makebuy.currentText(),
             "supplier": self.supplier.text().strip(),
@@ -177,11 +187,18 @@ class AddItemDialog(QDialog):
             self.mongo.log_event(
                 "inventory.create",
                 performed_by=self.user.username,
-                details=f"Created inventory item {part_number}"
+                details=f"Created inventory item {part_number} (Rev {revision}, UOM {doc['uom']})"
             )
 
-            log_event("info", "Inventory item created",
-                      user=self.user.username, part_number=part_number)
+            # Debug log
+            log_event(
+                "info",
+                "Inventory item created",
+                user=self.user.username,
+                part_number=part_number,
+                revision=revision,
+                uom=doc["uom"]
+            )
 
             self.accept()
 

@@ -554,7 +554,8 @@ class BatchListPage(QWidget):
 
         layout = QVBoxLayout(self)
 
-        title = QLabel(f"Batches for {item['part_number']} — {item['description']}")
+        title = QLabel(f"Batches for {item['part_number']} Rev {item.get('revision', '')} — {item['description']}")
+
         title.setStyleSheet("font-size: 18px; font-weight: bold;")
         layout.addWidget(title)
         filter_row = QHBoxLayout()

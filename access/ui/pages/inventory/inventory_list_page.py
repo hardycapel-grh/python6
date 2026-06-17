@@ -24,9 +24,7 @@ class InventoryListPage(QWidget):
         self.btn_delete.clicked.connect(self._disable_selected_item)
         self.btn_receive.clicked.connect(self._open_receive_stock_dialog)
         self.btn_batches.clicked.connect(self._open_batch_list)
-
-
-
+        self.btn_edit.clicked.connect(self._open_edit_dialog)
 
         self._load_data()
 
@@ -129,7 +127,9 @@ class InventoryListPage(QWidget):
         model.setHorizontalHeaderLabels([
             "Part Number",
             "Description",
+            "Revision",
             "Type",
+            "UOM",
             "Category",
             "Make/Buy",
             "Supplier",
@@ -148,7 +148,9 @@ class InventoryListPage(QWidget):
             fields = [
                 item.get("part_number", ""),
                 item.get("description", ""),
+                item.get("revision", ""),
                 item.get("type", ""),
+                item.get("uom", ""),
                 item.get("category", ""),
                 item.get("make_buy", ""),
                 item.get("supplier", ""),
@@ -324,4 +326,35 @@ class InventoryListPage(QWidget):
 
         self.batch_window.show()
 
+    def _open_edit_dialog(self):
+        selection = self.table.selectionModel().selectedRows()
+        if not selection:
+            self.window().show_error("Please select an item first.")
+            return
+
+        index = selection[0]
+        source_index = self.proxy.mapToSource(index)
+        model = self.proxy.sourceModel()
+
+        item_id = model.index(source_index.row(), 0).data(Qt.UserRole)
+        item = self.mongo.inventory.find_one({"_id": item_id})
+
+        from ui.pages.inventory.edit_item_dialog import EditItemDialog
+        dlg = EditItemDialog(self.mongo, self.user, item, self)
+
+        if dlg.exec():
+            updated = dlg.get_updated_values()
+
+            self.mongo.inventory.update_one(
+                {"_id": item_id},
+                {"$set": updated}
+            )
+
+            self.mongo.log_event(
+                "inventory.edit",
+                performed_by=self.user.username,
+                details=f"Edited inventory item {item.get('part_number')}"
+            )
+
+            self._load_data()
 
