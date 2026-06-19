@@ -3,6 +3,7 @@ from ui.windows.window_with_sidebar import WindowWithSidebar
 from ui.pages.admin.users_page import UsersPage
 from ui.pages.admin.roles_page import RolesPage
 from ui.pages.admin.permissions_page import PermissionsPage
+from ui.pages.admin.uom_management_page import UomManagementPage
 from ui.pages.admin.audit_log_page import AuditLogPage
 from ui.pages.stores.stores_list_page import StoresListPage
 from ui.components.logger_utils import log_event
@@ -45,6 +46,12 @@ class AdminControlWindow(WindowWithSidebar):
             lambda: StoresListPage(self.mongo, self.current_user, parent=self),
             required_permission="stores.read"
         )
+        self.add_page(
+            "UOMs",
+            lambda: UomManagementPage(self.mongo, self.user, parent=self),
+            required_permission="uom.manage"
+        )
+
 
 
 

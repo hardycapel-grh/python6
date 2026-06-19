@@ -56,7 +56,12 @@ class AddItemDialog(QDialog):
         # UOM
         layout.addWidget(QLabel("Unit of Measure (UOM)"))
         self.uom = QComboBox()
-        self.uom.addItems(["EA", "KG", "L", "BOX", "PACK", "M", "CM", "SET"])
+        uoms = [u["uom"] for u in self.mongo.uom_list.find({})]
+        if not uoms:
+            uoms = ["EA"]  # fallback
+
+        self.uom.addItems(uoms)
+
         self.uom.setCurrentText("EA")
         layout.addWidget(self.uom)
 
