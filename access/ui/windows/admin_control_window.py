@@ -5,6 +5,7 @@ from ui.pages.admin.roles_page import RolesPage
 from ui.pages.admin.permissions_page import PermissionsPage
 from ui.pages.admin.uom_management_page import UomManagementPage
 from ui.pages.admin.audit_log_page import AuditLogPage
+from ui.pages.admin.supplier_management_page import SupplierManagementPage
 from ui.pages.stores.stores_list_page import StoresListPage
 from ui.components.logger_utils import log_event
 
@@ -60,4 +61,10 @@ class AdminControlWindow(WindowWithSidebar):
 
         self.add_page("Audit Log",
                     lambda: AuditLogPage(self.mongo))
+
+        self.add_page(
+            "Suppliers",
+            lambda: SupplierManagementPage(self.mongo, self.user),
+            required_permission="supplier.manage"
+        )
 

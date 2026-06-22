@@ -80,12 +80,32 @@ class AddItemDialog(QDialog):
         row.addWidget(self.makebuy)
         layout.addLayout(row)
 
+        # # Supplier
+        # row = QHBoxLayout()
+        # row.addWidget(QLabel("Supplier:"))
+        # self.supplier = QLineEdit()
+        # row.addWidget(self.supplier)
+        # layout.addLayout(row)
+
         # Supplier
         row = QHBoxLayout()
         row.addWidget(QLabel("Supplier:"))
-        self.supplier = QLineEdit()
+
+        self.supplier = QComboBox()
+
+        # Load suppliers from DB
+        suppliers = list(self.mongo.suppliers.find().sort("name", 1))
+
+        if suppliers:
+            for s in suppliers:
+                self.supplier.addItem(s["name"])
+        else:
+            # No suppliers yet
+            self.supplier.addItem("")
+
         row.addWidget(self.supplier)
         layout.addLayout(row)
+
 
         # Status
         row = QHBoxLayout()
@@ -152,16 +172,22 @@ class AddItemDialog(QDialog):
         description = self.description.text().strip()
         revision = self.revision.text().strip()
 
+        make_or_buy = self.makebuy.currentText().lower()
+
+        if make_or_buy == "make" and not revision:
+            QMessageBox.warning(
+                self,
+                "Revision Required",
+                "A revision is required for items that are manufactured (Make)."
+            )
+            return
+
         if not part_number:
             QMessageBox.warning(self, "Missing Field", "Part Number is required.")
             return
 
         if not description:
             QMessageBox.warning(self, "Missing Field", "Description is required.")
-            return
-
-        if not revision:
-            QMessageBox.warning(self, "Missing Field", "Revision is required.")
             return
 
         # Check for duplicate part number
@@ -178,7 +204,7 @@ class AddItemDialog(QDialog):
             "uom": self.uom.currentText(),
             "category": self.category.text().strip(),
             "make_buy": self.makebuy.currentText(),
-            "supplier": self.supplier.text().strip(),
+            "supplier": self.supplier.currentText().strip(),
             "status": self.status_box.currentText(),
             "store_type": self.store_type.currentText(),
             "customer": self.customer.text().strip() if self.store_type.currentText() == "Customer" else "",

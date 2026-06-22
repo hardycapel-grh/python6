@@ -35,6 +35,8 @@ class MongoService:
             self.inventory_batches = self.db["inventory_batches"]
             self.stores = self.db["stores"]
             self.uom_list = self.db["uom_list"]
+            self.suppliers = self.db["suppliers"]
+
 
 
 

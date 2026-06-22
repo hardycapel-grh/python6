@@ -67,8 +67,25 @@ class EditItemDialog(QDialog):
 
         # Supplier
         layout.addWidget(QLabel("Supplier"))
-        self.supplier = QLineEdit(item.get("supplier", ""))
+        self.supplier = QComboBox()
+
+        # Load suppliers from DB
+        suppliers = list(self.mongo.suppliers.find().sort("name", 1))
+
+        if suppliers:
+            for s in suppliers:
+                self.supplier.addItem(s["name"])
+        else:
+            self.supplier.addItem("")
+
+        # Pre-select current supplier
+        current_supplier = item.get("supplier", "")
+        index = self.supplier.findText(current_supplier)
+        if index >= 0:
+            self.supplier.setCurrentIndex(index)
+
         layout.addWidget(self.supplier)
+
 
         # Status
         layout.addWidget(QLabel("Status"))
@@ -97,6 +114,18 @@ class EditItemDialog(QDialog):
             QMessageBox.warning(self, "Invalid Input", "Part number cannot be empty.")
             return
 
+        make_or_buy = self.make_buy.currentText().lower()
+        revision = self.revision.text().strip()
+
+        if make_or_buy == "make" and not revision:
+            QMessageBox.warning(
+                self,
+                "Revision Required",
+                "A revision is required for items that are manufactured (Make)."
+            )
+            return None
+
+
         # New values
         self.updated = {
             "part_number": self.part_number.text().strip(),
@@ -106,7 +135,7 @@ class EditItemDialog(QDialog):
             "uom": self.uom.currentText(),
             "category": self.category.text().strip(),
             "make_buy": self.make_buy.currentText(),
-            "supplier": self.supplier.text().strip(),
+            "supplier": self.supplier.currentText().strip(),
             "status": self.status.currentText(),
         }
 
