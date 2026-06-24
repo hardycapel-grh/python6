@@ -28,28 +28,47 @@ class SupplierManagementPage(QWidget):
         layout.addWidget(title)
 
         # Table
-        self.table = QTableWidget(0, 2)
-        self.table.setHorizontalHeaderLabels(["Name", "Notes"])
+        self.table = QTableWidget(0, 8)
+        self.table.setHorizontalHeaderLabels([
+            "Name", "Contact Name", "Email", "Phone",
+            "City", "Postcode", "Country", "Notes"
+        ])
+
+
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
-        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.Stretch)
-        layout.addWidget(self.table)
+        self.table.horizontalHeader().setSectionResizeMode(1, QHeaderView.ResizeToContents)
+        self.table.horizontalHeader().setSectionResizeMode(2, QHeaderView.ResizeToContents)
+        self.table.horizontalHeader().setSectionResizeMode(3, QHeaderView.ResizeToContents)
+        self.table.horizontalHeader().setSectionResizeMode(4, QHeaderView.Stretch)
+
+        layout.addWidget(self.table)   # ⭐⭐ THIS WAS MISSING ⭐⭐
+
+        self.table.cellDoubleClicked.connect(self._view_supplier)
+
 
         # Buttons
         btn_row = QHBoxLayout()
         self.btn_add = QPushButton("Add Supplier")
         self.btn_edit = QPushButton("Edit Selected")
         self.btn_delete = QPushButton("Delete Selected")
+        self.btn_view = QPushButton("View Details")
+
+
+
 
         self.btn_add.clicked.connect(self._add_supplier)
         self.btn_edit.clicked.connect(self._edit_supplier)
         self.btn_delete.clicked.connect(self._delete_supplier)
+        self.btn_view.clicked.connect(self._view_supplier)
 
         btn_row.addStretch()
         btn_row.addWidget(self.btn_add)
         btn_row.addWidget(self.btn_edit)
         btn_row.addWidget(self.btn_delete)
+        btn_row.addWidget(self.btn_view)
 
         layout.addLayout(btn_row)
+
 
     # ---------------------------------------------------------
     # Load data
@@ -62,12 +81,18 @@ class SupplierManagementPage(QWidget):
         for row_idx, s in enumerate(suppliers):
             self.table.insertRow(row_idx)
 
-            name_item = QTableWidgetItem(s.get("name", ""))
-            name_item.setData(Qt.UserRole, str(s["_id"]))
-            self.table.setItem(row_idx, 0, name_item)
+            def cell(value):
+                return QTableWidgetItem(value if value else "")
 
-            notes_item = QTableWidgetItem(s.get("notes", ""))
-            self.table.setItem(row_idx, 1, notes_item)
+            self.table.setItem(row_idx, 0, cell(s.get("name")))
+            self.table.setItem(row_idx, 1, cell(s.get("contact_name")))
+            self.table.setItem(row_idx, 2, cell(s.get("email")))
+            self.table.setItem(row_idx, 3, cell(s.get("phone")))
+            self.table.setItem(row_idx, 4, cell(s.get("city")))
+            self.table.setItem(row_idx, 5, cell(s.get("postcode")))
+            self.table.setItem(row_idx, 6, cell(s.get("country")))
+            self.table.setItem(row_idx, 7, cell(s.get("notes")))
+
 
     # ---------------------------------------------------------
     # Add Supplier
@@ -143,3 +168,15 @@ class SupplierManagementPage(QWidget):
             log_event("error", "Failed to delete supplier",
                       user=self.user.username, supplier=name, error=str(e))
             QMessageBox.critical(self, "Error", f"Failed to delete supplier:\n{e}")
+
+    def _view_supplier(self):
+        row = self.table.currentRow()
+        if row < 0:
+            QMessageBox.warning(self, "No Selection", "Please select a supplier to view.")
+            return
+
+        name = self.table.item(row, 0).text()
+
+        from ui.pages.admin.supplier_dialogs import ViewSupplierDialog
+        dlg = ViewSupplierDialog(self.mongo, name, self)
+        dlg.exec()
