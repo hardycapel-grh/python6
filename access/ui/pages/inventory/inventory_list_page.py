@@ -136,8 +136,11 @@ class InventoryListPage(QWidget):
             "Status",
             "Store Type",
             "Customer",
-            "Ownership"
+            "Ownership",
+            "Store",
+            "Location"
         ])
+
 
         # Load all items from MongoDB
         items = list(self.mongo.inventory.find({}))
@@ -157,8 +160,11 @@ class InventoryListPage(QWidget):
                 item.get("status", ""),
                 item.get("store_type", ""),
                 item.get("customer", ""),
-                item.get("ownership", "")
+                item.get("ownership", ""),
+                item.get("store_name", ""),
+                item.get("store_location_name", "")
             ]
+
 
             for col, value in enumerate(fields):
                 cell = QStandardItem(str(value))

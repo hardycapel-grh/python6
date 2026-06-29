@@ -61,7 +61,6 @@ class AddItemDialog(QDialog):
             uoms = ["EA"]  # fallback
 
         self.uom.addItems(uoms)
-
         self.uom.setCurrentText("EA")
         layout.addWidget(self.uom)
 
@@ -80,32 +79,21 @@ class AddItemDialog(QDialog):
         row.addWidget(self.makebuy)
         layout.addLayout(row)
 
-        # # Supplier
-        # row = QHBoxLayout()
-        # row.addWidget(QLabel("Supplier:"))
-        # self.supplier = QLineEdit()
-        # row.addWidget(self.supplier)
-        # layout.addLayout(row)
-
         # Supplier
         row = QHBoxLayout()
         row.addWidget(QLabel("Supplier:"))
 
         self.supplier = QComboBox()
-
-        # Load suppliers from DB
         suppliers = list(self.mongo.suppliers.find().sort("name", 1))
 
         if suppliers:
             for s in suppliers:
                 self.supplier.addItem(s["name"])
         else:
-            # No suppliers yet
             self.supplier.addItem("")
 
         row.addWidget(self.supplier)
         layout.addLayout(row)
-
 
         # Status
         row = QHBoxLayout()
@@ -122,6 +110,36 @@ class AddItemDialog(QDialog):
         self.store_type.addItems(["General", "Customer"])
         self.store_type.currentIndexChanged.connect(self._toggle_customer_field)
         row.addWidget(self.store_type)
+        layout.addLayout(row)
+
+        # Store (NEW)
+        row = QHBoxLayout()
+        row.addWidget(QLabel("Store:"))
+        self.store = QComboBox()
+
+        stores = list(self.mongo.stores.find().sort("name", 1))
+        if stores:
+            for st in stores:
+                self.store.addItem(st["name"], st["_id"])
+        else:
+            self.store.addItem("")
+
+        row.addWidget(self.store)
+        layout.addLayout(row)
+
+        # Store Location (NEW)
+        row = QHBoxLayout()
+        row.addWidget(QLabel("Store Location:"))
+        self.store_location = QComboBox()
+
+        locations = list(self.mongo.store_locations.find({"is_active": True}).sort("location_name", 1))
+        if locations:
+            for loc in locations:
+                self.store_location.addItem(loc["location_name"], loc["_id"])
+        else:
+            self.store_location.addItem("")
+
+        row.addWidget(self.store_location)
         layout.addLayout(row)
 
         # Customer (only visible when Store Type = Customer)
@@ -190,6 +208,15 @@ class AddItemDialog(QDialog):
             QMessageBox.warning(self, "Missing Field", "Description is required.")
             return
 
+        # Required: Store + Store Location
+        if self.store.currentIndex() < 0 or self.store.currentText().strip() == "":
+            QMessageBox.warning(self, "Missing Field", "Store is required.")
+            return
+
+        if self.store_location.currentIndex() < 0 or self.store_location.currentText().strip() == "":
+            QMessageBox.warning(self, "Missing Field", "Store Location is required.")
+            return
+
         # Check for duplicate part number
         existing = self.mongo.inventory.find_one({"part_number": part_number})
         if existing:
@@ -206,8 +233,22 @@ class AddItemDialog(QDialog):
             "make_buy": self.makebuy.currentText(),
             "supplier": self.supplier.currentText().strip(),
             "status": self.status_box.currentText(),
+
+            # Store Type (policy)
             "store_type": self.store_type.currentText(),
+
+            # Store (virtual)
+            "store_id": self.store.currentData(),
+            "store_name": self.store.currentText(),
+
+            # Store Location (physical)
+            "store_location_id": self.store_location.currentData(),
+            "store_location_name": self.store_location.currentText(),
+
+            # Customer (conditional)
             "customer": self.customer.text().strip() if self.store_type.currentText() == "Customer" else "",
+
+            # Ownership
             "ownership": self.ownership.currentText()
         }
 

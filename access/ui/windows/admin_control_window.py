@@ -7,6 +7,7 @@ from ui.pages.admin.uom_management_page import UomManagementPage
 from ui.pages.admin.audit_log_page import AuditLogPage
 from ui.pages.admin.supplier_management_page import SupplierManagementPage
 from ui.pages.stores.stores_list_page import StoresListPage
+from ui.pages.admin.store_locations_page import StoreLocationsPage
 from ui.components.logger_utils import log_event
 
 class AdminControlWindow(WindowWithSidebar):
@@ -53,8 +54,11 @@ class AdminControlWindow(WindowWithSidebar):
             required_permission="uom.manage"
         )
 
-
-
+        self.add_page(
+            "Store Locations", 
+            lambda: StoreLocationsPage(self.mongo, self.user, parent=self),
+            required_permission="store_locations.manage"
+        )
 
         self.add_page("Permissions",
                     lambda: PermissionsPage(self.mongo, parent=self))

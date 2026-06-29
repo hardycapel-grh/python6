@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
-    QTableWidget, QTableWidgetItem, QMessageBox, QHeaderView
+    QTableWidget, QTableWidgetItem, QMessageBox, QHeaderView, QLineEdit
 )
 from PySide6.QtCore import Qt
 
@@ -27,12 +27,24 @@ class SupplierManagementPage(QWidget):
         title.setStyleSheet("font-size: 18px; font-weight: bold;")
         layout.addWidget(title)
 
+        # Search bar
+        search_row = QHBoxLayout()
+        search_row.addWidget(QLabel("Search:"))
+        self.search_box = QLineEdit()
+        self.search_box.setPlaceholderText("Type to filter suppliers...")
+        self.search_box.textChanged.connect(self._apply_filter)
+        search_row.addWidget(self.search_box)
+        layout.addLayout(search_row)
+
+
+
         # Table
         self.table = QTableWidget(0, 8)
         self.table.setHorizontalHeaderLabels([
             "Name", "Contact Name", "Email", "Phone",
             "City", "Postcode", "Country", "Notes"
         ])
+
 
 
         self.table.horizontalHeader().setSectionResizeMode(0, QHeaderView.ResizeToContents)
@@ -74,6 +86,10 @@ class SupplierManagementPage(QWidget):
     # Load data
     # ---------------------------------------------------------
     def _load_data(self):
+
+        self.all_suppliers = list(self.mongo.suppliers.find().sort("name", 1))
+        self._refresh_table(self.all_suppliers)
+
         self.table.setRowCount(0)
 
         suppliers = list(self.mongo.suppliers.find().sort("name", 1))
@@ -180,3 +196,38 @@ class SupplierManagementPage(QWidget):
         from ui.pages.admin.supplier_dialogs import ViewSupplierDialog
         dlg = ViewSupplierDialog(self.mongo, name, self)
         dlg.exec()
+
+    def _refresh_table(self, suppliers):
+        self.table.setRowCount(0)
+
+        for row_idx, s in enumerate(suppliers):
+            self.table.insertRow(row_idx)
+
+            def cell(value):
+                return QTableWidgetItem(value if value else "")
+
+            self.table.setItem(row_idx, 0, cell(s.get("name")))
+            self.table.setItem(row_idx, 1, cell(s.get("contact_name")))
+            self.table.setItem(row_idx, 2, cell(s.get("email")))
+            self.table.setItem(row_idx, 3, cell(s.get("phone")))
+            self.table.setItem(row_idx, 4, cell(s.get("city")))
+            self.table.setItem(row_idx, 5, cell(s.get("postcode")))
+            self.table.setItem(row_idx, 6, cell(s.get("country")))
+            self.table.setItem(row_idx, 7, cell(s.get("notes")))
+
+    def _apply_filter(self):
+        text = self.search_box.text().strip().lower()
+
+        if not text:
+            self._refresh_table(self.all_suppliers)
+            return
+
+        filtered = []
+        for s in self.all_suppliers:
+            # Check all fields for a match
+            for key, value in s.items():
+                if isinstance(value, str) and text in value.lower():
+                    filtered.append(s)
+                    break
+
+        self._refresh_table(filtered)

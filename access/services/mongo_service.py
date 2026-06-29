@@ -36,6 +36,12 @@ class MongoService:
             self.stores = self.db["stores"]
             self.uom_list = self.db["uom_list"]
             self.suppliers = self.db["suppliers"]
+            self.store_locations = self.db["store_locations"]
+
+            # ⭐ OPTIONAL INDEX (recommended)
+            self.store_locations.create_index("location_name", unique=True)
+
+
 
 
 

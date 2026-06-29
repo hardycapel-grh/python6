@@ -1,10 +1,10 @@
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel, QLineEdit,
-    QComboBox, QPushButton, QMessageBox
+    QComboBox, QPushButton, QMessageBox, QWidget
 )
 from PySide6.QtCore import Qt
 
-from ui.components.logger_utils import log_event   # ⭐ Needed for debug logging
+from ui.components.logger_utils import log_event
 
 
 class EditItemDialog(QDialog):
@@ -22,6 +22,9 @@ class EditItemDialog(QDialog):
         # Part Number
         layout.addWidget(QLabel("Part Number"))
         self.part_number = QLineEdit(item.get("part_number", ""))
+        self.part_number.setReadOnly(True)
+        self.part_number.setStyleSheet("background-color: #e0e0e0;")
+
         layout.addWidget(self.part_number)
 
         # Description
@@ -46,10 +49,8 @@ class EditItemDialog(QDialog):
         self.uom = QComboBox()
         uoms = [u["uom"] for u in self.mongo.uom_list.find({})]
         if not uoms:
-            uoms = ["EA"]  # fallback
-
+            uoms = ["EA"]
         self.uom.addItems(uoms)
-
         self.uom.setCurrentText(item.get("uom", "EA"))
         layout.addWidget(self.uom)
 
@@ -69,23 +70,19 @@ class EditItemDialog(QDialog):
         layout.addWidget(QLabel("Supplier"))
         self.supplier = QComboBox()
 
-        # Load suppliers from DB
         suppliers = list(self.mongo.suppliers.find().sort("name", 1))
-
         if suppliers:
             for s in suppliers:
                 self.supplier.addItem(s["name"])
         else:
             self.supplier.addItem("")
 
-        # Pre-select current supplier
         current_supplier = item.get("supplier", "")
-        index = self.supplier.findText(current_supplier)
-        if index >= 0:
-            self.supplier.setCurrentIndex(index)
+        idx = self.supplier.findText(current_supplier)
+        if idx >= 0:
+            self.supplier.setCurrentIndex(idx)
 
         layout.addWidget(self.supplier)
-
 
         # Status
         layout.addWidget(QLabel("Status"))
@@ -93,6 +90,70 @@ class EditItemDialog(QDialog):
         self.status.addItems(["Active", "Disabled", "Discontinued"])
         self.status.setCurrentText(item.get("status", "Active"))
         layout.addWidget(self.status)
+
+        # Store Type
+        layout.addWidget(QLabel("Store Type"))
+        self.store_type = QComboBox()
+        self.store_type.addItems(["General", "Customer"])
+        self.store_type.setCurrentText(item.get("store_type", "General"))
+        self.store_type.currentIndexChanged.connect(self._toggle_customer_field)
+        layout.addWidget(self.store_type)
+
+        # Store (NEW)
+        layout.addWidget(QLabel("Store"))
+        self.store = QComboBox()
+
+        stores = list(self.mongo.stores.find().sort("name", 1))
+        if stores:
+            for st in stores:
+                self.store.addItem(st["name"], st["_id"])
+        else:
+            self.store.addItem("")
+
+        # Pre-select store
+        current_store = item.get("store_name", "")
+        idx = self.store.findText(current_store)
+        if idx >= 0:
+            self.store.setCurrentIndex(idx)
+
+        layout.addWidget(self.store)
+
+        # Store Location (NEW)
+        layout.addWidget(QLabel("Store Location"))
+        self.store_location = QComboBox()
+
+        locations = list(self.mongo.store_locations.find({"is_active": True}).sort("location_name", 1))
+        if locations:
+            for loc in locations:
+                self.store_location.addItem(loc["location_name"], loc["_id"])
+        else:
+            self.store_location.addItem("")
+
+        # Pre-select store location
+        current_loc = item.get("store_location_name", "")
+        idx = self.store_location.findText(current_loc)
+        if idx >= 0:
+            self.store_location.setCurrentIndex(idx)
+
+        layout.addWidget(self.store_location)
+
+        # Customer (conditional)
+        self.customer_container = QWidget()
+        customer_layout = QHBoxLayout(self.customer_container)
+        customer_layout.addWidget(QLabel("Customer:"))
+        self.customer = QLineEdit(item.get("customer", ""))
+        customer_layout.addWidget(self.customer)
+        layout.addWidget(self.customer_container)
+
+        # Show/hide based on store type
+        self.customer_container.setVisible(self.store_type.currentText() == "Customer")
+
+        # Ownership
+        layout.addWidget(QLabel("Ownership"))
+        self.ownership = QComboBox()
+        self.ownership.addItems(["Company", "Customer"])
+        self.ownership.setCurrentText(item.get("ownership", "Company"))
+        layout.addWidget(self.ownership)
 
         # Buttons
         btn_row = QHBoxLayout()
@@ -108,8 +169,12 @@ class EditItemDialog(QDialog):
         btn_row.addWidget(btn_save)
         layout.addLayout(btn_row)
 
+    # Toggle customer field visibility
+    def _toggle_customer_field(self):
+        is_customer = self.store_type.currentText() == "Customer"
+        self.customer_container.setVisible(is_customer)
+
     def _save(self):
-        # Basic validation
         if not self.part_number.text().strip():
             QMessageBox.warning(self, "Invalid Input", "Part number cannot be empty.")
             return
@@ -123,10 +188,18 @@ class EditItemDialog(QDialog):
                 "Revision Required",
                 "A revision is required for items that are manufactured (Make)."
             )
-            return None
+            return
 
+        # Required: Store + Store Location
+        if self.store.currentIndex() < 0 or self.store.currentText().strip() == "":
+            QMessageBox.warning(self, "Missing Field", "Store is required.")
+            return
 
-        # New values
+        if self.store_location.currentIndex() < 0 or self.store_location.currentText().strip() == "":
+            QMessageBox.warning(self, "Missing Field", "Store Location is required.")
+            return
+
+        # Build updated document
         self.updated = {
             "part_number": self.part_number.text().strip(),
             "description": self.description.text().strip(),
@@ -137,35 +210,45 @@ class EditItemDialog(QDialog):
             "make_buy": self.make_buy.currentText(),
             "supplier": self.supplier.currentText().strip(),
             "status": self.status.currentText(),
+
+            # Store Type
+            "store_type": self.store_type.currentText(),
+
+            # Store (virtual)
+            "store_id": self.store.currentData(),
+            "store_name": self.store.currentText(),
+
+            # Store Location (physical)
+            "store_location_id": self.store_location.currentData(),
+            "store_location_name": self.store_location.currentText(),
+
+            # Customer (conditional)
+            "customer": self.customer.text().strip() if self.store_type.currentText() == "Customer" else "",
+
+            # Ownership
+            "ownership": self.ownership.currentText()
         }
 
-        # ⭐ FIELD‑LEVEL CHANGE TRACKING
+        # Change tracking
         changes = []
         for key, new_value in self.updated.items():
             old_value = self.item.get(key)
             if old_value != new_value:
                 changes.append(f"{key}: '{old_value}' → '{new_value}'")
 
-        # ⭐ AUDIT LOGGING
+        # Audit log
         if changes:
             self.mongo.log_event(
                 "inventory.edit",
                 performed_by=self.user.username,
-                details=(
-                    f"Edited item {self.item.get('part_number')} "
-                    f"(Rev {self.item.get('revision', '')} → {self.updated.get('revision', '')}). "
-                    f"Changes: {'; '.join(changes)}"
-                )
+                details=f"Edited item {self.item.get('part_number')} — Changes: {'; '.join(changes)}"
             )
 
-        # ⭐ DEBUG LOGGING
         log_event(
             "info",
             "Inventory item updated",
             user=self.user.username,
             part_number=self.item.get("part_number"),
-            old_revision=self.item.get("revision", ""),
-            new_revision=self.updated.get("revision", ""),
             changed_fields=changes
         )
 
