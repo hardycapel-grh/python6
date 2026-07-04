@@ -25,6 +25,8 @@ class InventoryListPage(QWidget):
         self.btn_receive.clicked.connect(self._open_receive_stock_dialog)
         self.btn_batches.clicked.connect(self._open_batch_list)
         self.btn_edit.clicked.connect(self._open_edit_dialog)
+        self.btn_move.clicked.connect(self._open_move_dialog)
+
 
         self._load_data()
 
@@ -44,6 +46,10 @@ class InventoryListPage(QWidget):
         self.btn_delete = QPushButton("Disable Item")
         self.btn_receive = QPushButton("Receive Stock")
         self.btn_batches = QPushButton("View Batches")
+        self.btn_move = QPushButton("Move Stock")
+
+
+
 
 
 
@@ -55,6 +61,7 @@ class InventoryListPage(QWidget):
         self.btn_delete.setEnabled("inventory.edit" in self.user.permissions or "*" in self.user.permissions)
         self.btn_receive.setEnabled("inventory.receive" in self.user.permissions or "*" in self.user.permissions)
         self.btn_batches.setEnabled("inventory.batches.read" in self.user.permissions or "*" in self.user.permissions)
+        self.btn_move.setEnabled("inventory.move" in self.user.permissions or "*" in self.user.permissions)
 
 
 
@@ -63,6 +70,7 @@ class InventoryListPage(QWidget):
         toolbar.addWidget(self.btn_delete)
         toolbar.addWidget(self.btn_receive)
         toolbar.addWidget(self.btn_batches)
+        toolbar.addWidget(self.btn_move)
         toolbar.addStretch()
 
         layout.addLayout(toolbar)
@@ -364,3 +372,21 @@ class InventoryListPage(QWidget):
 
             self._load_data()
 
+    def _open_move_dialog(self):
+        selection = self.table.selectionModel().selectedRows()
+        if not selection:
+            self.window().show_error("Please select an item first.")
+            return
+
+        index = selection[0]
+        source_index = self.proxy.mapToSource(index)
+        model = self.proxy.sourceModel()
+
+        item_id = model.index(source_index.row(), 0).data(Qt.UserRole)
+        item = self.mongo.inventory.find_one({"_id": item_id})
+
+        from ui.pages.inventory.stock_movement_dialog import StockMovementDialog
+        dlg = StockMovementDialog(self.mongo, self.user, item, self)
+
+        if dlg.exec():
+            self.window().show_info("Stock moved successfully.")

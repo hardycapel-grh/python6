@@ -23,6 +23,7 @@ class BatchTableModel(QAbstractTableModel):
             ("Unit Cost", "unit_cost"),
             ("Expiry Date", "expiry_date"),
             ("Store", "store_name"),
+            ("Location", "store_location_name"),
             ("Received Date", "received_date"),
             ("Days Until Expiry", "days_until_expiry"),
         ]
@@ -783,41 +784,6 @@ class BatchListPage(QWidget):
             )
 
             self.load_batches()
-
-    # def _apply_filter(self, mode):
-
-    #     # ALL → remove custom filter and show everything
-    #     if mode == "all":
-    #         if hasattr(self.proxy, "_custom_filter"):
-    #             del self.proxy._custom_filter
-
-    #         # Reset to built-in behaviour
-    #         self.proxy.invalidateFilter()
-    #         return
-
-    #     # Custom filtering for expired / soon / ok
-    #     def filter_accepts(row, parent):
-    #         batch = self.model.batches[row]
-    #         status = self.model._expiry_status(batch.get("expiry_date", ""))
-
-    #         if mode == "expired":
-    #             return status == "expired"
-    #         if mode == "soon":
-    #             return status == "soon"
-    #         if mode == "ok":
-    #             return status == "ok"
-
-    #         return True
-
-    #     # Store custom filter function
-    #     self.proxy._custom_filter = filter_accepts
-
-    #     # Install a wrapper that Qt will call safely
-    #     def wrapper(proxy, row, parent):
-    #         return proxy._custom_filter(row, parent)
-
-    #     self.proxy.filterAcceptsRow = wrapper
-    #     self.proxy.invalidateFilter()
 
     def _apply_filter(self, mode):
         self.proxy.setFilterMode(mode)

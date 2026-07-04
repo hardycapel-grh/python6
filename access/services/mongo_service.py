@@ -33,6 +33,8 @@ class MongoService:
             self.logs = self.db["logs"]
             self.audit_log = self.db["audit_log"]
             self.inventory_batches = self.db["inventory_batches"]
+            self.stock_movements = self.db["stock_movements"]
+
             self.stores = self.db["stores"]
             self.uom_list = self.db["uom_list"]
             self.suppliers = self.db["suppliers"]
@@ -40,6 +42,8 @@ class MongoService:
 
             # ⭐ OPTIONAL INDEX (recommended)
             self.store_locations.create_index("location_name", unique=True)
+            self.stock_movements.create_index("movement_date")
+
 
 
 

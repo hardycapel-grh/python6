@@ -68,14 +68,34 @@ class ReceiveStockDialog(QDialog):
         row.addWidget(self.expiry)
         layout.addLayout(row)
 
+        # # Store
+        # row = QHBoxLayout()
+        # row.addWidget(QLabel("Store:"))
+        # self.store_combo = QComboBox()
+        # row.addWidget(self.store_combo)
+        # layout.addLayout(row)
+        # self._load_stores()
+
         # Store
         row = QHBoxLayout()
         row.addWidget(QLabel("Store:"))
-        self.store_combo = QComboBox()
-        row.addWidget(self.store_combo)
+        self.store = QComboBox()
+        for st in self.mongo.stores.find().sort("name", 1):
+            self.store.addItem(st["name"], st["_id"])
+        row.addWidget(self.store)
         layout.addLayout(row)
 
-        self._load_stores()
+        #Store Location•
+        row = QHBoxLayout()
+        row.addWidget(QLabel("Store Location:"))
+        self.store_location = QComboBox()
+
+        for loc in self.mongo.store_locations.find({"is_active": True}).sort("location_name", 1):
+            self.store_location.addItem(loc["location_name"], loc["_id"])
+
+        row.addWidget(self.store_location)
+        layout.addLayout(row)
+
 
 
 
@@ -116,6 +136,15 @@ class ReceiveStockDialog(QDialog):
         if not qty.isdigit():
             QMessageBox.warning(self, "Invalid Quantity", "Quantity must be a number.")
             return
+        
+        if self.store.currentIndex() < 0:
+            QMessageBox.warning(self, "Missing Field", "Store is required.")
+            return
+
+        if self.store_location.currentIndex() < 0:
+            QMessageBox.warning(self, "Missing Field", "Store Location is required.")
+            return
+
 
         try:
             qty = float(qty)
@@ -141,9 +170,17 @@ class ReceiveStockDialog(QDialog):
             "received_date": QDate.currentDate().toString("yyyy-MM-dd"),
             "expiry_date": self.expiry.date().toString("yyyy-MM-dd"),
 
-            "store_id": self.store_combo.currentData(),
+            # ⭐ Correct warehouse fields
+            "store_id": self.store.currentData(),
+            "store_name": self.store.currentText(),
+
+            "store_location_id": self.store_location.currentData(),
+            "store_location_name": self.store_location.currentText(),
+
+            # Ownership (future use)
             "owner_customer_id": None
         }
+
 
 
         try:
@@ -168,10 +205,3 @@ class ReceiveStockDialog(QDialog):
                       user=self.user.username, error=str(e))
             QMessageBox.critical(self, "Error", f"Failed to receive stock:\n{e}")
 
-    def _load_stores(self):
-        stores = list(self.mongo.stores.find({"status": "Active"}).sort("name", 1))
-        self.stores = stores
-
-        self.store_combo.clear()
-        for store in stores:
-            self.store_combo.addItem(store["name"], store["_id"])
