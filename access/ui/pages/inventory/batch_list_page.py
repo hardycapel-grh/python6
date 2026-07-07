@@ -513,6 +513,52 @@ class StockAdjustmentDialog(QDialog):
             "notes": self.notes
         }
 
+class BatchLineageDialog(QDialog):
+    def __init__(self, mongo, batch, parent=None):
+        super().__init__(parent)
+        self.mongo = mongo
+        self.batch = batch
+
+        self.setWindowTitle("Batch Lineage")
+        self.setMinimumWidth(500)
+
+        layout = QVBoxLayout(self)
+
+        text = QTextEdit()
+        text.setReadOnly(True)
+        layout.addWidget(text)
+
+        # Build lineage chain
+        lineage = []
+        current = batch
+
+        while current:
+            lineage.append(current)
+            source_id = current.get("source_batch_id")
+            if not source_id:
+                break
+            current = mongo.inventory_batches.find_one({"_id": source_id})
+
+        # Format lineage text
+        out = ""
+        for i, b in enumerate(lineage):
+            out += f"--- Level {i} ---\n"
+            out += f"Batch Number: {b.get('batch_number')}\n"
+            out += f"GRN Number: {b.get('grn_number')}\n"
+            out += f"Quantity: {b.get('quantity')}\n"
+            out += f"Unit Cost: {b.get('unit_cost')}\n"
+            out += f"Expiry Date: {b.get('expiry_date')}\n"
+            out += f"Store: {b.get('store_name')}\n"
+            out += f"Location: {b.get('store_location_name')}\n"
+            out += f"Received Date: {b.get('received_date')}\n"
+            out += f"Source Batch ID: {b.get('source_batch_id')}\n"
+            out += "\n"
+
+        text.setText(out)
+
+        btn = QPushButton("Close")
+        btn.clicked.connect(self.accept)
+        layout.addWidget(btn)
 
 
 class BatchFilterProxy(QSortFilterProxyModel):
@@ -708,18 +754,26 @@ class BatchListPage(QWidget):
         edit_action = QAction("Edit Batch", self)
         adjust_action = QAction("Adjust Stock", self)
         delete_action = QAction("Delete Batch", self)
+        lineage_action = QAction("View Lineage", self)
 
         view_action.triggered.connect(lambda: self._open_batch_details(index))
         edit_action.triggered.connect(lambda: self._edit_batch(batch))
         adjust_action.triggered.connect(lambda: self._adjust_stock(batch))
         delete_action.triggered.connect(lambda: self._delete_batch(batch))
+        lineage_action.triggered.connect(lambda: self._view_lineage(batch))
 
         menu.addAction(view_action)
         menu.addAction(edit_action)
         menu.addAction(adjust_action)
         menu.addAction(delete_action)
+        menu.addAction(lineage_action)
 
         menu.exec(self.table.viewport().mapToGlobal(position))
+
+        
+        
+        
+
 
     def _edit_batch(self, batch):
         # Load stores for dropdown
@@ -826,3 +880,8 @@ class BatchListPage(QWidget):
         })
 
         self.load_batches()
+
+    def _view_lineage(self, batch):
+        dlg = BatchLineageDialog(self.mongo, batch, self)
+        dlg.exec()
+
