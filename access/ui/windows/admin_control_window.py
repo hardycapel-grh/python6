@@ -9,6 +9,8 @@ from ui.pages.admin.supplier_management_page import SupplierManagementPage
 from ui.pages.stores.stores_list_page import StoresListPage
 from ui.pages.admin.store_locations_page import StoreLocationsPage
 from ui.components.logger_utils import log_event
+from ui.pages.admin.bom_editor_page import BOMEditorPage
+
 
 class AdminControlWindow(WindowWithSidebar):
     def __init__(self, user, mongo, parent=None):
@@ -72,3 +74,8 @@ class AdminControlWindow(WindowWithSidebar):
             required_permission="supplier.manage"
         )
 
+        self.add_page(
+            "BOM Editor",
+            lambda: BOMEditorPage(self.mongo, self.user),
+            required_permission="bom.manage"
+        )

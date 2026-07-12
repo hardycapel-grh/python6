@@ -40,6 +40,9 @@ class MongoService:
             self.suppliers = self.db["suppliers"]
             self.store_locations = self.db["store_locations"]
 
+            self.bom = self.db["bom"]
+
+
             # ⭐ OPTIONAL INDEX (recommended)
             self.store_locations.create_index("location_name", unique=True)
             self.stock_movements.create_index("movement_date")
