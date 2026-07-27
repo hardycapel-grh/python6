@@ -1,9 +1,12 @@
-from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QMessageBox
+from PySide6.QtWidgets import QWidget, QVBoxLayout, QLabel, QMessageBox, QHBoxLayout
 from datetime import datetime
 
 from ui.widgets.bom_editor_widget import BOMEditorWidget
 
 from ui.components.logger_utils import log_event
+
+from ui.widgets.assembly_search_widget import AssemblySearchWidget
+
 
 
 class BOMEditorPage(QWidget):
@@ -25,12 +28,21 @@ class BOMEditorPage(QWidget):
         # ---------------------------------------------------------
         # Load items list from DB
         # ---------------------------------------------------------
-        items_list = list(self.mongo.inventory.find({}))
+        self.items_list = list(self.mongo.inventory.find({}))
+
+        # ---------------------------------------------------------
+        # Search widget
+        # ---------------------------------------------------------
+        self.search_widget = AssemblySearchWidget(self.items_list)
+        self.search_widget.selected_item_changed.connect(self._on_item_selected)
+        self.search_widget.setFixedWidth(240)
+
+
 
         # ---------------------------------------------------------
         # Editor widget
         # ---------------------------------------------------------
-        self.editor = BOMEditorWidget(items_list)
+        self.editor = BOMEditorWidget(self.items_list)
         self.editor.dirty_changed.connect(self._on_dirty_changed)
         self.editor.save_requested.connect(self._save_bom_to_db)
         self.editor.assembly_cb.currentIndexChanged.connect(self._auto_increment_revision)
@@ -39,11 +51,23 @@ class BOMEditorPage(QWidget):
         # ---------------------------------------------------------
         # Layout
         # ---------------------------------------------------------
-        layout = QVBoxLayout()
-        layout.addWidget(self.title)
-        layout.addWidget(self.editor)
-        layout.setContentsMargins(6, 6, 6, 6)
-        self.setLayout(layout)
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(self.title)
+
+        # New horizontal layout for search + editor
+        content_layout = QHBoxLayout()
+        content_layout.setSpacing(12)
+
+        # Narrow search widget
+        self.search_widget.setFixedWidth(240)
+
+        content_layout.addWidget(self.search_widget, stretch=0)
+        content_layout.addWidget(self.editor, stretch=1)
+
+        main_layout.addLayout(content_layout)
+        main_layout.setContentsMargins(6, 6, 6, 6)
+        self.setLayout(main_layout)
+
 
     # ---------------------------------------------------------
     # SAVE BOM
@@ -259,3 +283,26 @@ class BOMEditorPage(QWidget):
             self.title.setText("Bill of Materials Editor *")
         else:
             self.title.setText("Bill of Materials Editor")
+
+    # ---------------------------------------------------------
+    # Search selection → load BOM
+    # ---------------------------------------------------------
+    def _on_item_selected(self, item_dict):
+        """
+        Called when the user selects an inventory item in the search widget.
+        We set the assembly combo to that item and trigger the existing
+        auto-increment + load BOM logic.
+        """
+        # Find the matching index in the assembly combo
+        cb = self.editor.assembly_cb
+        target_part = item_dict.get("part_number")
+        target_rev = item_dict.get("revision")
+
+        for i in range(cb.count()):
+            data = cb.itemData(i)
+            if not data:
+                continue
+            if data.get("part_number") == target_part and data.get("revision") == target_rev:
+                cb.setCurrentIndex(i)
+                # This will trigger _auto_increment_revision via the existing signal
+                return

@@ -1,43 +1,47 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QLineEdit, QListWidget, QListWidgetItem
-from PySide6.QtCore import Signal
-
+from PySide6.QtCore import Signal, Qt
 
 class AssemblySearchWidget(QWidget):
-    assembly_selected = Signal(dict)
+    selected_item_changed = Signal(dict)
 
-    def __init__(self, assemblies: list[dict], parent=None):
+    def __init__(self, items_list: list[dict], parent=None):
         super().__init__(parent)
 
-        self.assemblies = assemblies
-
-        layout = QVBoxLayout(self)
-        layout.setContentsMargins(0, 0, 0, 0)
-        layout.setSpacing(4)
+        self.items_list = items_list
 
         self.search_le = QLineEdit()
-        self.search_le.setPlaceholderText("Search assemblies...")
+        self.search_le.setPlaceholderText("Search inventory...")
         self.search_le.textChanged.connect(self._filter_results)
-        layout.addWidget(self.search_le)
 
         self.results_list = QListWidget()
-        self.results_list.itemClicked.connect(self._select_item)
+        self.results_list.itemClicked.connect(self._on_item_selected)
+
+        layout = QVBoxLayout()
+        layout.addWidget(self.search_le)
         layout.addWidget(self.results_list)
+        self.setLayout(layout)
 
-        self._filter_results("")
+        self._populate_all()
 
-    def _filter_results(self, text: str):
+    def _populate_all(self):
+        self.results_list.clear()
+        for item in self.items_list:
+            label = f"{item['part_number']} (Rev {item['revision']}) — {item.get('description','')}"
+            lw_item = QListWidgetItem(label)
+            lw_item.setData(Qt.UserRole, item)
+            self.results_list.addItem(lw_item)
+
+    def _filter_results(self, text):
         text = text.lower().strip()
         self.results_list.clear()
 
-        for item in self.assemblies:
-            label = f"{item['part_number']} (Rev {item['revision']})"
-            searchable = f"{item['part_number']} {item['revision']}".lower()
+        for item in self.items_list:
+            label = f"{item['part_number']} (Rev {item['revision']}) — {item.get('description','')}"
+            if text in label.lower():
+                lw_item = QListWidgetItem(label)
+                lw_item.setData(Qt.UserRole, item)
+                self.results_list.addItem(lw_item)
 
-            if text in searchable:
-                lw = QListWidgetItem(label)
-                lw.setData(1000, item)
-                self.results_list.addItem(lw)
-
-    def _select_item(self, lw_item):
-        item = lw_item.data(1000)
-        self.assembly_selected.emit(item)
+    def _on_item_selected(self, lw_item):
+        item = lw_item.data(Qt.UserRole)
+        self.selected_item_changed.emit(item)
