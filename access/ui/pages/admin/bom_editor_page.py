@@ -242,6 +242,24 @@ class BOMEditorPage(QWidget):
         # Prevent dirty flag during auto-load
         self.editor.block_dirty_signals = True
 
+        log_event(
+            "info",
+            "Loading BOM into editor",
+            user=self.user.username,
+            assembly=bom_doc.get("assembly_part_number"),
+            assembly_revision=bom_doc.get("assembly_revision"),
+            bom_revision=bom_doc.get("revision")
+        )
+        self.mongo.log_event(
+            "bom.editor.load",
+            performed_by=self.user.username,
+            details=(
+                f"Loaded BOM {bom_doc.get('assembly_part_number')} "
+                f"rev {bom_doc.get('assembly_revision')} BOM rev {bom_doc.get('revision')} "
+                f"into editor"
+            )
+        )
+
         self.editor.loaded_revision = bom_doc["revision"]
         self.editor.clear_rows()
 
@@ -303,6 +321,18 @@ class BOMEditorPage(QWidget):
             if not data:
                 continue
             if data.get("part_number") == target_part and data.get("revision") == target_rev:
+                log_event(
+                    "info",
+                    "Selected BOM assembly",
+                    user=self.user.username,
+                    assembly=target_part,
+                    assembly_revision=target_rev
+                )
+                self.mongo.log_event(
+                    "bom.selection",
+                    performed_by=self.user.username,
+                    details=f"Selected assembly {target_part} rev {target_rev} for BOM editing"
+                )
                 cb.setCurrentIndex(i)
                 # This will trigger _auto_increment_revision via the existing signal
                 return

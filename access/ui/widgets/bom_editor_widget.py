@@ -18,12 +18,13 @@ class BOMEditorWidget(QWidget):
         self.next_revision = None
         self.loaded_revision = None
 
-        self.is_dirty = False              # NEW
-        self.block_dirty_signals = False   # NEW — prevents dirty during auto-load
+        self.is_dirty = False              # Tracks whether the current BOM has unsaved changes
+        self.block_dirty_signals = False   # Prevents change signals during programmatic loads
 
         # ---------------------------------------------------------
         # Assembly selector
         # ---------------------------------------------------------
+        # Select the assembly part that this BOM belongs to.
         self.assembly_cb = QComboBox()
         for item in items_list:
             label = f"{item['part_number']} (Rev {item['revision']})"
@@ -39,12 +40,15 @@ class BOMEditorWidget(QWidget):
         # ---------------------------------------------------------
         # Revision selector
         # ---------------------------------------------------------
+        # Pick the revision for the BOM being saved.
         self.revision_cb = QComboBox()
         self.revision_cb.addItems(["A", "B", "C"])
 
         # ---------------------------------------------------------
         # Buttons
         # ---------------------------------------------------------
+        # UI actions for adding a component row or saving the current BOM.
+
         self.add_btn = QPushButton("Add Component")
         self.add_btn.clicked.connect(self._add_line)
 
@@ -54,6 +58,7 @@ class BOMEditorWidget(QWidget):
         # ---------------------------------------------------------
         # Component rows container
         # ---------------------------------------------------------
+        # The BOM row widgets are stacked vertically inside this container.
         self.lines_container = QWidget()
         self.lines_container.setSizePolicy(QSizePolicy.Preferred, QSizePolicy.Maximum)
 
@@ -73,10 +78,29 @@ class BOMEditorWidget(QWidget):
         # Top controls
         # ---------------------------------------------------------
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel("Part Number:"))
-        top_layout.addWidget(self.assembly_cb)
-        top_layout.addWidget(QLabel("Revision:"))
-        top_layout.addWidget(self.revision_cb)
+        top_layout.setContentsMargins(0, 0, 0, 0)
+        top_layout.setSpacing(8)
+
+        controls_layout = QHBoxLayout()
+        controls_layout.setContentsMargins(0, 0, 0, 0)
+        controls_layout.setSpacing(24)
+
+        part_layout = QHBoxLayout()
+        part_layout.setContentsMargins(0, 0, 0, 0)
+        part_layout.setSpacing(2)
+        part_layout.addWidget(QLabel("Part Number:"))
+        part_layout.addWidget(self.assembly_cb)
+        controls_layout.addLayout(part_layout)
+
+        revision_layout = QHBoxLayout()
+        revision_layout.setContentsMargins(0, 0, 0, 0)
+        revision_layout.setSpacing(2)
+        revision_layout.addWidget(QLabel("Revision:"))
+        revision_layout.addWidget(self.revision_cb)
+        controls_layout.addLayout(revision_layout)
+
+        top_layout.addLayout(controls_layout)
+        top_layout.addStretch(1)
         top_layout.addWidget(self.add_btn)
         top_layout.addWidget(self.save_btn)
 
@@ -96,6 +120,7 @@ class BOMEditorWidget(QWidget):
     # Dirty flag handling
     # ---------------------------------------------------------
     def _set_dirty(self, value: bool):
+        """Mark the editor dirty and emit the state change."""
         if self.block_dirty_signals:
             return
 
@@ -104,12 +129,14 @@ class BOMEditorWidget(QWidget):
 
 
     def _clear_dirty(self):
+        """Clear the dirty flag without emitting an extra save event."""
         self._set_dirty(False)
 
     # ---------------------------------------------------------
     # Add a new row (user action)
     # ---------------------------------------------------------
     def _add_line(self):
+        """Create and append a new BOM component row for the user."""
         row = BOMLineRow(self.items_list)
         row.remove_requested.connect(self._remove_line)
         row.changed.connect(lambda: self._set_dirty(True))   # NEW
@@ -128,6 +155,7 @@ class BOMEditorWidget(QWidget):
     # Remove row
     # ---------------------------------------------------------
     def _remove_line(self, row_widget):
+        """Remove the selected row from the BOM and mark the editor dirty."""
         row_widget.setParent(None)
         row_widget.deleteLater()
         self._set_dirty(True)
@@ -136,6 +164,7 @@ class BOMEditorWidget(QWidget):
     # Save BOM
     # ---------------------------------------------------------
     def _save_bom(self):
+        """Collect BOM data from the UI and emit it for persistence."""
         assembly_item = self.assembly_cb.currentData()
 
         data = {
@@ -161,6 +190,7 @@ class BOMEditorWidget(QWidget):
     # Clear all rows
     # ---------------------------------------------------------
     def clear_rows(self):
+        """Remove every existing BOM component row from the editor."""
         while self.lines_layout.count() > 0:
             item = self.lines_layout.takeAt(0)
             widget = item.widget()
@@ -172,6 +202,7 @@ class BOMEditorWidget(QWidget):
     # Add row from DB (auto-load)
     # ---------------------------------------------------------
     def add_row(self, component_part_number, component_revision, quantity, uom, comments, quantity_type):
+        """Add one BOM component line pre-populated from stored data."""
         row = BOMLineRow(self.items_list)
 
         label = f"{component_part_number} (Rev {component_revision})"
