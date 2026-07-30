@@ -264,4 +264,15 @@ class UomManagementPage(QWidget):
             }}
         )
 
+        self.mongo.audit(
+            "uom.update",
+            self.user.username,
+            target=uom,
+            details={
+                "description": new_desc.strip(),
+                "quantity_type": new_qty_type,
+            }
+        )
+        log_event("info", "UOM updated", user=self.user.username, target=uom)
+
         self._load_data()

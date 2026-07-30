@@ -336,7 +336,7 @@ class InventoryListPage(QWidget):
             return
 
 
-        self.batch_window = BatchListPage(self.mongo, item)
+        self.batch_window = BatchListPage(self.mongo, item, user=self.user)
 
         self.batch_window.show()
 

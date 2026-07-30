@@ -5,6 +5,8 @@ from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex, QSortFilterProx
 from PySide6.QtGui import QColor, QBrush, QAction
 from datetime import datetime
 
+from ui.components.logger_utils import log_event
+
 
 
 
@@ -589,11 +591,12 @@ class BatchFilterProxy(QSortFilterProxyModel):
 
 
 class BatchListPage(QWidget):
-    def __init__(self, mongo, item, parent=None):
+    def __init__(self, mongo, item, user=None, parent=None):
         super().__init__(parent)
 
         self.mongo = mongo
         self.item = item
+        self.user = user
 
         self.setWindowTitle(f"Batches — {item['part_number']}")
         self.setMinimumSize(600, 400)
@@ -790,6 +793,15 @@ class BatchListPage(QWidget):
                 {"$set": updated}
             )
 
+            performed_by = self.user.username if self.user else "system"
+            self.mongo.audit(
+                "batch.update",
+                performed_by,
+                target=str(batch.get("batch_number", batch.get("_id"))),
+                details={"fields": list(updated.keys())}
+            )
+            log_event("info", "Batch updated", user=performed_by, batch_id=str(batch.get("_id")))
+
             self.load_batches()
 
 
@@ -820,6 +832,14 @@ class BatchListPage(QWidget):
         if dlg.exec() == QDialog.Accepted:
             # Perform delete
             self.mongo.inventory_batches.delete_one({"_id": batch["_id"]})
+            performed_by = self.user.username if self.user else "system"
+            self.mongo.audit(
+                "batch.delete",
+                performed_by,
+                target=str(batch.get("batch_number", batch.get("_id"))),
+                details={"batch_id": str(batch.get("_id"))}
+            )
+            log_event("info", "Batch deleted", user=performed_by, batch_id=str(batch.get("_id")))
             self.load_batches()
 
     def _edit_batch(self, batch):
@@ -866,18 +886,29 @@ class BatchListPage(QWidget):
             {"$set": {"quantity": new_qty}}
         )
 
-        # Audit log
-        self.mongo.audit_log.insert_one({
-            "event": "stock.adjust",
-            "item_id": self.item["_id"],
-            "batch_id": batch["_id"],
-            "old_qty": old_qty,
-            "new_qty": new_qty,
-            "reason": adj["reason"],
-            "notes": adj["notes"],
-            "performed_by": "system",  # replace with logged-in user
-            "timestamp": datetime.utcnow(),
-        })
+        performed_by = self.user.username if self.user else "system"
+        self.mongo.audit(
+            event="stock.adjust",
+            performed_by=performed_by,
+            target=str(batch.get("batch_number", batch.get("_id"))),
+            details={
+                "item_id": str(self.item.get("_id")),
+                "batch_id": str(batch.get("_id")),
+                "old_qty": old_qty,
+                "new_qty": new_qty,
+                "reason": adj["reason"],
+                "notes": adj["notes"],
+            }
+        )
+        log_event(
+            "info",
+            "Stock adjusted",
+            user=performed_by,
+            item_id=str(self.item.get("_id")),
+            batch_id=str(batch.get("_id")),
+            old_qty=old_qty,
+            new_qty=new_qty,
+        )
 
         self.load_batches()
 

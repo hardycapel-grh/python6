@@ -17,6 +17,7 @@ class AuditLogPage(QWidget):
         # print(">>> __init__ START")
         super().__init__(parent)
         self.mongo = mongo
+        self._audit_rows = []
         # print("AuditLogPage created with mongo:", mongo)
 
 
@@ -90,6 +91,7 @@ class AuditLogPage(QWidget):
         cursor = self.mongo.audit_log.find(query).sort("timestamp", -1).limit(500)
 
         rows = list(cursor)
+        self._audit_rows = rows
         self.table.setRowCount(len(rows))
 
         for row_idx, doc in enumerate(rows):
@@ -113,13 +115,10 @@ class AuditLogPage(QWidget):
 
 
     def on_row_double_clicked(self, row, col):
-        doc = {
-            "timestamp": self.table.item(row, 0).text(),
-            "event": self.table.item(row, 1).text(),
-            "performed_by": self.table.item(row, 2).text(),
-            "target": self.table.item(row, 3).text(),
-            "details": self.table.item(row, 4).text(),
-        }
+        if row < 0 or row >= len(self._audit_rows):
+            return
+
+        doc = self._audit_rows[row]
 
         dlg = QDialog(self)
         dlg.setWindowTitle("Audit Log Entry Details")
@@ -130,12 +129,10 @@ class AuditLogPage(QWidget):
         text.setReadOnly(True)
 
         # Pretty formatting
-        formatted = (
-            f"Timestamp: {doc['timestamp']}\n"
-            f"Event: {doc['event']}\n"
-            f"Performed By: {doc['performed_by']}\n"
-            f"Target: {doc['target']}\n"
-            f"Details:\n{doc['details']}"
+        formatted = "\n".join(
+            f"{key}: {value}"
+            for key, value in doc.items()
+            if key != "_id"
         )
 
         text.setText(formatted)

@@ -7,11 +7,12 @@ from ui.components.logger import logger
 
 
 class PermissionEditorDialog(QDialog):
-    def __init__(self, mongo_service, mode="add", permission_name=None, parent=None):
+    def __init__(self, mongo_service, mode="add", permission_name=None, performed_by="system", parent=None):
         super().__init__(parent)
         self.mongo = mongo_service
         self.mode = mode
         self.permission_name = permission_name
+        self.performed_by = performed_by
 
         self.setWindowTitle("Add Permission" if mode == "add" else f"Edit Permission: {permission_name}")
 
@@ -73,36 +74,12 @@ class PermissionEditorDialog(QDialog):
 
         try:
             if self.mode == "add":
-                self.mongo.create_permission(name, category, desc, performed_by="admin")
+                self.mongo.create_permission(name, category, desc, performed_by=self.performed_by)
                 logger.info(f"Permission '{name}' created.")
-                self.mongo.audit(
-                    event="permission.create",
-                    performed_by="admin",
-                    target=name,
-                    details={
-                        "category": category,
-                        "description": desc
-                    }
-                )
 
             else:
-                self.mongo.update_permission(name, category, desc, performed_by="admin")
+                self.mongo.update_permission(name, category, desc, performed_by=self.performed_by)
                 logger.info(f"Permission '{name}' updated.")
-                self.mongo.audit(
-                    event="permission.update",
-                    performed_by="admin",
-                    target=name,
-                    details={
-                        "old": {
-                            "category": self.old_category,
-                            "description": self.old_description
-                        },
-                        "new": {
-                            "category": category,
-                            "description": desc
-                        }
-                    }
-                )
 
 
             self.accept()

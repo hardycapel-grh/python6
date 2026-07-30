@@ -1,4 +1,3 @@
-from datetime import datetime
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QLabel, QPushButton,
@@ -32,16 +31,12 @@ class ProfilePage(QWidget):
     # Internal audit helper
     # ---------------------------------------------------------
     def _audit(self, event, details=None):
-        entry = {
-            "event": event,
-            "performed_by": self.user.username,
-            "target": self.user.username,
-            "timestamp": datetime.utcnow()
-        }
-        if details:
-            entry["details"] = details
-
-        self.mongo.audit_log.insert_one(entry)
+        self.mongo.audit(
+            event=event,
+            performed_by=self.user.username,
+            target=self.user.username,
+            details=details
+        )
 
     # ---------------------------------------------------------
     # UI Construction

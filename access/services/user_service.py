@@ -65,14 +65,27 @@ class UserService:
     def get_user(self, username):
         return self.users.find_one({"username": username}, {"_id": 0})
 
-    def add_user(self, data):
+    def add_user(self, data, performed_by="system"):
         self.users.insert_one(data)
+        self.mongo.audit(
+            "user.create",
+            performed_by,
+            target=data.get("username"),
+            details={"role": data.get("role"), "status": data.get("status")}
+        )
 
-    def delete_user(self, username):
+    def delete_user(self, username, performed_by="system"):
         self.users.delete_one({"username": username})
+        self.mongo.audit("user.delete", performed_by, target=username)
 
-    def update_user(self, username, updates):
+    def update_user(self, username, updates, performed_by="system"):
         self.users.update_one({"username": username}, {"$set": updates})
+        self.mongo.audit(
+            "user.update",
+            performed_by,
+            target=username,
+            details={"fields": list(updates.keys())}
+        )
 
     def has_permission(self, perm: str) -> bool:
         user = self.current_user
@@ -109,6 +122,12 @@ class UserService:
                 target=performed_by,
                 fields=changed
             )
+            self.mongo.audit(
+                "profile.update",
+                performed_by,
+                target=performed_by,
+                details={"fields": list(fields.keys())}
+            )
 
         except Exception as e:
             log_event(
@@ -141,6 +160,11 @@ class UserService:
                 "info",
                 "Password changed",
                 by=performed_by,
+                target=performed_by
+            )
+            self.mongo.audit(
+                "password.change",
+                performed_by,
                 target=performed_by
             )
 

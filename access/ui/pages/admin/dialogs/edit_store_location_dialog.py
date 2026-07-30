@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel,
     QLineEdit, QPushButton, QMessageBox
 )
+from ui.components.logger_utils import log_event
 
 
 class EditStoreLocationDialog(QDialog):
@@ -56,5 +57,13 @@ class EditStoreLocationDialog(QDialog):
                 }
             }
         )
+
+        self.mongo.audit(
+            "store_location.update",
+            self.user.username,
+            target=name,
+            details={"previous_name": self.location.get("location_name"), "description": self.description.text().strip()}
+        )
+        log_event("info", "Store location updated", user=self.user.username, target=name)
 
         self.accept()

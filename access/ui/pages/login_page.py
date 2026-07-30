@@ -65,6 +65,11 @@ class LoginWindow(QWidget):
         logger.info(f"Login attempt: {username}")
 
         if not username or not password:
+            self.mongo.audit(
+                event="login.failure",
+                performed_by=username or "unknown",
+                details="Missing username or password"
+            )
             QMessageBox.warning(self, "Error", "Please enter both username and password")
             logger.warning("Login failed: missing username or password")
             return

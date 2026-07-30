@@ -8,6 +8,7 @@ from PySide6.QtCore import Qt
 
 from ui.pages.admin.dialogs.add_store_location_dialog import AddStoreLocationDialog
 from ui.pages.admin.dialogs.edit_store_location_dialog import EditStoreLocationDialog
+from ui.components.logger_utils import log_event
 
 
 class StoreLocationsPage(QWidget):
@@ -118,6 +119,13 @@ class StoreLocationsPage(QWidget):
             return
 
         self.mongo.store_locations.delete_one({"_id": loc["_id"]})
+        self.mongo.audit(
+            "store_location.delete",
+            self.user.username,
+            target=loc.get("location_name"),
+            details={"location_id": str(loc.get("_id"))}
+        )
+        log_event("info", "Store location deleted", user=self.user.username, target=loc.get("location_name"))
         self.load_locations()
 
     # ---------------------------------------------------------
@@ -133,6 +141,20 @@ class StoreLocationsPage(QWidget):
         self.mongo.store_locations.update_one(
             {"_id": loc["_id"]},
             {"$set": {"is_active": new_state}}
+        )
+
+        self.mongo.audit(
+            "store_location.status",
+            self.user.username,
+            target=loc.get("location_name"),
+            details={"is_active": new_state}
+        )
+        log_event(
+            "info",
+            "Store location status changed",
+            user=self.user.username,
+            target=loc.get("location_name"),
+            is_active=new_state
         )
 
         self.load_locations()

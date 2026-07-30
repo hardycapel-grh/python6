@@ -9,6 +9,28 @@ import bcrypt
 import re
 
 
+_SENSITIVE_AUDIT_KEYS = {
+    "password",
+    "password_hash",
+    "token",
+    "access_token",
+    "refresh_token",
+    "secret",
+    "api_key",
+    "credentials",
+}
+
+
+def _sanitize_audit_value(value, key=None):
+    if key and key.lower() in _SENSITIVE_AUDIT_KEYS:
+        return "[REDACTED]"
+    if isinstance(value, dict):
+        return {name: _sanitize_audit_value(item, name) for name, item in value.items()}
+    if isinstance(value, (list, tuple)):
+        return type(value)(_sanitize_audit_value(item) for item in value)
+    return value
+
+
 class MongoService:
 
     EMAIL_REGEX = re.compile(r"^[^@\s]+@[^@\s]+\.[^@\s]+$")
@@ -498,6 +520,13 @@ class MongoService:
 
         self.db["roles"].insert_one(role_doc)
 
+        self.audit(
+            "role.create",
+            performed_by,
+            target=name,
+            details={"permissions": list(permissions), "description": description}
+        )
+
         log_event(
             "info",
             "Role created",
@@ -518,6 +547,13 @@ class MongoService:
             }}
         )
 
+        self.audit(
+            "role.update",
+            performed_by,
+            target=name,
+            details={"permissions": list(permissions), "description": description}
+        )
+
         log_event(
             "info",
             "Role updated",
@@ -535,6 +571,8 @@ class MongoService:
             raise RuntimeError(f"Cannot delete role '{name}' because {count} users have it.")
 
         self.db["roles"].delete_one({"name": name})
+
+        self.audit("role.delete", performed_by, target=name)
 
         log_event(
             "warn",
@@ -568,6 +606,13 @@ class MongoService:
 
         self.db["permissions"].insert_one(doc)
 
+        self.audit(
+            "permission.create",
+            performed_by,
+            target=name,
+            details={"category": category, "description": description}
+        )
+
         log_event(
             "info",
             "Permission created",
@@ -588,6 +633,13 @@ class MongoService:
             }}
         )
 
+        self.audit(
+            "permission.update",
+            performed_by,
+            target=name,
+            details={"category": category, "description": description}
+        )
+
         log_event(
             "info",
             "Permission updated",
@@ -603,6 +655,8 @@ class MongoService:
             raise RuntimeError(f"Cannot delete permission '{name}' because {count} roles use it.")
 
         self.db["permissions"].delete_one({"name": name})
+
+        self.audit("permission.delete", performed_by, target=name)
 
         log_event(
             "warn",
@@ -627,14 +681,14 @@ class MongoService:
             "timestamp": datetime.utcnow(),
             "event": event,
             "performed_by": performed_by,
-            "target": target,
-            "details": details,
+            "target": _sanitize_audit_value(target, "target"),
+            "details": _sanitize_audit_value(details),
         }
         # print("AUDIT CALLED:", event, performed_by)
         self.audit_log.insert_one(doc)
 
     def log_event(self, event, performed_by, details=""):
-        return self.audit(event, performed_by, details)
+        return self.audit(event, performed_by, details=details)
 
 
     def get_user(self, username: str):

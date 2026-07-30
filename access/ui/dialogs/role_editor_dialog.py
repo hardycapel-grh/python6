@@ -8,11 +8,12 @@ from ui.components.logger import logger
 
 
 class RoleEditorDialog(QDialog):
-    def __init__(self, mongo_service, mode="add", role_name=None, parent=None):
+    def __init__(self, mongo_service, mode="add", role_name=None, performed_by="system", parent=None):
         super().__init__(parent)
         self.mongo = mongo_service
         self.mode = mode
         self.role_name = role_name
+        self.performed_by = performed_by
 
         self.setWindowTitle("Add Role" if mode == "add" else f"Edit Role: {role_name}")
 
@@ -95,35 +96,14 @@ class RoleEditorDialog(QDialog):
 
         try:
             if self.mode == "add":
-                self.mongo.create_role(name, perms, desc, performed_by="admin")
+                self.mongo.create_role(name, perms, desc, performed_by=self.performed_by)
                 logger.info(f"Role '{name}' created.")
-                self.mongo.audit(
-                    event="role.create",
-                    performed_by="admin",
-                    target=name,
-                    details={
-                        "permissions": list(perms),
-                    }
-                )
 
             else:
                 old_role = self.mongo.get_role(self.role_name)
                 old_permissions = old_role.get("permissions", [])
-                self.mongo.update_role(name, perms, desc, performed_by="admin")
+                self.mongo.update_role(name, perms, desc, performed_by=self.performed_by)
                 logger.info(f"Role '{name}' updated.")
-                self.mongo.audit(
-                    event="role.update",
-                    performed_by="admin",
-                    target=name,
-                    details={
-                        "old": {
-                            "permissions": old_permissions,
-                        },
-                        "new": {
-                            "permissions": list(perms),
-                        }
-                    }
-                )
 
 
             self.accept()

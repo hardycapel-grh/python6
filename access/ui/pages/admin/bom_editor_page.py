@@ -83,20 +83,20 @@ class BOMEditorPage(QWidget):
             line_count=len(bom_data.get("lines", []))
         )
 
-        self.mongo.log_event(
-            "bom.save",
-            performed_by=self.user.username,
-            details=(
-                f"Saved BOM for assembly {bom_data.get('assembly_part_number')} "
-                f"rev {bom_data.get('assembly_revision')} BOM rev {bom_data.get('revision')}"
-            )
-        )
-
         bom_data["created_by"] = self.user.username
         bom_data["created_at"] = datetime.utcnow()
 
         try:
             self.mongo.bom.insert_one(bom_data)
+
+            self.mongo.log_event(
+                "bom.save",
+                performed_by=self.user.username,
+                details=(
+                    f"Saved BOM for assembly {bom_data.get('assembly_part_number')} "
+                    f"rev {bom_data.get('assembly_revision')} BOM rev {bom_data.get('revision')}"
+                )
+            )
 
             QMessageBox.information(self, "Saved", "BOM saved successfully.")
 

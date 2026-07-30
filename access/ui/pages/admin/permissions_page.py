@@ -81,7 +81,11 @@ class PermissionsPage(QWidget):
         if not self.app.has_permission("permissions.create"):
             self.app.show_permission_denied()
             return
-        dialog = PermissionEditorDialog(self.mongo, mode="add")
+        dialog = PermissionEditorDialog(
+            self.mongo,
+            mode="add",
+            performed_by=self.app.current_user.username
+        )
         if dialog.exec():
             self.refresh()
 
@@ -98,7 +102,12 @@ class PermissionsPage(QWidget):
             QMessageBox.warning(self, "No selection", "Please select a permission to edit.")
             return
 
-        dialog = PermissionEditorDialog(self.mongo, mode="edit", permission_name=name)
+        dialog = PermissionEditorDialog(
+            self.mongo,
+            mode="edit",
+            permission_name=name,
+            performed_by=self.app.current_user.username
+        )
         if dialog.exec():
             self.refresh()
 
@@ -132,14 +141,7 @@ class PermissionsPage(QWidget):
         )
 
         if confirm == QMessageBox.Yes:
-            self.mongo.delete_permission(name, performed_by="admin")
+            self.mongo.delete_permission(name, performed_by=self.app.current_user.username)
             logger.info(f"Permission '{name}' deleted.")
-            self.mongo.audit(
-                event="permission.delete",
-                performed_by=self.app.current_user.username,
-                target=name,
-                details=None
-            )
-
             self.refresh()
 

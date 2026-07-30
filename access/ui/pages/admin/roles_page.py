@@ -81,7 +81,11 @@ class RolesPage(QWidget):
             self.app.show_permission_denied()
             return
 
-        dialog = RoleEditorDialog(self.mongo, mode="add")
+        dialog = RoleEditorDialog(
+            self.mongo,
+            mode="add",
+            performed_by=self.app.current_user.username
+        )
         if dialog.exec():
             self.refresh()
 
@@ -101,7 +105,12 @@ class RolesPage(QWidget):
             QMessageBox.warning(self, "No selection", "Please select a role to edit.")
             return
 
-        dialog = RoleEditorDialog(self.mongo, mode="edit", role_name=role_name)
+        dialog = RoleEditorDialog(
+            self.mongo,
+            mode="edit",
+            role_name=role_name,
+            performed_by=self.app.current_user.username
+        )
         if dialog.exec():
             self.refresh()
 
@@ -135,14 +144,7 @@ class RolesPage(QWidget):
         )
 
         if confirm == QMessageBox.Yes:
-            self.mongo.delete_role(role_name, performed_by="admin")
+            self.mongo.delete_role(role_name, performed_by=self.app.current_user.username)
             logger.info(f"Role '{role_name}' deleted.")
-            self.mongo.audit(
-                event="role.delete",
-                performed_by=self.app.current_user.username,
-                target=role_name,
-                details=None
-            )
-
             self.refresh()
 

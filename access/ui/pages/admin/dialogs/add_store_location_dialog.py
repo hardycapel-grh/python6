@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QLabel,
     QLineEdit, QPushButton, QMessageBox
 )
+from ui.components.logger_utils import log_event
 
 
 class AddStoreLocationDialog(QDialog):
@@ -53,4 +54,11 @@ class AddStoreLocationDialog(QDialog):
         }
 
         self.mongo.store_locations.insert_one(doc)
+        self.mongo.audit(
+            "store_location.create",
+            self.user.username,
+            target=name,
+            details={"description": doc["description"]}
+        )
+        log_event("info", "Store location created", user=self.user.username, target=name)
         self.accept()
