@@ -7,6 +7,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt
 from datetime import datetime
+import json
 
 from services.mongo_service import MongoService
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton
@@ -104,13 +105,13 @@ class AuditLogPage(QWidget):
             event = doc.get("event", "")
             performed_by = doc.get("performed_by", "")
             target = doc.get("target", "")
-            details = doc.get("details", "")
+            details = self._format_value(doc.get("details", ""))
 
             self.table.setItem(row_idx, 0, QTableWidgetItem(ts_str))
             self.table.setItem(row_idx, 1, QTableWidgetItem(event))
             self.table.setItem(row_idx, 2, QTableWidgetItem(performed_by))
             self.table.setItem(row_idx, 3, QTableWidgetItem(str(target)))
-            self.table.setItem(row_idx, 4, QTableWidgetItem(str(details)))
+            self.table.setItem(row_idx, 4, QTableWidgetItem(details))
 
 
 
@@ -130,7 +131,7 @@ class AuditLogPage(QWidget):
 
         # Pretty formatting
         formatted = "\n".join(
-            f"{key}: {value}"
+            f"{key}: {self._format_value(value)}"
             for key, value in doc.items()
             if key != "_id"
         )
@@ -143,5 +144,11 @@ class AuditLogPage(QWidget):
         layout.addWidget(close_btn)
 
         dlg.exec()
+
+    @staticmethod
+    def _format_value(value):
+        if isinstance(value, (dict, list, tuple)):
+            return json.dumps(value, indent=2, default=str)
+        return str(value)
 
 

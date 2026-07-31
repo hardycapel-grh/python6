@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, QAbstractTableModel, QModelIndex
 from bson import ObjectId
+from ui.components.logger_utils import log_event
 
 
 class StoresTableModel(QAbstractTableModel):
@@ -152,6 +153,13 @@ class StoresListPage(QWidget):
                 self.window().show_error("Store name is required.")
                 return
             self.mongo.stores.insert_one(data)
+            self.mongo.audit(
+                "store.create",
+                self.user.username,
+                target=data["name"],
+                details={"type": data["type"], "status": data["status"]}
+            )
+            log_event("info", "Store created", user=self.user.username, target=data["name"])
             self.load_stores()
 
     def _edit_store(self):
@@ -168,6 +176,13 @@ class StoresListPage(QWidget):
                 self.window().show_error("Store name is required.")
                 return
             self.mongo.stores.update_one({"_id": store_id}, {"$set": data})
+            self.mongo.audit(
+                "store.update",
+                self.user.username,
+                target=data["name"],
+                details={"type": data["type"], "status": data["status"]}
+            )
+            log_event("info", "Store updated", user=self.user.username, target=data["name"])
             self.load_stores()
 
     def _delete_store(self):
@@ -178,4 +193,11 @@ class StoresListPage(QWidget):
 
         # TODO: add safety check: prevent delete if batches exist for this store
         self.mongo.stores.delete_one({"_id": store_id})
+        self.mongo.audit(
+            "store.delete",
+            self.user.username,
+            target=str(store_id),
+            details={"store_id": str(store_id)}
+        )
+        log_event("info", "Store deleted", user=self.user.username, store_id=str(store_id))
         self.load_stores()

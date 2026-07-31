@@ -842,23 +842,6 @@ class BatchListPage(QWidget):
             log_event("info", "Batch deleted", user=performed_by, batch_id=str(batch.get("_id")))
             self.load_batches()
 
-    def _edit_batch(self, batch):
-        # Load stores for dropdown
-        stores = {s["_id"]: s for s in self.mongo.stores.find()}
-
-        dlg = EditBatchDialog(batch, stores, self)
-
-        if dlg.exec() == QDialog.Accepted:
-            updated = dlg.get_updated_values()
-
-            # Update MongoDB
-            self.mongo.inventory_batches.update_one(
-                {"_id": batch["_id"]},
-                {"$set": updated}
-            )
-
-            self.load_batches()
-
     def _apply_filter(self, mode):
         self.proxy.setFilterMode(mode)
 

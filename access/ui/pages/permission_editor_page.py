@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
 )
 from services.mongo_service import MongoService
 from models.user import User
+from ui.components.logger_utils import log_event
 
 
 PERMISSION_REGISTRY = {
@@ -133,6 +134,20 @@ class PermissionEditorPage(QWidget):
         self.mongo.db.users.update_one(
             {"username": username},
             {"$set": {"permissions": new_permissions}}
+        )
+
+        self.mongo.audit(
+            "user.permissions.update",
+            self.current_user.username,
+            target=username,
+            details={"permissions": new_permissions}
+        )
+        log_event(
+            "info",
+            "User permissions updated",
+            user=self.current_user.username,
+            target=username,
+            permissions=",".join(new_permissions)
         )
 
         user.permissions = new_permissions
