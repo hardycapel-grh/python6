@@ -18051,3 +18051,6 @@ Supported signatures:
 2026-07-31 22:17:50,888 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x0000026633F53A60>'
 2026-07-31 22:17:50,897 [INFO] Loading users from MongoDB…
 2026-07-31 22:17:50,909 [INFO] Loaded 6 users.
+2026-07-31 23:09:08,484 [INFO] Connected to MongoDB
+2026-07-31 23:09:51,793 [INFO] Connected to MongoDB
+2026-07-31 23:09:51,807 [INFO] Connected to MongoDB
