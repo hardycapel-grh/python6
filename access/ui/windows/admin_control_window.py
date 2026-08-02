@@ -28,7 +28,7 @@ class AdminControlWindow(WindowWithSidebar):
 
         self.mongo = mongo
 
-        # parent here is your MainApp — give AdminControlWindow an .app so
+        # parent here is your MainApp  give AdminControlWindow an .app so
         # pages can resolve application-level helpers and permission checks.
         self.app = parent
 

@@ -1,4 +1,4 @@
-﻿"""Permissions selector UI component.
+"""Permissions selector UI component.
 
 This widget presents available permissions grouped by category and lets
 administrators select overrides for a user.
@@ -25,7 +25,7 @@ class PermissionsSelectorWidget(QWidget):
         self.layout().addWidget(title)
 
         self.search = QLineEdit()
-        self.search.setPlaceholderText("Search permissions…")
+        self.search.setPlaceholderText("Search permissions...")
         self.search.textChanged.connect(self._apply_filter)
         self.layout().addWidget(self.search)
 
@@ -48,7 +48,7 @@ class PermissionsSelectorWidget(QWidget):
         self.category_frames = {}
 
         for category, perms in sorted(self.categories.items()):
-            header_btn = QPushButton(f"▼  {category}")
+            header_btn = QPushButton(f"  {category}")
             header_btn.setCheckable(True)
             header_btn.setChecked(True)
             header_btn.setStyleSheet(
@@ -86,10 +86,10 @@ class PermissionsSelectorWidget(QWidget):
         frame = self.category_frames[category]
 
         if expanded:
-            header.setText(f"▼  {category}")
+            header.setText(f"  {category}")
             frame.show()
         else:
-            header.setText(f"►  {category}")
+            header.setText(f"  {category}")
             frame.hide()
 
     # ---------------------------------------------------------
