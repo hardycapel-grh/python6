@@ -94,13 +94,8 @@ class MongoService:
             self.store_locations.create_index("location_name", unique=True)
             self.stock_movements.create_index("movement_date")
 
-
-
-
-
-
-
-            
+            self.counters = self.db["counters"]
+            self.sales_orders = self.db["sales_orders"]
 
 
             logger.info("Connected to MongoDB")
@@ -825,5 +820,13 @@ class MongoService:
         """
         return self.users.find_one({"username": username})
 
+    def get_next_sales_order_number(self):
+        result = self.counters.find_one_and_update(
+            {"_id": "sales_order"},
+            {"$inc": {"seq": 1}},
+            upsert=True,
+            return_document=True
+        )
+        return result["seq"]
 
 

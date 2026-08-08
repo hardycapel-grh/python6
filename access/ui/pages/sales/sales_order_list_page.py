@@ -69,8 +69,6 @@ class SalesOrderListPage(QWidget):
 
         layout.addLayout(toolbar)
 
-        self.btn_add.clicked.connect(self._open_add_dialog)
-
         # -------------------------
         # Search + Filters
         # -------------------------

@@ -51,6 +51,9 @@ class AddItemDialog(QDialog):
 
         # SO Number (manual for now)
         self.so_number_edit = QLineEdit()
+        self.so_number_edit.setText(str(self.mongo.get_next_sales_order_number()))
+        self.so_number_edit.setReadOnly(True)
+
         form.addRow("SO Number:", self.so_number_edit)
 
         # Customer dropdown
@@ -100,9 +103,14 @@ class AddItemDialog(QDialog):
 
         # Connections
         buttons.accepted.connect(self.accept)
-        buttons.rejected.connect(self.reject)
+        buttons.rejected.connect(self.close)   # <-- FIX: force close on Cancel
         self.add_item_btn.clicked.connect(self.add_item)
         self.remove_item_btn.clicked.connect(self.remove_item)
+
+        # Ensure dialog behaves correctly with calendar + list widgets
+        self.setModal(True)
+        self.setWindowFlag(Qt.WindowCloseButtonHint, True)
+
 
     # Add item to list
     def add_item(self):
