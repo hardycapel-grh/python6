@@ -86,6 +86,8 @@ class MongoService:
             self.store_locations = self.db["store_locations"]
 
             self.bom = self.db["bom"]
+            self.sales_orders = self.db["sales_orders"]
+
 
 
             # ⭐ OPTIONAL INDEX (recommended)

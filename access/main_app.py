@@ -15,6 +15,7 @@ from ui.components.logger import logger
 from ui.windows.log_viewer_window import LogViewerPage, LogViewerWindow
 from ui.windows.admin_control_window import AdminControlWindow
 from ui.windows.inventory_window import InventoryWindow
+from ui.windows.sales_order_window import SalesOrderWindow
 from ui.components.logger_utils import log_event
 from ui.dialogs.profile_dialogs import ProfileDialog, ChangePasswordDialog
 from ui.pages.admin.audit_log_page import AuditLogPage
@@ -106,6 +107,13 @@ class MainApp(QMainWindow):
             InventoryWindow,
             lambda: InventoryWindow(self.user, self.mongo, self),
             required_permission="inventory.read"
+        )
+
+        self._add_sidebar_item(
+            "Sales Orders",
+            SalesOrderWindow,
+            lambda: SalesOrderWindow(self.user, self.mongo, self),
+            required_permission="sales.read"
         )
 
 
