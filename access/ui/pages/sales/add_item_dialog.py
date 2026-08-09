@@ -10,6 +10,7 @@ from PySide6.QtWidgets import (
     QCalendarWidget, QInputDialog
 )
 from PySide6.QtCore import Qt, QDate
+from PySide6.QtWidgets import QDateEdit
 
 
 class AddItemDialog(QDialog):
@@ -62,9 +63,11 @@ class AddItemDialog(QDialog):
         form.addRow("Customer:", self.customer_combo)
 
         # Req Date (calendar selector)
-        self.req_date_calendar = QCalendarWidget()
-        self.req_date_calendar.setSelectedDate(QDate.currentDate())
-        form.addRow("Req Date:", self.req_date_calendar)
+        self.req_date_edit = QDateEdit()
+        self.req_date_edit.setCalendarPopup(True)
+        self.req_date_edit.setDate(QDate.currentDate())
+        form.addRow("Req Date:", self.req_date_edit)
+
 
         # Status
         self.status_edit = QLineEdit()
@@ -128,7 +131,7 @@ class AddItemDialog(QDialog):
         return {
             "so_number": self.so_number_edit.text().strip(),
             "customer": self.customer_combo.currentText(),
-            "req_date": self.req_date_calendar.selectedDate().toString("yyyy-MM-dd"),
+            "req_date": self.req_date_edit.date().toString("yyyy-MM-dd"),
             "status": self.status_edit.text().strip(),
             "type": self.type_combo.currentText(),
             "items": [
