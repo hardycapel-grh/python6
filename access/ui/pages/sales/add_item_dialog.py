@@ -6,11 +6,10 @@ Generated: 2026-08-01T21:47:24.092140Z
 """
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QFormLayout, QLineEdit, QComboBox,
-    QDialogButtonBox, QListWidget, QPushButton, QHBoxLayout,
-    QCalendarWidget, QInputDialog
+    QDialogButtonBox, QListWidget, QListWidgetItem, QPushButton,
+    QHBoxLayout, QCalendarWidget, QInputDialog, QLabel, QDateEdit
 )
-from PySide6.QtCore import Qt, QDate
-from PySide6.QtWidgets import QDateEdit
+from PySide6.QtCore import Qt, QDate, QTimer
 
 
 class AddItemDialog(QDialog):
@@ -69,9 +68,18 @@ class AddItemDialog(QDialog):
         form.addRow("Req Date:", self.req_date_edit)
 
 
-        # Status
-        self.status_edit = QLineEdit()
-        form.addRow("Status:", self.status_edit)
+        # Status (fixed workflow list)
+        self.status_combo = QComboBox()
+        self.status_combo.addItems([
+            "new",
+            "released",
+            "held",
+            "cancelled",
+            "in-work",
+            "finished"
+        ])
+        form.addRow("Status:", self.status_combo)
+
 
         # Type dropdown
         self.type_combo = QComboBox()
@@ -80,21 +88,57 @@ class AddItemDialog(QDialog):
 
         main_layout.addLayout(form)
 
-        # Items list + add/remove controls
+        # -------------------------
+        # Items list + inventory search + per-item quantity
+        # -------------------------
         items_layout = QVBoxLayout()
-        self.items_list = QListWidget()
 
-        # Add/remove buttons
+        # Current items on the sales order
+        self.items_list = QListWidget()
+        items_layout.addWidget(QLabel("Order Items:"))
+        items_layout.addWidget(self.items_list)
+
+        # Inventory search area
+        search_layout = QHBoxLayout()
+        self.inventory_search = QLineEdit()
+        self.inventory_search.setPlaceholderText("Search inventory...")
+        self.inventory_search.textChanged.connect(self._search_inventory)
+        search_layout.addWidget(self.inventory_search)
+
+        items_layout.addLayout(search_layout)
+
+        self.inventory_results = QListWidget()
+        items_layout.addWidget(self.inventory_results)
+
+        # Per-item quantity and UOM display (placed next to Add button)
+        pick_layout = QHBoxLayout()
+
+        self.uom_label = QLabel("")                 # shows selected item's UOM
+        self.qty_edit = QLineEdit()
+        self.qty_edit.setFixedWidth(80)
+        self.qty_edit.setPlaceholderText("Qty")
+        self.qty_edit.setText("1")
+
+        pick_layout.addWidget(QLabel("Qty:"))
+        pick_layout.addWidget(self.qty_edit)
+        pick_layout.addWidget(QLabel("UOM:"))
+        pick_layout.addWidget(self.uom_label)
+        pick_layout.addStretch()
+
+        # Add / Remove buttons
         btn_layout = QHBoxLayout()
-        self.add_item_btn = QPushButton("Add Item")
+        self.add_item_btn = QPushButton("Add Selected Item")
         self.remove_item_btn = QPushButton("Remove Selected")
         btn_layout.addWidget(self.add_item_btn)
         btn_layout.addWidget(self.remove_item_btn)
 
-        items_layout.addWidget(self.items_list)
+        items_layout.addLayout(pick_layout)
         items_layout.addLayout(btn_layout)
 
         main_layout.addLayout(items_layout)
+
+        # Connections for the new widgets
+        self.inventory_results.currentItemChanged.connect(self._on_inventory_selected)
 
         # Dialog buttons
         buttons = QDialogButtonBox(
@@ -107,19 +151,14 @@ class AddItemDialog(QDialog):
         # Connections
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.close)   # <-- FIX: force close on Cancel
-        self.add_item_btn.clicked.connect(self.add_item)
-        self.remove_item_btn.clicked.connect(self.remove_item)
+        self.add_item_btn.clicked.connect(self._add_selected_inventory_item)
+        self.remove_item_btn.clicked.connect(self.remove_item)        
+        self.inventory_search.textChanged.connect(self._search_inventory)
 
         # Ensure dialog behaves correctly with calendar + list widgets
         self.setModal(True)
         self.setWindowFlag(Qt.WindowCloseButtonHint, True)
 
-
-    # Add item to list
-    def add_item(self):
-        text, ok = QInputDialog.getText(self, "Add Item", "Enter item:")
-        if ok and text.strip():
-            self.items_list.addItem(text.strip())
 
     # Remove selected item
     def remove_item(self):
@@ -132,11 +171,108 @@ class AddItemDialog(QDialog):
             "so_number": self.so_number_edit.text().strip(),
             "customer": self.customer_combo.currentText(),
             "req_date": self.req_date_edit.date().toString("yyyy-MM-dd"),
-            "status": self.status_edit.text().strip(),
+            "status": self.status_combo.currentText(),
             "type": self.type_combo.currentText(),
             "items": [
-                self.items_list.item(i).text()
+                {
+                    "part_number": self.items_list.item(i).data(Qt.UserRole)["part_number"],
+                    "description": self.items_list.item(i).data(Qt.UserRole)["description"],
+                    "uom": self.items_list.item(i).data(Qt.UserRole).get("uom", "ea"),
+                    "qty": self.items_list.item(i).data(Qt.UserRole)["qty"]
+                }
                 for i in range(self.items_list.count())
             ],
             "created_by": getattr(self.user, "username", None)
         }
+
+    def _search_inventory(self):
+        query = self.inventory_search.text().strip().lower()
+        self.inventory_results.clear()
+
+        if not query:
+            return
+
+        # Search inventory collection
+        results = self.mongo.inventory.find({
+            "part_number": {"$regex": query, "$options": "i"}
+        })
+
+        for item in results:
+            display = f"{item.get('part_number', '')} - {item.get('description', '')}"
+            list_item = QListWidgetItem(display)
+            list_item.setData(Qt.UserRole, item)  # store full item
+            self.inventory_results.addItem(list_item)
+
+
+
+
+    def _add_selected_inventory_item(self):
+        # Reentrancy guard
+        if getattr(self, "_adding_item", False):
+            return
+        self._adding_item = True
+
+        try:
+            selected = self.inventory_results.currentItem()
+            if not selected:
+                return
+
+            # Capture data immediately
+            item = selected.data(Qt.UserRole)
+            part_number = item.get("part_number", "")
+            description = item.get("description", "")
+            uom = item.get("uom", "ea")
+
+            qty_text = self.qty_edit.text().strip()
+            if not qty_text:
+                qty_text = "1"
+
+            # Basic numeric validation (allow decimals)
+            try:
+                float(qty_text)
+            except ValueError:
+                from PySide6.QtWidgets import QMessageBox
+                QMessageBox.warning(self, "Invalid quantity", "Please enter a numeric quantity.")
+                return
+
+            display = f"{part_number} - {description} (qty: {qty_text} {uom})"
+            list_item = QListWidgetItem(display)
+            list_item.setData(Qt.UserRole, {
+                "part_number": part_number,
+                "description": description,
+                "uom": uom,
+                "qty": qty_text
+            })
+
+            # Defensive duplicate suppression: check last item
+            if self.items_list.count() > 0:
+                last = self.items_list.item(self.items_list.count() - 1).data(Qt.UserRole)
+                if last and last.get("part_number") == part_number and last.get("qty") == qty_text:
+                    # duplicate detected — ignore
+                    return
+
+            self.items_list.addItem(list_item)
+
+            # Clear selection and reset qty/uom so a second activation won't add a second line
+            self.inventory_results.clearSelection()
+            self.uom_label.setText("")
+            self.qty_edit.setText("1")
+
+        finally:
+            # Release guard after a short delay to avoid immediate re-entrancy
+            QTimer.singleShot(150, lambda: setattr(self, "_adding_item", False))
+
+    def _on_inventory_selected(self, current, previous):
+        if not current:
+            self.uom_label.setText("")
+            return
+
+        item = current.data(Qt.UserRole)
+        uom = item.get("uom", "ea")
+        self.uom_label.setText(uom)
+        if uom in ("kg", "m", "l"):
+            self.qty_edit.setText("0")
+        else:
+            self.qty_edit.setText("1")
+        self.qty_edit.setFocus()
+
