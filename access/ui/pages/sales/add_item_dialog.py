@@ -7,9 +7,12 @@ Generated: 2026-08-01T21:47:24.092140Z
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QFormLayout, QLineEdit, QComboBox,
     QDialogButtonBox, QListWidget, QListWidgetItem, QPushButton,
-    QHBoxLayout, QCalendarWidget, QInputDialog, QLabel, QDateEdit
+    QHBoxLayout, QCalendarWidget, QInputDialog, QLabel, QDateEdit, QSpinBox
 )
 from PySide6.QtCore import Qt, QDate, QTimer
+from PySide6.QtWidgets import QDoubleSpinBox
+
+
 
 
 class AddItemDialog(QDialog):
@@ -69,17 +72,7 @@ class AddItemDialog(QDialog):
 
 
         # Status (fixed workflow list)
-        self.status_combo = QComboBox()
-        self.status_combo.addItems([
-            "new",
-            "released",
-            "held",
-            "cancelled",
-            "in-work",
-            "finished"
-        ])
-        form.addRow("Status:", self.status_combo)
-
+        # self.status = "new"
 
         # Type dropdown
         self.type_combo = QComboBox()
@@ -114,10 +107,16 @@ class AddItemDialog(QDialog):
         pick_layout = QHBoxLayout()
 
         self.uom_label = QLabel("")                 # shows selected item's UOM
-        self.qty_edit = QLineEdit()
+
+        self.qty_edit = QDoubleSpinBox()
         self.qty_edit.setFixedWidth(80)
-        self.qty_edit.setPlaceholderText("Qty")
-        self.qty_edit.setText("1")
+        self.qty_edit.setMinimum(0.0)
+        self.qty_edit.setMaximum(999999.0)
+        self.qty_edit.setDecimals(3)        # allow decimals
+        self.qty_edit.setSingleStep(0.1)    # step size for + / -
+        self.qty_edit.setValue(1.0)
+
+
 
         pick_layout.addWidget(QLabel("Qty:"))
         pick_layout.addWidget(self.qty_edit)
@@ -171,7 +170,7 @@ class AddItemDialog(QDialog):
             "so_number": self.so_number_edit.text().strip(),
             "customer": self.customer_combo.currentText(),
             "req_date": self.req_date_edit.date().toString("yyyy-MM-dd"),
-            "status": self.status_combo.currentText(),
+            "status": "new",
             "type": self.type_combo.currentText(),
             "items": [
                 {
@@ -223,16 +222,23 @@ class AddItemDialog(QDialog):
             description = item.get("description", "")
             uom = item.get("uom", "ea")
 
-            qty_text = self.qty_edit.text().strip()
-            if not qty_text:
-                qty_text = "1"
+            # Normalize quantity using the cleaned, rounded value from the spinbox
+            qty_value = self._clean_qty()
+            decimals = self.qty_edit.decimals()
 
-            # Basic numeric validation (allow decimals)
-            try:
-                float(qty_text)
-            except ValueError:
+            # Store numeric quantity: int when no decimals, float otherwise
+            qty_store = int(qty_value) if decimals == 0 else float(qty_value)
+            # Format text for display with fixed decimals when applicable
+            qty_text = f"{qty_value:.{decimals}f}" if decimals > 0 else str(qty_store)
+
+            # Basic numeric validation
+            if decimals == 0 and qty_store < 1:
                 from PySide6.QtWidgets import QMessageBox
-                QMessageBox.warning(self, "Invalid quantity", "Please enter a numeric quantity.")
+                QMessageBox.warning(self, "Invalid quantity", "Please enter a positive integer quantity.")
+                return
+            if decimals > 0 and qty_store < 0:
+                from PySide6.QtWidgets import QMessageBox
+                QMessageBox.warning(self, "Invalid quantity", "Please enter a non-negative quantity.")
                 return
 
             display = f"{part_number} - {description} (qty: {qty_text} {uom})"
@@ -241,13 +247,18 @@ class AddItemDialog(QDialog):
                 "part_number": part_number,
                 "description": description,
                 "uom": uom,
-                "qty": qty_text
+                "qty": qty_store
             })
 
-            # Defensive duplicate suppression: check last item
+            # Defensive duplicate suppression: check last item (compare numerically)
             if self.items_list.count() > 0:
                 last = self.items_list.item(self.items_list.count() - 1).data(Qt.UserRole)
-                if last and last.get("part_number") == part_number and last.get("qty") == qty_text:
+                last_qty = last.get("qty") if last else None
+                try:
+                    last_qty_num = float(last_qty)
+                except Exception:
+                    last_qty_num = last_qty
+                if last and last.get("part_number") == part_number and last_qty_num == float(qty_store):
                     # duplicate detected — ignore
                     return
 
@@ -256,7 +267,7 @@ class AddItemDialog(QDialog):
             # Clear selection and reset qty/uom so a second activation won't add a second line
             self.inventory_results.clearSelection()
             self.uom_label.setText("")
-            self.qty_edit.setText("1")
+            self.qty_edit.setValue(1)
 
         finally:
             # Release guard after a short delay to avoid immediate re-entrancy
@@ -270,9 +281,34 @@ class AddItemDialog(QDialog):
         item = current.data(Qt.UserRole)
         uom = item.get("uom", "ea")
         self.uom_label.setText(uom)
-        if uom in ("kg", "m", "l"):
-            self.qty_edit.setText("0")
+
+        # Fetch UOM metadata from database
+        uom_info = self._get_uom_info(uom)
+        qty_type = uom_info.get("quantity_type", "integer")  # default fallback
+
+        if qty_type == "decimal":
+            self.qty_edit.setDecimals(3)
+            self.qty_edit.setSingleStep(0.1)
+            qty_value = self._clean_qty()
+            self.qty_edit.setMinimum(0.0)
+            self.qty_edit.setValue(qty_value)   # ✔ FIX
+
         else:
-            self.qty_edit.setText("1")
+            self.qty_edit.setDecimals(0)
+            self.qty_edit.setSingleStep(1.0)
+            qty_value = self._clean_qty()
+            self.qty_edit.setMinimum(1)
+            self.qty_edit.setValue(qty_value)   # ✔ FIX
+
+
+
         self.qty_edit.setFocus()
 
+
+    def _get_uom_info(self, uom):
+        return self.mongo.uom_list.find_one({"uom": uom}) or {}
+
+    def _clean_qty(self):
+        decimals = self.qty_edit.decimals()
+        value = round(self.qty_edit.value(), decimals)
+        return float(f"{value:.{decimals}f}")
