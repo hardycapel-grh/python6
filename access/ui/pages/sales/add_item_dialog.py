@@ -11,6 +11,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtCore import Qt, QDate, QTimer
 from PySide6.QtWidgets import QDoubleSpinBox
+from ui.components.logger_utils import log_event
 
 
 
@@ -162,7 +163,36 @@ class AddItemDialog(QDialog):
     # Remove selected item
     def remove_item(self):
         for item in self.items_list.selectedItems():
+            data = item.data(Qt.UserRole)
+
+            part_number = data.get("part_number")
+            qty = data.get("qty")
+            uom = data.get("uom")
+
+            # --- Audit log ---
+            self.mongo.log_event(
+                "sales_order.item_remove",
+                performed_by=getattr(self.user, "username", None),
+                details=(
+                    f"Removed item {part_number} qty {qty} {uom} "
+                    f"from Sales Order {self.so_number_edit.text()}"
+                )
+            )
+
+            # --- Debug log ---
+            log_event(
+                "info",
+                "Sales order item removed",
+                user=getattr(self.user, "username", None),
+                so_number=self.so_number_edit.text(),
+                part_number=part_number,
+                qty=qty,
+                uom=uom
+            )
+
+            # Remove from list
             self.items_list.takeItem(self.items_list.row(item))
+
 
     # Gather all data into a dict
     def get_data(self):
@@ -241,7 +271,7 @@ class AddItemDialog(QDialog):
                 QMessageBox.warning(self, "Invalid quantity", "Please enter a non-negative quantity.")
                 return
 
-            display = f"{part_number} - {description} (qty: {qty_text} {uom})"
+            display = f"{part_number} - {description} (qty: {qty_text.rstrip('0').rstrip('.')} {uom})"
             list_item = QListWidgetItem(display)
             list_item.setData(Qt.UserRole, {
                 "part_number": part_number,
@@ -250,24 +280,29 @@ class AddItemDialog(QDialog):
                 "qty": qty_store
             })
 
+            try:
             # Defensive duplicate suppression: check last item (compare numerically)
-            if self.items_list.count() > 0:
-                last = self.items_list.item(self.items_list.count() - 1).data(Qt.UserRole)
-                last_qty = last.get("qty") if last else None
-                try:
-                    last_qty_num = float(last_qty)
-                except Exception:
-                    last_qty_num = last_qty
-                if last and last.get("part_number") == part_number and last_qty_num == float(qty_store):
-                    # duplicate detected — ignore
-                    return
+                if self.items_list.count() > 0:
+                    last = self.items_list.item(self.items_list.count() - 1).data(Qt.UserRole)
+                    last_qty = last.get("qty") if last else None
+                    try:
+                        last_qty_num = float(last_qty)
+                    except Exception:
+                        last_qty_num = last_qty
+                    if last and last.get("part_number") == part_number and last_qty_num == float(qty_store):
+                        # duplicate detected — ignore
+                        return
 
-            self.items_list.addItem(list_item)
+                self.items_list.addItem(list_item)
 
-            # Clear selection and reset qty/uom so a second activation won't add a second line
-            self.inventory_results.clearSelection()
-            self.uom_label.setText("")
-            self.qty_edit.setValue(1)
+                # Clear selection and reset qty/uom so a second activation won't add a second line
+                self.inventory_results.clearSelection()
+                self.uom_label.setText("")
+                self.qty_edit.setValue(1)
+            except Exception as e:
+                log_event("error", "Failed to create sales order item",
+                        user=self.user.username, error=str(e))
+                QMessageBox.critical(self, "Error", f"Failed to create item:\n{e}")    
 
         finally:
             # Release guard after a short delay to avoid immediate re-entrancy

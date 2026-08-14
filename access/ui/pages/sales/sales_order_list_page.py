@@ -15,6 +15,7 @@ from ui.components.logger_utils import log_event
 from bson import ObjectId
 from ui.pages.sales.add_item_dialog import AddItemDialog
 from PySide6.QtGui import QStandardItemModel, QStandardItem
+from ui.components.logger_utils import log_event
 
 
 class SalesOrderListPage(QWidget):
@@ -239,6 +240,21 @@ class SalesOrderListPage(QWidget):
 
             # Insert into MongoDB
             self.mongo.sales_orders.insert_one(data)
+
+            self.mongo.log_event(
+                "sales_order.create",
+                performed_by=getattr(self.user, "username", None),
+                details=f"Created Sales Order {data['so_number']} for {data['customer']}"
+            )
+
+            log_event(
+                "info",
+                "Sales order created",
+                user=getattr(self.user, "username", None),
+                so_number=data["so_number"],
+                customer=data["customer"],
+                item_count=len(data["items"])
+            )
 
             # Refresh the table/list
             self._load_sales_orders()
