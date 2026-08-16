@@ -7,7 +7,7 @@ Generated: 2026-08-01T21:47:24.092140Z
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit,
-    QLabel, QComboBox, QTableView, QTableWidgetItem
+    QLabel, QComboBox, QTableView, QTableWidgetItem, QMessageBox
 )
 from PySide6.QtCore import Qt
 
@@ -16,6 +16,7 @@ from bson import ObjectId
 from ui.pages.sales.add_item_dialog import AddItemDialog
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from ui.components.logger_utils import log_event
+from ui.pages.sales.edit_sales_order_dialog import EditSalesOrderDialog
 
 
 class SalesOrderListPage(QWidget):
@@ -433,3 +434,72 @@ class SalesOrderListPage(QWidget):
 
         if dlg.exec():
             self.window().show_info("Stock moved successfully.")
+
+    def _open_edit_dialog(self):
+        index = self.table.currentIndex()
+
+        # No row selected
+        if not index.isValid():
+            QMessageBox.warning(
+                self,
+                "No Selection",
+                "Please select a sales order to edit."
+            )
+            return
+
+
+        # Extract the SO number from the model
+        model = self.table.model()
+        so_number = model.data(model.index(index.row(), 0))  # assuming column 0 = SO number
+
+        if not so_number:
+            QMessageBox.critical(self, "Error", "Could not determine Sales Order number.")
+            return
+
+        # Fetch full sales order document
+        so = self.mongo.sales_orders.find_one({"so_number": so_number})
+        if not so:
+            QMessageBox.critical(self, "Error", f"Sales Order {so_number} not found.")
+            return
+
+        # Open edit dialog
+        dlg = EditSalesOrderDialog(self.mongo, self.user, so, self)
+        if dlg.exec():
+            updated_data = dlg.get_data()
+
+            try:
+                # Update in MongoDB
+                self.mongo.sales_orders.update_one(
+                    {"so_number": so_number},
+                    {"$set": updated_data}
+                )
+
+                # Audit log
+                self.mongo.log_event(
+                    "sales_order.update",
+                    performed_by=getattr(self.user, "username", None),
+                    details=f"Updated Sales Order {so_number}"
+                )
+
+                # Debug log
+                log_event(
+                    "info",
+                    "Sales order updated",
+                    user=getattr(self.user, "username", None),
+                    so_number=so_number,
+                    item_count=len(updated_data.get("items", [])),
+                    status=updated_data.get("status")
+                )
+
+                # Reload table
+                self._load_sales_orders()
+
+            except Exception as e:
+                log_event(
+                    "error",
+                    "Failed to update sales order",
+                    user=getattr(self.user, "username", None),
+                    so_number=so_number,
+                    error=str(e)
+                )
+                QMessageBox.critical(self, "Error", f"Failed to update Sales Order:\n{e}")
