@@ -50,8 +50,9 @@ class SalesFilterProxyModel(QSortFilterProxyModel):
                 return False
 
         # Firm/Enquiry filter
-        if self.firm_enquiry_filter and self.firm_enquiry_filter != "All":
-            if not any(str(cell) == self.firm_enquiry_filter for cell in row_data):
+        if self.firm_enquiry_filter.lower() != "all":
+            if not any(str(cell).lower() == self.firm_enquiry_filter.lower() for cell in row_data):
                 return False
+
 
         return True

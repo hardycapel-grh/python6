@@ -30,7 +30,6 @@ class SalesOrderListPage(QWidget):
 
         log_event("info", "SalesOrderListPage initialized", user=user.username)
         
-
         self._build_ui()
         self._load_sales_orders()
 
@@ -122,56 +121,6 @@ class SalesOrderListPage(QWidget):
 
         layout.addWidget(self.table)
 
-        
-
-
-    # ---------------------------------------------------------
-    # Load data (placeholder for now)
-    # ---------------------------------------------------------
-    # def _load_data(self):
-    #     from PySide6.QtGui import QStandardItemModel, QStandardItem
-
-    #     model = QStandardItemModel()
-    #     model.setHorizontalHeaderLabels([
-    #         "SO Number",
-    #         "Customer",
-    #         "Req Date",
-    #         "Items",
-    #         "Status",
-    #         "Type",
-    #     ])
-
-
-    #     # Load all items from MongoDB
-    #     items = list(self.mongo.inventory.find({}))
-
-    #     for item in items:
-    #         row_items = []
-
-    #         fields = [
-    #             item.get("SO Number", ""),
-    #             item.get("Customer", ""),
-    #             item.get("Req Date", ""),
-    #             item.get("Items", ""),
-    #             item.get("Status", ""),
-    #             item.get("type", ""),
-    #         ]
-
-
-    #         for col, value in enumerate(fields):
-    #             cell = QStandardItem(str(value))
-    #             if col == 0:
-    #                 # Store MongoDB _id in UserRole for disable/edit
-    #                 # Store the MongoDB `_id` in the model so later actions
-    #                 # (disable/edit/receive) can look up the document without
-    #                 # an extra DB query by part number.
-    #                 cell.setData(item["_id"], Qt.UserRole)
-    #             row_items.append(cell)
-
-    #         model.appendRow(row_items)
-
-    #     self.proxy.setSourceModel(model)
-
 
     # ---------------------------------------------------------
     # Apply search + filters
@@ -182,7 +131,7 @@ class SalesOrderListPage(QWidget):
             self.search_box.text().strip(),
             self.type_filter.currentText(),
             self.status_filter.currentText(),
-            self.firm_enquiry_filter.currentText()
+            self.firm_enquiry_filter.currentText().lower()
         )
 
 
