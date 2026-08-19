@@ -19,6 +19,7 @@ from ui.components.logger_utils import log_event
 from ui.pages.sales.edit_sales_order_dialog import EditSalesOrderDialog
 
 
+
 class SalesOrderListPage(QWidget):
     def __init__(self, user, mongo, parent=None):
         super().__init__(parent)
@@ -39,7 +40,7 @@ class SalesOrderListPage(QWidget):
 
 
 
-        self._load_data()
+        # self._load_data() 
 
     # ---------------------------------------------------------
     # Build UI
@@ -121,52 +122,55 @@ class SalesOrderListPage(QWidget):
 
         layout.addWidget(self.table)
 
+        
+
+
     # ---------------------------------------------------------
     # Load data (placeholder for now)
     # ---------------------------------------------------------
-    def _load_data(self):
-        from PySide6.QtGui import QStandardItemModel, QStandardItem
+    # def _load_data(self):
+    #     from PySide6.QtGui import QStandardItemModel, QStandardItem
 
-        model = QStandardItemModel()
-        model.setHorizontalHeaderLabels([
-            "SO Number",
-            "Customer",
-            "Req Date",
-            "Items",
-            "Status",
-            "Type",
-        ])
-
-
-        # Load all items from MongoDB
-        items = list(self.mongo.inventory.find({}))
-
-        for item in items:
-            row_items = []
-
-            fields = [
-                item.get("SO Number", ""),
-                item.get("Customer", ""),
-                item.get("Req Date", ""),
-                item.get("Items", ""),
-                item.get("Status", ""),
-                item.get("type", ""),
-            ]
+    #     model = QStandardItemModel()
+    #     model.setHorizontalHeaderLabels([
+    #         "SO Number",
+    #         "Customer",
+    #         "Req Date",
+    #         "Items",
+    #         "Status",
+    #         "Type",
+    #     ])
 
 
-            for col, value in enumerate(fields):
-                cell = QStandardItem(str(value))
-                if col == 0:
-                    # Store MongoDB _id in UserRole for disable/edit
-                    # Store the MongoDB `_id` in the model so later actions
-                    # (disable/edit/receive) can look up the document without
-                    # an extra DB query by part number.
-                    cell.setData(item["_id"], Qt.UserRole)
-                row_items.append(cell)
+    #     # Load all items from MongoDB
+    #     items = list(self.mongo.inventory.find({}))
 
-            model.appendRow(row_items)
+    #     for item in items:
+    #         row_items = []
 
-        self.proxy.setSourceModel(model)
+    #         fields = [
+    #             item.get("SO Number", ""),
+    #             item.get("Customer", ""),
+    #             item.get("Req Date", ""),
+    #             item.get("Items", ""),
+    #             item.get("Status", ""),
+    #             item.get("type", ""),
+    #         ]
+
+
+    #         for col, value in enumerate(fields):
+    #             cell = QStandardItem(str(value))
+    #             if col == 0:
+    #                 # Store MongoDB _id in UserRole for disable/edit
+    #                 # Store the MongoDB `_id` in the model so later actions
+    #                 # (disable/edit/receive) can look up the document without
+    #                 # an extra DB query by part number.
+    #                 cell.setData(item["_id"], Qt.UserRole)
+    #             row_items.append(cell)
+
+    #         model.appendRow(row_items)
+
+    #     self.proxy.setSourceModel(model)
 
 
     # ---------------------------------------------------------
@@ -178,60 +182,63 @@ class SalesOrderListPage(QWidget):
             self.search_box.text().strip(),
             self.type_filter.currentText(),
             self.status_filter.currentText(),
-            self.makebuy_filter.currentText()
+            self.firm_enquiry_filter.currentText()
         )
 
 
+    def _on_selection_changed(self, selected, deselected):
+        """Update UI state when the table selection changes."""
+        try:
+            has_selection = len(self.table.selectionModel().selectedRows()) > 0
+        except Exception:
+            has_selection = False
+
+        # Enable/disable edit/delete buttons based on selection and permissions
+        self.btn_edit.setEnabled(has_selection and ("sales.edit" in self.user.permissions or "*" in self.user.permissions))
+        self.btn_delete.setEnabled(has_selection and ("sales.edit" in self.user.permissions or "*" in self.user.permissions))
+
+
     def _disable_selected_item(self):
-        # Get selected row
         selection = self.table.selectionModel().selectedRows()
         if not selection:
-            self.window().show_error("Please select an item first.")
+            self.window().show_error("Please select a sales order first.")
             return
 
         index = selection[0]
-        source_index = self.proxy.mapToSource(index)
-        model = self.proxy.sourceModel()
+        model = self.table.model()
 
-        part_number = model.index(source_index.row(), 0).data()
-        item_id = model.index(source_index.row(), 0).data(Qt.UserRole)  # we will set this later
+        so_number = model.index(index.row(), 0).data()
+        if not so_number:
+            self.window().show_error("Could not determine sales order number.")
+            return
 
-        # Confirmation dialog
-        from PySide6.QtWidgets import QMessageBox
         confirm = QMessageBox.question(
             self,
-            "Disable Item",
-            f"Are you sure you want to disable item '{part_number}'?",
+            "Disable Sales Order",
+            f"Are you sure you want to disable Sales Order '{so_number}'?",
             QMessageBox.Yes | QMessageBox.No
         )
 
         if confirm != QMessageBox.Yes:
             return
 
-        # Perform disable
-        try:
-            self.mongo.inventory.update_one(
-                {"_id": item_id},
-                {"$set": {"status": "Disabled"}}
-            )
+        self.mongo.sales_orders.update_one(
+            {"so_number": so_number},
+            {"$set": {"status": "Disabled"}}
+        )
 
-            # Audit log
-            # Record the action so operators can trace who disabled an item.
-            self.mongo.log_event(
-                "inventory.disable",
-                performed_by=self.user.username,
-                details=f"Disabled inventory item {part_number}"
-            )
+        self.mongo.log_event(
+            "sales_order.disable",
+            performed_by=self.user.username,
+            details=f"Disabled Sales Order {so_number}"
+        )
 
-            log_event("info", "Inventory item disabled",
-                    user=self.user.username, part_number=part_number)
+        log_event("info", "Sales order disabled",
+                user=self.user.username, so_number=so_number)
 
-            self._load_data()  # refresh table
+        self._load_sales_orders()
 
-        except Exception as e:
-            log_event("error", "Failed to disable inventory item",
-                    user=self.user.username, error=str(e))
-            self.window().show_error("Please select an item first.")
+
 
     def _open_add_dialog(self):
         dlg = AddItemDialog(self.mongo, self.user, self)
@@ -291,11 +298,20 @@ class SalesOrderListPage(QWidget):
             model.setItem(row, 3, QStandardItem(order.get("status", "")))
             model.setItem(row, 4, QStandardItem(order.get("type", "")))
 
-        # Apply the model to the table view
-        self.table.setModel(model)
+        # ⭐ Attach model to proxy
+        self.proxy.setSourceModel(model)
 
-        # Optional: resize columns nicely
+        # ⭐ Ensure table uses the proxy (not the raw model)
+        self.table.setModel(self.proxy)
+
+        # Resize columns
         self.table.resizeColumnsToContents()
+
+        # ⭐ Reconnect selectionChanged (new model = new selectionModel)
+        self.table.selectionModel().selectionChanged.connect(self._on_selection_changed)
+
+
+
 
 
 
@@ -385,36 +401,44 @@ class SalesOrderListPage(QWidget):
         self.batch_window.show()
 
     def _open_edit_dialog(self):
-        selection = self.table.selectionModel().selectedRows()
-        if not selection:
-            self.window().show_error("Please select an item first.")
+        index = self.table.currentIndex()
+
+        if not index.isValid():
+            QMessageBox.warning(
+                self,
+                "No Selection",
+                "Please select a sales order to edit."
+            )
             return
 
-        index = selection[0]
-        source_index = self.proxy.mapToSource(index)
-        model = self.proxy.sourceModel()
+        model = self.table.model()
+        so_number = model.data(model.index(index.row(), 0))
 
-        item_id = model.index(source_index.row(), 0).data(Qt.UserRole)
-        item = self.mongo.inventory.find_one({"_id": item_id})
+        if not so_number:
+            QMessageBox.critical(self, "Error", "Could not determine Sales Order number.")
+            return
 
-        from ui.pages.inventory.edit_item_dialog import EditItemDialog
-        dlg = EditItemDialog(self.mongo, self.user, item, self)
+        # Fetch full sales order document
+        so = self.mongo.sales_orders.find_one({"so_number": so_number})
+        if not so:
+            QMessageBox.critical(self, "Error", f"Sales Order {so_number} not found.")
+            return
 
+        # ⭐ BLOCK EDITING IF DISABLED ⭐
+        if so.get("status", "").lower() == "disabled":
+            QMessageBox.warning(
+                self,
+                "Sales Order Disabled",
+                f"Sales Order {so_number} is disabled and cannot be edited."
+            )
+            return
+
+        # Open edit dialog
+        dlg = EditSalesOrderDialog(self.mongo, self.user, so, self)
         if dlg.exec():
-            updated = dlg.get_updated_values()
+            updated_data = dlg.get_data()
+            ...
 
-            self.mongo.inventory.update_one(
-                {"_id": item_id},
-                {"$set": updated}
-            )
-
-            self.mongo.log_event(
-                "inventory.edit",
-                performed_by=self.user.username,
-                details=f"Edited inventory item {item.get('part_number')}"
-            )
-
-            self._load_data()
 
     def _open_move_dialog(self):
         selection = self.table.selectionModel().selectedRows()
@@ -503,3 +527,26 @@ class SalesOrderListPage(QWidget):
                     error=str(e)
                 )
                 QMessageBox.critical(self, "Error", f"Failed to update Sales Order:\n{e}")
+
+    def _on_selection_changed(self, selected, deselected):
+        index = self.table.currentIndex()
+
+        if not index.isValid():
+            self.btn_edit.setEnabled(False)
+            return
+
+        proxy = self.table.model()          # this is SalesFilterProxyModel
+        source_index = proxy.mapToSource(index)
+        source_model = proxy.sourceModel()
+
+        status = source_model.data(source_model.index(source_index.row(), 3))
+
+        if not status:
+            self.btn_edit.setEnabled(False)
+            return
+
+        if status.lower() == "disabled":
+            self.btn_edit.setEnabled(False)
+        else:
+            self.btn_edit.setEnabled(True)
+

@@ -11,15 +11,15 @@ class SalesFilterProxyModel(QSortFilterProxyModel):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.search_text = ""
-        self.type_filter = "All"
+        self.type_filter = "All Types"
         self.status_filter = "All Status"
-        self.makebuy_filter = "All"
+        self.firm_enquiry_filter = "All"
 
     def set_filters(self, search_text, type_filter, status_filter, firm_enquiry_filter):
-        self.search_text = search_text.lower()
+        self.search_text = (search_text or "").lower()
         self.type_filter = type_filter
         self.status_filter = status_filter
-        self.makebuy_filter = firm_enquiry_filter
+        self.firm_enquiry_filter = firm_enquiry_filter
         self.invalidateFilter()
 
     def filterAcceptsRow(self, row, parent):
@@ -39,18 +39,19 @@ class SalesFilterProxyModel(QSortFilterProxyModel):
                 return False
 
         # Type filter
-        if self.type_filter != "All Types":
-            if row_data[2] != self.type_filter:
+        if self.type_filter and self.type_filter != "All Types":
+            # Apply type filter across all columns for resilience
+            if not any(str(cell) == self.type_filter for cell in row_data):
                 return False
 
         # Status filter
-        if self.status_filter != "All Status":
-            if row_data[9] != self.status_filter:
+        if self.status_filter and self.status_filter != "All Status":
+            if not any(str(cell) == self.status_filter for cell in row_data):
                 return False
 
-        # Make/Buy filter
-        if self.makebuy_filter != "All":
-            if row_data[4] != self.firm_enquiry_filter:
+        # Firm/Enquiry filter
+        if self.firm_enquiry_filter and self.firm_enquiry_filter != "All":
+            if not any(str(cell) == self.firm_enquiry_filter for cell in row_data):
                 return False
 
         return True
