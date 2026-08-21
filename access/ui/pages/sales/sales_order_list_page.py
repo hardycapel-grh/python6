@@ -498,4 +498,3 @@ class SalesOrderListPage(QWidget):
             self.btn_edit.setEnabled(False)
         else:
             self.btn_edit.setEnabled(True)
-
