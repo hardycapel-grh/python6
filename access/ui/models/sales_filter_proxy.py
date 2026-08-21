@@ -11,13 +11,13 @@ class SalesFilterProxyModel(QSortFilterProxyModel):
     def __init__(self, parent=None):
         super().__init__(parent)
         self.search_text = ""
-        self.type_filter = "All Types"
+        self.customer_filter = "All Customers"
         self.status_filter = "All Status"
         self.firm_enquiry_filter = "All"
 
-    def set_filters(self, search_text, type_filter, status_filter, firm_enquiry_filter):
+    def set_filters(self, search_text, customer_filter, status_filter, firm_enquiry_filter):
         self.search_text = (search_text or "").lower()
-        self.type_filter = type_filter
+        self.customer_filter = customer_filter
         self.status_filter = status_filter
         self.firm_enquiry_filter = firm_enquiry_filter
         self.invalidateFilter()
@@ -38,11 +38,11 @@ class SalesFilterProxyModel(QSortFilterProxyModel):
             if not any(self.search_text in str(cell).lower() for cell in row_data):
                 return False
 
-        # Type filter
-        if self.type_filter and self.type_filter != "All Types":
-            # Apply type filter across all columns for resilience
-            if not any(str(cell) == self.type_filter for cell in row_data):
+        # Customer filter
+        if self.customer_filter and self.customer_filter != "All Customers":
+            if not any(str(cell).lower() == self.customer_filter.lower() for cell in row_data):
                 return False
+
 
         # Status filter
         if self.status_filter and self.status_filter != "All Status":

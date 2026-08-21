@@ -80,12 +80,22 @@ class SalesOrderListPage(QWidget):
         self.search_box.setPlaceholderText("Search Sales Orders...")
         self.search_box.textChanged.connect(self._apply_filters)
 
-        self.type_filter = QComboBox()
-        self.type_filter.addItems(["All Types", "Part", "Assembly", "Tool", "Resource"])
-        self.type_filter.currentIndexChanged.connect(self._apply_filters)
+        # -------------------------
+        # Customer Filter (dynamic)
+        # -------------------------
+
+        # Fetch unique customers from MongoDB
+        orders = list(self.mongo.sales_orders.find({}))
+        customers = sorted({order.get("customer", "") for order in orders if order.get("customer")})
+
+        self.customer_filter = QComboBox()
+        self.customer_filter.addItem("All Customers")
+        self.customer_filter.addItems(customers)
+        self.customer_filter.currentIndexChanged.connect(self._apply_filters)
+
 
         self.status_filter = QComboBox()
-        self.status_filter.addItems(["All Status", "Active", "Disabled", "Discontinued"])
+        self.status_filter.addItems(["All Status","new", "released", "held", "cancelled", "in-work", "finished"])
         self.status_filter.currentIndexChanged.connect(self._apply_filters)
 
         self.firm_enquiry_filter = QComboBox()
@@ -94,8 +104,8 @@ class SalesOrderListPage(QWidget):
 
         filter_bar.addWidget(QLabel("Search:"))
         filter_bar.addWidget(self.search_box)
-        filter_bar.addWidget(QLabel("Type:"))
-        filter_bar.addWidget(self.type_filter)
+        filter_bar.addWidget(QLabel("Customer:"))
+        filter_bar.addWidget(self.customer_filter)
         filter_bar.addWidget(QLabel("Status:"))
         filter_bar.addWidget(self.status_filter)
         filter_bar.addWidget(QLabel("Firm/Enquiry:"))
@@ -129,7 +139,7 @@ class SalesOrderListPage(QWidget):
     def _apply_filters(self):
         self.proxy.set_filters(
             self.search_box.text().strip(),
-            self.type_filter.currentText(),
+            self.customer_filter.currentText(),
             self.status_filter.currentText(),
             self.firm_enquiry_filter.currentText().lower()
         )
