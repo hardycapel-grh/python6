@@ -7,6 +7,7 @@ Generated: 2026-08-01T21:47:23.410402Z
 
 from PySide6.QtCore import QSortFilterProxyModel, Qt
 
+
 class SalesFilterProxyModel(QSortFilterProxyModel):
     def __init__(self, parent=None):
         super().__init__(parent)
@@ -14,12 +15,14 @@ class SalesFilterProxyModel(QSortFilterProxyModel):
         self.customer_filter = "All Customers"
         self.status_filter = "All Status"
         self.firm_enquiry_filter = "All"
+        self.held_filter = "All"
 
-    def set_filters(self, search_text, customer_filter, status_filter, firm_enquiry_filter):
+    def set_filters(self, search_text, customer_filter, status_filter, firm_enquiry_filter, held_filter):
         self.search_text = (search_text or "").lower()
         self.customer_filter = customer_filter
         self.status_filter = status_filter
         self.firm_enquiry_filter = firm_enquiry_filter
+        self.held_filter = held_filter
         self.invalidateFilter()
 
     def filterAcceptsRow(self, row, parent):
@@ -53,6 +56,26 @@ class SalesFilterProxyModel(QSortFilterProxyModel):
         if self.firm_enquiry_filter.lower() != "all":
             if not any(str(cell).lower() == self.firm_enquiry_filter.lower() for cell in row_data):
                 return False
+
+        # Held filter
+        if self.held_filter in ("Held only", "Not held"):
+            source_model = self.sourceModel()
+            if not source_model:
+                return True  # no model yet, don't filter
+
+            # Column 5 is "Held"
+            held_index = source_model.index(row, 5)
+            held_item = source_model.itemFromIndex(held_index)
+            is_held = held_item.checkState() == Qt.Checked if held_item is not None else False
+
+            if self.held_filter == "Held only" and not is_held:
+                return False
+
+            if self.held_filter == "Not held" and is_held:
+                return False
+
+
+
 
 
         return True

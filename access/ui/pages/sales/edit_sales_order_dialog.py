@@ -11,10 +11,23 @@ from PySide6.QtWidgets import (
     QHBoxLayout, QLabel, QDateEdit, QInputDialog
 )
 from PySide6.QtCore import Qt, QDate, QTimer
-from PySide6.QtWidgets import QDoubleSpinBox
+from PySide6.QtWidgets import QDoubleSpinBox, QCheckBox
 
 from ui.components.logger_utils import log_event
 from ui.pages.sales.add_item_dialog import AddItemDialog
+
+from ui.pages.sales.add_item_dialog import AddItemDialog
+
+
+
+ALLOWED_TRANSITIONS = {
+    "new":        {"new","released", "held", "cancelled"},
+    "released":   {"released", "in-work", "held", "cancelled"},
+    "in-work":    {"in-work","finished", "held", "cancelled"},
+    # "held":       {"new", "released", "in-work", "cancelled"},
+    "finished":   set(),
+    "cancelled":  set()
+}
 
 
 class EditSalesOrderDialog(QDialog):
@@ -61,7 +74,7 @@ class EditSalesOrderDialog(QDialog):
 
         # Status dropdown
         self.status_combo = QComboBox()
-        self.status_combo.addItems(["new", "released", "held", "cancelled", "in-work", "finished"])
+        self.status_combo.addItems(["new", "released", "in-work", "finished", "cancelled"])
         self.status_combo.setCurrentText(sales_order["status"])
         form.addRow("Status:", self.status_combo)
 
@@ -70,6 +83,13 @@ class EditSalesOrderDialog(QDialog):
         self.type_combo.addItems(["enquiry", "firm"])
         self.type_combo.setCurrentText(sales_order["type"])
         form.addRow("Type:", self.type_combo)
+
+        
+
+        self.held_checkbox = QCheckBox("Held")
+        self.held_checkbox.setChecked(self.sales_order.get("held", False))
+        form.addRow("Held:", self.held_checkbox)
+
 
         main_layout.addLayout(form)
 
@@ -130,6 +150,10 @@ class EditSalesOrderDialog(QDialog):
 
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.close)
+
+        if sales_order.get("held", False):
+            self._set_read_only_mode()
+
 
         # -------------------------
         # Connections
@@ -265,6 +289,20 @@ class EditSalesOrderDialog(QDialog):
 
         self.items_list.takeItem(self.items_list.row(item))
 
+    def _set_read_only_mode(self):
+        # Disable all editable widgets
+        self.req_date_edit.setEnabled(False)
+        self.status_combo.setEnabled(False)
+        self.type_combo.setEnabled(False)
+        self.items_list.setEnabled(False)
+        self.add_item_btn.setEnabled(False)
+        self.edit_qty_btn.setEnabled(False)
+        self.remove_item_btn.setEnabled(False)
+
+        # Optional: visually indicate read-only mode
+        self.setWindowTitle(f"Sales Order {self.sales_order['so_number']} (Held - Read Only)")
+
+
     # ---------------------------------------------------------
     # Gather updated data
     # ---------------------------------------------------------
@@ -275,9 +313,50 @@ class EditSalesOrderDialog(QDialog):
             "req_date": self.req_date_edit.date().toString("yyyy-MM-dd"),
             "status": self.status_combo.currentText(),
             "type": self.type_combo.currentText(),
+            "held": self.held_checkbox.isChecked(),
             "items": [
                 self.items_list.item(i).data(Qt.UserRole)
                 for i in range(self.items_list.count())
             ],
             "updated_by": getattr(self.user, "username", None)
         }
+
+    def accept(self):
+
+    # Prevent saving if held
+        if self.sales_order.get("held", False):
+            from PySide6.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self,
+                "Held Sales Order",
+                "This Sales Order is held and cannot be edited until un‑held."
+            )
+            return
+
+        updated_data = self.get_data()
+
+        old_status = self.sales_order.get("status", "").lower()
+        new_status = updated_data.get("status", "").lower()
+
+        # ⭐ Workflow rule enforcement
+        if new_status not in ALLOWED_TRANSITIONS.get(old_status, set()):
+            from PySide6.QtWidgets import QMessageBox
+            QMessageBox.warning(
+                self,
+                "Invalid Status Change",
+                f"You cannot change status from '{old_status}' to '{new_status}'."
+            )
+            return  # stop the save
+
+        # ⭐ If valid, update DB
+        try:
+            self.mongo.sales_orders.update_one(
+                {"so_number": self.sales_order["so_number"]},
+                {"$set": updated_data}
+            )
+        except Exception as e:
+            from PySide6.QtWidgets import QMessageBox
+            QMessageBox.critical(self, "Error", str(e))
+            return
+
+        super().accept()

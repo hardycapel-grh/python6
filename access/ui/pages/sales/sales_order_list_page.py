@@ -34,7 +34,7 @@ class SalesOrderListPage(QWidget):
         self._load_sales_orders()
 
         self.btn_add.clicked.connect(self._open_add_dialog)
-        self.btn_delete.clicked.connect(self._disable_selected_item)
+        self.btn_delete.clicked.connect(self._toggle_hold)
         self.btn_edit.clicked.connect(self._open_edit_dialog)
 
 
@@ -54,7 +54,8 @@ class SalesOrderListPage(QWidget):
 
         self.btn_add = QPushButton("Add Sales Order")
         self.btn_edit = QPushButton("Edit Sales Order")
-        self.btn_delete = QPushButton("Disable Sales Order")
+        self.btn_delete = QPushButton("Hold / Unhold")
+
  
 
 
@@ -95,12 +96,16 @@ class SalesOrderListPage(QWidget):
 
 
         self.status_filter = QComboBox()
-        self.status_filter.addItems(["All Status","new", "released", "held", "cancelled", "in-work", "finished"])
+        self.status_filter.addItems(["All Status","new", "released", "cancelled", "in-work", "finished"])
         self.status_filter.currentIndexChanged.connect(self._apply_filters)
 
         self.firm_enquiry_filter = QComboBox()
         self.firm_enquiry_filter.addItems(["All", "Firm", "Enquiry"])
         self.firm_enquiry_filter.currentIndexChanged.connect(self._apply_filters)
+
+        self.held_filter = QComboBox()
+        self.held_filter.addItems(["All", "Held only", "Not held"])
+        self.held_filter.currentIndexChanged.connect(self._apply_filters)
 
         filter_bar.addWidget(QLabel("Search:"))
         filter_bar.addWidget(self.search_box)
@@ -110,6 +115,8 @@ class SalesOrderListPage(QWidget):
         filter_bar.addWidget(self.status_filter)
         filter_bar.addWidget(QLabel("Firm/Enquiry:"))
         filter_bar.addWidget(self.firm_enquiry_filter)
+        filter_bar.addWidget(QLabel("Held:"))
+        filter_bar.addWidget(self.held_filter)
         filter_bar.addStretch()
 
         layout.addLayout(filter_bar)
@@ -141,7 +148,8 @@ class SalesOrderListPage(QWidget):
             self.search_box.text().strip(),
             self.customer_filter.currentText(),
             self.status_filter.currentText(),
-            self.firm_enquiry_filter.currentText().lower()
+            self.firm_enquiry_filter.currentText().lower(),
+            self.held_filter.currentText(),
         )
 
 
@@ -157,7 +165,7 @@ class SalesOrderListPage(QWidget):
         self.btn_delete.setEnabled(has_selection and ("sales.edit" in self.user.permissions or "*" in self.user.permissions))
 
 
-    def _disable_selected_item(self):
+    def _toggle_hold(self):
         selection = self.table.selectionModel().selectedRows()
         if not selection:
             self.window().show_error("Please select a sales order first.")
@@ -246,7 +254,8 @@ class SalesOrderListPage(QWidget):
             "Customer",
             "Req Date",
             "Status",
-            "Type"
+            "Type",
+            "Held"
         ])
 
         # Populate the model
@@ -256,7 +265,14 @@ class SalesOrderListPage(QWidget):
             model.setItem(row, 2, QStandardItem(order.get("req_date", "")))
             model.setItem(row, 3, QStandardItem(order.get("status", "")))
             model.setItem(row, 4, QStandardItem(order.get("type", "")))
+            held_item = QStandardItem()
+            held_item.setCheckable(True)
+            held_item.setCheckState(Qt.Checked if order.get("held", False) else Qt.Unchecked)
 
+            # ⭐ Make checkbox read‑only
+            held_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
+
+            model.setItem(row, 5, held_item)
         # ⭐ Attach model to proxy
         self.proxy.setSourceModel(model)
 
@@ -508,3 +524,22 @@ class SalesOrderListPage(QWidget):
             self.btn_edit.setEnabled(False)
         else:
             self.btn_edit.setEnabled(True)
+
+    def _toggle_hold(self):
+        index = self.table.currentIndex()
+        if not index.isValid():
+            self.window().show_error("Please select a sales order first.")
+            return
+
+        model = self.table.model()
+        so_number = model.data(model.index(index.row(), 0))
+
+        so = self.mongo.sales_orders.find_one({"so_number": so_number})
+        current = so.get("held", False)
+
+        self.mongo.sales_orders.update_one(
+            {"so_number": so_number},
+            {"$set": {"held": not current}}
+        )
+
+        self._load_sales_orders()
