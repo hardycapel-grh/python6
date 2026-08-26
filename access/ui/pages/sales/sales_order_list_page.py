@@ -36,7 +36,7 @@ class SalesOrderListPage(QWidget):
         self.btn_add.clicked.connect(self._open_add_dialog)
         self.btn_delete.clicked.connect(self._toggle_hold)
         self.btn_edit.clicked.connect(self._open_edit_dialog)
-
+        self.btn_cancel.clicked.connect(self._toggle_cancel)
 
 
         # self._load_data() 
@@ -55,19 +55,20 @@ class SalesOrderListPage(QWidget):
         self.btn_add = QPushButton("Add Sales Order")
         self.btn_edit = QPushButton("Edit Sales Order")
         self.btn_delete = QPushButton("Hold / Unhold")
+        self.btn_cancel = QPushButton("Cancel")
 
- 
 
 
         # Permission-aware buttons
         self.btn_add.setEnabled("sales.create" in self.user.permissions or "*" in self.user.permissions)
         self.btn_edit.setEnabled("sales.edit" in self.user.permissions or "*" in self.user.permissions)
         self.btn_delete.setEnabled("sales.edit" in self.user.permissions or "*" in self.user.permissions)
-
+        self.btn_cancel.setEnabled("sales.edit" in self.user.permissions or "*" in self.user.permissions)
 
         toolbar.addWidget(self.btn_add)
         toolbar.addWidget(self.btn_edit)
         toolbar.addWidget(self.btn_delete)
+        toolbar.addWidget(self.btn_cancel)
         toolbar.addStretch()
 
         layout.addLayout(toolbar)
@@ -299,7 +300,7 @@ class SalesOrderListPage(QWidget):
         orders = list(self.mongo.sales_orders.find({}))
 
         # Create a model with 5 columns
-        model = QStandardItemModel(len(orders), 5)
+        model = QStandardItemModel(len(orders), 9)
         model.setHorizontalHeaderLabels([
             "SO Number",
             "Customer",
@@ -307,7 +308,9 @@ class SalesOrderListPage(QWidget):
             "Status",
             "Firm/Enquiry",
             "Held",
-            "Hold Reason"
+            "Hold Reason",
+            "Cancelled Reason",
+            "Enquiry Link"
         ])
 
         # Populate the model
@@ -326,7 +329,8 @@ class SalesOrderListPage(QWidget):
 
             model.setItem(row, 5, held_item)
             model.setItem(row, 6, QStandardItem(order.get("held_reason", "")))
-
+            model.setItem(row, 7, QStandardItem(order.get("cancelled_reason", "")))
+            model.setItem(row, 8, QStandardItem(order.get("enquiry_link", "")))
         # ⭐ Attach model to proxy
         self.proxy.setSourceModel(model)
 
@@ -447,13 +451,12 @@ class SalesOrderListPage(QWidget):
             QMessageBox.critical(self, "Error", "Could not determine Sales Order number.")
             return
 
-        # Fetch full sales order document
         so = self.mongo.sales_orders.find_one({"so_number": so_number})
         if not so:
             QMessageBox.critical(self, "Error", f"Sales Order {so_number} not found.")
             return
 
-        # ⭐ BLOCK EDITING IF DISABLED ⭐
+        # Block editing if disabled
         if so.get("status", "").lower() == "disabled":
             QMessageBox.warning(
                 self,
@@ -462,11 +465,42 @@ class SalesOrderListPage(QWidget):
             )
             return
 
-        # Open edit dialog
         dlg = EditSalesOrderDialog(self.mongo, self.user, so, self)
         if dlg.exec():
             updated_data = dlg.get_data()
-            ...
+            try:
+                self.mongo.sales_orders.update_one(
+                    {"so_number": so_number},
+                    {"$set": updated_data}
+                )
+
+                self.mongo.log_event(
+                    "sales_order.update",
+                    performed_by=getattr(self.user, "username", None),
+                    details=f"Updated Sales Order {so_number}"
+                )
+
+                log_event(
+                    "info",
+                    "Sales order updated",
+                    user=getattr(self.user, "username", None),
+                    so_number=so_number,
+                    item_count=len(updated_data.get("items", [])),
+                    status=updated_data.get("status")
+                )
+
+                self._load_sales_orders()
+
+            except Exception as e:
+                log_event(
+                    "error",
+                    "Failed to update sales order",
+                    user=getattr(self.user, "username", None),
+                    so_number=so_number,
+                    error=str(e)
+                )
+                QMessageBox.critical(self, "Error", f"Failed to update Sales Order:\n{e}")
+
 
 
     def _open_move_dialog(self):
@@ -488,74 +522,6 @@ class SalesOrderListPage(QWidget):
         if dlg.exec():
             self.window().show_info("Stock moved successfully.")
 
-    def _open_edit_dialog(self):
-        index = self.table.currentIndex()
-
-        # No row selected
-        if not index.isValid():
-            QMessageBox.warning(
-                self,
-                "No Selection",
-                "Please select a sales order to edit."
-            )
-            return
-
-
-        # Extract the SO number from the model
-        model = self.table.model()
-        so_number = model.data(model.index(index.row(), 0))  # assuming column 0 = SO number
-
-        if not so_number:
-            QMessageBox.critical(self, "Error", "Could not determine Sales Order number.")
-            return
-
-        # Fetch full sales order document
-        so = self.mongo.sales_orders.find_one({"so_number": so_number})
-        if not so:
-            QMessageBox.critical(self, "Error", f"Sales Order {so_number} not found.")
-            return
-
-        # Open edit dialog
-        dlg = EditSalesOrderDialog(self.mongo, self.user, so, self)
-        if dlg.exec():
-            updated_data = dlg.get_data()
-
-            try:
-                # Update in MongoDB
-                self.mongo.sales_orders.update_one(
-                    {"so_number": so_number},
-                    {"$set": updated_data}
-                )
-
-                # Audit log
-                self.mongo.log_event(
-                    "sales_order.update",
-                    performed_by=getattr(self.user, "username", None),
-                    details=f"Updated Sales Order {so_number}"
-                )
-
-                # Debug log
-                log_event(
-                    "info",
-                    "Sales order updated",
-                    user=getattr(self.user, "username", None),
-                    so_number=so_number,
-                    item_count=len(updated_data.get("items", [])),
-                    status=updated_data.get("status")
-                )
-
-                # Reload table
-                self._load_sales_orders()
-
-            except Exception as e:
-                log_event(
-                    "error",
-                    "Failed to update sales order",
-                    user=getattr(self.user, "username", None),
-                    so_number=so_number,
-                    error=str(e)
-                )
-                QMessageBox.critical(self, "Error", f"Failed to update Sales Order:\n{e}")
 
     def _on_selection_changed(self, selected, deselected):
         index = self.table.currentIndex()
@@ -578,5 +544,94 @@ class SalesOrderListPage(QWidget):
             self.btn_edit.setEnabled(False)
         else:
             self.btn_edit.setEnabled(True)
+
+    def _toggle_cancel(self):
+        index = self.table.currentIndex()
+        if not index.isValid():
+            self.window().show_error("Please select a sales order first.")
+            return
+
+        proxy = self.table.model()
+        source_index = proxy.mapToSource(index)
+        source_model = proxy.sourceModel()
+
+        so_number = source_model.data(source_model.index(source_index.row(), 0))
+
+        so = self.mongo.sales_orders.find_one({"so_number": so_number})
+        status = so.get("status", "").lower()
+        currently_cancelled = status == "cancelled"
+
+        if not currently_cancelled:
+            # Ask for cancellation reason
+            reason, ok = QInputDialog.getText(
+                self,
+                "Cancel Sales Order",
+                "Enter reason for cancelling this Sales Order:"
+            )
+            if not ok or not reason.strip():
+                self.window().show_error("A cancellation reason is required.")
+                return
+
+            # Update DB
+            self.mongo.sales_orders.update_one(
+                {"so_number": so_number},
+                {"$set": {
+                    "status": "cancelled",
+                    "cancelled_reason": reason.strip()
+                }}
+            )
+
+            # Audit log
+            self.mongo.audit(
+                event="sales_order.cancel",
+                performed_by=self.user.username,
+                target=so_number,
+                details={
+                    "status": "cancelled",
+                    "cancelled_reason": reason.strip()
+                }
+            )
+
+            # Developer log
+            log_event(
+                "info",
+                "Sales order cancelled",
+                user=self.user.username,
+                so_number=so_number,
+                reason=reason.strip()
+            )
+
+        else:
+            # Uncancel
+            self.mongo.sales_orders.update_one(
+                {"so_number": so_number},
+                {"$set": {
+                    "status": "new",
+                    "cancelled_reason": ""
+                }}
+            )
+
+            # Audit log
+            self.mongo.audit(
+                event="sales_order.uncancel",
+                performed_by=self.user.username,
+                target=so_number,
+                details={
+                    "status": "new",
+                    "cancelled_reason": ""
+                }
+            )
+
+            # Developer log
+            log_event(
+                "info",
+                "Sales order uncancelled",
+                user=self.user.username,
+                so_number=so_number
+            )
+
+        self._load_sales_orders()
+
+
 
 

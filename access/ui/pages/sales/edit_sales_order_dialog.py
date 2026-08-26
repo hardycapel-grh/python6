@@ -21,9 +21,9 @@ from ui.pages.sales.add_item_dialog import AddItemDialog
 
 
 ALLOWED_TRANSITIONS = {
-    "new":        {"new","released", "cancelled"},
-    "released":   {"released", "in-work", "cancelled"},
-    "in-work":    {"in-work","finished", "cancelled"},
+    "new":        {"new","released"},
+    "released":   {"released", "in-work"},
+    "in-work":    {"in-work","finished"},
     # "held":       {"new", "released", "in-work", "cancelled"},
     "finished":   set(),
     "cancelled":  set()
@@ -74,7 +74,7 @@ class EditSalesOrderDialog(QDialog):
 
         # Status dropdown
         self.status_combo = QComboBox()
-        self.status_combo.addItems(["new", "released", "in-work", "finished", "cancelled"])
+        self.status_combo.addItems(["new", "released", "in-work", "finished"])
         self.status_combo.setCurrentText(sales_order["status"])
         form.addRow("Status:", self.status_combo)
 
@@ -83,12 +83,6 @@ class EditSalesOrderDialog(QDialog):
         self.type_combo.addItems(["enquiry", "firm"])
         self.type_combo.setCurrentText(sales_order["type"])
         form.addRow("Type:", self.type_combo)
-
-        
-
-        # self.held_checkbox = QCheckBox("Held")
-        # self.held_checkbox.setChecked(self.sales_order.get("held", False))
-        # form.addRow("Held:", self.held_checkbox)
 
 
         main_layout.addLayout(form)
@@ -101,9 +95,6 @@ class EditSalesOrderDialog(QDialog):
         items_layout.addWidget(QLabel("Order Items:"))
         self.items_list = QListWidget()
         items_layout.addWidget(self.items_list)
-
-        if self.sales_order.get("held", False):
-            self._add_held_banner(self.sales_order.get("held_reason", ""))
 
 
         # Load existing items
@@ -128,7 +119,6 @@ class EditSalesOrderDialog(QDialog):
             self.items_list.addItem(list_item)
 
 
-
         # Buttons for item editing
         btn_layout = QHBoxLayout()
         self.add_item_btn = QPushButton("Add Item")
@@ -141,6 +131,17 @@ class EditSalesOrderDialog(QDialog):
 
         items_layout.addLayout(btn_layout)
         main_layout.addLayout(items_layout)
+
+
+        # HELD SALES ORDER
+        if self.sales_order.get("held", False):
+            self._add_held_banner(self.sales_order.get("held_reason", ""))
+            self._set_read_only_mode()
+
+        # CANCELLED SALES ORDER
+        if self.sales_order.get("status", "").lower() == "cancelled":
+            self._add_cancelled_banner(self.sales_order.get("cancelled_reason", ""))
+            self._set_read_only_mode()
 
         # -------------------------
         # Dialog buttons
@@ -155,14 +156,6 @@ class EditSalesOrderDialog(QDialog):
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.close)
 
-        # self.held_reason_edit = QLineEdit()
-        # self.held_reason_edit.setText(self.sales_order.get("held_reason", ""))
-        # self.held_reason_edit.setReadOnly(True)
-        # form.addRow("Hold Reason:", self.held_reason_edit)
-
-
-        if sales_order.get("held", False):
-            self._set_read_only_mode()
 
 
         # -------------------------
@@ -171,6 +164,10 @@ class EditSalesOrderDialog(QDialog):
         self.edit_qty_btn.clicked.connect(self._edit_item_qty)
         self.remove_item_btn.clicked.connect(self._remove_item)
         self.add_item_btn.clicked.connect(self._add_item)
+
+        if self.sales_order.get("enquiry_link"):
+            self._add_enquiry_banner(self.sales_order["enquiry_link"])
+
 
     # ---------------------------------------------------------
     # Item quantity editing
@@ -300,7 +297,6 @@ class EditSalesOrderDialog(QDialog):
         self.items_list.takeItem(self.items_list.row(item))
 
     def _set_read_only_mode(self):
-        # Disable all editable widgets
         self.req_date_edit.setEnabled(False)
         self.status_combo.setEnabled(False)
         self.type_combo.setEnabled(False)
@@ -309,8 +305,12 @@ class EditSalesOrderDialog(QDialog):
         self.edit_qty_btn.setEnabled(False)
         self.remove_item_btn.setEnabled(False)
 
-        # Optional: visually indicate read-only mode
-        self.setWindowTitle(f"Sales Order {self.sales_order['so_number']} (Held - Read Only)")
+        status = self.sales_order.get("status", "").lower()
+        if status == "cancelled":
+            self.setWindowTitle(f"Sales Order {self.sales_order['so_number']} (Cancelled - Read Only)")
+        else:
+            self.setWindowTitle(f"Sales Order {self.sales_order['so_number']} (Held - Read Only)")
+
 
 
     # ---------------------------------------------------------
@@ -329,25 +329,55 @@ class EditSalesOrderDialog(QDialog):
                 self.items_list.item(i).data(Qt.UserRole)
                 for i in range(self.items_list.count())
             ],
-            "updated_by": getattr(self.user, "username", None)
+            "updated_by": getattr(self.user, "username", None),
+            "enquiry_link": self.sales_order.get("enquiry_link")
         }
 
     def accept(self):
-
-    # Prevent saving if held
-        if self.sales_order.get("held", False):
-            from PySide6.QtWidgets import QMessageBox
-            QMessageBox.warning(
-                self,
-                "Held Sales Order",
-                "This Sales Order is held and cannot be edited until un‑held."
-            )
-            return
 
         updated_data = self.get_data()
 
         old_status = self.sales_order.get("status", "").lower()
         new_status = updated_data.get("status", "").lower()
+
+        # ⭐ Firm order must link to an enquiry before release
+        if updated_data.get("type") == "firm" and new_status == "released":
+            if not self.sales_order.get("enquiry_link"):
+                # Fetch enquiries for this customer
+                enquiries = list(self.mongo.sales_orders.find({
+                    "customer": updated_data.get("customer"),
+                    "type": "enquiry",
+                    "status": {"$in": ["new", "released", "in-work"]}  # allowed enquiry states
+                }))
+
+                if not enquiries:
+                    QMessageBox.warning(
+                        self,
+                        "No Enquiries Available",
+                        "This firm order cannot be released because there are no valid enquiries "
+                        "for this customer."
+                    )
+                    return
+
+                # Build selection list
+                enquiry_numbers = [str(e["so_number"]) for e in enquiries]
+
+                selected, ok = QInputDialog.getItem(
+                    self,
+                    "Select Enquiry",
+                    "Select the enquiry this firm order relates to:",
+                    enquiry_numbers,
+                    editable=False
+                )
+
+                if not ok:
+                    return
+
+                # Store the link
+                updated_data["enquiry_link"] = selected
+                self.sales_order["enquiry_link"] = selected
+
+
 
         # ⭐ Workflow rule enforcement
         if new_status not in ALLOWED_TRANSITIONS.get(old_status, set()):
@@ -391,4 +421,34 @@ class EditSalesOrderDialog(QDialog):
         banner.setMargin(10)
 
         # Insert at top of the dialog layout
+        self.layout().insertWidget(0, banner)
+
+    def _add_cancelled_banner(self, reason: str):
+        from PySide6.QtGui import QFont, QColor, QPalette
+
+        banner = QLabel(f"❌  This Sales Order is CANCELLED\nReason: {reason}")
+        banner.setWordWrap(True)
+
+        palette = banner.palette()
+        palette.setColor(QPalette.Window, QColor("#FF6666"))   # red
+        palette.setColor(QPalette.WindowText, QColor("#000000"))
+        banner.setAutoFillBackground(True)
+        banner.setPalette(palette)
+
+        banner.setFont(QFont("Arial", 11, QFont.Bold))
+        banner.setMargin(10)
+
+        self.layout().insertWidget(0, banner)
+
+    def _add_enquiry_banner(self, enquiry_number):
+        banner = QLabel(f"🔗 Linked to Enquiry SO{enquiry_number}")
+        banner.setWordWrap(True)
+        banner.setStyleSheet("""
+            QLabel {
+                background-color: #CCE5FF;
+                color: #003366;
+                font-weight: bold;
+                padding: 10px;
+            }
+        """)
         self.layout().insertWidget(0, banner)
