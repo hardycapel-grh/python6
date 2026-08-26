@@ -18,7 +18,7 @@ import json
 
 from services.mongo_service import MongoService
 from PySide6.QtWidgets import QDialog, QVBoxLayout, QTextEdit, QPushButton
-
+from ui.components.json_delegate import JsonPrettyDelegate
 
 class AuditLogPage(QWidget):
     def __init__(self, mongo: MongoService, parent=None):
@@ -73,6 +73,12 @@ class AuditLogPage(QWidget):
         self.table.setSelectionBehavior(QTableWidget.SelectRows)
         self.table.cellDoubleClicked.connect(self.on_row_double_clicked)
         layout.addWidget(self.table)
+
+        
+
+        details_column_index = 4
+        self.table.setItemDelegateForColumn(details_column_index, JsonPrettyDelegate())
+
 
         self.load_data()
 
