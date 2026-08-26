@@ -829,4 +829,7 @@ class MongoService:
         )
         return result["seq"]
 
+    def now(self):
+        from datetime import datetime
+        return datetime.utcnow()
 

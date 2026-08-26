@@ -7,7 +7,7 @@ Generated: 2026-08-01T21:47:24.092140Z
 
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit,
-    QLabel, QComboBox, QTableView, QTableWidgetItem, QMessageBox
+    QLabel, QComboBox, QTableView, QTableWidgetItem, QMessageBox, QInputDialog
 )
 from PySide6.QtCore import Qt
 
@@ -166,44 +166,95 @@ class SalesOrderListPage(QWidget):
 
 
     def _toggle_hold(self):
-        selection = self.table.selectionModel().selectedRows()
-        if not selection:
+        index = self.table.currentIndex()
+        if not index.isValid():
             self.window().show_error("Please select a sales order first.")
             return
 
-        index = selection[0]
-        model = self.table.model()
+        # ⭐ Map proxy → source
+        proxy = self.table.model()
+        source_index = proxy.mapToSource(index)
+        source_model = proxy.sourceModel()
 
-        so_number = model.index(index.row(), 0).data()
-        if not so_number:
-            self.window().show_error("Could not determine sales order number.")
-            return
+        so_number = source_model.data(source_model.index(source_index.row(), 0))
 
-        confirm = QMessageBox.question(
-            self,
-            "Disable Sales Order",
-            f"Are you sure you want to disable Sales Order '{so_number}'?",
-            QMessageBox.Yes | QMessageBox.No
-        )
+        so = self.mongo.sales_orders.find_one({"so_number": so_number})
+        currently_held = so.get("held", False)
 
-        if confirm != QMessageBox.Yes:
-            return
+        if not currently_held:
+            # ⭐ Ask for hold reason
+            reason, ok = QInputDialog.getText(
+                self,
+                "Hold Sales Order",
+                "Enter reason for holding this Sales Order:"
+            )
+            if not ok or not reason.strip():
+                self.window().show_error("A hold reason is required.")
+                return
 
-        self.mongo.sales_orders.update_one(
-            {"so_number": so_number},
-            {"$set": {"status": "Disabled"}}
-        )
+            # ⭐ Update DB
+            self.mongo.sales_orders.update_one(
+                {"so_number": so_number},
+                {"$set": {"held": True, "held_reason": reason.strip()}}
+            )
 
-        self.mongo.log_event(
-            "sales_order.disable",
-            performed_by=self.user.username,
-            details=f"Disabled Sales Order {so_number}"
-        )
+            # ⭐ AUDIT LOG
+            # HOLD
+            self.mongo.audit(
+                event="sales_order.hold",
+                performed_by=self.user.username,
+                target=so_number,
+                details={
+                    "held": True,
+                    "held_reason": reason.strip()
+                }
+            )
 
-        log_event("info", "Sales order disabled",
-                user=self.user.username, so_number=so_number)
+
+
+
+
+            # ⭐ DEVELOPER LOG
+            log_event(
+                "info",
+                "Sales order held",
+                user=self.user.username,
+                so_number=so_number,
+                reason=reason.strip()
+            )
+
+        else:
+            # ⭐ Update DB (unhold)
+            self.mongo.sales_orders.update_one(
+                {"so_number": so_number},
+                {"$set": {"held": False, "held_reason": ""}}
+            )
+
+            # ⭐ AUDIT LOG
+            # UNHOLD
+            self.mongo.audit(
+                event="sales_order.unhold",
+                performed_by=self.user.username,
+                target=so_number,
+                details={
+                    "held": False,
+                    "held_reason": ""
+                }
+            )
+
+
+
+
+            # ⭐ DEVELOPER LOG
+            log_event(
+                "info",
+                "Sales order unheld",
+                user=self.user.username,
+                so_number=so_number
+            )
 
         self._load_sales_orders()
+
 
 
 
@@ -254,8 +305,9 @@ class SalesOrderListPage(QWidget):
             "Customer",
             "Req Date",
             "Status",
-            "Type",
-            "Held"
+            "Firm/Enquiry",
+            "Held",
+            "Hold Reason"
         ])
 
         # Populate the model
@@ -273,6 +325,8 @@ class SalesOrderListPage(QWidget):
             held_item.setFlags(Qt.ItemIsEnabled | Qt.ItemIsSelectable)
 
             model.setItem(row, 5, held_item)
+            model.setItem(row, 6, QStandardItem(order.get("held_reason", "")))
+
         # ⭐ Attach model to proxy
         self.proxy.setSourceModel(model)
 
@@ -525,21 +579,4 @@ class SalesOrderListPage(QWidget):
         else:
             self.btn_edit.setEnabled(True)
 
-    def _toggle_hold(self):
-        index = self.table.currentIndex()
-        if not index.isValid():
-            self.window().show_error("Please select a sales order first.")
-            return
 
-        model = self.table.model()
-        so_number = model.data(model.index(index.row(), 0))
-
-        so = self.mongo.sales_orders.find_one({"so_number": so_number})
-        current = so.get("held", False)
-
-        self.mongo.sales_orders.update_one(
-            {"so_number": so_number},
-            {"$set": {"held": not current}}
-        )
-
-        self._load_sales_orders()

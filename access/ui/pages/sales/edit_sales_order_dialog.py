@@ -21,9 +21,9 @@ from ui.pages.sales.add_item_dialog import AddItemDialog
 
 
 ALLOWED_TRANSITIONS = {
-    "new":        {"new","released", "held", "cancelled"},
-    "released":   {"released", "in-work", "held", "cancelled"},
-    "in-work":    {"in-work","finished", "held", "cancelled"},
+    "new":        {"new","released", "cancelled"},
+    "released":   {"released", "in-work", "cancelled"},
+    "in-work":    {"in-work","finished", "cancelled"},
     # "held":       {"new", "released", "in-work", "cancelled"},
     "finished":   set(),
     "cancelled":  set()
@@ -86,9 +86,9 @@ class EditSalesOrderDialog(QDialog):
 
         
 
-        self.held_checkbox = QCheckBox("Held")
-        self.held_checkbox.setChecked(self.sales_order.get("held", False))
-        form.addRow("Held:", self.held_checkbox)
+        # self.held_checkbox = QCheckBox("Held")
+        # self.held_checkbox.setChecked(self.sales_order.get("held", False))
+        # form.addRow("Held:", self.held_checkbox)
 
 
         main_layout.addLayout(form)
@@ -101,6 +101,10 @@ class EditSalesOrderDialog(QDialog):
         items_layout.addWidget(QLabel("Order Items:"))
         self.items_list = QListWidget()
         items_layout.addWidget(self.items_list)
+
+        if self.sales_order.get("held", False):
+            self._add_held_banner(self.sales_order.get("held_reason", ""))
+
 
         # Load existing items
         for item in sales_order["items"]:
@@ -150,6 +154,12 @@ class EditSalesOrderDialog(QDialog):
 
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.close)
+
+        # self.held_reason_edit = QLineEdit()
+        # self.held_reason_edit.setText(self.sales_order.get("held_reason", ""))
+        # self.held_reason_edit.setReadOnly(True)
+        # form.addRow("Hold Reason:", self.held_reason_edit)
+
 
         if sales_order.get("held", False):
             self._set_read_only_mode()
@@ -313,7 +323,8 @@ class EditSalesOrderDialog(QDialog):
             "req_date": self.req_date_edit.date().toString("yyyy-MM-dd"),
             "status": self.status_combo.currentText(),
             "type": self.type_combo.currentText(),
-            "held": self.held_checkbox.isChecked(),
+            # "held": self.held_checkbox.isChecked(),
+            # "held_reason": self.held_reason_edit.text(),
             "items": [
                 self.items_list.item(i).data(Qt.UserRole)
                 for i in range(self.items_list.count())
@@ -360,3 +371,24 @@ class EditSalesOrderDialog(QDialog):
             return
 
         super().accept()
+
+    def _add_held_banner(self, reason: str):
+        from PySide6.QtWidgets import QLabel
+        from PySide6.QtGui import QFont, QColor, QPalette
+
+        banner = QLabel(f"⚠️  This Sales Order is HELD\nReason: {reason}")
+        banner.setWordWrap(True)
+
+        # Style the banner
+        banner.setFont(QFont("Arial", 11, QFont.Bold))
+
+        palette = banner.palette()
+        palette.setColor(QPalette.Window, QColor("#FFCC66"))   # amber background
+        palette.setColor(QPalette.WindowText, QColor("#000000"))
+        banner.setAutoFillBackground(True)
+        banner.setPalette(palette)
+
+        banner.setMargin(10)
+
+        # Insert at top of the dialog layout
+        self.layout().insertWidget(0, banner)
