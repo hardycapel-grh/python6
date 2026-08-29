@@ -5,6 +5,8 @@ Generated: 2026-08-01T21:47:24.092140Z
 """
 
 
+from datetime import datetime
+
 from PySide6.QtWidgets import (
     QWidget, QVBoxLayout, QHBoxLayout, QPushButton, QLineEdit,
     QLabel, QComboBox, QTableView, QTableWidgetItem, QMessageBox, QInputDialog
@@ -37,7 +39,7 @@ class SalesOrderListPage(QWidget):
         self.btn_delete.clicked.connect(self._toggle_hold)
         self.btn_edit.clicked.connect(self._open_edit_dialog)
         self.btn_cancel.clicked.connect(self._toggle_cancel)
-
+        self.btn_clone.clicked.connect(self._clone_sales_order)
 
         # self._load_data() 
 
@@ -56,6 +58,10 @@ class SalesOrderListPage(QWidget):
         self.btn_edit = QPushButton("Edit Sales Order")
         self.btn_delete = QPushButton("Hold / Unhold")
         self.btn_cancel = QPushButton("Cancel")
+        self.btn_clone = QPushButton("Clone")
+
+
+
 
 
 
@@ -64,11 +70,13 @@ class SalesOrderListPage(QWidget):
         self.btn_edit.setEnabled("sales.edit" in self.user.permissions or "*" in self.user.permissions)
         self.btn_delete.setEnabled("sales.edit" in self.user.permissions or "*" in self.user.permissions)
         self.btn_cancel.setEnabled("sales.edit" in self.user.permissions or "*" in self.user.permissions)
+        self.btn_clone.setEnabled("sales.create" in self.user.permissions or "*" in self.user.permissions)
 
         toolbar.addWidget(self.btn_add)
         toolbar.addWidget(self.btn_edit)
         toolbar.addWidget(self.btn_delete)
         toolbar.addWidget(self.btn_cancel)
+        toolbar.addWidget(self.btn_clone)
         toolbar.addStretch()
 
         layout.addLayout(toolbar)
@@ -292,6 +300,29 @@ class SalesOrderListPage(QWidget):
                 "performed_by": getattr(self.user, "username", None),
                 "details": data
             })
+
+            # Create Works Order automatically
+            wo = {
+                "wo_number": self.mongo.get_next_works_order_number(),
+                "so_number": data["so_number"],
+                "customer": data.get("customer"),
+                "req_date": data.get("req_date"),
+                "status": "new",
+                "created_at": datetime.now().isoformat(),
+                "updated_at": datetime.now().isoformat(),
+                "updated_by": self.user.username
+            }
+
+            self.mongo.works_orders.insert_one(wo)
+
+            # Audit log
+            self.mongo.audit(
+                event="works_order.create",
+                performed_by=self.user.username,
+                target=wo["wo_number"],
+                details={"so_number": data["so_number"]}
+            )
+
 
 
 
@@ -632,6 +663,92 @@ class SalesOrderListPage(QWidget):
 
         self._load_sales_orders()
 
+    def _clone_sales_order(self):
+        index = self.table.currentIndex()
+        if not index.isValid():
+            self.window().show_error("Please select a sales order first.")
+            return
 
+        proxy = self.table.model()
+        source_index = proxy.mapToSource(index)
+        source_model = proxy.sourceModel()
+
+        so_number = source_model.data(source_model.index(source_index.row(), 0))
+        so = self.mongo.sales_orders.find_one({"so_number": so_number})
+
+        if not so:
+            self.window().show_error("Sales Order not found.")
+            return
+
+        # Build cloned SO
+        cloned = {
+            # "so_number": self._generate_new_so_number(),
+            "so_number": str(self.mongo.get_next_sales_order_number()),
+            "customer": so.get("customer"),
+            "req_date": so.get("req_date"),
+            "status": "new",
+            "type": so.get("type"),
+            "items": so.get("items", []),
+            "held": False,
+            "held_reason": "",
+            "cancelled_reason": "",
+            "enquiry_link": "",
+            "updated_by": self.user.username
+        }
+
+        # Insert clone
+        self.mongo.sales_orders.insert_one(cloned)
+
+        # Create Works Order automatically for cloned SO
+        wo = {
+            "wo_number": self.mongo.get_next_works_order_number(),
+            "so_number": cloned["so_number"],
+            "customer": cloned.get("customer"),
+            "req_date": cloned.get("req_date"),
+            "status": "new",
+            "created_at": datetime.now().isoformat(),
+            "updated_at": datetime.now().isoformat(),
+            "updated_by": self.user.username
+        }
+
+        self.mongo.works_orders.insert_one(wo)
+
+        self.mongo.audit(
+            event="works_order.create",
+            performed_by=self.user.username,
+            target=wo["wo_number"],
+            details={"cloned_from_so": so_number}
+        )
+
+
+        # Audit log
+        self.mongo.audit(
+            event="sales_order.clone",
+            performed_by=self.user.username,
+            target=cloned["so_number"],
+            details={
+                "cloned_from": so_number,
+                "new_so_number": cloned["so_number"]
+            }
+        )
+
+        # Developer log
+        log_event(
+            "info",
+            "Sales order cloned",
+            user=self.user.username,
+            so_number=cloned["so_number"],
+            cloned_from=so_number
+        )
+
+        self._load_sales_orders()
+        self.window().show_info(f"Sales Order {so_number} cloned as {cloned['so_number']}.")
+
+    # def _generate_new_so_number(self):
+    #     last = self.mongo.sales_orders.find_one(
+    #         sort=[("so_number", -1)]
+    #     )
+    #     print(f"Last sales order: {last}")
+    #     return str(int(last["so_number"]) + 1) if last else "1"
 
 

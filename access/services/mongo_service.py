@@ -87,6 +87,8 @@ class MongoService:
 
             self.bom = self.db["bom"]
             self.sales_orders = self.db["sales_orders"]
+            self.works_orders = self.db["works_orders"]
+
 
 
 
@@ -828,6 +830,11 @@ class MongoService:
             return_document=True
         )
         return result["seq"]
+
+    def get_next_works_order_number(self):
+        last = self.works_orders.find_one(sort=[("wo_number", -1)])
+        return str(int(last["wo_number"]) + 1) if last else "1"
+
 
     def now(self):
         from datetime import datetime

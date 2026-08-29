@@ -143,6 +143,13 @@ class EditSalesOrderDialog(QDialog):
             self._add_cancelled_banner(self.sales_order.get("cancelled_reason", ""))
             self._set_read_only_mode()
 
+        # IN‑WORK SALES ORDER → lock item editing
+        if self.sales_order.get("status", "").lower() == "in-work":
+            self.add_item_btn.setEnabled(False)
+            self.edit_qty_btn.setEnabled(False)
+            self.remove_item_btn.setEnabled(False)
+
+
         # -------------------------
         # Dialog buttons
         # -------------------------
