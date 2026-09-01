@@ -20,6 +20,7 @@ from ui.components.logger_utils import log_event
 from ui.dialogs.profile_dialogs import ProfileDialog, ChangePasswordDialog
 from ui.pages.admin.audit_log_page import AuditLogPage
 from ui.pages.profile_page import ProfilePage
+from ui.pages.workbench.workbench_page import WorkbenchPage
 
 class MainApp(QMainWindow):
     """class MainApp - TODO: add description.
@@ -115,6 +116,14 @@ class MainApp(QMainWindow):
             lambda: SalesOrderWindow(self.user, self.mongo, self),
             required_permission="sales.read"
         )
+
+        self._add_sidebar_item(
+            "Workbench",
+            WorkbenchPage,
+            lambda: WorkbenchPage(self.user, self.mongo, self),
+            required_permission="workbench.access"
+        )
+
 
 
 

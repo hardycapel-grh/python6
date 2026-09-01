@@ -308,6 +308,7 @@ class SalesOrderListPage(QWidget):
                 "customer": data.get("customer"),
                 "req_date": data.get("req_date"),
                 "status": "new",
+                "held": False,                     # ← REQUIRED
                 "created_at": datetime.now().isoformat(),
                 "updated_at": datetime.now().isoformat(),
                 "updated_by": self.user.username
@@ -706,6 +707,7 @@ class SalesOrderListPage(QWidget):
             "customer": cloned.get("customer"),
             "req_date": cloned.get("req_date"),
             "status": "new",
+            "held": False,                     # ← REQUIRED
             "created_at": datetime.now().isoformat(),
             "updated_at": datetime.now().isoformat(),
             "updated_by": self.user.username

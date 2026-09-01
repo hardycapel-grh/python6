@@ -89,6 +89,8 @@ class MongoService:
             self.sales_orders = self.db["sales_orders"]
             self.works_orders = self.db["works_orders"]
 
+            self.shop_orders = self.db["shop_orders"] #not yet implemented
+
 
 
 
@@ -835,8 +837,28 @@ class MongoService:
         last = self.works_orders.find_one(sort=[("wo_number", -1)])
         return str(int(last["wo_number"]) + 1) if last else "1"
 
+    def get_next_shop_order_number(self):
+        last = self.shop_orders.find_one(sort=[("sho_number", -1)])
+        if last and "sho_number" in last:
+            return str(int(last["sho_number"]) + 1)
+        return "1"
 
     def now(self):
         from datetime import datetime
         return datetime.utcnow()
+
+    def get_sales_orders_active(self):
+        return list(self.sales_orders.find({
+            "status": {"$nin": ["finished", "cancelled"]}
+        }))
+
+    def get_works_orders_active(self):
+        return list(self.works_orders.find({
+            "status": {"$nin": ["finished", "cancelled"]}
+        }))
+
+    def get_shop_orders_active(self):
+        return list(self.shop_orders.find({
+            "status": {"$nin": ["finished", "cancelled"]}
+        }))
 
