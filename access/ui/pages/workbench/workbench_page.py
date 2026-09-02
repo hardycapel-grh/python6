@@ -41,14 +41,14 @@ class WorkbenchPage(QWidget):
         # Order type filter
         filter_row.addWidget(QLabel("Order Type:"))
         self.type_filter = QComboBox()
-        self.type_filter.addItems(["All", "SO", "WO", "ShO"])
+        self.type_filter.addItems(["All", "SO", "WO", "ShO", "PO", "IM"])
         self.type_filter.currentIndexChanged.connect(self._apply_filters)
         filter_row.addWidget(self.type_filter)
 
         # Status filter
         filter_row.addWidget(QLabel("Status:"))
         self.status_filter = QComboBox()
-        self.status_filter.addItems(["All", "new", "released", "in-work"])
+        self.status_filter.addItems(["All", "new", "released", "in-work", "enquired", "ordered", "received", "processed"])
         self.status_filter.currentIndexChanged.connect(self._apply_filters)
         filter_row.addWidget(self.status_filter)
 
@@ -137,6 +137,45 @@ class WorkbenchPage(QWidget):
                 "linked_so": sho.get("so_number", ""),
                 "held": bool(sho.get("held", False))
             })
+
+        # -----------------------------
+        # Purchase Orders (PO)
+        # -----------------------------
+        pos = list(self.mongo.purchase_orders.find({
+            "status": {"$nin": ["cancelled"]}
+        }))
+
+        for po in pos:
+            rows.append({
+                "order_type": "PO",
+                "order_number": str(po.get("po_number", "")),
+                "customer": po.get("supplier", ""),
+                "req_date": po.get("req_date", ""),
+                "status": po.get("status", ""),
+                "source_id": po["_id"],
+                "linked_so": po.get("linked_so", ""),
+                "held": bool(po.get("held", False))
+            })
+
+        # -----------------------------
+        # Inventory Movements (IM)
+        # -----------------------------
+        ims = list(self.mongo.inventory_movements.find({
+            "status": {"$nin": ["cancelled"]}
+        }))
+
+        for im in ims:
+            rows.append({
+                "order_type": "IM",
+                "order_number": str(im.get("im_number", "")),
+                "customer": im.get("movement_type", ""),  # movement type shown in customer column
+                "req_date": im.get("req_date", ""),
+                "status": im.get("status", ""),
+                "source_id": im["_id"],
+                "linked_so": im.get("linked_so", ""),
+                "held": bool(im.get("held", False))
+            })
+
 
         # Build model
         model = QStandardItemModel(len(rows), 6)

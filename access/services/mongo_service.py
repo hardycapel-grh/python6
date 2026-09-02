@@ -88,9 +88,9 @@ class MongoService:
             self.bom = self.db["bom"]
             self.sales_orders = self.db["sales_orders"]
             self.works_orders = self.db["works_orders"]
-
-            self.shop_orders = self.db["shop_orders"] #not yet implemented
-
+            self.shop_orders = self.db["shop_orders"]
+            self.purchase_orders = self.db["purchase_orders"]
+            self.inventory_movements = self.db["inventory_movements"]
 
 
 
