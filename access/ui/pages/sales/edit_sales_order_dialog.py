@@ -8,7 +8,7 @@ allows editing of fields, editing/removing items, and logs changes.
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QFormLayout, QLineEdit, QComboBox,
     QDialogButtonBox, QListWidget, QListWidgetItem, QPushButton,
-    QHBoxLayout, QLabel, QDateEdit, QInputDialog
+    QHBoxLayout, QLabel, QDateEdit, QInputDialog, QMessageBox
 )
 from PySide6.QtCore import Qt, QDate, QTimer
 from PySide6.QtWidgets import QDoubleSpinBox, QCheckBox
@@ -72,17 +72,17 @@ class EditSalesOrderDialog(QDialog):
         self.req_date_edit.setDate(QDate.fromString(sales_order["req_date"], "yyyy-MM-dd"))
         form.addRow("Req Date:", self.req_date_edit)
 
-        # Status dropdown
-        self.status_combo = QComboBox()
-        self.status_combo.addItems(["new", "released", "in-work", "finished"])
-        self.status_combo.setCurrentText(sales_order["status"])
-        form.addRow("Status:", self.status_combo)
+        # Status 
+        self.txt_status = QLineEdit(sales_order["status"])
+        self.txt_status.setReadOnly(True)
+        form.addRow("Status:", self.txt_status)
 
-        # Type dropdown
-        self.type_combo = QComboBox()
-        self.type_combo.addItems(["enquiry", "firm"])
-        self.type_combo.setCurrentText(sales_order["type"])
-        form.addRow("Type:", self.type_combo)
+        # Type (readonly)
+        self.txt_type = QLineEdit(sales_order.get("type", "SO"))
+        self.txt_type.setReadOnly(True)
+        form.addRow("Type:", self.txt_type)
+
+
 
 
         main_layout.addLayout(form)
@@ -118,16 +118,26 @@ class EditSalesOrderDialog(QDialog):
             list_item.setData(Qt.UserRole, item)
             self.items_list.addItem(list_item)
 
+        # Enquiry link (readonly)
+        self.enquiry_link = sales_order.get("enquiry_link")
+
+        self.txt_enquiry_link = QLineEdit(self.enquiry_link or "")
+        self.txt_enquiry_link.setReadOnly(True)
+        form.addRow("Enquiry Link:", self.txt_enquiry_link)
 
         # Buttons for item editing
         btn_layout = QHBoxLayout()
         self.add_item_btn = QPushButton("Add Item")
         self.edit_qty_btn = QPushButton("Edit Qty")
         self.remove_item_btn = QPushButton("Remove Item")
+        self.btn_release = QPushButton("Release")
+        self.btn_release.setEnabled(sales_order.get("status", "") == "new")
+
 
         btn_layout.addWidget(self.add_item_btn)
         btn_layout.addWidget(self.edit_qty_btn)
         btn_layout.addWidget(self.remove_item_btn)
+        btn_layout.addWidget(self.btn_release)
 
         items_layout.addLayout(btn_layout)
         main_layout.addLayout(items_layout)
@@ -171,6 +181,8 @@ class EditSalesOrderDialog(QDialog):
         self.edit_qty_btn.clicked.connect(self._edit_item_qty)
         self.remove_item_btn.clicked.connect(self._remove_item)
         self.add_item_btn.clicked.connect(self._add_item)
+        self.btn_release.clicked.connect(self._release_sales_order)
+
 
         if self.sales_order.get("enquiry_link"):
             self._add_enquiry_banner(self.sales_order["enquiry_link"])
@@ -328,16 +340,15 @@ class EditSalesOrderDialog(QDialog):
             "so_number": self.so_number_edit.text().strip(),
             "customer": self.customer_combo.currentText(),
             "req_date": self.req_date_edit.date().toString("yyyy-MM-dd"),
-            "status": self.status_combo.currentText(),
-            "type": self.type_combo.currentText(),
-            # "held": self.held_checkbox.isChecked(),
-            # "held_reason": self.held_reason_edit.text(),
+            "type": self.txt_type.text(),
+            "status": self.txt_status.text(),   # ← FIXED
             "items": [
                 self.items_list.item(i).data(Qt.UserRole)
                 for i in range(self.items_list.count())
             ],
             "updated_by": getattr(self.user, "username", None),
-            "enquiry_link": self.sales_order.get("enquiry_link")
+            "enquiry_link": self.sales_order.get("enquiry_link"),
+
         }
 
     def accept(self):
@@ -348,41 +359,41 @@ class EditSalesOrderDialog(QDialog):
         new_status = updated_data.get("status", "").lower()
 
         # ⭐ Firm order must link to an enquiry before release
-        if updated_data.get("type") == "firm" and new_status == "released":
-            if not self.sales_order.get("enquiry_link"):
-                # Fetch enquiries for this customer
-                enquiries = list(self.mongo.sales_orders.find({
-                    "customer": updated_data.get("customer"),
-                    "type": "enquiry",
-                    "status": {"$in": ["new", "released", "in-work"]}  # allowed enquiry states
-                }))
+        # if updated_data.get("type") == "firm" and new_status == "released":
+        #     if not self.sales_order.get("enquiry_link"):
+        #         # Fetch enquiries for this customer
+        #         enquiries = list(self.mongo.sales_orders.find({
+        #             "customer": updated_data.get("customer"),
+        #             "type": "enquiry",
+        #             "status": {"$in": ["new", "released", "in-work"]}  # allowed enquiry states
+        #         }))
 
-                if not enquiries:
-                    QMessageBox.warning(
-                        self,
-                        "No Enquiries Available",
-                        "This firm order cannot be released because there are no valid enquiries "
-                        "for this customer."
-                    )
-                    return
+        #         if not enquiries:
+        #             QMessageBox.warning(
+        #                 self,
+        #                 "No Enquiries Available",
+        #                 "This firm order cannot be released because there are no valid enquiries "
+        #                 "for this customer."
+        #             )
+        #             return
 
-                # Build selection list
-                enquiry_numbers = [str(e["so_number"]) for e in enquiries]
+        #         # Build selection list
+        #         enquiry_numbers = [str(e["so_number"]) for e in enquiries]
 
-                selected, ok = QInputDialog.getItem(
-                    self,
-                    "Select Enquiry",
-                    "Select the enquiry this firm order relates to:",
-                    enquiry_numbers,
-                    editable=False
-                )
+        #         selected, ok = QInputDialog.getItem(
+        #             self,
+        #             "Select Enquiry",
+        #             "Select the enquiry this firm order relates to:",
+        #             enquiry_numbers,
+        #             editable=False
+        #         )
 
-                if not ok:
-                    return
+        #         if not ok:
+        #             return
 
-                # Store the link
-                updated_data["enquiry_link"] = selected
-                self.sales_order["enquiry_link"] = selected
+        #         # Store the link
+        #         updated_data["enquiry_link"] = selected
+        #         self.sales_order["enquiry_link"] = selected
 
 
 
@@ -459,3 +470,64 @@ class EditSalesOrderDialog(QDialog):
             }
         """)
         self.layout().insertWidget(0, banner)
+
+    def _release_sales_order(self):
+        # If firm order and no enquiry link → block release
+        if self.txt_type.text() == "firm" and not self.enquiry_link:
+            self._prompt_enquiry_link()
+            if not self.enquiry_link:
+                return  # user cancelled
+
+        self.txt_status.setText("released")
+        self.btn_release.setEnabled(False)   # ← disable it
+            
+        so_number = self.sales_order.get("so_number")
+
+        # update Mongo immediately
+        self.mongo.sales_orders.update_one(
+            {"so_number": so_number},
+            {"$set": {
+                "status": "released",
+                "enquiry_link": self.enquiry_link
+            }}
+        )
+
+
+    def _prompt_enquiry_link(self):
+        customer = self.customer_combo.currentText()
+
+        enquiries = list(self.mongo.sales_orders.find({
+            "type": "enquiry",
+            "customer": customer,
+            "status": {"$nin": ["cancelled"]}
+        }))
+
+        if not enquiries:
+            QMessageBox.warning(self, "No Enquiries",
+                "There are no enquiries for this customer.")
+            return
+
+        dlg = QDialog(self)
+        dlg.setWindowTitle("Select Enquiry")
+        layout = QVBoxLayout(dlg)
+
+        list_widget = QListWidget()
+        for enq in enquiries:
+            list_widget.addItem(f"{enq['so_number']} - {enq.get('req_date','')}")
+        layout.addWidget(list_widget)
+
+        btn_ok = QPushButton("Link")
+        layout.addWidget(btn_ok)
+        btn_ok.clicked.connect(dlg.accept)
+
+        if dlg.exec() == QDialog.Accepted:
+            selected = list_widget.currentItem()
+            if selected:
+                enq_number = selected.text().split(" - ")[0]
+
+                # ⭐ THESE THREE LINES ARE THE FIX
+                self.enquiry_link = enq_number
+                self.sales_order["enquiry_link"] = enq_number
+                self.txt_enquiry_link.setText(enq_number)
+
+        

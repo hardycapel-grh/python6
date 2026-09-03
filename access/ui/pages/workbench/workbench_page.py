@@ -101,6 +101,7 @@ class WorkbenchPage(QWidget):
                 "status": so.get("status", ""),
                 "source_id": so["_id"],
                 "linked_so": so.get("so_number", ""),
+                "linked_so": so.get("enquiry_link", ""),   # ← THIS IS STEP 4
                 "held": bool(so.get("held", False))
             })
 
