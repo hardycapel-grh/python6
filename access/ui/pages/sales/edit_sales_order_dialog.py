@@ -7,7 +7,7 @@ allows editing of fields, editing/removing items, and logs changes.
 
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QFormLayout, QLineEdit, QComboBox,
-    QDialogButtonBox, QListWidget, QListWidgetItem, QPushButton,
+    QDialogButtonBox, QListWidget, QListWidgetItem, QAbstractItemView, QPushButton,
     QHBoxLayout, QLabel, QDateEdit, QInputDialog, QMessageBox
 )
 from PySide6.QtCore import Qt, QDate, QTimer
@@ -28,6 +28,43 @@ ALLOWED_TRANSITIONS = {
     "finished":   set(),
     "cancelled":  set()
 }
+
+class BomMultiSelectDialog(QDialog):
+    def __init__(self, items, parent=None):
+        super().__init__(parent)
+        self.setWindowTitle("Select BOM Items")
+
+        layout = QVBoxLayout(self)
+
+        self.list = QListWidget()
+        self.list.setSelectionMode(QAbstractItemView.MultiSelection)
+
+        # Add items with checkboxes
+        for item in items:
+            lw_item = QListWidgetItem(
+                f"{item['part_number']} - {item['description']} (qty: {item['qty']} {item['uom']})"
+            )
+            lw_item.setFlags(lw_item.flags() | Qt.ItemIsUserCheckable)
+            lw_item.setCheckState(Qt.Unchecked)
+            self.list.addItem(lw_item)
+
+        layout.addWidget(self.list)
+
+        # OK / Cancel buttons
+        btns = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
+        btns.accepted.connect(self.accept)
+        btns.rejected.connect(self.reject)
+        layout.addWidget(btns)
+
+        self.items = items
+
+    def get_selected_items(self):
+        selected = []
+        for i in range(self.list.count()):
+            lw_item = self.list.item(i)
+            if lw_item.checkState() == Qt.Checked:
+                selected.append(self.items[i])
+        return selected
 
 
 class EditSalesOrderDialog(QDialog):
@@ -82,6 +119,8 @@ class EditSalesOrderDialog(QDialog):
         self.txt_type.setReadOnly(True)
         form.addRow("Type:", self.txt_type)
 
+        if self.sales_order.get("status") == "in-work":
+            self.items_table.setEnabled(False)
 
 
 
@@ -124,6 +163,26 @@ class EditSalesOrderDialog(QDialog):
         self.txt_enquiry_link = QLineEdit(self.enquiry_link or "")
         self.txt_enquiry_link.setReadOnly(True)
         form.addRow("Enquiry Link:", self.txt_enquiry_link)
+
+        # -------------------------
+        # Works Orders section
+        # -------------------------
+        self.wo_list = QListWidget()
+        form.addRow("Works Orders:", self.wo_list)
+
+        # Load existing WOs linked to this SO
+        self._load_attached_wos()
+
+        # Button to attach WO (only enabled when SO is released)
+        self.btn_attach_wo = QPushButton("Attach Works Order")
+        # self.btn_attach_wo.setEnabled(sales_order.get("status") == "released")
+        status = self.sales_order.get("status")
+        self.btn_attach_wo.setEnabled(status == "released")
+
+        form.addRow("", self.btn_attach_wo)
+
+        self.btn_attach_wo.clicked.connect(self._attach_wo)
+
 
         # Buttons for item editing
         btn_layout = QHBoxLayout()
@@ -406,6 +465,40 @@ class EditSalesOrderDialog(QDialog):
                 f"You cannot change status from '{old_status}' to '{new_status}'."
             )
             return  # stop the save
+        
+        if updated_data["status"] == "in-work":
+            so_number = self.sales_order["so_number"]
+
+            # Fetch all WOs for this SO
+            wos = list(self.mongo.works_orders.find({"so_number": so_number}))
+
+            if not wos:
+                QMessageBox.warning(
+                    self,
+                    "Cannot Move to In‑Work",
+                    "You must attach at least one Works Order before moving to In‑Work."
+                )
+                return
+
+            # Collect allocated BOM part_numbers
+            allocated = set()
+            for wo in wos:
+                for item in wo.get("items", []):
+                    allocated.add(item["part_number"])
+
+            # Collect SO BOM part_numbers
+            so_items = self.sales_order.get("items", [])
+            required = {item["part_number"] for item in so_items}
+
+            # Check if all BOM items are allocated
+            missing = required - allocated
+            if missing:
+                QMessageBox.warning(
+                    self,
+                    "Cannot Move to In‑Work",
+                    "Not all BOM items have been allocated to Works Orders."
+                )
+                return
 
         # ⭐ If valid, update DB
         try:
@@ -417,6 +510,9 @@ class EditSalesOrderDialog(QDialog):
             from PySide6.QtWidgets import QMessageBox
             QMessageBox.critical(self, "Error", str(e))
             return
+        
+        if updated_data["status"] == "in-work":
+            self.btn_attach_wo.setEnabled(False)
 
         super().accept()
 
@@ -471,6 +567,17 @@ class EditSalesOrderDialog(QDialog):
         """)
         self.layout().insertWidget(0, banner)
 
+    def _load_attached_wos(self):
+        """Load all Works Orders linked to this Sales Order."""
+        self.wo_list.clear()
+        so_number = self.sales_order["so_number"]
+
+        wos = list(self.mongo.works_orders.find({"so_number": so_number}))
+        for wo in wos:
+            status = wo.get("status", "new")
+            self.wo_list.addItem(f"WO{wo['wo_number']} - {status}")
+
+
     def _release_sales_order(self):
         # If firm order and no enquiry link → block release
         if self.txt_type.text() == "firm" and not self.enquiry_link:
@@ -480,6 +587,8 @@ class EditSalesOrderDialog(QDialog):
 
         self.txt_status.setText("released")
         self.btn_release.setEnabled(False)   # ← disable it
+        self.btn_attach_wo.setEnabled(True)
+
             
         so_number = self.sales_order.get("so_number")
 
@@ -530,4 +639,74 @@ class EditSalesOrderDialog(QDialog):
                 self.sales_order["enquiry_link"] = enq_number
                 self.txt_enquiry_link.setText(enq_number)
 
-        
+    def _attach_wo(self):
+        """Always create a new Works Order and attach it to this SO."""
+        so_number = self.sales_order["so_number"]
+
+        # Create new WO number
+        wo_number = self.mongo.get_next_works_order_number()
+
+        # Insert new WO
+        self.mongo.works_orders.insert_one({
+            "wo_number": wo_number,
+            "so_number": so_number,
+            "customer": self.sales_order["customer"],
+            "items": [],
+            "status": "new",
+            "created_by": getattr(self.user, "username", None)
+        })
+
+        # Ask whether to load SO items
+        self._prompt_load_items_into_wo(wo_number)
+
+        # Refresh WO list
+        self._load_attached_wos()
+
+    def _prompt_load_items_into_wo(self, wo_number):
+        """Allow user to select multiple BOM items that have not yet been allocated."""
+        so_items = self.sales_order.get("items", [])
+
+        # Find all WOs already attached to this SO
+        so_number = self.sales_order["so_number"]
+        existing_wos = list(self.mongo.works_orders.find({"so_number": so_number}))
+
+        # Collect already allocated part_numbers
+        allocated = set()
+        for wo in existing_wos:
+            for item in wo.get("items", []):
+                allocated.add(item["part_number"])
+
+        # Filter SO items to only those not yet allocated
+        available_items = [
+            item for item in so_items
+            if item["part_number"] not in allocated
+        ]
+
+        if not available_items:
+            QMessageBox.information(
+                self,
+                "No Items Available",
+                "All BOM items have already been allocated to Works Orders."
+            )
+            return
+
+        # Show multi-select dialog
+        dlg = BomMultiSelectDialog(available_items, self)
+        if dlg.exec() != QDialog.Accepted:
+            return
+
+        selected_items = dlg.get_selected_items()
+        if not selected_items:
+            return
+
+        # Add all selected items to the WO
+        self.mongo.works_orders.update_one(
+            {"wo_number": wo_number},
+            {"$push": {"items": {"$each": selected_items}}}
+        )
+
+        # Refresh WO list
+        self._load_attached_wos()
+
+
+

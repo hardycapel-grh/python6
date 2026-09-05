@@ -835,13 +835,13 @@ class MongoService:
 
     def get_next_works_order_number(self):
         last = self.works_orders.find_one(sort=[("wo_number", -1)])
-        return str(int(last["wo_number"]) + 1) if last else "1"
+        return int(last["wo_number"]) + 1 if last else 1
+
 
     def get_next_shop_order_number(self):
         last = self.shop_orders.find_one(sort=[("sho_number", -1)])
-        if last and "sho_number" in last:
-            return str(int(last["sho_number"]) + 1)
-        return "1"
+        return int(last["sho_number"]) + 1 if last else 1
+
 
     def now(self):
         from datetime import datetime
