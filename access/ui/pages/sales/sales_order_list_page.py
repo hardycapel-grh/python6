@@ -499,6 +499,7 @@ class SalesOrderListPage(QWidget):
 
         dlg = EditSalesOrderDialog(self.mongo, self.user, so, self)
         if dlg.exec():
+            self._load_sales_orders()
             updated_data = dlg.get_data()
             try:
                 self.mongo.sales_orders.update_one(

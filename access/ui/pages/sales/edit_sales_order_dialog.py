@@ -164,20 +164,23 @@ class EditSalesOrderDialog(QDialog):
         self.txt_enquiry_link.setReadOnly(True)
         form.addRow("Enquiry Link:", self.txt_enquiry_link)
 
+        
+
+
         # -------------------------
         # Works Orders section
         # -------------------------
         self.wo_list = QListWidget()
         form.addRow("Works Orders:", self.wo_list)
 
-        # Load existing WOs linked to this SO
-        self._load_attached_wos()
 
+        
         # Button to attach WO (only enabled when SO is released)
         self.btn_attach_wo = QPushButton("Attach Works Order")
         # self.btn_attach_wo.setEnabled(sales_order.get("status") == "released")
         status = self.sales_order.get("status")
         self.btn_attach_wo.setEnabled(status == "released")
+
 
         form.addRow("", self.btn_attach_wo)
 
@@ -191,7 +194,16 @@ class EditSalesOrderDialog(QDialog):
         self.remove_item_btn = QPushButton("Remove Item")
         self.btn_release = QPushButton("Release")
         self.btn_release.setEnabled(sales_order.get("status", "") == "new")
+        self.btn_in_work = QPushButton("Move to In‑Work")
+        self.btn_in_work.setVisible(False)  # hidden by default
+        self.btn_in_work.clicked.connect(self._move_to_in_work)
 
+
+        
+        form.addRow("", self.btn_in_work)
+        # Load existing WOs linked to this SO
+        self._load_attached_wos()
+        self._update_in_work_button_visibility()
 
         btn_layout.addWidget(self.add_item_btn)
         btn_layout.addWidget(self.edit_qty_btn)
@@ -570,12 +582,15 @@ class EditSalesOrderDialog(QDialog):
     def _load_attached_wos(self):
         """Load all Works Orders linked to this Sales Order."""
         self.wo_list.clear()
+        self._update_in_work_button_visibility()
+
         so_number = self.sales_order["so_number"]
 
         wos = list(self.mongo.works_orders.find({"so_number": so_number}))
         for wo in wos:
             status = wo.get("status", "new")
             self.wo_list.addItem(f"WO{wo['wo_number']} - {status}")
+
 
 
     def _release_sales_order(self):
@@ -661,6 +676,8 @@ class EditSalesOrderDialog(QDialog):
 
         # Refresh WO list
         self._load_attached_wos()
+        self._update_in_work_button_visibility()
+
 
     def _prompt_load_items_into_wo(self, wo_number):
         """Allow user to select multiple BOM items that have not yet been allocated."""
@@ -705,8 +722,79 @@ class EditSalesOrderDialog(QDialog):
             {"$push": {"items": {"$each": selected_items}}}
         )
 
+        # Refresh SO from Mongo so BOM list is up-to-date
+        self.sales_order = self.mongo.sales_orders.find_one({"so_number": so_number})
+
         # Refresh WO list
         self._load_attached_wos()
+        self._update_in_work_button_visibility()
 
 
+    def _update_in_work_button_visibility(self):
+        status = self.sales_order.get("status")
+
+        # Only show button when SO is released
+        if status != "released":
+            self.btn_in_work.setVisible(False)
+            return
+
+        # Check if all BOM items are allocated
+        so_items = self.sales_order.get("items", [])
+        required = {item["part_number"] for item in so_items}
+
+        so_number = self.sales_order["so_number"]
+        wos = list(self.mongo.works_orders.find({"so_number": so_number}))
+
+        allocated = set()
+        for wo in wos:
+            for item in wo.get("items", []):
+                allocated.add(item["part_number"])
+
+        # Show button only when all BOM items are allocated
+        self.btn_in_work.setVisible(required.issubset(allocated))
+
+    def _move_to_in_work(self):
+        so_number = self.sales_order["so_number"]
+
+        # Validate again (safety)
+        wos = list(self.mongo.works_orders.find({"so_number": so_number}))
+        if not wos:
+            QMessageBox.warning(self, "Cannot Move to In‑Work",
+                                "You must attach at least one Works Order.")
+            return
+
+        so_items = self.sales_order.get("items", [])
+        required = {item["part_number"] for item in so_items}
+
+        allocated = set()
+        for wo in wos:
+            for item in wo.get("items", []):
+                allocated.add(item["part_number"])
+
+        if not required.issubset(allocated):
+            QMessageBox.warning(self, "Cannot Move to In‑Work",
+                                "Not all BOM items have been allocated.")
+            return
+
+        # Update status
+        self.mongo.sales_orders.update_one(
+            {"so_number": so_number},
+            {"$set": {"status": "in-work"}}
+        )
+
+        self.sales_order["status"] = "in-work"
+        self.txt_status.setText("in-work")
+
+
+        QMessageBox.information(self, "Sales Order Updated",
+                                "Sales Order is now In‑Work.")
+
+        # Disable attach WO button
+        self.btn_attach_wo.setEnabled(False)
+
+        # Hide the in-work button
+        self.btn_in_work.setVisible(False)
+
+        # Reload UI
+        self.accept()
 
