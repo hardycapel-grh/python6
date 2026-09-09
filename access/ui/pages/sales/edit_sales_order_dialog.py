@@ -10,24 +10,25 @@ from PySide6.QtWidgets import (
     QDialogButtonBox, QListWidget, QListWidgetItem, QAbstractItemView, QPushButton,
     QHBoxLayout, QLabel, QDateEdit, QInputDialog, QMessageBox
 )
-from PySide6.QtCore import Qt, QDate, QTimer
+from PySide6.QtCore import Qt, QDate
 from PySide6.QtWidgets import QDoubleSpinBox, QCheckBox
 
 from ui.components.logger_utils import log_event
 from ui.pages.sales.add_item_dialog import AddItemDialog
 
-from ui.pages.sales.add_item_dialog import AddItemDialog
-
+from backend.sales_order_costing import calculate_sales_order_cost
+from backend.invoice_generator import generate_invoice
+from backend.dispatch_generator import generate_dispatch_note
 
 
 ALLOWED_TRANSITIONS = {
-    "new":        {"new","released"},
+    "new":        {"new", "released"},
     "released":   {"released", "in-work"},
-    "in-work":    {"in-work","finished"},
-    # "held":       {"new", "released", "in-work", "cancelled"},
+    "in-work":    {"in-work", "finished"},
     "finished":   set(),
     "cancelled":  set()
 }
+
 
 class BomMultiSelectDialog(QDialog):
     def __init__(self, items, parent=None):
@@ -39,7 +40,6 @@ class BomMultiSelectDialog(QDialog):
         self.list = QListWidget()
         self.list.setSelectionMode(QAbstractItemView.MultiSelection)
 
-        # Add items with checkboxes
         for item in items:
             lw_item = QListWidgetItem(
                 f"{item['part_number']} - {item['description']} (qty: {item['qty']} {item['uom']})"
@@ -50,7 +50,6 @@ class BomMultiSelectDialog(QDialog):
 
         layout.addWidget(self.list)
 
-        # OK / Cancel buttons
         btns = QDialogButtonBox(QDialogButtonBox.Ok | QDialogButtonBox.Cancel)
         btns.accepted.connect(self.accept)
         btns.rejected.connect(self.reject)
@@ -69,9 +68,6 @@ class BomMultiSelectDialog(QDialog):
 
 class EditSalesOrderDialog(QDialog):
     def __init__(self, mongo, user, sales_order, parent=None):
-        """
-        sales_order: dict from MongoDB representing the SO to edit
-        """
         super().__init__(parent)
 
         self.mongo = mongo
@@ -81,11 +77,7 @@ class EditSalesOrderDialog(QDialog):
         self.setWindowTitle(f"Edit Sales Order {sales_order['so_number']}")
         self.setMinimumWidth(450)
 
-        # -------------------------
-        # Main layout
-        # -------------------------
         main_layout = QVBoxLayout(self)
-
         form = QFormLayout()
 
         # SO Number (read-only)
@@ -95,7 +87,7 @@ class EditSalesOrderDialog(QDialog):
         self.so_number_edit.setEnabled(False)
         form.addRow("SO Number:", self.so_number_edit)
 
-        # Customer dropdown
+        # Customer dropdown (read-only)
         customers = [doc.get("name", "") for doc in self.mongo.suppliers.find({})]
         self.customer_combo = QComboBox()
         self.customer_combo.addItems(customers)
@@ -109,20 +101,15 @@ class EditSalesOrderDialog(QDialog):
         self.req_date_edit.setDate(QDate.fromString(sales_order["req_date"], "yyyy-MM-dd"))
         form.addRow("Req Date:", self.req_date_edit)
 
-        # Status 
+        # Status (read-only)
         self.txt_status = QLineEdit(sales_order["status"])
         self.txt_status.setReadOnly(True)
         form.addRow("Status:", self.txt_status)
 
-        # Type (readonly)
+        # Type (read-only)
         self.txt_type = QLineEdit(sales_order.get("type", "SO"))
         self.txt_type.setReadOnly(True)
         form.addRow("Type:", self.txt_type)
-
-        if self.sales_order.get("status") == "in-work":
-            self.items_table.setEnabled(False)
-
-
 
         main_layout.addLayout(form)
 
@@ -130,16 +117,12 @@ class EditSalesOrderDialog(QDialog):
         # Items list
         # -------------------------
         items_layout = QVBoxLayout()
-
         items_layout.addWidget(QLabel("Order Items:"))
         self.items_list = QListWidget()
         items_layout.addWidget(self.items_list)
 
-
-        # Load existing items
         for item in sales_order["items"]:
             if isinstance(item, str):
-                # Convert legacy format: "PN123" → {"part_number": "PN123", ...}
                 item = {
                     "part_number": item,
                     "description": "",
@@ -159,13 +142,9 @@ class EditSalesOrderDialog(QDialog):
 
         # Enquiry link (readonly)
         self.enquiry_link = sales_order.get("enquiry_link")
-
         self.txt_enquiry_link = QLineEdit(self.enquiry_link or "")
         self.txt_enquiry_link.setReadOnly(True)
         form.addRow("Enquiry Link:", self.txt_enquiry_link)
-
-        
-
 
         # -------------------------
         # Works Orders section
@@ -173,37 +152,33 @@ class EditSalesOrderDialog(QDialog):
         self.wo_list = QListWidget()
         form.addRow("Works Orders:", self.wo_list)
 
-
-        
-        # Button to attach WO (only enabled when SO is released)
+        # Attach WO button
         self.btn_attach_wo = QPushButton("Attach Works Order")
-        # self.btn_attach_wo.setEnabled(sales_order.get("status") == "released")
         status = self.sales_order.get("status")
         self.btn_attach_wo.setEnabled(status == "released")
-
-
         form.addRow("", self.btn_attach_wo)
-
         self.btn_attach_wo.clicked.connect(self._attach_wo)
 
-
-        # Buttons for item editing
+        # -------------------------
+        # Buttons for item editing + workflow
+        # -------------------------
         btn_layout = QHBoxLayout()
         self.add_item_btn = QPushButton("Add Item")
         self.edit_qty_btn = QPushButton("Edit Qty")
         self.remove_item_btn = QPushButton("Remove Item")
         self.btn_release = QPushButton("Release")
         self.btn_release.setEnabled(sales_order.get("status", "") == "new")
+
         self.btn_in_work = QPushButton("Move to In‑Work")
-        self.btn_in_work.setVisible(False)  # hidden by default
+        self.btn_in_work.setVisible(False)
         self.btn_in_work.clicked.connect(self._move_to_in_work)
 
+        self.btn_finish = QPushButton("Finish Order")
+        self.btn_finish.setVisible(False)
+        self.btn_finish.clicked.connect(self._finish_order)
 
-        
         form.addRow("", self.btn_in_work)
-        # Load existing WOs linked to this SO
-        self._load_attached_wos()
-        self._update_in_work_button_visibility()
+        form.addRow("", self.btn_finish)
 
         btn_layout.addWidget(self.add_item_btn)
         btn_layout.addWidget(self.edit_qty_btn)
@@ -212,7 +187,6 @@ class EditSalesOrderDialog(QDialog):
 
         items_layout.addLayout(btn_layout)
         main_layout.addLayout(items_layout)
-
 
         # HELD SALES ORDER
         if self.sales_order.get("held", False):
@@ -230,6 +204,10 @@ class EditSalesOrderDialog(QDialog):
             self.edit_qty_btn.setEnabled(False)
             self.remove_item_btn.setEnabled(False)
 
+        # Load existing WOs and update buttons
+        self._load_attached_wos()
+        self._update_in_work_button_visibility()
+        self._update_finish_button_visibility()
 
         # -------------------------
         # Dialog buttons
@@ -244,8 +222,6 @@ class EditSalesOrderDialog(QDialog):
         buttons.accepted.connect(self.accept)
         buttons.rejected.connect(self.close)
 
-
-
         # -------------------------
         # Connections
         # -------------------------
@@ -254,25 +230,19 @@ class EditSalesOrderDialog(QDialog):
         self.add_item_btn.clicked.connect(self._add_item)
         self.btn_release.clicked.connect(self._release_sales_order)
 
-
         if self.sales_order.get("enquiry_link"):
             self._add_enquiry_banner(self.sales_order["enquiry_link"])
-
 
     # ---------------------------------------------------------
     # Item quantity editing
     # ---------------------------------------------------------
     def _add_item(self):
-    # Open the same inventory picker used in AddItemDialog
-
         dlg = AddItemDialog(self.mongo, self.user, self)
         if dlg.exec():
             new_item_data = dlg.get_data()["items"]
-
             if not new_item_data:
                 return
 
-            # Add each item returned by the AddItemDialog
             for item in new_item_data:
                 display = (
                     f"{item['part_number']} - {item['description']} "
@@ -283,7 +253,6 @@ class EditSalesOrderDialog(QDialog):
                 list_item.setData(Qt.UserRole, item)
                 self.items_list.addItem(list_item)
 
-                # Audit log
                 self.mongo.log_event(
                     "sales_order.item_add",
                     performed_by=getattr(self.user, "username", None),
@@ -293,7 +262,6 @@ class EditSalesOrderDialog(QDialog):
                     )
                 )
 
-                # Debug log
                 log_event(
                     "info",
                     "Sales order item added",
@@ -323,7 +291,6 @@ class EditSalesOrderDialog(QDialog):
         if dlg.exec():
             new_qty = dlg.doubleValue()
 
-            # Audit log
             self.mongo.log_event(
                 "sales_order.item_qty_update",
                 performed_by=getattr(self.user, "username", None),
@@ -334,7 +301,6 @@ class EditSalesOrderDialog(QDialog):
                 )
             )
 
-           # Debug log
             log_event(
                 "info",
                 "Sales order item qty updated",
@@ -345,7 +311,6 @@ class EditSalesOrderDialog(QDialog):
                 new_qty=new_qty
             )
 
-            # Update UI + stored data
             data["qty"] = new_qty
             item.setData(Qt.UserRole, data)
             item.setText(
@@ -363,7 +328,6 @@ class EditSalesOrderDialog(QDialog):
 
         data = item.data(Qt.UserRole)
 
-        # Audit log
         self.mongo.log_event(
             "sales_order.item_remove",
             performed_by=getattr(self.user, "username", None),
@@ -373,7 +337,6 @@ class EditSalesOrderDialog(QDialog):
             )
         )
 
-        # Debug log
         log_event(
             "info",
             "Sales order item removed",
@@ -388,8 +351,8 @@ class EditSalesOrderDialog(QDialog):
 
     def _set_read_only_mode(self):
         self.req_date_edit.setEnabled(False)
-        self.status_combo.setEnabled(False)
-        self.type_combo.setEnabled(False)
+        self.txt_status.setEnabled(False)
+        self.txt_type.setEnabled(False)
         self.items_list.setEnabled(False)
         self.add_item_btn.setEnabled(False)
         self.edit_qty_btn.setEnabled(False)
@@ -401,8 +364,6 @@ class EditSalesOrderDialog(QDialog):
         else:
             self.setWindowTitle(f"Sales Order {self.sales_order['so_number']} (Held - Read Only)")
 
-
-
     # ---------------------------------------------------------
     # Gather updated data
     # ---------------------------------------------------------
@@ -412,76 +373,31 @@ class EditSalesOrderDialog(QDialog):
             "customer": self.customer_combo.currentText(),
             "req_date": self.req_date_edit.date().toString("yyyy-MM-dd"),
             "type": self.txt_type.text(),
-            "status": self.txt_status.text(),   # ← FIXED
+            "status": self.txt_status.text(),
             "items": [
                 self.items_list.item(i).data(Qt.UserRole)
                 for i in range(self.items_list.count())
             ],
             "updated_by": getattr(self.user, "username", None),
             "enquiry_link": self.sales_order.get("enquiry_link"),
-
         }
 
     def accept(self):
-
         updated_data = self.get_data()
 
         old_status = self.sales_order.get("status", "").lower()
         new_status = updated_data.get("status", "").lower()
 
-        # ⭐ Firm order must link to an enquiry before release
-        # if updated_data.get("type") == "firm" and new_status == "released":
-        #     if not self.sales_order.get("enquiry_link"):
-        #         # Fetch enquiries for this customer
-        #         enquiries = list(self.mongo.sales_orders.find({
-        #             "customer": updated_data.get("customer"),
-        #             "type": "enquiry",
-        #             "status": {"$in": ["new", "released", "in-work"]}  # allowed enquiry states
-        #         }))
-
-        #         if not enquiries:
-        #             QMessageBox.warning(
-        #                 self,
-        #                 "No Enquiries Available",
-        #                 "This firm order cannot be released because there are no valid enquiries "
-        #                 "for this customer."
-        #             )
-        #             return
-
-        #         # Build selection list
-        #         enquiry_numbers = [str(e["so_number"]) for e in enquiries]
-
-        #         selected, ok = QInputDialog.getItem(
-        #             self,
-        #             "Select Enquiry",
-        #             "Select the enquiry this firm order relates to:",
-        #             enquiry_numbers,
-        #             editable=False
-        #         )
-
-        #         if not ok:
-        #             return
-
-        #         # Store the link
-        #         updated_data["enquiry_link"] = selected
-        #         self.sales_order["enquiry_link"] = selected
-
-
-
-        # ⭐ Workflow rule enforcement
         if new_status not in ALLOWED_TRANSITIONS.get(old_status, set()):
-            from PySide6.QtWidgets import QMessageBox
             QMessageBox.warning(
                 self,
                 "Invalid Status Change",
                 f"You cannot change status from '{old_status}' to '{new_status}'."
             )
-            return  # stop the save
-        
+            return
+
         if updated_data["status"] == "in-work":
             so_number = self.sales_order["so_number"]
-
-            # Fetch all WOs for this SO
             wos = list(self.mongo.works_orders.find({"so_number": so_number}))
 
             if not wos:
@@ -492,17 +408,14 @@ class EditSalesOrderDialog(QDialog):
                 )
                 return
 
-            # Collect allocated BOM part_numbers
             allocated = set()
             for wo in wos:
                 for item in wo.get("items", []):
                     allocated.add(item["part_number"])
 
-            # Collect SO BOM part_numbers
             so_items = self.sales_order.get("items", [])
             required = {item["part_number"] for item in so_items}
 
-            # Check if all BOM items are allocated
             missing = required - allocated
             if missing:
                 QMessageBox.warning(
@@ -512,41 +425,34 @@ class EditSalesOrderDialog(QDialog):
                 )
                 return
 
-        # ⭐ If valid, update DB
         try:
             self.mongo.sales_orders.update_one(
                 {"so_number": self.sales_order["so_number"]},
                 {"$set": updated_data}
             )
         except Exception as e:
-            from PySide6.QtWidgets import QMessageBox
             QMessageBox.critical(self, "Error", str(e))
             return
-        
+
         if updated_data["status"] == "in-work":
             self.btn_attach_wo.setEnabled(False)
 
         super().accept()
 
     def _add_held_banner(self, reason: str):
-        from PySide6.QtWidgets import QLabel
         from PySide6.QtGui import QFont, QColor, QPalette
 
         banner = QLabel(f"⚠️  This Sales Order is HELD\nReason: {reason}")
         banner.setWordWrap(True)
-
-        # Style the banner
         banner.setFont(QFont("Arial", 11, QFont.Bold))
 
         palette = banner.palette()
-        palette.setColor(QPalette.Window, QColor("#FFCC66"))   # amber background
+        palette.setColor(QPalette.Window, QColor("#FFCC66"))
         palette.setColor(QPalette.WindowText, QColor("#000000"))
         banner.setAutoFillBackground(True)
         banner.setPalette(palette)
-
         banner.setMargin(10)
 
-        # Insert at top of the dialog layout
         self.layout().insertWidget(0, banner)
 
     def _add_cancelled_banner(self, reason: str):
@@ -556,7 +462,7 @@ class EditSalesOrderDialog(QDialog):
         banner.setWordWrap(True)
 
         palette = banner.palette()
-        palette.setColor(QPalette.Window, QColor("#FF6666"))   # red
+        palette.setColor(QPalette.Window, QColor("#FF6666"))
         palette.setColor(QPalette.WindowText, QColor("#000000"))
         banner.setAutoFillBackground(True)
         banner.setPalette(palette)
@@ -580,10 +486,7 @@ class EditSalesOrderDialog(QDialog):
         self.layout().insertWidget(0, banner)
 
     def _load_attached_wos(self):
-        """Load all Works Orders linked to this Sales Order."""
         self.wo_list.clear()
-        self._update_in_work_button_visibility()
-
         so_number = self.sales_order["so_number"]
 
         wos = list(self.mongo.works_orders.find({"so_number": so_number}))
@@ -591,23 +494,19 @@ class EditSalesOrderDialog(QDialog):
             status = wo.get("status", "new")
             self.wo_list.addItem(f"WO{wo['wo_number']} - {status}")
 
-
-
     def _release_sales_order(self):
-        # If firm order and no enquiry link → block release
         if self.txt_type.text() == "firm" and not self.enquiry_link:
             self._prompt_enquiry_link()
             if not self.enquiry_link:
-                return  # user cancelled
+                return
 
         self.txt_status.setText("released")
-        self.btn_release.setEnabled(False)   # ← disable it
+        self.sales_order["status"] = "released"
+        self.btn_release.setEnabled(False)
         self.btn_attach_wo.setEnabled(True)
 
-            
         so_number = self.sales_order.get("so_number")
 
-        # update Mongo immediately
         self.mongo.sales_orders.update_one(
             {"so_number": so_number},
             {"$set": {
@@ -616,6 +515,8 @@ class EditSalesOrderDialog(QDialog):
             }}
         )
 
+        self._update_in_work_button_visibility()
+        self._update_finish_button_visibility()
 
     def _prompt_enquiry_link(self):
         customer = self.customer_combo.currentText()
@@ -628,7 +529,7 @@ class EditSalesOrderDialog(QDialog):
 
         if not enquiries:
             QMessageBox.warning(self, "No Enquiries",
-                "There are no enquiries for this customer.")
+                                "There are no enquiries for this customer.")
             return
 
         dlg = QDialog(self)
@@ -637,7 +538,7 @@ class EditSalesOrderDialog(QDialog):
 
         list_widget = QListWidget()
         for enq in enquiries:
-            list_widget.addItem(f"{enq['so_number']} - {enq.get('req_date','')}")
+            list_widget.addItem(f"{enq['so_number']} - {enq.get('req_date', '')}")
         layout.addWidget(list_widget)
 
         btn_ok = QPushButton("Link")
@@ -648,20 +549,15 @@ class EditSalesOrderDialog(QDialog):
             selected = list_widget.currentItem()
             if selected:
                 enq_number = selected.text().split(" - ")[0]
-
-                # ⭐ THESE THREE LINES ARE THE FIX
                 self.enquiry_link = enq_number
                 self.sales_order["enquiry_link"] = enq_number
                 self.txt_enquiry_link.setText(enq_number)
 
     def _attach_wo(self):
-        """Always create a new Works Order and attach it to this SO."""
         so_number = self.sales_order["so_number"]
 
-        # Create new WO number
         wo_number = self.mongo.get_next_works_order_number()
 
-        # Insert new WO
         self.mongo.works_orders.insert_one({
             "wo_number": wo_number,
             "so_number": so_number,
@@ -671,29 +567,23 @@ class EditSalesOrderDialog(QDialog):
             "created_by": getattr(self.user, "username", None)
         })
 
-        # Ask whether to load SO items
         self._prompt_load_items_into_wo(wo_number)
 
-        # Refresh WO list
         self._load_attached_wos()
         self._update_in_work_button_visibility()
-
+        self._update_finish_button_visibility()
 
     def _prompt_load_items_into_wo(self, wo_number):
-        """Allow user to select multiple BOM items that have not yet been allocated."""
         so_items = self.sales_order.get("items", [])
 
-        # Find all WOs already attached to this SO
         so_number = self.sales_order["so_number"]
         existing_wos = list(self.mongo.works_orders.find({"so_number": so_number}))
 
-        # Collect already allocated part_numbers
         allocated = set()
         for wo in existing_wos:
             for item in wo.get("items", []):
                 allocated.add(item["part_number"])
 
-        # Filter SO items to only those not yet allocated
         available_items = [
             item for item in so_items
             if item["part_number"] not in allocated
@@ -707,7 +597,6 @@ class EditSalesOrderDialog(QDialog):
             )
             return
 
-        # Show multi-select dialog
         dlg = BomMultiSelectDialog(available_items, self)
         if dlg.exec() != QDialog.Accepted:
             return
@@ -716,29 +605,24 @@ class EditSalesOrderDialog(QDialog):
         if not selected_items:
             return
 
-        # Add all selected items to the WO
         self.mongo.works_orders.update_one(
             {"wo_number": wo_number},
             {"$push": {"items": {"$each": selected_items}}}
         )
 
-        # Refresh SO from Mongo so BOM list is up-to-date
         self.sales_order = self.mongo.sales_orders.find_one({"so_number": so_number})
 
-        # Refresh WO list
         self._load_attached_wos()
         self._update_in_work_button_visibility()
-
+        self._update_finish_button_visibility()
 
     def _update_in_work_button_visibility(self):
         status = self.sales_order.get("status")
 
-        # Only show button when SO is released
         if status != "released":
             self.btn_in_work.setVisible(False)
             return
 
-        # Check if all BOM items are allocated
         so_items = self.sales_order.get("items", [])
         required = {item["part_number"] for item in so_items}
 
@@ -750,13 +634,11 @@ class EditSalesOrderDialog(QDialog):
             for item in wo.get("items", []):
                 allocated.add(item["part_number"])
 
-        # Show button only when all BOM items are allocated
         self.btn_in_work.setVisible(required.issubset(allocated))
 
     def _move_to_in_work(self):
         so_number = self.sales_order["so_number"]
 
-        # Validate again (safety)
         wos = list(self.mongo.works_orders.find({"so_number": so_number}))
         if not wos:
             QMessageBox.warning(self, "Cannot Move to In‑Work",
@@ -776,7 +658,6 @@ class EditSalesOrderDialog(QDialog):
                                 "Not all BOM items have been allocated.")
             return
 
-        # Update status
         self.mongo.sales_orders.update_one(
             {"so_number": so_number},
             {"$set": {"status": "in-work"}}
@@ -785,16 +666,73 @@ class EditSalesOrderDialog(QDialog):
         self.sales_order["status"] = "in-work"
         self.txt_status.setText("in-work")
 
-
         QMessageBox.information(self, "Sales Order Updated",
                                 "Sales Order is now In‑Work.")
 
-        # Disable attach WO button
         self.btn_attach_wo.setEnabled(False)
-
-        # Hide the in-work button
         self.btn_in_work.setVisible(False)
 
-        # Reload UI
+        self._update_finish_button_visibility()
+
         self.accept()
+
+    def _update_finish_button_visibility(self):
+        status = self.sales_order.get("status")
+
+        if status != "in-work":
+            self.btn_finish.setVisible(False)
+            return
+
+        so_number = self.sales_order["so_number"]
+        wos = list(self.mongo.works_orders.find({"so_number": so_number}))
+
+        if not wos:
+            self.btn_finish.setVisible(False)
+            return
+
+        all_completed = all(wo.get("status") == "completed" for wo in wos)
+        self.btn_finish.setVisible(all_completed)
+
+    def _finish_order(self):
+        so_number = self.sales_order["so_number"]
+
+        # Validate WOs completed
+        wos = list(self.mongo.works_orders.find({"so_number": so_number}))
+        if not all(wo.get("status") == "completed" for wo in wos):
+            QMessageBox.warning(self, "Cannot Finish Order",
+                                "All Works Orders must be completed.")
+            return
+
+        # Calculate costs
+        cost_data = calculate_sales_order_cost(self.mongo, so_number)
+
+        # Generate invoice
+        invoice_number = generate_invoice(self.mongo, so_number, cost_data)
+
+        # Generate dispatch note
+        dispatch_number = generate_dispatch_note(self.mongo, so_number)
+
+        # Update status in Mongo
+        self.mongo.sales_orders.update_one(
+            {"so_number": so_number},
+            {"$set": {
+                "status": "finished",
+                "invoice_number": invoice_number,
+                "dispatch_number": dispatch_number,
+                "cost_summary": cost_data
+            }}
+        )
+
+        # Update UI BEFORE closing
+        self.sales_order["status"] = "finished"
+        self.txt_status.setText("finished")
+
+        QMessageBox.information(
+            self,
+            "Order Finished",
+            f"Order finished.\nInvoice: {invoice_number}\nDispatch: {dispatch_number}"
+        )
+
+        # Close dialog WITHOUT triggering overridden accept()
+        super().accept()
 
