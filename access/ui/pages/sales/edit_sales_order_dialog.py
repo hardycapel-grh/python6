@@ -106,10 +106,17 @@ class EditSalesOrderDialog(QDialog):
         self.txt_status.setReadOnly(True)
         form.addRow("Status:", self.txt_status)
 
-        # Type (read-only)
-        self.txt_type = QLineEdit(sales_order.get("type", "SO"))
-        self.txt_type.setReadOnly(True)
-        form.addRow("Type:", self.txt_type)
+        # Type
+        self.type_combo = QComboBox()
+        self.type_combo.addItems(["enquiry", "firm"])
+
+        # Allow type editing only when SO is new (including cloned SOs)
+        if self.sales_order.get("status") == "new":
+            self.type_combo.setEnabled(True)
+        else:
+            self.type_combo.setEnabled(False)
+
+        form.addRow("Type:", self.type_combo)
 
         main_layout.addLayout(form)
 
@@ -372,7 +379,7 @@ class EditSalesOrderDialog(QDialog):
             "so_number": self.so_number_edit.text().strip(),
             "customer": self.customer_combo.currentText(),
             "req_date": self.req_date_edit.date().toString("yyyy-MM-dd"),
-            "type": self.txt_type.text(),
+            "type": self.type_combo.currentText(),
             "status": self.txt_status.text(),
             "items": [
                 self.items_list.item(i).data(Qt.UserRole)
@@ -495,7 +502,7 @@ class EditSalesOrderDialog(QDialog):
             self.wo_list.addItem(f"WO{wo['wo_number']} - {status}")
 
     def _release_sales_order(self):
-        if self.txt_type.text() == "firm" and not self.enquiry_link:
+        if self.type_combo.currentText() == "firm" and not self.enquiry_link:
             self._prompt_enquiry_link()
             if not self.enquiry_link:
                 return
@@ -552,6 +559,41 @@ class EditSalesOrderDialog(QDialog):
                 self.enquiry_link = enq_number
                 self.sales_order["enquiry_link"] = enq_number
                 self.txt_enquiry_link.setText(enq_number)
+                # --- BOM MATCH CHECK ---
+                enquiry = self.mongo.sales_orders.find_one({"so_number": enq_number})
+                if not enquiry:
+                    QMessageBox.warning(
+                        self,
+                        "Enquiry Not Found",
+                        f"The selected enquiry SO{enq_number} could not be found."
+                    )
+                    self.enquiry_link = None
+                    self.sales_order["enquiry_link"] = None
+                    self.txt_enquiry_link.setText("")
+                    return
+
+                enquiry_items = enquiry.get("items", [])
+                firm_items = self.sales_order.get("items", [])
+
+                enq_parts = {item["part_number"] for item in enquiry_items}
+                firm_parts = {item["part_number"] for item in firm_items}
+
+                missing = enq_parts - firm_parts
+
+                if missing:
+                    QMessageBox.warning(
+                        self,
+                        "BOM Mismatch",
+                        "This firm order does not contain all items from the enquiry.\n"
+                        f"Missing: {', '.join(missing)}"
+                    )
+
+                    self.enquiry_link = None
+                    self.sales_order["enquiry_link"] = None
+                    self.txt_enquiry_link.setText("")
+                    return
+
+
 
     def _attach_wo(self):
         so_number = self.sales_order["so_number"]
@@ -696,23 +738,88 @@ class EditSalesOrderDialog(QDialog):
     def _finish_order(self):
         so_number = self.sales_order["so_number"]
 
-        # Validate WOs completed
+        # ---------------------------------------------------------
+        # 1. Validate all Works Orders are completed
+        # ---------------------------------------------------------
         wos = list(self.mongo.works_orders.find({"so_number": so_number}))
         if not all(wo.get("status") == "completed" for wo in wos):
-            QMessageBox.warning(self, "Cannot Finish Order",
-                                "All Works Orders must be completed.")
+            QMessageBox.warning(
+                self,
+                "Cannot Finish Order",
+                "All Works Orders must be completed before finishing."
+            )
             return
 
-        # Calculate costs
+        # ---------------------------------------------------------
+        # 2. STRICT BOM MATCH CHECK (Enquiry vs Firm)
+        # ---------------------------------------------------------
+        if self.enquiry_link:
+            enquiry = self.mongo.sales_orders.find_one({"so_number": self.enquiry_link})
+            if enquiry:
+                enquiry_items = enquiry.get("items", [])
+                firm_items = self.sales_order.get("items", [])
+
+                enq_parts = {item["part_number"] for item in enquiry_items}
+                firm_parts = {item["part_number"] for item in firm_items}
+
+                # Missing items: in enquiry but not in firm order
+                missing = enq_parts - firm_parts
+
+                # Extra items: in firm order but not in enquiry
+                extra = firm_parts - enq_parts
+
+                # Optional: quantity mismatch check
+                # firm_qty_map = {item["part_number"]: item["qty"] for item in firm_items}
+                # qty_mismatch = [
+                #     f"{item['part_number']} (enquiry: {item['qty']}, firm: {firm_qty_map.get(item['part_number'], 'N/A')})"
+                #     for item in enquiry_items
+                #     if firm_qty_map.get(item["part_number"]) != item["qty"]
+                # ]
+
+                if missing or extra:
+                    msg = "This Sales Order cannot be finished because the BOM does not match the linked enquiry.\n\n"
+
+                    if missing:
+                        msg += f"Missing items (in enquiry but not firm order): {', '.join(missing)}\n"
+                    if extra:
+                        msg += f"Extra items (in firm order but not enquiry): {', '.join(extra)}\n"
+
+                    msg += "\nYou must resolve this before finishing:\n"
+                    msg += "• Link a different enquiry\n"
+                    msg += "• Add missing items to this Sales Order\n"
+                    msg += "• Move extra items to another Works Order"
+
+                    QMessageBox.warning(self, "BOM Mismatch", msg)
+                    return
+
+                # If you want strict quantity matching, uncomment this:
+                # if qty_mismatch:
+                #     QMessageBox.warning(
+                #         self,
+                #         "Quantity Mismatch",
+                #         "Quantities differ between enquiry and firm order:\n"
+                #         + "\n".join(qty_mismatch)
+                #     )
+                #     return
+
+        # ---------------------------------------------------------
+        # 3. Calculate ACTUAL cost (firm order)
+        # ---------------------------------------------------------
         cost_data = calculate_sales_order_cost(self.mongo, so_number)
 
-        # Generate invoice
+        # ---------------------------------------------------------
+        # 4. Generate invoice (actual cost)
+        # ---------------------------------------------------------
         invoice_number = generate_invoice(self.mongo, so_number, cost_data)
 
-        # Generate dispatch note
+        # ---------------------------------------------------------
+        # 5. Generate dispatch note
+        # ---------------------------------------------------------
         dispatch_number = generate_dispatch_note(self.mongo, so_number)
 
-        # Update status in Mongo
+        # ---------------------------------------------------------
+        # 6. Update Sales Order status in Mongo
+        # ---------------------------------------------------------
         self.mongo.sales_orders.update_one(
             {"so_number": so_number},
             {"$set": {
@@ -723,7 +830,9 @@ class EditSalesOrderDialog(QDialog):
             }}
         )
 
-        # Update UI BEFORE closing
+        # ---------------------------------------------------------
+        # 7. Update UI BEFORE closing
+        # ---------------------------------------------------------
         self.sales_order["status"] = "finished"
         self.txt_status.setText("finished")
 
@@ -733,6 +842,9 @@ class EditSalesOrderDialog(QDialog):
             f"Order finished.\nInvoice: {invoice_number}\nDispatch: {dispatch_number}"
         )
 
-        # Close dialog WITHOUT triggering overridden accept()
+        # ---------------------------------------------------------
+        # 8. Close dialog WITHOUT triggering overridden accept()
+        # ---------------------------------------------------------
         super().accept()
+
 
