@@ -26264,3 +26264,254 @@ Supported signatures:
 2026-09-14 22:14:36,975 [INFO] Workbench filters applied: user='hardycapel', type='All', status='All', search=''
 2026-09-14 22:14:36,976 [INFO] Workbench opened: user='hardycapel'
 2026-09-14 22:14:43,758 [INFO] Workbench open order: user='hardycapel', order_type='SO', order_number='1'
+2026-09-14 22:31:09,831 [INFO] Connected to MongoDB
+2026-09-14 22:31:09,843 [INFO] Connected to MongoDB
+2026-09-14 22:31:25,559 [INFO] Login attempt: hardycapel
+2026-09-14 22:31:25,809 [INFO] User 'hardycapel' authenticated successfully
+2026-09-14 22:31:25,895 [INFO] Building sidebar: user='hardycapel'
+2026-09-14 22:31:25,895 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-14 22:31:25,895 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-14 22:31:25,895 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-14 22:31:25,895 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-14 22:31:25,895 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-14 22:31:25,896 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-14 22:31:25,896 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-14 22:31:25,896 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-14 22:31:25,896 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-14 22:31:25,896 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-14 22:31:25,896 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-14 22:31:25,896 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-14 22:31:25,896 [INFO] MainApp started: user='hardycapel'
+2026-09-14 22:31:27,783 [INFO] Sidebar clicked: user='hardycapel', label='Workbench'
+2026-09-14 22:31:27,832 [INFO] Workbench filters applied: user='hardycapel', type='All', status='All', search=''
+2026-09-14 22:31:27,833 [INFO] Workbench opened: user='hardycapel'
+2026-09-14 22:31:29,643 [INFO] Workbench open order: user='hardycapel', order_type='WO', order_number='2'
+2026-09-14 22:31:50,378 [INFO] Workbench open order: user='hardycapel', order_type='WO', order_number='48'
+2026-09-14 22:31:57,146 [INFO] Workbench open order: user='hardycapel', order_type='WO', order_number='95'
+2026-09-14 22:45:33,898 [INFO] Connected to MongoDB
+2026-09-14 22:45:33,922 [INFO] Connected to MongoDB
+2026-09-14 22:45:47,115 [INFO] Login attempt: hardycapel
+2026-09-14 22:45:47,397 [INFO] User 'hardycapel' authenticated successfully
+2026-09-14 22:45:47,496 [INFO] Building sidebar: user='hardycapel'
+2026-09-14 22:45:47,497 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-14 22:45:47,497 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-14 22:45:47,497 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-14 22:45:47,497 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-14 22:45:47,497 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-14 22:45:47,497 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-14 22:45:47,497 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-14 22:45:47,497 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-14 22:45:47,497 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-14 22:45:47,497 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-14 22:45:47,497 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-14 22:45:47,497 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-14 22:45:47,498 [INFO] MainApp started: user='hardycapel'
+2026-09-14 22:45:52,696 [INFO] Sidebar clicked: user='hardycapel', label='Workbench'
+2026-09-14 22:45:52,749 [INFO] Workbench filters applied: user='hardycapel', type='All', status='All', search=''
+2026-09-14 22:45:52,750 [INFO] Workbench opened: user='hardycapel'
+2026-09-14 22:45:55,573 [INFO] Workbench open order: user='hardycapel', order_type='WO', order_number='10'
+2026-09-14 22:47:15,606 [INFO] Connected to MongoDB
+2026-09-14 22:47:15,651 [INFO] Connected to MongoDB
+2026-09-14 22:47:29,048 [INFO] Login attempt: hardycapel
+2026-09-14 22:47:29,297 [INFO] User 'hardycapel' authenticated successfully
+2026-09-14 22:47:29,387 [INFO] Building sidebar: user='hardycapel'
+2026-09-14 22:47:29,387 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-14 22:47:29,387 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-14 22:47:29,387 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-14 22:47:29,387 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-14 22:47:29,387 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-14 22:47:29,387 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-14 22:47:29,387 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-14 22:47:29,387 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-14 22:47:29,387 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-14 22:47:29,388 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-14 22:47:29,388 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-14 22:47:29,388 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-14 22:47:29,388 [INFO] MainApp started: user='hardycapel'
+2026-09-15 14:17:35,521 [INFO] Connected to MongoDB
+2026-09-15 14:17:35,540 [INFO] Connected to MongoDB
+2026-09-15 14:17:47,681 [INFO] Login attempt: hardycapel
+2026-09-15 14:17:47,959 [INFO] User 'hardycapel' authenticated successfully
+2026-09-15 14:17:48,458 [INFO] Building sidebar: user='hardycapel'
+2026-09-15 14:17:48,458 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-15 14:17:48,460 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-15 14:17:48,460 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-15 14:17:48,460 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-15 14:17:48,460 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-15 14:17:48,460 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-15 14:17:48,460 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-15 14:17:48,460 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-15 14:17:48,460 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-15 14:17:48,460 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-15 14:17:48,460 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-15 14:17:48,460 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-15 14:17:48,461 [INFO] MainApp started: user='hardycapel'
+2026-09-15 22:58:43,692 [INFO] Connected to MongoDB
+2026-09-15 22:58:43,741 [INFO] Connected to MongoDB
+2026-09-15 22:59:08,687 [INFO] Login attempt: hardycapel
+2026-09-15 22:59:08,934 [INFO] User 'hardycapel' authenticated successfully
+2026-09-15 23:14:48,670 [INFO] Connected to MongoDB
+2026-09-15 23:14:48,683 [INFO] Connected to MongoDB
+2026-09-15 23:15:03,662 [INFO] Login attempt: hardycapel
+2026-09-15 23:15:03,904 [INFO] User 'hardycapel' authenticated successfully
+2026-09-15 23:27:54,707 [INFO] Connected to MongoDB
+2026-09-15 23:27:54,732 [INFO] Connected to MongoDB
+2026-09-15 23:28:10,967 [INFO] Login attempt: hardycapel
+2026-09-15 23:28:11,217 [INFO] User 'hardycapel' authenticated successfully
+2026-09-15 23:40:00,190 [INFO] Connected to MongoDB
+2026-09-15 23:40:00,225 [INFO] Connected to MongoDB
+2026-09-15 23:40:19,076 [INFO] Login attempt: hardycapel
+2026-09-15 23:40:19,314 [INFO] User 'hardycapel' authenticated successfully
+2026-09-15 23:43:35,741 [INFO] Connected to MongoDB
+2026-09-15 23:43:35,759 [INFO] Connected to MongoDB
+2026-09-15 23:43:54,610 [INFO] Login attempt: hardycapel
+2026-09-15 23:43:54,848 [INFO] User 'hardycapel' authenticated successfully
+2026-09-16 10:52:22,493 [INFO] Connected to MongoDB
+2026-09-16 10:52:23,161 [INFO] Connected to MongoDB
+2026-09-16 10:52:35,970 [INFO] Login attempt: hardycapel
+2026-09-16 10:52:36,263 [INFO] User 'hardycapel' authenticated successfully
+2026-09-16 10:52:36,524 [INFO] Building sidebar: user='hardycapel'
+2026-09-16 10:52:36,525 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-16 10:52:36,527 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-16 10:52:36,527 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-16 10:52:36,527 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-16 10:52:36,527 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-16 10:52:36,527 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-16 10:52:36,527 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-16 10:52:36,527 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-16 10:52:36,527 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-16 10:52:36,527 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-16 10:52:36,528 [DEBUG] Registering sidebar item: label='Works Orders', required_permission='workorders.read'
+2026-09-16 10:52:36,528 [WARNING] Sidebar item blocked: user='hardycapel', label='Works Orders', required_permission='workorders.read'
+2026-09-16 10:52:36,528 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-16 10:52:36,528 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-16 10:52:36,528 [INFO] MainApp started: user='hardycapel'
+2026-09-16 11:01:48,023 [INFO] Connected to MongoDB
+2026-09-16 11:01:48,037 [INFO] Connected to MongoDB
+2026-09-16 11:02:00,151 [INFO] Login attempt: hardycapel
+2026-09-16 11:02:00,390 [INFO] User 'hardycapel' authenticated successfully
+2026-09-16 11:02:00,466 [INFO] Building sidebar: user='hardycapel'
+2026-09-16 11:02:00,466 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-16 11:02:00,466 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-16 11:02:00,466 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-16 11:02:00,466 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-16 11:02:00,466 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-16 11:02:00,466 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-16 11:02:00,466 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-16 11:02:00,466 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-16 11:02:00,466 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-16 11:02:00,467 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-16 11:02:00,467 [DEBUG] Registering sidebar item: label='Works Orders', required_permission='workorders.read'
+2026-09-16 11:02:00,467 [WARNING] Sidebar item blocked: user='hardycapel', label='Works Orders', required_permission='workorders.read'
+2026-09-16 11:02:00,467 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-16 11:02:00,467 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-16 11:02:00,467 [INFO] MainApp started: user='hardycapel'
+2026-09-16 11:02:03,494 [INFO] Sidebar clicked: user='hardycapel', label='Admin'
+2026-09-16 11:02:03,495 [DEBUG] AdminControlWindow: setting up pages: user='hardycapel'
+2026-09-16 11:02:03,495 [DEBUG] Registering admin page: page='Users', required_permission='users.read'
+2026-09-16 11:02:03,496 [DEBUG] Admin page stored: page='Users', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD02C0>'
+2026-09-16 11:02:03,496 [INFO] Admin page added: user='hardycapel', page='Users'
+2026-09-16 11:02:03,496 [DEBUG] Registering admin page: page='Roles', required_permission='None'
+2026-09-16 11:02:03,496 [DEBUG] Admin page stored: page='Roles', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD0400>'
+2026-09-16 11:02:03,496 [INFO] Admin page added: user='hardycapel', page='Roles'
+2026-09-16 11:02:03,496 [DEBUG] Registering admin page: page='Stores', required_permission='stores.read'
+2026-09-16 11:02:03,496 [DEBUG] Admin page stored: page='Stores', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD04A0>'
+2026-09-16 11:02:03,496 [INFO] Admin page added: user='hardycapel', page='Stores'
+2026-09-16 11:02:03,497 [DEBUG] Registering admin page: page='UOMs', required_permission='uom.manage'
+2026-09-16 11:02:03,497 [DEBUG] Admin page stored: page='UOMs', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD0540>'
+2026-09-16 11:02:03,497 [INFO] Admin page added: user='hardycapel', page='UOMs'
+2026-09-16 11:02:03,497 [DEBUG] Registering admin page: page='Store Locations', required_permission='store_locations.manage'
+2026-09-16 11:02:03,497 [DEBUG] Admin page stored: page='Store Locations', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD05E0>'
+2026-09-16 11:02:03,497 [INFO] Admin page added: user='hardycapel', page='Store Locations'
+2026-09-16 11:02:03,497 [DEBUG] Registering admin page: page='Permissions', required_permission='None'
+2026-09-16 11:02:03,497 [DEBUG] Admin page stored: page='Permissions', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD0360>'
+2026-09-16 11:02:03,497 [INFO] Admin page added: user='hardycapel', page='Permissions'
+2026-09-16 11:02:03,497 [DEBUG] Registering admin page: page='Audit Log', required_permission='None'
+2026-09-16 11:02:03,498 [DEBUG] Admin page stored: page='Audit Log', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD0720>'
+2026-09-16 11:02:03,498 [INFO] Admin page added: user='hardycapel', page='Audit Log'
+2026-09-16 11:02:03,498 [DEBUG] Registering admin page: page='Suppliers', required_permission='supplier.manage'
+2026-09-16 11:02:03,498 [DEBUG] Admin page stored: page='Suppliers', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD07C0>'
+2026-09-16 11:02:03,498 [INFO] Admin page added: user='hardycapel', page='Suppliers'
+2026-09-16 11:02:03,498 [DEBUG] Registering admin page: page='BOM Editor', required_permission='bom.manage'
+2026-09-16 11:02:03,498 [DEBUG] Admin page stored: page='BOM Editor', factory='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD0680>'
+2026-09-16 11:02:03,498 [INFO] Admin page added: user='hardycapel', page='BOM Editor'
+2026-09-16 11:02:08,126 [INFO] Admin sidebar clicked: user='hardycapel', page='Permissions'
+2026-09-16 11:02:08,126 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD0360>'
+2026-09-16 11:03:03,295 [INFO] Permission created: by='hardycapel', target='workorders.read'
+2026-09-16 11:03:03,295 [INFO] Permission 'workorders.read' created.
+2026-09-16 11:03:10,816 [INFO] Admin sidebar clicked: user='hardycapel', page='Users'
+2026-09-16 11:03:10,816 [INFO] Opening admin page: user='hardycapel', page='<function AdminControlWindow._setup_pages.<locals>.<lambda> at 0x000002C05FBD02C0>'
+2026-09-16 11:03:10,829 [INFO] Loading users from MongoDBa
+2026-09-16 11:03:10,846 [INFO] Loaded 6 users.
+2026-09-16 11:03:30,068 [INFO] User updated: by='hardycapel', target='hardycapel', fields='email, role, status'
+2026-09-16 11:03:30,070 [INFO] Updated permissions for user 698903fccfae717e3fc5952e by hardycapel
+2026-09-16 11:03:30,070 [INFO] Loading users from MongoDBa
+2026-09-16 11:03:30,076 [INFO] Loaded 6 users.
+2026-09-16 11:03:37,977 [INFO] Connected to MongoDB
+2026-09-16 11:03:37,990 [INFO] Connected to MongoDB
+2026-09-16 11:03:51,573 [INFO] Login attempt: hardycapel
+2026-09-16 11:03:51,813 [INFO] User 'hardycapel' authenticated successfully
+2026-09-16 11:03:51,886 [INFO] Building sidebar: user='hardycapel'
+2026-09-16 11:03:51,886 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-16 11:03:51,887 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-16 11:03:51,887 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-16 11:03:51,887 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-16 11:03:51,887 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-16 11:03:51,887 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-16 11:03:51,887 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-16 11:03:51,887 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-16 11:03:51,887 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-16 11:03:51,887 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-16 11:03:51,887 [DEBUG] Registering sidebar item: label='Works Orders', required_permission='workorders.read'
+2026-09-16 11:03:51,887 [INFO] Sidebar item added: label='Works Orders', user='hardycapel'
+2026-09-16 11:03:51,887 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-16 11:03:51,887 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-16 11:03:51,887 [INFO] MainApp started: user='hardycapel'
+2026-09-16 11:03:54,518 [INFO] Sidebar clicked: user='hardycapel', label='Works Orders'
+2026-09-16 11:03:54,519 [ERROR] Factory for WorkOrderWindow failed: 'User' object has no attribute 'works_orders'
+2026-09-16 11:06:44,756 [INFO] Connected to MongoDB
+2026-09-16 11:06:44,773 [INFO] Connected to MongoDB
+2026-09-16 11:06:56,696 [INFO] Login attempt: hardycapel
+2026-09-16 11:06:56,931 [INFO] User 'hardycapel' authenticated successfully
+2026-09-16 11:06:57,013 [INFO] Building sidebar: user='hardycapel'
+2026-09-16 11:06:57,013 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-16 11:06:57,013 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-16 11:06:57,013 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-16 11:06:57,013 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-16 11:06:57,014 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-16 11:06:57,014 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-16 11:06:57,014 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-16 11:06:57,014 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-16 11:06:57,014 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-16 11:06:57,014 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-16 11:06:57,014 [DEBUG] Registering sidebar item: label='Works Orders', required_permission='workorders.read'
+2026-09-16 11:06:57,014 [INFO] Sidebar item added: label='Works Orders', user='hardycapel'
+2026-09-16 11:06:57,014 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-16 11:06:57,014 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-16 11:06:57,014 [INFO] MainApp started: user='hardycapel'
+2026-09-16 11:06:58,750 [INFO] Sidebar clicked: user='hardycapel', label='Works Orders'
+2026-09-16 14:42:24,156 [INFO] Connected to MongoDB
+2026-09-16 14:42:24,216 [INFO] Connected to MongoDB
+2026-09-16 14:42:38,031 [INFO] Login attempt: hardycapel
+2026-09-16 14:42:38,272 [INFO] User 'hardycapel' authenticated successfully
+2026-09-16 14:42:38,659 [INFO] Building sidebar: user='hardycapel'
+2026-09-16 14:42:38,659 [DEBUG] Registering sidebar item: label='My Profile', required_permission='None'
+2026-09-16 14:42:38,659 [INFO] Sidebar item added: label='My Profile', user='hardycapel'
+2026-09-16 14:42:38,659 [DEBUG] Registering sidebar item: label='Log Viewer', required_permission='logs.read'
+2026-09-16 14:42:38,659 [INFO] Sidebar item added: label='Log Viewer', user='hardycapel'
+2026-09-16 14:42:38,660 [DEBUG] Registering sidebar item: label='Admin', required_permission='admin.access'
+2026-09-16 14:42:38,660 [INFO] Sidebar item added: label='Admin', user='hardycapel'
+2026-09-16 14:42:38,660 [DEBUG] Registering sidebar item: label='Inventory', required_permission='inventory.read'
+2026-09-16 14:42:38,660 [INFO] Sidebar item added: label='Inventory', user='hardycapel'
+2026-09-16 14:42:38,660 [DEBUG] Registering sidebar item: label='Sales Orders', required_permission='sales.read'
+2026-09-16 14:42:38,660 [INFO] Sidebar item added: label='Sales Orders', user='hardycapel'
+2026-09-16 14:42:38,660 [DEBUG] Registering sidebar item: label='Works Orders', required_permission='workorders.read'
+2026-09-16 14:42:38,660 [INFO] Sidebar item added: label='Works Orders', user='hardycapel'
+2026-09-16 14:42:38,660 [DEBUG] Registering sidebar item: label='Workbench', required_permission='workbench.access'
+2026-09-16 14:42:38,660 [INFO] Sidebar item added: label='Workbench', user='hardycapel'
+2026-09-16 14:42:38,660 [INFO] MainApp started: user='hardycapel'
+2026-09-16 14:42:40,335 [INFO] Sidebar clicked: user='hardycapel', label='Works Orders'
+2026-09-16 14:42:45,726 [INFO] Sidebar clicked: user='hardycapel', label='Workbench'
+2026-09-16 14:42:45,827 [INFO] Workbench filters applied: user='hardycapel', type='All', status='All', search=''
+2026-09-16 14:42:45,828 [INFO] Workbench opened: user='hardycapel'
+2026-09-16 14:42:47,640 [INFO] Workbench open order: user='hardycapel', order_type='WO', order_number='5'

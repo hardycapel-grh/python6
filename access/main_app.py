@@ -16,12 +16,15 @@ from ui.windows.log_viewer_window import LogViewerPage, LogViewerWindow
 from ui.windows.admin_control_window import AdminControlWindow
 from ui.windows.inventory_window import InventoryWindow
 from ui.windows.sales_order_window import SalesOrderWindow
+from ui.windows.works_order_window import WorkOrderWindow
 from ui.components.logger_utils import log_event
 from ui.dialogs.profile_dialogs import ProfileDialog, ChangePasswordDialog
-from ui.pages.sales.edit_sales_order_dialog import EditSalesOrderDialog
-from ui.pages.works.edit_works_order_dialog import EditWorksOrderDialog
 from ui.pages.profile_page import ProfilePage
 from ui.pages.workbench.workbench_page import WorkbenchPage
+from ui.pages.works.works_order_list_page import WorksOrderListPage
+from ui.pages.sales.edit_sales_order_dialog import EditSalesOrderDialog
+from ui.pages.works.edit_works_order_dialog import EditWorksOrderDialog
+
 
 class MainApp(QMainWindow):
     """class MainApp - TODO: add description.
@@ -116,6 +119,13 @@ class MainApp(QMainWindow):
             SalesOrderWindow,
             lambda: SalesOrderWindow(self.user, self.mongo, self),
             required_permission="sales.read"
+        )
+
+        self._add_sidebar_item(
+            "Works Orders",
+            WorkOrderWindow,
+            lambda: WorkOrderWindow(self.mongo, self.user, self),
+            required_permission="workorders.read"
         )
 
         self._add_sidebar_item(
@@ -229,7 +239,7 @@ class MainApp(QMainWindow):
         """function _show_permission_denied - TODO: add description.
         Generated: 2026-08-01T21:49:18.077011Z
         """
-        from PySide6.QtWidgets import QMessageBox
+        
 
         QMessageBox.warning(
             self,
@@ -267,21 +277,25 @@ class MainApp(QMainWindow):
         """
         QMessageBox.information(self, "Info", message)
 
+    def open_works_orders_page(self):
+        page = WorksOrderListPage(self.mongo, self.user, self)
+        self.setCentralWidget(page)
+
     def open_sales_order_edit(self, so_number):
+        
         so = self.mongo.sales_orders.find_one({"so_number": so_number})
         if not so:
             QMessageBox.warning(self, "Not Found", f"Sales Order {so_number} not found.")
             return
-
         dlg = EditSalesOrderDialog(self.mongo, self.user, so, self)
         dlg.exec()
 
 
     def open_works_order_edit(self, wo_number):
+        
         wo = self.mongo.works_orders.find_one({"wo_number": wo_number})
         if not wo:
             QMessageBox.warning(self, "Not Found", f"Works Order {wo_number} not found.")
             return
-
         dlg = EditWorksOrderDialog(self.mongo, self.user, wo, self)
         dlg.exec()
