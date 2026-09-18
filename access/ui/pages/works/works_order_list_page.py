@@ -22,6 +22,7 @@ class WorksOrderListPage(QWidget):
         self.list.itemDoubleClicked.connect(self._open_selected_order)
 
     def _load_works_orders(self):
+        self.load_filtered({})
         self.list.clear()
 
         wos = list(self.mongo.works_orders.find({}).sort("wo_number", 1))
@@ -35,3 +36,14 @@ class WorksOrderListPage(QWidget):
     def _open_selected_order(self, item):
         wo_number = item.data(Qt.UserRole)
         self.window.open_works_order_edit(wo_number)
+
+    def load_filtered(self, query):
+        self.list.clear()
+
+        wos = list(self.mongo.works_orders.find(query).sort("wo_number", 1))
+
+        for wo in wos:
+            display = f"WO{wo['wo_number']} - {wo.get('status', 'new')} - SO{wo.get('so_number', '')}"
+            item = QListWidgetItem(display)
+            item.setData(Qt.UserRole, wo["wo_number"])
+            self.list.addItem(item)

@@ -1,18 +1,11 @@
 from PySide6.QtWidgets import (
-    QDialog, QVBoxLayout, QFormLayout, QLineEdit, QComboBox,
-    QDialogButtonBox, QPushButton, QLabel, QDoubleSpinBox, QMessageBox
+    QDialog, QVBoxLayout, QHBoxLayout, QFormLayout, QLineEdit, QTextEdit,
+    QDoubleSpinBox, QPushButton, QLabel, QDialogButtonBox, QMessageBox,
+    QGroupBox
 )
 from PySide6.QtCore import Qt
 
 from backend.wo_costing import calculate_enquiry_wo_cost
-
-
-ALLOWED_WO_TRANSITIONS = {
-    "new": {"new", "released"},
-    "released": {"released", "in-work"},
-    "in-work": {"in-work", "finished"},
-    "finished": set()
-}
 
 
 class EditWorksOrderDialog(QDialog):
@@ -24,34 +17,60 @@ class EditWorksOrderDialog(QDialog):
         self.works_order = works_order
 
         self.setWindowTitle(f"Works Order {works_order['wo_number']}")
-        self.setMinimumWidth(450)
+        self.setMinimumWidth(600)
 
         main_layout = QVBoxLayout(self)
-        form = QFormLayout()
 
-        # WO Number (read-only)
-        self.wo_number_edit = QLineEdit(str(works_order["wo_number"]))
-        self.wo_number_edit.setReadOnly(True)
-        form.addRow("WO Number:", self.wo_number_edit)
+        # ---------------------------------------------------------
+        # Header Section
+        # ---------------------------------------------------------
+        header_box = QGroupBox("Works Order Details")
+        header_layout = QFormLayout(header_box)
 
-        # SO Number (read-only)
-        self.so_number_edit = QLineEdit(str(works_order["so_number"]))
-        self.so_number_edit.setReadOnly(True)
-        form.addRow("Sales Order:", self.so_number_edit)
+        self.txt_wo_number = QLineEdit(str(works_order["wo_number"]))
+        self.txt_wo_number.setReadOnly(True)
 
-        # Customer (read-only)
-        self.customer_edit = QLineEdit(works_order.get("customer", ""))
-        self.customer_edit.setReadOnly(True)
-        form.addRow("Customer:", self.customer_edit)
+        self.txt_so_number = QLineEdit(str(works_order.get("so_number", "")))
+        self.txt_so_number.setReadOnly(True)
 
-        # Status (read-only)
+        self.txt_customer = QLineEdit(works_order.get("customer", ""))
+        self.txt_customer.setReadOnly(True)
+
         self.txt_status = QLineEdit(works_order.get("status", "new"))
         self.txt_status.setReadOnly(True)
-        form.addRow("Status:", self.txt_status)
+
+        header_layout.addRow("WO Number:", self.txt_wo_number)
+        header_layout.addRow("Sales Order:", self.txt_so_number)
+        header_layout.addRow("Customer:", self.txt_customer)
+        header_layout.addRow("Status:", self.txt_status)
+
+        main_layout.addWidget(header_box)
 
         # ---------------------------------------------------------
-        # Estimate Fields (Enquiry WO)
+        # Workflow Toolbar
         # ---------------------------------------------------------
+        toolbar = QHBoxLayout()
+
+        self.btn_release = QPushButton("Release")
+        self.btn_approve = QPushButton("Approve Estimate")
+        self.btn_finish = QPushButton("Finish")
+
+        self.btn_release.clicked.connect(self._release_wo)
+        self.btn_approve.clicked.connect(self._approve_estimate)
+        self.btn_finish.clicked.connect(self._finish_wo)
+
+        toolbar.addWidget(self.btn_release)
+        toolbar.addWidget(self.btn_approve)
+        toolbar.addWidget(self.btn_finish)
+
+        main_layout.addLayout(toolbar)
+
+        # ---------------------------------------------------------
+        # Estimate Section
+        # ---------------------------------------------------------
+        estimate_box = QGroupBox("Estimate")
+        estimate_layout = QFormLayout(estimate_box)
+
         self.labour_hours = QDoubleSpinBox()
         self.labour_hours.setRange(0, 99999)
         self.labour_hours.setValue(works_order.get("labour_hours", 0))
@@ -72,30 +91,54 @@ class EditWorksOrderDialog(QDialog):
         self.overhead_cost.setRange(0, 999999)
         self.overhead_cost.setValue(works_order.get("overhead_cost", 0))
 
-        form.addRow("Labour Hours:", self.labour_hours)
-        form.addRow("Labour Rate:", self.labour_rate)
-        form.addRow("Material Cost:", self.material_cost)
-        form.addRow("Subcontract Cost:", self.subcontract_cost)
-        form.addRow("Overhead Cost:", self.overhead_cost)
+        estimate_layout.addRow("Labour Hours:", self.labour_hours)
+        estimate_layout.addRow("Labour Rate:", self.labour_rate)
+        estimate_layout.addRow("Material Cost:", self.material_cost)
+        estimate_layout.addRow("Subcontract Cost:", self.subcontract_cost)
+        estimate_layout.addRow("Overhead Cost:", self.overhead_cost)
 
-        main_layout.addLayout(form)
+        main_layout.addWidget(estimate_box)
 
         # ---------------------------------------------------------
-        # Workflow Buttons
+        # Cost Summary Panel
         # ---------------------------------------------------------
-        self.btn_release = QPushButton("Release WO")
-        self.btn_approve = QPushButton("Approve Estimate (In‑Work)")
-        self.btn_finish = QPushButton("Finish WO")
+        summary_box = QGroupBox("Cost Summary")
+        summary_layout = QFormLayout(summary_box)
 
-        self.btn_release.clicked.connect(self._release_wo)
-        self.btn_approve.clicked.connect(self._approve_estimate)
-        self.btn_finish.clicked.connect(self._finish_wo)
+        self.lbl_labour_cost = QLabel("£0.00")
+        self.lbl_material_cost = QLabel("£0.00")
+        self.lbl_subcontract_cost = QLabel("£0.00")
+        self.lbl_overhead_cost = QLabel("£0.00")
+        self.lbl_total_cost = QLabel("£0.00")
 
-        main_layout.addWidget(self.btn_release)
-        main_layout.addWidget(self.btn_approve)
-        main_layout.addWidget(self.btn_finish)
+        summary_layout.addRow("Labour Cost:", self.lbl_labour_cost)
+        summary_layout.addRow("Material Cost:", self.lbl_material_cost)
+        summary_layout.addRow("Subcontract Cost:", self.lbl_subcontract_cost)
+        summary_layout.addRow("Overhead Cost:", self.lbl_overhead_cost)
+        summary_layout.addRow("Total Estimated Cost:", self.lbl_total_cost)
 
-        self._update_button_visibility()
+        main_layout.addWidget(summary_box)
+
+        # Live update
+        for widget in [
+            self.labour_hours, self.labour_rate,
+            self.material_cost, self.subcontract_cost, self.overhead_cost
+        ]:
+            widget.valueChanged.connect(self._update_cost_summary)
+
+        self._update_cost_summary()
+
+        # ---------------------------------------------------------
+        # Notes Section
+        # ---------------------------------------------------------
+        notes_box = QGroupBox("Notes")
+        notes_layout = QVBoxLayout(notes_box)
+
+        self.txt_notes = QTextEdit()
+        self.txt_notes.setPlainText(works_order.get("notes", ""))
+
+        notes_layout.addWidget(self.txt_notes)
+        main_layout.addWidget(notes_box)
 
         # ---------------------------------------------------------
         # Dialog Buttons
@@ -105,46 +148,85 @@ class EditWorksOrderDialog(QDialog):
         buttons.rejected.connect(self.close)
         main_layout.addWidget(buttons)
 
-        # Lock fields if needed
+        # Apply locking rules
         self._apply_locking_rules()
+        self._update_toolbar_visibility()
 
     # ---------------------------------------------------------
-    # Locking rules based on status
+    # Cost Summary Calculation
+    # ---------------------------------------------------------
+    def _update_cost_summary(self):
+        labour_cost = self.labour_hours.value() * self.labour_rate.value()
+        material_cost = self.material_cost.value()
+        subcontract_cost = self.subcontract_cost.value()
+        overhead_cost = self.overhead_cost.value()
+
+        total = labour_cost + material_cost + subcontract_cost + overhead_cost
+
+        self.lbl_labour_cost.setText(f"£{labour_cost:.2f}")
+        self.lbl_material_cost.setText(f"£{material_cost:.2f}")
+        self.lbl_subcontract_cost.setText(f"£{subcontract_cost:.2f}")
+        self.lbl_overhead_cost.setText(f"£{overhead_cost:.2f}")
+        self.lbl_total_cost.setText(f"£{total:.2f}")
+
+    # ---------------------------------------------------------
+    # Workflow Actions
+    # ---------------------------------------------------------
+    def _release_wo(self):
+        self._update_status("released")
+
+    def _approve_estimate(self):
+        self._update_status("in-work")
+
+    def _finish_wo(self):
+        cost_data = calculate_enquiry_wo_cost(self.mongo, self.works_order["wo_number"])
+        self.mongo.works_orders.update_one(
+            {"wo_number": self.works_order["wo_number"]},
+            {"$set": {
+                "status": "finished",
+                "estimated_cost": cost_data,
+                "notes": self.txt_notes.toPlainText(),
+                "updated_by": self.user.username
+            }}
+        )
+        QMessageBox.information(self, "Finished", "Works Order marked as finished.")
+        super().accept()
+
+    def _update_status(self, new_status):
+        self.mongo.works_orders.update_one(
+            {"wo_number": self.works_order["wo_number"]},
+            {"$set": {
+                "status": new_status,
+                "notes": self.txt_notes.toPlainText(),
+                "updated_by": self.user.username
+            }}
+        )
+        self.works_order["status"] = new_status
+        self.txt_status.setText(new_status)
+        self._apply_locking_rules()
+        self._update_toolbar_visibility()
+
+    # ---------------------------------------------------------
+    # Locking Rules
     # ---------------------------------------------------------
     def _apply_locking_rules(self):
         status = self.works_order.get("status")
 
-        if status == "new":
-            return  # fully editable
+        editable = status in ("new", "released")
 
-        if status == "released":
-            # Estimate editable
-            return
-
-        if status == "in-work":
-            # Estimate locked
-            self.labour_hours.setEnabled(False)
-            self.labour_rate.setEnabled(False)
-            self.material_cost.setEnabled(False)
-            self.subcontract_cost.setEnabled(False)
-            self.overhead_cost.setEnabled(False)
+        for widget in [
+            self.labour_hours, self.labour_rate,
+            self.material_cost, self.subcontract_cost, self.overhead_cost
+        ]:
+            widget.setEnabled(editable)
 
         if status == "finished":
-            # Everything locked
-            self.labour_hours.setEnabled(False)
-            self.labour_rate.setEnabled(False)
-            self.material_cost.setEnabled(False)
-            self.subcontract_cost.setEnabled(False)
-            self.overhead_cost.setEnabled(False)
-
-            self.btn_release.setVisible(False)
-            self.btn_approve.setVisible(False)
-            self.btn_finish.setVisible(False)
+            self.txt_notes.setReadOnly(True)
 
     # ---------------------------------------------------------
-    # Button visibility
+    # Toolbar Visibility
     # ---------------------------------------------------------
-    def _update_button_visibility(self):
+    def _update_toolbar_visibility(self):
         status = self.works_order.get("status")
 
         self.btn_release.setVisible(status == "new")
@@ -152,62 +234,7 @@ class EditWorksOrderDialog(QDialog):
         self.btn_finish.setVisible(status == "in-work")
 
     # ---------------------------------------------------------
-    # Release WO
-    # ---------------------------------------------------------
-    def _release_wo(self):
-        self.mongo.works_orders.update_one(
-            {"wo_number": self.works_order["wo_number"]},
-            {"$set": {"status": "released"}}
-        )
-        self.works_order["status"] = "released"
-        self.txt_status.setText("released")
-        self._update_button_visibility()
-        self._apply_locking_rules()
-
-    # ---------------------------------------------------------
-    # Approve Estimate (Move to In‑Work)
-    # ---------------------------------------------------------
-    def _approve_estimate(self):
-        self.mongo.works_orders.update_one(
-            {"wo_number": self.works_order["wo_number"]},
-            {"$set": {"status": "in-work"}}
-        )
-        self.works_order["status"] = "in-work"
-        self.txt_status.setText("in-work")
-        self._update_button_visibility()
-        self._apply_locking_rules()
-
-    # ---------------------------------------------------------
-    # Finish WO
-    # ---------------------------------------------------------
-    def _finish_wo(self):
-        wo_number = self.works_order["wo_number"]
-
-        # Calculate estimated cost
-        cost_data = calculate_enquiry_wo_cost(self.mongo, wo_number)
-
-        # Update WO
-        self.mongo.works_orders.update_one(
-            {"wo_number": wo_number},
-            {"$set": {
-                "status": "finished",
-                "estimated_cost": cost_data
-            }}
-        )
-
-        self.works_order["status"] = "finished"
-        self.txt_status.setText("finished")
-
-        QMessageBox.information(
-            self,
-            "Works Order Finished",
-            f"Estimated Cost: {cost_data['total_estimated_cost']:.2f}"
-        )
-
-        super().accept()
-
-    # ---------------------------------------------------------
-    # Save button
+    # Save
     # ---------------------------------------------------------
     def accept(self):
         updated = {
@@ -216,7 +243,8 @@ class EditWorksOrderDialog(QDialog):
             "material_cost": self.material_cost.value(),
             "subcontract_cost": self.subcontract_cost.value(),
             "overhead_cost": self.overhead_cost.value(),
-            "updated_by": getattr(self.user, "username", None)
+            "notes": self.txt_notes.toPlainText(),
+            "updated_by": self.user.username
         }
 
         self.mongo.works_orders.update_one(
