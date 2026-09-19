@@ -1,5 +1,6 @@
 from PySide6.QtWidgets import QWidget, QVBoxLayout, QListWidget, QListWidgetItem, QLabel
 from PySide6.QtCore import Qt
+from datetime import datetime
 
 
 class WorksOrderListPage(QWidget):
@@ -35,6 +36,16 @@ class WorksOrderListPage(QWidget):
 
     def _open_selected_order(self, item):
         wo_number = item.data(Qt.UserRole)
+
+        self.mongo.audit_log.insert_one({
+            "event": "works_order.open",
+            "performed_by": self.user.username,
+            "timestamp": datetime.utcnow(),
+            "details": {
+                "wo_number": wo_number
+            }
+        })
+        
         self.window.open_works_order_edit(wo_number)
 
     def load_filtered(self, query):

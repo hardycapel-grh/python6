@@ -4,7 +4,7 @@ from PySide6.QtWidgets import (
     QGroupBox
 )
 from PySide6.QtCore import Qt
-
+from datetime import datetime
 from backend.wo_costing import calculate_enquiry_wo_cost
 
 
@@ -173,12 +173,40 @@ class EditWorksOrderDialog(QDialog):
     # Workflow Actions
     # ---------------------------------------------------------
     def _release_wo(self):
+        self.mongo.audit_log.insert_one({
+            "event": "works_order.release",
+            "performed_by": self.user.username,
+            "timestamp": datetime.utcnow(),
+            "details": {
+                "wo_number": self.works_order["wo_number"],
+                "status": "released"
+            }
+        })
         self._update_status("released")
 
     def _approve_estimate(self):
+        self.mongo.audit_log.insert_one({
+            "event": "works_order.approve_estimate",
+            "performed_by": self.user.username,
+            "timestamp": datetime.utcnow(),
+            "details": {
+                "wo_number": self.works_order["wo_number"],
+                "status": "in-work"
+            }
+        })
         self._update_status("in-work")
 
     def _finish_wo(self):
+        self.mongo.audit_log.insert_one({
+            "event": "works_order.finish",
+            "performed_by": self.user.username,
+            "timestamp": datetime.utcnow(),
+            "details": {
+                "wo_number": self.works_order["wo_number"],
+                "estimated_cost": cost_data
+            }
+        })
+
         cost_data = calculate_enquiry_wo_cost(self.mongo, self.works_order["wo_number"])
         self.mongo.works_orders.update_one(
             {"wo_number": self.works_order["wo_number"]},
@@ -252,4 +280,15 @@ class EditWorksOrderDialog(QDialog):
             {"$set": updated}
         )
 
+        self.mongo.audit_log.insert_one({
+            "event": "works_order.save",
+            "performed_by": self.user.username,
+            "timestamp": datetime.utcnow(),
+            "details": {
+                "wo_number": self.works_order["wo_number"],
+                "fields_updated": list(updated.keys())
+            }
+        })
+
         super().accept()
+

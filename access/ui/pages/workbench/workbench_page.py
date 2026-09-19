@@ -4,6 +4,7 @@ from PySide6.QtWidgets import (
 )
 from PySide6.QtGui import QStandardItemModel, QStandardItem
 from PySide6.QtCore import Qt
+from datetime import datetime
 
 from ui.models.workbench_filter_proxy import WorkbenchFilterProxyModel
 from ui.components.logger_utils import log_event
@@ -219,6 +220,15 @@ class WorkbenchPage(QWidget):
     # Open Selected Order
     # ---------------------------------------------------------
     def _open_selected_order(self, index):
+        self.mongo.audit_log.insert_one({
+            "event": "workbench.open_works_order",
+            "performed_by": self.user.username,
+            "timestamp": datetime.utcnow(),
+            "details": {
+                "wo_number": order_number
+            }
+        })
+
         proxy_index = self.proxy.mapToSource(index)
         model = self.proxy.sourceModel()
 
