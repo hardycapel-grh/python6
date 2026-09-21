@@ -15,6 +15,7 @@ from ui.components.logger import logger
 from ui.windows.log_viewer_window import LogViewerPage, LogViewerWindow
 from ui.windows.admin_control_window import AdminControlWindow
 from ui.windows.inventory_window import InventoryWindow
+from ui.windows.labour_rate_manager_window import LabourRateManagerWindow
 from ui.windows.sales_order_window import SalesOrderWindow
 from ui.windows.works_order_window import WorksOrderWindow
 from ui.components.logger_utils import log_event
@@ -105,6 +106,13 @@ class MainApp(QMainWindow):
             AdminControlWindow,
             lambda: AdminControlWindow(self.user, self.mongo, self),
             required_permission="admin.access"
+        )
+
+        self._add_sidebar_item(
+            "Labour Rates",
+            LabourRateManagerWindow,
+            lambda: LabourRateManagerWindow(self.mongo, self.user, self),
+            required_permission="labour_rates.read"
         )
 
         self._add_sidebar_item(

@@ -79,6 +79,8 @@ class MongoService:
             self.audit_log = self.db["audit_log"]
             self.inventory_batches = self.db["inventory_batches"]
             self.stock_movements = self.db["stock_movements"]
+            self.labour_rates = self.db["labour_rates"]
+
 
             self.stores = self.db["stores"]
             self.uom_list = self.db["uom_list"]

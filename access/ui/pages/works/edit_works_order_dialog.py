@@ -1,6 +1,6 @@
 from PySide6.QtWidgets import (
     QDialog, QVBoxLayout, QHBoxLayout, QFormLayout, QLineEdit, QTextEdit,
-    QDoubleSpinBox, QPushButton, QLabel, QDialogButtonBox, QMessageBox,
+    QDoubleSpinBox, QComboBox, QPushButton, QLabel, QDialogButtonBox, QMessageBox,
     QGroupBox
 )
 from PySide6.QtCore import Qt
@@ -75,9 +75,12 @@ class EditWorksOrderDialog(QDialog):
         self.labour_hours.setRange(0, 99999)
         self.labour_hours.setValue(works_order.get("labour_hours", 0))
 
-        self.labour_rate = QDoubleSpinBox()
-        self.labour_rate.setRange(0, 99999)
-        self.labour_rate.setValue(works_order.get("labour_rate", 0))
+        # self.labour_rate = QDoubleSpinBox()
+        # self.labour_rate.setRange(0, 99999)
+        # self.labour_rate.setValue(works_order.get("labour_rate", 0))
+
+        self.cmb_labour_rate = QComboBox()
+        self._populate_labour_rates()
 
         self.material_cost = QDoubleSpinBox()
         self.material_cost.setRange(0, 999999)
@@ -156,7 +159,11 @@ class EditWorksOrderDialog(QDialog):
     # Cost Summary Calculation
     # ---------------------------------------------------------
     def _update_cost_summary(self):
-        labour_cost = self.labour_hours.value() * self.labour_rate.value()
+        # Get selected labour rate document
+        selected_rate = self.cmb_labour_rate.currentData()
+        labour_rate_value = selected_rate["rate"]
+
+        labour_cost = self.labour_hours.value() * labour_rate_value
         material_cost = self.material_cost.value()
         subcontract_cost = self.subcontract_cost.value()
         overhead_cost = self.overhead_cost.value()
@@ -168,6 +175,7 @@ class EditWorksOrderDialog(QDialog):
         self.lbl_subcontract_cost.setText(f"£{subcontract_cost:.2f}")
         self.lbl_overhead_cost.setText(f"£{overhead_cost:.2f}")
         self.lbl_total_cost.setText(f"£{total:.2f}")
+
 
     # ---------------------------------------------------------
     # Workflow Actions
@@ -292,3 +300,7 @@ class EditWorksOrderDialog(QDialog):
 
         super().accept()
 
+    def _populate_labour_rates(self):
+        rates = list(self.mongo.labour_rates.find({"active": True}).sort("code", 1))
+        for r in rates:
+            self.cmb_labour_rate.addItem(f"{r['code']} – £{r['rate']:.2f}", r)
