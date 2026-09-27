@@ -109,6 +109,7 @@ class EditSalesOrderDialog(QDialog):
         # Type
         self.type_combo = QComboBox()
         self.type_combo.addItems(["enquiry", "firm"])
+        self.type_combo.setCurrentText(sales_order.get("type", "enquiry"))
 
         # Allow type editing only when SO is new (including cloned SOs)
         if self.sales_order.get("status") == "new":
@@ -117,6 +118,7 @@ class EditSalesOrderDialog(QDialog):
             self.type_combo.setEnabled(False)
 
         form.addRow("Type:", self.type_combo)
+
 
         main_layout.addLayout(form)
 
@@ -606,6 +608,7 @@ class EditSalesOrderDialog(QDialog):
             "customer": self.sales_order["customer"],
             "items": [],
             "status": "new",
+            "type": self.sales_order.get("type", "enquiry"),
             "created_by": getattr(self.user, "username", None)
         })
 
