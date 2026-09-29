@@ -228,6 +228,11 @@ class EditWorksOrderDialog(QDialog):
         self._update_status("in-work")
 
     def _finish_wo(self):
+        # Calculate cost FIRST
+        selected = self.cmb_labour_rate.currentData()
+        cost_data = calculate_enquiry_wo_cost(self.mongo, self.works_order["wo_number"])
+
+        # Log the event
         self.mongo.audit_log.insert_one({
             "event": "works_order.finish",
             "performed_by": self.user.username,
@@ -237,8 +242,8 @@ class EditWorksOrderDialog(QDialog):
                 "estimated_cost": cost_data
             }
         })
-        selected = self.cmb_labour_rate.currentData()
-        cost_data = calculate_enquiry_wo_cost(self.mongo, self.works_order["wo_number"])
+
+        # Save to Mongo
         self.mongo.works_orders.update_one(
             {"wo_number": self.works_order["wo_number"]},
             {"$set": {
@@ -250,8 +255,10 @@ class EditWorksOrderDialog(QDialog):
                 "labour_rate_value": selected["rate"]
             }}
         )
+
         QMessageBox.information(self, "Finished", "Works Order marked as finished.")
         super().accept()
+
 
     def _update_status(self, new_status):
         self.mongo.works_orders.update_one(
@@ -272,22 +279,33 @@ class EditWorksOrderDialog(QDialog):
     # ---------------------------------------------------------
     def _apply_locking_rules(self):
         status = self.works_order.get("status")
+        can_edit = self.user.has_permission("worksorders.edit")
 
-        editable = status in ("new", "released")
+        # User must have edit permission AND WO must be editable
+        editable = can_edit and status in ("new", "released")
 
+        # Breakdown button (only for enquiry WOs, only when released, only if user can edit)
         self.btn_edit_labour.setEnabled(
-            status == "released" and self.works_order.get("type") == "enquiry"
+            can_edit and
+            self.works_order.get("type") == "enquiry" and
+            status == "released"
         )
 
+        # Cost fields
         for widget in [
-            self.labour_hours, self.cmb_labour_rate,
-            self.material_cost, self.subcontract_cost, self.overhead_cost
+            self.labour_hours, self.material_cost,
+            self.subcontract_cost, self.overhead_cost,
+            self.cmb_labour_rate, self.txt_notes
         ]:
             widget.setEnabled(editable)
 
+        # Finish button (only edit users)
+        self.btn_finish.setEnabled(can_edit and status == "released")
 
+        # Notes become read-only when finished
         if status == "finished":
             self.txt_notes.setReadOnly(True)
+
 
     # ---------------------------------------------------------
     # Toolbar Visibility
@@ -362,16 +380,18 @@ class EditWorksOrderDialog(QDialog):
     def _open_labour_editor(self):
         dlg = LabourHoursEditorDialog(self.mongo, self.works_order, self)
         if dlg.exec():
-            breakdown, total_hours = dlg.get_breakdown()
+            breakdown, totals = dlg.get_breakdown()
 
-            # Save into WO object (not Mongo yet)
             self.works_order["labour_breakdown"] = breakdown
 
-            # Update labour hours field
-            self.labour_hours.setValue(total_hours)
+            # Push totals into WO fields
+            self.labour_hours.setValue(totals["labour"])
+            self.material_cost.setValue(totals["material"])
+            self.subcontract_cost.setValue(totals["subcontract"])
+            self.overhead_cost.setValue(totals["overhead"])
 
-            # Update cost summary
             self._update_cost_summary()
+
             
 
 class LabourHoursEditorDialog(QDialog):
@@ -386,8 +406,13 @@ class LabourHoursEditorDialog(QDialog):
         layout = QVBoxLayout(self)
 
         self.table = QTableWidget()
-        self.table.setColumnCount(4)
-        self.table.setHorizontalHeaderLabels(["Component", "Description", "Qty", "Hours"])
+        self.table.setColumnCount(7)
+        self.table.setHorizontalHeaderLabels([
+            "Component", "Description", "Qty",
+            "Labour Hours", "Material Cost",
+            "Subcontract Cost", "Overhead Cost"
+        ])
+
         layout.addWidget(self.table)
 
         self._load_bom()
@@ -398,12 +423,15 @@ class LabourHoursEditorDialog(QDialog):
         layout.addWidget(buttons)
 
     def _load_bom(self):
-        # Use WO items as BOM
+    # Use WO items as BOM
         bom = self.works_order.get("items", [])
         breakdown = self.works_order.get("labour_breakdown", [])
 
-        # Map existing hours by component
-        hours_map = {item["component"]: item["hours"] for item in breakdown}
+        # Map existing hours + costs by component
+        hours_map = {item["component"]: item.get("hours", 0) for item in breakdown}
+        material_map = {item["component"]: item.get("material_cost", 0) for item in breakdown}
+        subcontract_map = {item["component"]: item.get("subcontract_cost", 0) for item in breakdown}
+        overhead_map = {item["component"]: item.get("overhead_cost", 0) for item in breakdown}
 
         self.table.setRowCount(len(bom))
 
@@ -411,35 +439,83 @@ class LabourHoursEditorDialog(QDialog):
             comp = item.get("part_number")
             desc = item.get("description", "")
             qty = item.get("qty", 1)
-            hours = hours_map.get(comp, 0)
 
+            # Existing values or defaults
+            hours = hours_map.get(comp, 0)
+            material = material_map.get(comp, 0)
+            subcontract = subcontract_map.get(comp, 0)
+            overhead = overhead_map.get(comp, 0)
+
+            # Component
             self.table.setItem(row, 0, QTableWidgetItem(comp))
             self.table.setItem(row, 1, QTableWidgetItem(desc))
             self.table.setItem(row, 2, QTableWidgetItem(str(qty)))
 
-            spin = QDoubleSpinBox()
-            spin.setRange(0, 999)
-            spin.setValue(hours)
-            self.table.setCellWidget(row, 3, spin)
+            # Labour Hours
+            spin_hours = QDoubleSpinBox()
+            spin_hours.setRange(0, 999)
+            spin_hours.setValue(hours)
+            self.table.setCellWidget(row, 3, spin_hours)
+
+            # Material Cost
+            spin_material = QDoubleSpinBox()
+            spin_material.setRange(0, 999999)
+            spin_material.setValue(material)
+            self.table.setCellWidget(row, 4, spin_material)
+
+            # Subcontract Cost
+            spin_sub = QDoubleSpinBox()
+            spin_sub.setRange(0, 999999)
+            spin_sub.setValue(subcontract)
+            self.table.setCellWidget(row, 5, spin_sub)
+
+            # Overhead Cost
+            spin_over = QDoubleSpinBox()
+            spin_over.setRange(0, 999999)
+            spin_over.setValue(overhead)
+            self.table.setCellWidget(row, 6, spin_over)
+
 
 
     def get_breakdown(self):
         breakdown = []
-        total = 0
+        total_hours = 0
+        total_material = 0
+        total_subcontract = 0
+        total_overhead = 0
 
         for row in range(self.table.rowCount()):
             comp = self.table.item(row, 0).text()
             desc = self.table.item(row, 1).text()
             qty = int(float(self.table.item(row, 2).text()))
+
             hours = self.table.cellWidget(row, 3).value()
+            material = self.table.cellWidget(row, 4).value()
+            subcontract = self.table.cellWidget(row, 5).value()
+            overhead = self.table.cellWidget(row, 6).value()
 
             breakdown.append({
                 "component": comp,
                 "description": desc,
                 "qty": qty,
-                "hours": hours
+                "hours": hours,
+                "material_cost": material,
+                "subcontract_cost": subcontract,
+                "overhead_cost": overhead
             })
 
-            total += hours
+            total_hours += hours
+            total_material += material
+            total_subcontract += subcontract
+            total_overhead += overhead
 
-        return breakdown, total
+        totals = {
+            "labour": total_hours,
+            "material": total_material,
+            "subcontract": total_subcontract,
+            "overhead": total_overhead,
+            "total": total_hours + total_material + total_subcontract + total_overhead
+        }
+
+        return breakdown, totals
+
