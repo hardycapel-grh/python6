@@ -254,6 +254,9 @@ class BOMEditorPage(QWidget):
         self.editor.revision_cb.addItem(next_rev)
         self.editor.revision_cb.setEnabled(False)
 
+        # ⭐ FIX: clear previous BOM lines
+        self.editor.clear_rows()
+
         self.loading_bom = False
 
     # ---------------------------------------------------------

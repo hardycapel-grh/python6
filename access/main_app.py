@@ -5,6 +5,7 @@ Generated: 2026-08-01T21:47:22.924921Z
 """
 
 
+import importlib
 from cProfile import label
 
 from PySide6.QtWidgets import (
@@ -25,6 +26,28 @@ from ui.pages.workbench.workbench_page import WorkbenchPage
 from ui.pages.works.works_order_list_page import WorksOrderListPage
 from ui.pages.sales.edit_sales_order_dialog import EditSalesOrderDialog
 from ui.pages.works.edit_works_order_dialog import EditWorksOrderDialog
+
+
+def _load_help_page_class():
+    """Resolve HelpPage across supported module layouts."""
+    for module_name in (
+        "ui.pages.help_page",
+        "ui.pages.help.help_page",
+        "ui.pages.help_page.help_page",
+    ):
+        try:
+            module = importlib.import_module(module_name)
+        except ModuleNotFoundError:
+            continue
+
+        help_page_class = getattr(module, "HelpPage", None)
+        if help_page_class is not None:
+            return help_page_class
+
+    raise ImportError("Unable to locate HelpPage in any expected ui.pages module.")
+
+
+HelpPage = _load_help_page_class()
 
 
 class MainApp(QMainWindow):
@@ -143,6 +166,12 @@ class MainApp(QMainWindow):
             required_permission="workbench.access"
         )
 
+        self._add_sidebar_item(
+            "Help",
+            HelpPage,
+            lambda: HelpPage(self.mongo, self.user),
+            required_permission="help.access"
+        )
 
 
 
