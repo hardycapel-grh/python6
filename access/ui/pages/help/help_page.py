@@ -24,6 +24,9 @@ class HelpPage(QWidget):
             "Admin: Audit Log",
             "Admin: Suppliers",
             "Admin: BOM editor",
+            "Labour Rates",
+            "Inventory",
+            
         ])
         self.list.currentItemChanged.connect(self.load_topic)
         layout.addWidget(self.list, 1)
