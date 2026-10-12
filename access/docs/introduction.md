@@ -26,17 +26,14 @@ Each page in the Help menu explains its purpose, fields, and actions in detail.
 ## How the Workflow Fits Together
 The core operational workflow follows a simple, logical sequence:
 
-1. **Sales Orders**  
-   Customer orders are created and managed here.
+1. **Sales Orders**  Sales Orders are customer instigated orders. There are two types of Sales Orders: 'Enquiry' and 'Firm'. When a customer makes an enquiry or places a firm order, they do so how they please. For example: imagine we make a toy push along trolley. The customer might order 100 trolleys and 20 spare wheels. This is probably not how we need it. So the work flow is now for us to create Works Orders from the Sales Orders. The works Orders will be how we need the breakdown.
 
-2. **Works Orders**  
-   Sales Orders generate Works Orders, which track the operational work required.
+2. **Works Orders** Works Orders are how the business organises it's work flow. Works orders are derived from Sales Orders and must, ultimately cover all the items on the Sales Order. A Works Order can be either an enquiry type or a firm type. This is inherited from the parent Sales Order. An enquiry type Works Order is used to create an estimate. A firm type Works Order is used to provision the items required to complete part or the Sales Order through a Shop Order.
 
-3. **Breakdown Editor**  
-   Used when equipment or tasks require additional breakdown or analysis.
+3. **Shop Orders** Shop Orders are derived from firm type Works Orders. They are used to produce by manufacture or sub contracting manufacture and or purchase the required parts and resources to fulfil the works order. The Shop Order is for individual parts or an assembly. Where an assembled part is required then further shop orders are required to complete the assembly's parts. Any resources required by the sales order passed down to a works order will require a shop order so they can be provisioned. Resources that need purchasing will need a Purchase Order.
 
-4. **Finish / Completion**  
-   Finalise work, update statuses, and ensure everything is logged correctly.
+4. **Purchase Orders**  
+   
 
 This workflow is supported by additional modules such as Inventory, Permissions, and Logs.
 
