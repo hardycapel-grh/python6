@@ -276,6 +276,7 @@ class SalesOrderListPage(QWidget):
             # Insert into MongoDB
             self.mongo.sales_orders.insert_one(data)
 
+
             self.mongo.log_event(
                 "sales_order.create",
                 performed_by=getattr(self.user, "username", None),
@@ -316,6 +317,8 @@ class SalesOrderListPage(QWidget):
             }
 
             self.mongo.works_orders.insert_one(wo)
+            if hasattr(self.app, "workbench"):
+                self.app.workbench._load_workbench()
 
             # Audit log
             self.mongo.audit(
@@ -701,6 +704,8 @@ class SalesOrderListPage(QWidget):
 
         # Insert clone
         self.mongo.sales_orders.insert_one(cloned)
+        
+
 
         # Create Works Order automatically for cloned SO
         wo = {
@@ -716,6 +721,8 @@ class SalesOrderListPage(QWidget):
         }
 
         self.mongo.works_orders.insert_one(wo)
+        if hasattr(self.app, "workbench"):
+            self.app.workbench._load_workbench()
 
         self.mongo.audit(
             event="works_order.create",
