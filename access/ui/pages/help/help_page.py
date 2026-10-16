@@ -26,6 +26,7 @@ class HelpPage(QWidget):
             "Admin: BOM editor",
             "Labour Rates",
             "Inventory",
+            "Sales Orders",
             
         ])
         self.list.currentItemChanged.connect(self.load_topic)

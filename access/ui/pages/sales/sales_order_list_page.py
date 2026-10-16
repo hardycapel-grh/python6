@@ -268,7 +268,7 @@ class SalesOrderListPage(QWidget):
 
 
     def _open_add_dialog(self):
-        dlg = AddItemDialog(self.mongo, self.user, self)
+        dlg = AddItemDialog(self.mongo, self.user, self, mode="new")
 
         if dlg.exec():
             data = dlg.get_data()

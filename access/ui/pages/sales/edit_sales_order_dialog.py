@@ -246,9 +246,16 @@ class EditSalesOrderDialog(QDialog):
     # Item quantity editing
     # ---------------------------------------------------------
     def _add_item(self):
-        dlg = AddItemDialog(self.mongo, self.user, self)
+        dlg = AddItemDialog(self.mongo, self.user, self, mode="edit")
         if dlg.exec():
-            new_item_data = dlg.get_data()["items"]
+            data = dlg.get_data()
+
+            # In edit mode, get_data() returns a list of items
+            if isinstance(data, list):
+                new_item_data = data
+            else:
+                new_item_data = data.get("items", [])
+
             if not new_item_data:
                 return
 

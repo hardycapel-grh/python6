@@ -33,12 +33,11 @@ class AddItemDialog(QDialog):
         - Status (text box)
         - Type (dropdown: enquiry / firm)
     """
-
-    def __init__(self, mongo, user=None, parent=None):
+    def __init__(self, mongo, user=None, parent=None, mode="new"):
         super().__init__(parent)
-
         self.mongo = mongo
         self.user = user
+        self.mode = mode
 
         self.setWindowTitle("Add Sales Order Item")
         self.setMinimumWidth(450)
@@ -79,6 +78,19 @@ class AddItemDialog(QDialog):
         self.type_combo = QComboBox()
         self.type_combo.addItems(["enquiry", "firm"])
         form.addRow("Type:", self.type_combo)
+
+        if self.mode == "edit":
+            self.so_number_edit.hide()
+            self.customer_combo.hide()
+            self.req_date_edit.hide()
+            self.type_combo.hide()
+
+            # Hide labels too
+            form.labelForField(self.so_number_edit).hide()
+            form.labelForField(self.customer_combo).hide()
+            form.labelForField(self.req_date_edit).hide()
+            form.labelForField(self.type_combo).hide()
+
 
         main_layout.addLayout(form)
 
@@ -196,6 +208,19 @@ class AddItemDialog(QDialog):
 
     # Gather all data into a dict
     def get_data(self):
+        if self.mode == "edit":
+            # Only return items
+            return [
+                {
+                    "part_number": self.items_list.item(i).data(Qt.UserRole)["part_number"],
+                    "description": self.items_list.item(i).data(Qt.UserRole)["description"],
+                    "uom": self.items_list.item(i).data(Qt.UserRole).get("uom", "ea"),
+                    "qty": self.items_list.item(i).data(Qt.UserRole)["qty"]
+                }
+                for i in range(self.items_list.count())
+            ]
+
+        # Original behaviour for new Sales Orders
         return {
             "so_number": self.so_number_edit.text().strip(),
             "customer": self.customer_combo.currentText(),
@@ -213,6 +238,7 @@ class AddItemDialog(QDialog):
             ],
             "created_by": getattr(self.user, "username", None)
         }
+
 
     def _search_inventory(self):
         query = self.inventory_search.text().strip().lower()
