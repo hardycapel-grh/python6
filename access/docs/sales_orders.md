@@ -149,10 +149,25 @@ Changes to a Sales Order immediately affect downstream workflow.
 - - Click 'OK' to complete the new sales order.
 - Select a Sales Order and Click **Clone** to make an exact copy which can be edited.
 - Select a Sales Order and Click **Edit Sales Order** to edit an Order. 
-- - Enquiry type Sales Order.
+- - Enquiry type Sales Order. (Used for estimating)
 - - - A 'new' Sales Order is simply that. It is new waiting action. It will have one 'Works Order' attached. This WO is simply for any time bookings required that fall outside any normal processing.
 - - - Click **Release** to release the Sales Order for further work.
+- - - Use **Add Item** to add an item to the BOM.
+- - - Select a BOM item and click **Edit QTY** to edit the items quantity.
+- - - Select a BOM item and click **Remove Item** to remove the item.
+- - - Click **Attach Works Order** to attach a new works order to the Sales Order. Once clicked a selector box will open where the BOm items can be added to the new Works Order. BOM items can be spread accross multiple Works Orders. Once all BOM items are allocated the 'Move To In Work' button will be displayed. 
+- - - Click **Move To In Work** to move the Sales Order to in work. Once in work no more items can be added to the BOM. Once a Sales Order is in work, Works Orders can be progressed.
+- - - When all the attached Works Orders are finished and have a status of 'completed', a 'Finish Order' button will be available. Clicking the 'Finish Order' button will close the Sales Order and an invoice and dispatch note will be created. A dialog will open informing the user of the dispatch note and invoice numbers.
 
+- - Firm type Sales Order. (Used for producing / fulfilling te order)
+- - - A 'new' Sales Order is simply that. It is new waiting action. It will have one 'Works Order' attached. This WO is simply for any time bookings required that fall outside any normal processing.
+- - - Click **Release** to release the Sales Order for further work. A dialog will open where the corresponding enquiry type Sales Order must be linked to the firm order.
+- - - Use **Add Item** to add an item to the BOM.
+- - - Select a BOM item and click **Edit QTY** to edit the items quantity.
+- - - Select a BOM item and click **Remove Item** to remove the item.
+- - - Click **Attach Works Order** to attach a new works order to the Sales Order. Once clicked a selector box will open where the BOm items can be added to the new Works Order. BOM items can be spread accross multiple Works Orders. Once all BOM items are allocated the 'Move To In Work' button will be displayed. 
+- - - Click **Move To In Work** to move the Sales Order to in work. Once in work no more items can be added to the BOM. Once a Sales Order is in work, Works Orders can be progressed.
+- - - When all the attached Works Orders are finished and have a status of 'completed', a 'Finish Order' button will be available. Clicking the 'Finish Order' button will close the Sales Order and an invoice and dispatch note will be created. A dialog will open informing the user of the dispatch note and invoice numbers. However, a firm type Sales Order will only complete if the linked enquiry type Sales Order's BOM and the firm type Sales Order's BOM match. If they do not match an alert will show informing the user and, on closing the alert, a 'Pick' button will be active allowing the user to select another enquiry type sales order. (If a good order does not exist the the Sales Order can be closed and a new enquiry Sales Order created and the finish the order can be attempted again and the new enquiry selected).
 
 ---
 

@@ -57,6 +57,8 @@ class BomMultiSelectDialog(QDialog):
 
         self.items = items
 
+
+
     def get_selected_items(self):
         selected = []
         for i in range(self.list.count()):
@@ -118,6 +120,7 @@ class EditSalesOrderDialog(QDialog):
             self.type_combo.setEnabled(False)
 
         form.addRow("Type:", self.type_combo)
+        self.bom_mismatch = False
 
 
         main_layout.addLayout(form)
@@ -153,7 +156,18 @@ class EditSalesOrderDialog(QDialog):
         self.enquiry_link = sales_order.get("enquiry_link")
         self.txt_enquiry_link = QLineEdit(self.enquiry_link or "")
         self.txt_enquiry_link.setReadOnly(True)
-        form.addRow("Enquiry Link:", self.txt_enquiry_link)
+
+        self.btn_pick_enquiry = QPushButton("Pick")
+        self.btn_pick_enquiry.setFixedWidth(60)
+        self.btn_pick_enquiry.clicked.connect(self._pick_enquiry)
+
+        hl = QHBoxLayout()
+        hl.addWidget(self.txt_enquiry_link)
+        hl.addWidget(self.btn_pick_enquiry)
+
+        form.addRow("Enquiry Link:", hl)
+
+        # form.addRow("Enquiry Link:", self.txt_enquiry_link)
 
         # -------------------------
         # Works Orders section
@@ -241,6 +255,9 @@ class EditSalesOrderDialog(QDialog):
 
         if self.sales_order.get("enquiry_link"):
             self._add_enquiry_banner(self.sales_order["enquiry_link"])
+
+        self._update_pick_button_state()
+
 
     # ---------------------------------------------------------
     # Item quantity editing
@@ -534,6 +551,9 @@ class EditSalesOrderDialog(QDialog):
         self._update_in_work_button_visibility()
         self._update_finish_button_visibility()
 
+        self._update_pick_button_state()
+
+
     def _prompt_enquiry_link(self):
         customer = self.customer_combo.currentText()
 
@@ -570,6 +590,8 @@ class EditSalesOrderDialog(QDialog):
                 self.txt_enquiry_link.setText(enq_number)
                 # --- BOM MATCH CHECK ---
                 enquiry = self.mongo.sales_orders.find_one({"so_number": enq_number})
+                self.bom_mismatch = False
+
                 if not enquiry:
                     QMessageBox.warning(
                         self,
@@ -710,6 +732,8 @@ class EditSalesOrderDialog(QDialog):
                                 "Not all BOM items have been allocated.")
             return
 
+        
+
         self.mongo.sales_orders.update_one(
             {"so_number": so_number},
             {"$set": {"status": "in-work"}}
@@ -727,6 +751,9 @@ class EditSalesOrderDialog(QDialog):
         self._update_finish_button_visibility()
 
         self.accept()
+
+        self._update_pick_button_state()
+
 
     def _update_finish_button_visibility(self):
         status = self.sales_order.get("status")
@@ -800,6 +827,16 @@ class EditSalesOrderDialog(QDialog):
                     msg += "• Move extra items to another Works Order"
 
                     QMessageBox.warning(self, "BOM Mismatch", msg)
+                    self.txt_enquiry_link.setEnabled(True)
+                    self.txt_enquiry_link.setReadOnly(False)
+                    self.txt_enquiry_link.setFocus()
+                    self.bom_mismatch = True
+                    self.btn_pick_enquiry.setEnabled(True)
+                    self.txt_enquiry_link.setEnabled(True)
+                    self.btn_pick_enquiry.setEnabled(True)
+                    self._update_pick_button_state()
+
+
                     return
 
                 # If you want strict quantity matching, uncomment this:
@@ -856,5 +893,21 @@ class EditSalesOrderDialog(QDialog):
         # 8. Close dialog WITHOUT triggering overridden accept()
         # ---------------------------------------------------------
         super().accept()
+
+
+    def _pick_enquiry(self):
+        # Reuse the existing enquiry selector logic
+
+        self._prompt_enquiry_link()
+        self._update_pick_button_state()
+
+        # After selection, update the text box
+        if self.enquiry_link:
+            self.txt_enquiry_link.setText(self.enquiry_link)
+
+
+    def _update_pick_button_state(self):
+        # Pick button only enabled when BOM mismatch has occurred
+        self.btn_pick_enquiry.setEnabled(self.bom_mismatch)
 
 
