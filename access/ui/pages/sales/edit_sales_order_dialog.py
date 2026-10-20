@@ -805,49 +805,46 @@ class EditSalesOrderDialog(QDialog):
                 # Extra items: in firm order but not in enquiry
                 extra = firm_parts - enq_parts
 
-                # Optional: quantity mismatch check
-                # firm_qty_map = {item["part_number"]: item["qty"] for item in firm_items}
-                # qty_mismatch = [
-                #     f"{item['part_number']} (enquiry: {item['qty']}, firm: {firm_qty_map.get(item['part_number'], 'N/A')})"
-                #     for item in enquiry_items
-                #     if firm_qty_map.get(item["part_number"]) != item["qty"]
-                # ]
+                # Quantity mismatch check
+                firm_qty_map = {item["part_number"]: item["qty"] for item in firm_items}
+                qty_mismatch = [
+                    f"{item['part_number']} (enquiry: {item['qty']}, firm: {firm_qty_map.get(item['part_number'], 'N/A')})"
+                    for item in enquiry_items
+                    if firm_qty_map.get(item["part_number"]) != item["qty"]
+                ]
 
-                if missing or extra:
+                if missing or extra or qty_mismatch:
                     msg = "This Sales Order cannot be finished because the BOM does not match the linked enquiry.\n\n"
 
                     if missing:
                         msg += f"Missing items (in enquiry but not firm order): {', '.join(missing)}\n"
+
                     if extra:
                         msg += f"Extra items (in firm order but not enquiry): {', '.join(extra)}\n"
 
+                    if qty_mismatch:
+                        msg += "\nQuantity mismatches:\n"
+                        msg += "\n".join(qty_mismatch) + "\n"
+
                     msg += "\nYou must resolve this before finishing:\n"
                     msg += "• Link a different enquiry\n"
-                    msg += "• Add missing items to this Sales Order\n"
-                    msg += "• Move extra items to another Works Order"
+                    # msg += "• Add missing items to this Sales Order\n"
+                    # msg += "• Correct quantities to match the enquiry\n"
+                    # msg += "• Move extra items to another Works Order"
 
                     QMessageBox.warning(self, "BOM Mismatch", msg)
+
+                    # Enable re-pick
                     self.txt_enquiry_link.setEnabled(True)
                     self.txt_enquiry_link.setReadOnly(False)
                     self.txt_enquiry_link.setFocus()
+
                     self.bom_mismatch = True
-                    self.btn_pick_enquiry.setEnabled(True)
-                    self.txt_enquiry_link.setEnabled(True)
                     self.btn_pick_enquiry.setEnabled(True)
                     self._update_pick_button_state()
 
-
                     return
 
-                # If you want strict quantity matching, uncomment this:
-                # if qty_mismatch:
-                #     QMessageBox.warning(
-                #         self,
-                #         "Quantity Mismatch",
-                #         "Quantities differ between enquiry and firm order:\n"
-                #         + "\n".join(qty_mismatch)
-                #     )
-                #     return
 
         # ---------------------------------------------------------
         # 3. Calculate ACTUAL cost (firm order)
