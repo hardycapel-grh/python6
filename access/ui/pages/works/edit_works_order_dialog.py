@@ -300,7 +300,7 @@ class EditWorksOrderDialog(QDialog):
             widget.setEnabled(editable)
 
         # Finish button (only edit users)
-        self.btn_finish.setEnabled(can_edit and status == "released")
+        self.btn_finish.setEnabled(can_edit and status == "in-work")
 
         # Notes become read-only when finished
         if status == "finished":
@@ -316,6 +316,8 @@ class EditWorksOrderDialog(QDialog):
         self.btn_release.setVisible(status == "new")
         self.btn_approve.setVisible(status == "released")
         self.btn_finish.setVisible(status == "in-work")
+
+
 
     # ---------------------------------------------------------
     # Save
