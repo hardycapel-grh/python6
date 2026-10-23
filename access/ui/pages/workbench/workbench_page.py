@@ -220,6 +220,13 @@ class WorkbenchPage(QWidget):
     # Open Selected Order
     # ---------------------------------------------------------
     def _open_selected_order(self, index):
+        proxy_index = self.proxy.mapToSource(index)
+        model = self.proxy.sourceModel()
+
+        order_type = model.item(proxy_index.row(), 0).text()
+        order_number = model.item(proxy_index.row(), 1).text()
+
+        # Now order_number exists — safe to log
         self.mongo.audit_log.insert_one({
             "event": "workbench.open_works_order",
             "performed_by": self.user.username,
@@ -228,12 +235,6 @@ class WorkbenchPage(QWidget):
                 "wo_number": order_number
             }
         })
-
-        proxy_index = self.proxy.mapToSource(index)
-        model = self.proxy.sourceModel()
-
-        order_type = model.item(proxy_index.row(), 0).text()
-        order_number = model.item(proxy_index.row(), 1).text()
 
         log_event(
             "info",
@@ -250,3 +251,4 @@ class WorkbenchPage(QWidget):
             self.window.open_works_order_edit(int(order_number))
         elif order_type == "ShO":
             self.window.open_shop_order_edit(order_number)
+
