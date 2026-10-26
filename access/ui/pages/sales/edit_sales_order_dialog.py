@@ -13,12 +13,15 @@ from PySide6.QtWidgets import (
 from PySide6.QtCore import Qt, QDate
 from PySide6.QtWidgets import QDoubleSpinBox, QCheckBox
 
+from ui.pages.workbench.workbench_page import WorkbenchPage
+
 from ui.components.logger_utils import log_event
 from ui.pages.sales.add_item_dialog import AddItemDialog
 
 from backend.sales_order_costing import calculate_sales_order_cost
 from backend.invoice_generator import generate_invoice
 from backend.dispatch_generator import generate_dispatch_note
+
 
 
 ALLOWED_TRANSITIONS = {
@@ -557,11 +560,18 @@ class EditSalesOrderDialog(QDialog):
     def _prompt_enquiry_link(self):
         customer = self.customer_combo.currentText()
 
+        #code below is the deisred code.
         enquiries = list(self.mongo.sales_orders.find({
             "type": "enquiry",
             "customer": customer,
             "status": {"$nin": ["cancelled"]}
         }))
+
+        # code below is to ensure that only enquiries that are not cancelled are shown
+        # enquiries = list(self.mongo.sales_orders.find({
+        #     "type": "enquiry"
+        # }))
+
 
         if not enquiries:
             QMessageBox.warning(self, "No Enquiries",
@@ -637,15 +647,36 @@ class EditSalesOrderDialog(QDialog):
             "customer": self.sales_order["customer"],
             "items": [],
             "status": "new",
-            "type": self.sales_order.get("type", "enquiry"),
+            "type": self.type_combo.currentText(),
             "created_by": getattr(self.user, "username", None)
         })
 
+        # Load items into WO
         self._prompt_load_items_into_wo(wo_number)
 
+        # Refresh local SO editor UI
         self._load_attached_wos()
         self._update_in_work_button_visibility()
         self._update_finish_button_visibility()
+
+        # ⭐ Refresh Workbench (and any other WO-related pages)
+
+        main = self._get_main_window()
+        if main:
+            for win in main._open_windows.values():
+                if isinstance(win, WorkbenchPage):
+                    win.refresh()
+
+
+
+    def _get_main_window(self):
+        w = self.parent()
+        while w is not None:
+            if hasattr(w, "_open_windows"):
+                return w
+            w = w.parent()
+        return None
+
 
     def _prompt_load_items_into_wo(self, wo_number):
         so_items = self.sales_order.get("items", [])

@@ -25,7 +25,7 @@ from ui.pages.profile_page import ProfilePage
 from ui.pages.workbench.workbench_page import WorkbenchPage
 from ui.pages.works.works_order_list_page import WorksOrderListPage
 from ui.pages.sales.edit_sales_order_dialog import EditSalesOrderDialog
-from ui.pages.works.edit_works_order_dialog import EditWorksOrderDialog
+from ui.pages.works.edit_works_order_dialog import EditFirmWorksOrderDialog, EditWorksOrderDialog
 
 
 def _load_help_page_class():
@@ -327,12 +327,28 @@ class MainApp(QMainWindow):
         dlg = EditSalesOrderDialog(self.mongo, self.user, so, self)
         dlg.exec()
 
+    def open_enquiry_works_order_edit(self, wo_number):
+        wo = self.mongo.works_orders.find_one({"wo_number": wo_number})
+        dlg = EditWorksOrderDialog(self.mongo, self.user, wo, self)
+        dlg.exec()
+
+    def open_firm_works_order_edit(self, wo_number):
+        wo = self.mongo.works_orders.find_one({"wo_number": wo_number})
+        dlg = EditFirmWorksOrderDialog(self.mongo, self.user, wo, self)
+        dlg.exec()
+
 
     def open_works_order_edit(self, wo_number):
-        
         wo = self.mongo.works_orders.find_one({"wo_number": wo_number})
         if not wo:
             QMessageBox.warning(self, "Not Found", f"Works Order {wo_number} not found.")
             return
-        dlg = EditWorksOrderDialog(self.mongo, self.user, wo, self)
+
+        # Route based on WO type
+        if wo.get("type") == "enquiry":
+            dlg = EditWorksOrderDialog(self.mongo, self.user, wo, self)
+        else:
+            dlg = EditFirmWorksOrderDialog(self.mongo, self.user, wo, self)
+
         dlg.exec()
+

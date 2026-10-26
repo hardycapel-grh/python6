@@ -91,3 +91,6 @@ class WorksOrderListPage(QWidget):
             query["type"] = wo_type.lower()
 
         self.load_filtered(query)
+
+    def refresh(self):
+        self._load_works_orders()

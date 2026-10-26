@@ -8,6 +8,7 @@ from datetime import datetime
 from backend.wo_costing import calculate_enquiry_wo_cost
 
 
+
 class EditWorksOrderDialog(QDialog):
     def __init__(self, mongo, user, works_order, parent=None):
         super().__init__(parent)
@@ -521,3 +522,138 @@ class LabourHoursEditorDialog(QDialog):
 
         return breakdown, totals
 
+
+
+
+class EditFirmWorksOrderDialog(QDialog):
+    """
+    Firm Works Order Editor
+    -----------------------
+    This editor is intentionally simple.
+
+    Firm WOs do NOT have:
+    - Release workflow
+    - Estimate workflow
+    - Labour/material/subcontract/overhead costing
+    - Approve estimate
+    - Breakdown editor
+
+    Firm WOs DO have:
+    - Notes
+    - Status display
+    - Time booking (future)
+    - Materials issue (future)
+    - Finish WO (manual or auto)
+    """
+
+    def __init__(self, mongo, user, works_order, parent=None):
+        super().__init__(parent)
+
+        self.mongo = mongo
+        self.user = user
+        self.works_order = works_order
+
+        self.setWindowTitle(f"Firm Works Order {works_order['wo_number']}")
+        self.setMinimumWidth(500)
+
+        main_layout = QVBoxLayout(self)
+
+        # ---------------------------------------------------------
+        # Header Section
+        # ---------------------------------------------------------
+        header_box = QGroupBox("Works Order Details")
+        header_layout = QFormLayout(header_box)
+
+        self.txt_wo_number = QLineEdit(str(works_order["wo_number"]))
+        self.txt_wo_number.setReadOnly(True)
+
+        self.txt_so_number = QLineEdit(str(works_order.get("so_number", "")))
+        self.txt_so_number.setReadOnly(True)
+
+        self.txt_customer = QLineEdit(works_order.get("customer", ""))
+        self.txt_customer.setReadOnly(True)
+
+        self.txt_status = QLineEdit(works_order.get("status", "new"))
+        self.txt_status.setReadOnly(True)
+
+        self.txt_type = QLineEdit("firm")
+        self.txt_type.setReadOnly(True)
+
+        header_layout.addRow("WO Number:", self.txt_wo_number)
+        header_layout.addRow("Sales Order:", self.txt_so_number)
+        header_layout.addRow("Customer:", self.txt_customer)
+        header_layout.addRow("Type:", self.txt_type)
+        header_layout.addRow("Status:", self.txt_status)
+
+        main_layout.addWidget(header_box)
+
+        # ---------------------------------------------------------
+        # Notes Section
+        # ---------------------------------------------------------
+        notes_box = QGroupBox("Notes")
+        notes_layout = QVBoxLayout(notes_box)
+
+        self.txt_notes = QTextEdit()
+        self.txt_notes.setPlainText(works_order.get("notes", ""))
+
+        notes_layout.addWidget(self.txt_notes)
+        main_layout.addWidget(notes_box)
+
+        # ---------------------------------------------------------
+        # Workflow Buttons
+        # ---------------------------------------------------------
+        toolbar = QHBoxLayout()
+
+        self.btn_finish = QPushButton("Finish Works Order")
+        self.btn_finish.clicked.connect(self._finish_wo)
+
+        toolbar.addWidget(self.btn_finish)
+        main_layout.addLayout(toolbar)
+
+        # ---------------------------------------------------------
+        # Locking Rules
+        # ---------------------------------------------------------
+        self._apply_locking_rules()
+
+    # ---------------------------------------------------------
+    # Locking Rules
+    # ---------------------------------------------------------
+    def _apply_locking_rules(self):
+        status = self.works_order.get("status")
+        can_edit = self.user.has_permission("worksorders.edit")
+
+        # Notes editable only if not finished
+        self.txt_notes.setReadOnly(status == "finished")
+
+        # Finish button enabled only when WO is in-work
+        self.btn_finish.setEnabled(can_edit and status == "in-work")
+
+    # ---------------------------------------------------------
+    # Finish WO
+    # ---------------------------------------------------------
+    def _finish_wo(self):
+        wo_number = self.works_order["wo_number"]
+
+        # Audit log
+        self.mongo.audit_log.insert_one({
+            "event": "works_order.finish_firm",
+            "performed_by": self.user.username,
+            "timestamp": datetime.utcnow(),
+            "details": {
+                "wo_number": wo_number,
+                "type": "firm"
+            }
+        })
+
+        # Update Mongo
+        self.mongo.works_orders.update_one(
+            {"wo_number": wo_number},
+            {"$set": {
+                "status": "finished",
+                "notes": self.txt_notes.toPlainText(),
+                "updated_by": self.user.username
+            }}
+        )
+
+        QMessageBox.information(self, "Finished", "Firm Works Order marked as finished.")
+        self.accept()
