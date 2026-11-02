@@ -25,7 +25,9 @@ from ui.pages.profile_page import ProfilePage
 from ui.pages.workbench.workbench_page import WorkbenchPage
 from ui.pages.works.works_order_list_page import WorksOrderListPage
 from ui.pages.sales.edit_sales_order_dialog import EditSalesOrderDialog
-from ui.pages.works.edit_works_order_dialog import EditFirmWorksOrderDialog, EditWorksOrderDialog
+# from ui.pages.works.edit_works_order_dialog import EditFirmWorksOrderDialog, EditWorksOrderDialog
+from ui.pages.works.edit_enquiry_works_order_dialog import EditWorksOrderDialog
+from ui.pages.works.edit_firm_works_order_dialog import EditFirmWorksOrderDialog
 
 
 def _load_help_page_class():
