@@ -645,6 +645,7 @@ class EditSalesOrderDialog(QDialog):
             "wo_number": wo_number,
             "so_number": so_number,
             "customer": self.sales_order["customer"],
+            "req_date": self.sales_order.get("req_date"),
             "items": [],
             "status": "new",
             "type": self.type_combo.currentText(),

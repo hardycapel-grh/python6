@@ -8,6 +8,55 @@ from datetime import datetime
 from backend.wo_costing import calculate_enquiry_wo_cost
 from PySide6.QtWidgets import QListWidget, QListWidgetItem
 
+class ShopOrderQuantityDialog(QDialog):
+
+    def __init__(
+        self,
+        part_number,
+        description,
+        required_qty,
+        allocated_qty,
+        parent=None
+    ):
+        super().__init__(parent)
+
+        self.setWindowTitle("Create Shop Order")
+
+        remaining_qty = required_qty - allocated_qty
+
+        layout = QVBoxLayout(self)
+
+        form = QFormLayout()
+
+        form.addRow("Part Number:", QLabel(part_number))
+        form.addRow("Description:", QLabel(description))
+        form.addRow("Required Qty:", QLabel(str(required_qty)))
+        form.addRow("Allocated Qty:", QLabel(str(allocated_qty)))
+        form.addRow("Remaining Qty:", QLabel(str(remaining_qty)))
+
+        self.qty_spin = QDoubleSpinBox()
+        self.qty_spin.setDecimals(2)
+        self.qty_spin.setMinimum(0.01)
+        self.qty_spin.setMaximum(remaining_qty)
+        self.qty_spin.setValue(remaining_qty)
+
+        form.addRow("Qty To Make:", self.qty_spin)
+
+        layout.addLayout(form)
+
+        buttons = QDialogButtonBox(
+            QDialogButtonBox.Ok |
+            QDialogButtonBox.Cancel
+        )
+
+        buttons.accepted.connect(self.accept)
+        buttons.rejected.connect(self.reject)
+
+        layout.addWidget(buttons)
+
+    def quantity(self):
+        return self.qty_spin.value()
+
 class EditFirmWorksOrderDialog(QDialog):
 
     def __init__(self, mongo, user, works_order, parent=None):
@@ -45,6 +94,11 @@ class EditFirmWorksOrderDialog(QDialog):
         )
         self.txt_customer.setReadOnly(True)
 
+        self.txt_req_date = QLineEdit(
+            str(works_order.get("req_date", ""))
+        )
+        self.txt_req_date.setReadOnly(True)
+
         self.txt_status = QLineEdit(
             works_order.get("status", "new")
         )
@@ -57,6 +111,7 @@ class EditFirmWorksOrderDialog(QDialog):
         header_layout.addRow("Sales Order:", self.txt_so_number)
         header_layout.addRow("Customer:", self.txt_customer)
         header_layout.addRow("Type:", self.txt_type)
+        header_layout.addRow("Required Date:", self.txt_req_date)
         header_layout.addRow("Status:", self.txt_status)
 
         main_layout.addWidget(header_box)
@@ -151,14 +206,33 @@ class EditFirmWorksOrderDialog(QDialog):
             return
 
         for item in items:
-            text = (
-                f"{item.get('part_number', '')} - "
-                f"{item.get('description', '')} "
-                f"(Qty: {item.get('qty', '')} "
-                f"{item.get('uom', '')})"
+
+            required_qty = float(item.get("qty", 0))
+
+            allocated_qty = self._allocated_qty_for_item(
+                item["part_number"]
             )
 
-            self.bom_list.addItem(text)
+            remaining_qty = (
+                required_qty - allocated_qty
+            )
+
+            display_text = (
+                f"{item['part_number']} - "
+                f"{item['description']} | "
+                f"Required: {required_qty:g} | "
+                f"Allocated: {allocated_qty:g} | "
+                f"Remaining: {remaining_qty:g}"
+            )
+
+            row = QListWidgetItem(display_text)
+
+            row.setData(
+                Qt.ItemDataRole.UserRole,
+                item
+            )
+
+            self.bom_list.addItem(row)
 
     # ---------------------------------------------------------
     # Shop Orders
@@ -200,22 +274,69 @@ class EditFirmWorksOrderDialog(QDialog):
     # ---------------------------------------------------------
     def _create_shop_order(self):
 
+        selected = self.bom_list.currentItem()
+
+        if not selected:
+            QMessageBox.warning(
+                self,
+                "No Item Selected",
+                "Please select a BOM item."
+            )
+            return
+
+        bom_item = selected.data(Qt.ItemDataRole.UserRole)
+
+        required_qty = float(bom_item["qty"])
+
+        allocated_qty = self._allocated_qty_for_item(
+            bom_item["part_number"]
+        )
+
+        remaining_qty = required_qty - allocated_qty
+
+        if remaining_qty <= 0:
+            QMessageBox.information(
+                self,
+                "Fully Allocated",
+                "This BOM item has already been fully allocated."
+            )
+            return
+
+        dlg = ShopOrderQuantityDialog(
+            bom_item["part_number"],
+            bom_item["description"],
+            required_qty,
+            allocated_qty,
+            self
+        )
+
+        if dlg.exec() != QDialog.Accepted:
+            return
+
+        qty_to_make = dlg.quantity()
+
         sho_number = self.mongo.get_next_shop_order_number()
 
         self.mongo.shop_orders.insert_one({
             "sho_number": sho_number,
+
             "wo_number": self.works_order["wo_number"],
-            "so_number": self.works_order.get(
-                "so_number"
-            ),
-            "customer": self.works_order.get(
-                "customer"
-            ),
+            "so_number": self.works_order.get("so_number"),
+            "req_date": self.works_order.get("req_date"),
+            "customer": self.works_order.get("customer"),
+
+            "part_number": bom_item["part_number"],
+            "description": bom_item["description"],
+            "qty": qty_to_make,
+            "uom": bom_item["uom"],
+
             "status": "new",
+
             "created_by": self.user.username
         })
 
         self._load_shop_orders()
+        self._load_bom_items()
 
         QMessageBox.information(
             self,
@@ -381,3 +502,17 @@ class EditFirmWorksOrderDialog(QDialog):
             can_edit and
             status in ("released", "in-work")
         )
+
+    def _allocated_qty_for_item(self, part_number):
+
+        total = 0
+
+        shop_orders = self.mongo.shop_orders.find({
+            "wo_number": self.works_order["wo_number"],
+            "part_number": part_number
+        })
+
+        for sho in shop_orders:
+            total += float(sho.get("qty", 0))
+
+        return total

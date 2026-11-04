@@ -37,6 +37,11 @@ class EditWorksOrderDialog(QDialog):
         self.txt_customer = QLineEdit(works_order.get("customer", ""))
         self.txt_customer.setReadOnly(True)
 
+        self.txt_req_date = QLineEdit(
+            str(works_order.get("req_date", ""))
+        )
+        self.txt_req_date.setReadOnly(True)
+
         self.txt_status = QLineEdit(works_order.get("status", "new"))
         self.txt_status.setReadOnly(True)
 
@@ -47,6 +52,7 @@ class EditWorksOrderDialog(QDialog):
         header_layout.addRow("Sales Order:", self.txt_so_number)
         header_layout.addRow("Customer:", self.txt_customer)
         header_layout.addRow("Type:", self.txt_type)
+        header_layout.addRow("Required Date:", self.txt_req_date)
         header_layout.addRow("Status:", self.txt_status)
 
         main_layout.addWidget(header_box)
