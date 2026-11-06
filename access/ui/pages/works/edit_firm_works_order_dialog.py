@@ -391,10 +391,15 @@ class EditFirmWorksOrderDialog(QDialog):
             self.btn_workflow.show()
 
         elif status == "in-work":
-            self.btn_workflow.setText(
-                "Finish"
-            )
+
+            self.btn_workflow.setText("Finish")
             self.btn_workflow.show()
+
+            can_finish = self._all_shop_orders_finished()
+
+            self.btn_workflow.setEnabled(
+                can_finish
+            )
 
         else:
             self.btn_workflow.hide()
@@ -412,6 +417,16 @@ class EditFirmWorksOrderDialog(QDialog):
             self._update_status("in-work")
 
         elif status == "in-work":
+
+            if not self._all_shop_orders_finished():
+
+                QMessageBox.warning(
+                    self,
+                    "Cannot Finish Works Order",
+                    "All Shop Orders must be finished before the Works Order can be finished."
+                )
+                return
+
             self._update_status("finished")
 
     # ---------------------------------------------------------
@@ -516,3 +531,34 @@ class EditFirmWorksOrderDialog(QDialog):
             total += float(sho.get("qty", 0))
 
         return total
+
+    def _all_shop_orders_finished(self):
+
+        shops = list(
+            self.mongo.shop_orders.find({
+                "wo_number": self.works_order["wo_number"]
+            })
+        )
+
+        if not shops:
+            return False
+
+        return all(
+            sho.get("status") == "finished"
+            for sho in shops
+        )
+
+    def _all_bom_allocated(self):
+
+        for item in self.works_order.get("items", []):
+
+            required_qty = float(item.get("qty", 0))
+
+            allocated_qty = self._allocated_qty_for_item(
+                item["part_number"]
+            )
+
+            if allocated_qty < required_qty:
+                return False
+
+        return True
