@@ -254,7 +254,9 @@ class WorkbenchPage(QWidget):
             else:
                 self.window.open_firm_works_order_edit(int(order_number))
         elif order_type == "ShO":
-            self.window.open_shop_order_edit(order_number)
+            self.window.open_shop_order_edit(
+                int(order_number)
+            )
 
     def refresh(self):
         self._load_workbench()

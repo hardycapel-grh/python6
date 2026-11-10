@@ -28,6 +28,8 @@ from ui.pages.sales.edit_sales_order_dialog import EditSalesOrderDialog
 # from ui.pages.works.edit_works_order_dialog import EditFirmWorksOrderDialog, EditWorksOrderDialog
 from ui.pages.works.edit_enquiry_works_order_dialog import EditWorksOrderDialog
 from ui.pages.works.edit_firm_works_order_dialog import EditFirmWorksOrderDialog
+from ui.pages.shop.shop_order_window import ShopOrderWindow
+from ui.pages.shop.edit_shop_order_dialog import EditShopOrderDialog
 
 
 def _load_help_page_class():
@@ -159,6 +161,13 @@ class MainApp(QMainWindow):
             WorksOrderWindow,
             lambda: WorksOrderWindow(self.mongo, self.user, self),
             required_permission="workorders.read"
+        )
+
+        self._add_sidebar_item(
+            "Shop Orders",
+            ShopOrderWindow,
+            lambda: ShopOrderWindow(self.user, self.mongo, self),
+            required_permission="shop_orders.read"
         )
 
         self._add_sidebar_item(
@@ -354,3 +363,64 @@ class MainApp(QMainWindow):
 
         dlg.exec()
 
+    def open_shop_orders_page(self):
+
+        key = "shop_orders"
+
+        if key not in self._open_windows:
+
+            self._open_windows[key] = ShopOrderWindow(
+                self.user,
+                self.mongo,
+                self
+            )
+
+        self.setCentralWidget(
+            self._open_windows[key]
+        )
+
+    def open_shop_order_edit(self, sho_number):
+
+        sho = self.mongo.shop_orders.find_one({
+            "sho_number": sho_number
+        })
+
+        if not sho:
+            QMessageBox.warning(
+                self,
+                "Not Found",
+                f"Shop Order {sho_number} not found."
+            )
+            return
+
+        dlg = EditShopOrderDialog(
+            self.mongo,
+            self.user,
+            sho,
+            self
+        )
+
+        dlg.exec()
+
+    def open_shop_order_edit(self, sho_number):
+
+        sho = self.mongo.shop_orders.find_one({
+            "sho_number": sho_number
+        })
+
+        if not sho:
+            QMessageBox.warning(
+                self,
+                "Not Found",
+                f"Shop Order {sho_number} not found."
+            )
+            return
+
+        dlg = EditShopOrderDialog(
+            self.mongo,
+            self.user,
+            sho,
+            self
+        )
+
+        dlg.exec()
