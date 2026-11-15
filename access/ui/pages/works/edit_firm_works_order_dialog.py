@@ -234,6 +234,8 @@ class EditFirmWorksOrderDialog(QDialog):
 
             self.bom_list.addItem(row)
 
+        
+
     # ---------------------------------------------------------
     # Shop Orders
     # ---------------------------------------------------------
@@ -319,7 +321,6 @@ class EditFirmWorksOrderDialog(QDialog):
 
         self.mongo.shop_orders.insert_one({
             "sho_number": sho_number,
-
             "wo_number": self.works_order["wo_number"],
             "so_number": self.works_order.get("so_number"),
             "req_date": self.works_order.get("req_date"),
@@ -332,11 +333,32 @@ class EditFirmWorksOrderDialog(QDialog):
 
             "status": "new",
 
+            "shop_bom": [],
+            "shop_rout": [],
+
+            "notes": "",
+
             "created_by": self.user.username
         })
 
         self._load_shop_orders()
         self._load_bom_items()
+
+        # Refresh Shop Orders window if it is open
+        from ui.pages.shop.shop_order_window import ShopOrderWindow
+
+        main = self.parent()
+
+        while main is not None:
+            if hasattr(main, "_open_windows"):
+                break
+            main = main.parent()
+
+        if main:
+            for win in main._open_windows.values():
+
+                if isinstance(win, ShopOrderWindow):
+                    win.refresh()
 
         QMessageBox.information(
             self,
@@ -517,6 +539,7 @@ class EditFirmWorksOrderDialog(QDialog):
             can_edit and
             status in ("released", "in-work")
         )
+
 
     def _allocated_qty_for_item(self, part_number):
 

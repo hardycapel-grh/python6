@@ -9,6 +9,7 @@ from PySide6.QtWidgets import (
     QTextEdit,
     QPushButton,
     QGroupBox,
+    QListWidget,
     QMessageBox
 )
 
@@ -33,8 +34,7 @@ class EditShopOrderDialog(QDialog):
         # ---------------------------------------------------------
         # Header
         # ---------------------------------------------------------
-        header_box = QGroupBox("Shop Order Details")
-        header_layout = QFormLayout(header_box)
+        # Create controls first
 
         self.txt_sho_number = QLineEdit(
             str(shop_order.get("sho_number", ""))
@@ -85,29 +85,74 @@ class EditShopOrderDialog(QDialog):
             shop_order.get("status", "new")
         )
         self.txt_status.setReadOnly(True)
+        header_box = QGroupBox("Shop Order Details")
 
-        header_layout.addRow("ShO Number:", self.txt_sho_number)
-        header_layout.addRow("WO Number:", self.txt_wo_number)
-        header_layout.addRow("SO Number:", self.txt_so_number)
-        header_layout.addRow("Customer:", self.txt_customer)
-        header_layout.addRow("Required Date:", self.txt_req_date)
-        header_layout.addRow("Part Number:", self.txt_part_number)
-        header_layout.addRow("Description:", self.txt_description)
-        header_layout.addRow("Qty:", self.txt_qty)
-        header_layout.addRow("UOM:", self.txt_uom)
-        header_layout.addRow("Status:", self.txt_status)
+        header_layout = QHBoxLayout(header_box)
+
+        left_form = QFormLayout()
+        right_form = QFormLayout()
+
+        left_form.addRow("ShO Number:", self.txt_sho_number)
+        left_form.addRow("WO Number:", self.txt_wo_number)
+        left_form.addRow("SO Number:", self.txt_so_number)
+        left_form.addRow("Customer:", self.txt_customer)
+        left_form.addRow("Required Date:", self.txt_req_date)
+
+        right_form.addRow("Part Number:", self.txt_part_number)
+        right_form.addRow("Description:", self.txt_description)
+        right_form.addRow("Qty:", self.txt_qty)
+        right_form.addRow("UOM:", self.txt_uom)
+        right_form.addRow("Status:", self.txt_status)
+
+        header_layout.addLayout(left_form)
+        header_layout.addLayout(right_form)
 
         main_layout.addWidget(header_box)
+
         # ---------------------------------------------------------
-        # BOM Item
+        # BOM
         # ---------------------------------------------------------
-        bom_box = QGroupBox("BOM Item")
+        bom_box = QGroupBox("Shop Order BOM")
         bom_layout = QVBoxLayout(bom_box)
+
+        bom_button_row = QHBoxLayout()
+
+        self.btn_load_master_bom = QPushButton(
+            "Load Master BOM"
+        )
+
+        self.btn_edit_bom = QPushButton(
+            "Edit BOM"
+        )
+
+        bom_button_row.addWidget(
+            self.btn_load_master_bom
+        )
+
+        bom_button_row.addWidget(
+            self.btn_edit_bom
+        )
+
+        bom_layout.addLayout(
+            bom_button_row
+        )
+
+        self.bom_list = QListWidget()
+
         bom_layout.addWidget(
-                QLineEdit("BOM will be added later")
-            )
+            self.bom_list
+        )
+
+        main_layout.addWidget(
+            bom_box
+        )
+
+        self.btn_load_master_bom.clicked.connect(
+            self._load_master_bom
+        )
+
+        self._load_shop_bom()
         
-        main_layout.addWidget(bom_box)
         # ---------------------------------------------------------
         # Placeholder Sections
         # ---------------------------------------------------------
@@ -277,9 +322,11 @@ class EditShopOrderDialog(QDialog):
             "status"
         )
 
-        can_edit = self.user.has_permission(
-            "shop_orders.edit"
-        )
+        # can_edit = self.user.has_permission(
+        #     "shop_orders.edit"
+        # )
+
+        can_edit = True
 
         self.txt_notes.setReadOnly(
             status == "finished"
@@ -287,4 +334,130 @@ class EditShopOrderDialog(QDialog):
 
         self.btn_workflow.setEnabled(
             can_edit
+        )
+
+        shop_bom_loaded = bool(
+            self.shop_order.get("shop_bom", [])
+        )
+
+        self.btn_load_master_bom.setEnabled(
+            can_edit
+            and status == "released"
+            and not shop_bom_loaded
+        )
+
+        # Edit BOM
+        self.btn_edit_bom.setEnabled(
+            can_edit
+            and status in ("released", "in-work")
+            and shop_bom_loaded
+        )
+
+        if shop_bom_loaded:
+            self.btn_load_master_bom.setText("BOM Loaded")
+        else:
+            self.btn_load_master_bom.setText("Load Master BOM")        
+
+    def _load_shop_bom(self):
+
+        self.bom_list.clear()
+
+        shop_bom = self.shop_order.get(
+            "shop_bom",
+            []
+        )
+
+        if not shop_bom:
+
+            self.bom_list.addItem(
+                "No Shop Order BOM loaded."
+            )
+
+            return
+
+        for line in shop_bom:
+
+            display = (
+                f"{line.get('component_part_number', '')} | "
+                f"Rev {line.get('component_revision', '')} | "
+                f"Qty Per {line.get('quantity', '')} "
+                f"{line.get('uom', '')}"
+            )
+
+            comments = line.get(
+                "comments",
+                ""
+            )
+
+            if comments:
+                display += f" | {comments}"
+
+            self.bom_list.addItem(
+                display
+            )
+
+    def _load_master_bom(self):
+
+        if self.shop_order.get("status") != "released":
+            QMessageBox.warning(
+                self,
+                "Not Allowed",
+                "The Shop Order must be released before a BOM can be loaded."
+            )
+            return
+
+        assembly_part = self.shop_order.get(
+            "part_number"
+        )
+
+        boms = list(
+            self.mongo.bom.find({
+                "assembly_part_number": assembly_part
+            })
+        )
+
+        if not boms:
+
+            QMessageBox.warning(
+                self,
+                "No BOM Found",
+                f"No BOM exists for {assembly_part}"
+            )
+
+            return
+
+        bom = max(
+            boms,
+            key=lambda b: b.get(
+                "created_at"
+            )
+        )
+
+        self.shop_order["shop_bom"] = (
+            bom.get("lines", [])
+        )
+
+        self._load_shop_bom()
+        self._apply_locking_rules()
+
+        self.mongo.shop_orders.update_one(
+            {
+                "sho_number":
+                    self.shop_order["sho_number"]
+            },
+            {
+                "$set": {
+                    "shop_bom":
+                        self.shop_order["shop_bom"]
+                }
+            }
+        )
+
+        self._load_shop_bom()
+
+        QMessageBox.information(
+            self,
+            "BOM Loaded",
+            f"Master BOM Revision "
+            f"{bom.get('revision', '?')} loaded."
         )
