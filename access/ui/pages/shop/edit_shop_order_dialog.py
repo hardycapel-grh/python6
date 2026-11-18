@@ -12,6 +12,9 @@ from PySide6.QtWidgets import (
     QListWidget,
     QMessageBox
 )
+from ui.pages.shop.edit_shop_order_bom_dialog import (
+    EditShopOrderBomDialog
+)
 
 
 class EditShopOrderDialog(QDialog):
@@ -85,6 +88,12 @@ class EditShopOrderDialog(QDialog):
             shop_order.get("status", "new")
         )
         self.txt_status.setReadOnly(True)
+
+        self.txt_bom_revision = QLineEdit(
+            str(shop_order.get("bom_revision", ""))
+        )
+        self.txt_bom_revision.setReadOnly(True)
+
         header_box = QGroupBox("Shop Order Details")
 
         header_layout = QHBoxLayout(header_box)
@@ -103,7 +112,7 @@ class EditShopOrderDialog(QDialog):
         right_form.addRow("Qty:", self.txt_qty)
         right_form.addRow("UOM:", self.txt_uom)
         right_form.addRow("Status:", self.txt_status)
-
+        right_form.addRow("BOM Revision:", self.txt_bom_revision)
         header_layout.addLayout(left_form)
         header_layout.addLayout(right_form)
 
@@ -112,6 +121,8 @@ class EditShopOrderDialog(QDialog):
         # ---------------------------------------------------------
         # BOM
         # ---------------------------------------------------------
+
+
         bom_box = QGroupBox("Shop Order BOM")
         bom_layout = QVBoxLayout(bom_box)
 
@@ -152,6 +163,10 @@ class EditShopOrderDialog(QDialog):
         )
 
         self._load_shop_bom()
+
+        self.btn_edit_bom.clicked.connect(
+            self._edit_bom
+        )
         
         # ---------------------------------------------------------
         # Placeholder Sections
@@ -399,11 +414,13 @@ class EditShopOrderDialog(QDialog):
     def _load_master_bom(self):
 
         if self.shop_order.get("status") != "released":
+
             QMessageBox.warning(
                 self,
                 "Not Allowed",
                 "The Shop Order must be released before a BOM can be loaded."
             )
+
             return
 
         assembly_part = self.shop_order.get(
@@ -426,20 +443,41 @@ class EditShopOrderDialog(QDialog):
 
             return
 
+        # Select latest BOM revision
         bom = max(
             boms,
             key=lambda b: b.get(
-                "created_at"
+                "created_at",
+                datetime.min
             )
         )
 
+        # Copy BOM into the Shop Order
         self.shop_order["shop_bom"] = (
             bom.get("lines", [])
         )
 
-        self._load_shop_bom()
-        self._apply_locking_rules()
 
+        # Store BOM revision for traceability
+        self.shop_order["bom_revision"] = (
+            bom.get("revision")
+        )
+
+        self.txt_bom_revision.setText(
+            str(
+                self.shop_order["bom_revision"]
+            )
+        )
+
+        self.shop_order["bom_loaded_by"] = (
+            self.user.username
+        )
+
+        self.shop_order["bom_loaded_at"] = (
+            datetime.utcnow()
+        )
+
+        # Save to Mongo
         self.mongo.shop_orders.update_one(
             {
                 "sho_number":
@@ -448,7 +486,66 @@ class EditShopOrderDialog(QDialog):
             {
                 "$set": {
                     "shop_bom":
-                        self.shop_order["shop_bom"]
+                        self.shop_order["shop_bom"],
+
+                    "bom_revision":
+                        self.shop_order["bom_revision"],
+
+                    "bom_loaded_by":
+                        self.shop_order["bom_loaded_by"],
+
+                    "bom_loaded_at":
+                        self.shop_order["bom_loaded_at"]
+                }
+            }
+        )
+
+        # Update display if BOM Revision control exists
+        if hasattr(self, "txt_bom_revision"):
+
+            self.txt_bom_revision.setText(
+                str(
+                    bom.get("revision", "")
+                )
+            )
+
+        # Refresh UI
+        self._load_shop_bom()
+        self._apply_locking_rules()
+
+        QMessageBox.information(
+            self,
+            "BOM Loaded",
+            f"Master BOM Revision "
+            f"{bom.get('revision', '?')} loaded."
+        )
+
+    def _edit_bom(self):
+
+        items_list = list(
+            self.mongo.inventory.find({})
+        )
+
+        dlg = EditShopOrderBomDialog(
+            self.mongo,
+            items_list,
+            self.shop_order.get("shop_bom", []),
+            self
+        )
+
+        if dlg.exec() != QDialog.Accepted:
+            return
+
+        self.shop_order["shop_bom"] = dlg.lines
+
+        self.mongo.shop_orders.update_one(
+            {
+                "sho_number":
+                    self.shop_order["sho_number"]
+            },
+            {
+                "$set": {
+                    "shop_bom": dlg.lines
                 }
             }
         )
@@ -457,7 +554,6 @@ class EditShopOrderDialog(QDialog):
 
         QMessageBox.information(
             self,
-            "BOM Loaded",
-            f"Master BOM Revision "
-            f"{bom.get('revision', '?')} loaded."
-        )
+            "Saved",
+            "Shop Order BOM updated."
+        )        

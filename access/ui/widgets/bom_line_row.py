@@ -26,29 +26,34 @@ class BOMLineRow(QWidget):
         self.setFixedHeight(ROW_HEIGHT)
 
         # ---------------------------------------------------------
-        # AUTOCOMPLETE COMPONENT SELECTOR
+        # COMPONENT SELECTOR
         # ---------------------------------------------------------
-        self.item_le = QLineEdit()
-        self.item_le.setPlaceholderText("Search component...")
-        self.item_le.setMinimumHeight(ROW_HEIGHT)
-        self.item_le.setMaximumHeight(ROW_HEIGHT)
+        self.item_cb = QComboBox()
+        self.item_cb.setEditable(True)
 
-        self.labels = []
+        self.item_cb.setMinimumHeight(ROW_HEIGHT)
+        self.item_cb.setMaximumHeight(ROW_HEIGHT)
+
         self.item_map = {}
 
         for item in items_list:
-            label = f"{item['part_number']} (Rev {item['revision']})"
-            self.labels.append(label)
+
+            label = (
+                f"{item['part_number']} "
+                f"(Rev {item['revision']})"
+            )
+
+            self.item_cb.addItem(label)
+
             self.item_map[label] = item
 
-        self.completer = QCompleter(self.labels)
-        self.completer.setCaseSensitivity(Qt.CaseInsensitive)
-        self.item_le.setCompleter(self.completer)
+        self.item_cb.currentTextChanged.connect(
+            self._update_uom
+        )
 
-        self.item_le.textChanged.connect(self._update_uom)
-        # Any text change in the part selector should mark this row as
-        # modified so parent editors can enable the Save button.
-        self.item_le.textChanged.connect(self.changed)      # NEW
+        self.item_cb.currentTextChanged.connect(
+            self.changed
+        )
 
         # ---------------------------------------------------------
         # Quantity
@@ -101,7 +106,7 @@ class BOMLineRow(QWidget):
         layout = QHBoxLayout()
         layout.setSpacing(0)
         layout.setContentsMargins(0, 0, 0, 0)
-        layout.addWidget(self.item_le)
+        layout.addWidget(self.item_cb)
         layout.addWidget(self.qty_sb)
         layout.addWidget(self.uom_label)
         layout.addWidget(self.qty_type_cb)
@@ -114,7 +119,7 @@ class BOMLineRow(QWidget):
         return QSize(0, ROW_HEIGHT)
 
     def _update_uom(self):
-        label = self.item_le.text().strip()
+        label = self.item_cb.currentText().strip()
         item = self.item_map.get(label)
         if not item:
             self.uom_label.setText("")
@@ -147,7 +152,7 @@ class BOMLineRow(QWidget):
         self.changed.emit()  # NEW a removing a row marks dirty
 
     def get_data(self):
-        label = self.item_le.text().strip()
+        label = self.item_cb.currentText().strip()
         item = self.item_map.get(label)
 
         if not item:

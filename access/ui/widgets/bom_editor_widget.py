@@ -219,7 +219,13 @@ class BOMEditorWidget(QWidget):
         row = BOMLineRow(self.items_list)
 
         label = f"{component_part_number} (Rev {component_revision})"
-        row.item_le.setText(label)
+
+        index = row.item_cb.findText(label)
+
+        if index >= 0:
+            row.item_cb.setCurrentIndex(index)
+        else:
+            row.item_cb.setEditText(label)
 
         row.qty_sb.setValue(float(quantity))
         row.comments_le.setText(comments)
