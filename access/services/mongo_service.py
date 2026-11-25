@@ -87,6 +87,7 @@ class MongoService:
             self.suppliers = self.db["suppliers"]
             self.store_locations = self.db["store_locations"]
 
+            self.work_centres = self.db.work_centres
             self.bom = self.db["bom"]
             self.routing = self.db.routing
             self.sales_orders = self.db["sales_orders"]

@@ -38,6 +38,12 @@ class RoutingEditorPage(QWidget):
         self.is_dirty = False
         self.loading_routing = False
 
+        self.work_centres = list(
+            self.mongo.work_centres.find(
+                {"active": True}
+            )
+        )
+
         # ---------------------------------------------------------
         # Title
         # ---------------------------------------------------------
@@ -76,7 +82,9 @@ class RoutingEditorPage(QWidget):
         # ---------------------------------------------------------
         # Routing Editor
         # ---------------------------------------------------------
-        self.editor = RoutingEditorWidget()
+        self.editor = RoutingEditorWidget(
+            self.work_centres
+        )
 
         self.editor.dirty_changed.connect(
             self._on_dirty_changed
@@ -188,6 +196,10 @@ class RoutingEditorPage(QWidget):
         self.setLayout(
             main_layout
         )
+
+
+
+
 
     # ---------------------------------------------------------
     # Save Routing

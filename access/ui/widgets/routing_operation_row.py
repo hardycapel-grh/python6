@@ -1,6 +1,7 @@
 from PySide6.QtWidgets import (
     QWidget,
     QHBoxLayout,
+    QComboBox,
     QLineEdit,
     QDoubleSpinBox,
     QPushButton,
@@ -18,9 +19,9 @@ class RoutingOperationRow(QWidget):
     changed = Signal()
     remove_requested = Signal(QWidget)
 
-    def __init__(self, parent=None):
+    def __init__(self, work_centres, parent=None):
         super().__init__(parent)
-
+        self.work_centres = work_centres
         self.setSizePolicy(
             QSizePolicy.Preferred,
             QSizePolicy.Fixed
@@ -56,16 +57,19 @@ class RoutingOperationRow(QWidget):
         # ---------------------------------------------------------
         # Work Centre
         # ---------------------------------------------------------
-        self.work_centre_le = QLineEdit()
-        self.work_centre_le.setPlaceholderText(
-            "Work Centre"
+        self.work_centre_cb = QComboBox()
+
+        self.work_centre_cb.setMaximumWidth(
+            140
         )
 
-        self.work_centre_le.setMaximumWidth(
-            120
-        )
+        for wc in self.work_centres:
 
-        self.work_centre_le.textChanged.connect(
+            self.work_centre_cb.addItem(
+                wc.get("code", "")
+            )
+
+        self.work_centre_cb.currentIndexChanged.connect(
             self.changed
         )
 
@@ -161,7 +165,7 @@ class RoutingOperationRow(QWidget):
         )
 
         layout.addWidget(
-            self.work_centre_le
+            self.work_centre_cb
         )
 
         layout.addWidget(
@@ -219,8 +223,7 @@ class RoutingOperationRow(QWidget):
                 .strip(),
 
             "work_centre":
-                self.work_centre_le.text()
-                .strip(),
+                self.work_centre_cb.currentText(),
 
             "setup_hours":
                 self.setup_hours_sb.value(),
@@ -256,9 +259,14 @@ class RoutingOperationRow(QWidget):
             description
         )
 
-        self.work_centre_le.setText(
+        index = self.work_centre_cb.findText(
             work_centre
         )
+
+        if index >= 0:
+            self.work_centre_cb.setCurrentIndex(
+                index
+            )
 
         self.setup_hours_sb.setValue(
             float(setup_hours)

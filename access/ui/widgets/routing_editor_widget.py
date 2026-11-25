@@ -21,9 +21,9 @@ class RoutingEditorWidget(QWidget):
 
     dirty_changed = Signal(bool)
 
-    def __init__(self, parent=None):
+    def __init__(self, work_centres, parent=None):
         super().__init__(parent)
-
+        self.work_centres = work_centres
         self.is_dirty = False
         self.block_dirty_signals = False
 
@@ -147,7 +147,9 @@ class RoutingEditorWidget(QWidget):
     # ---------------------------------------------------------
     def _add_operation(self):
 
-        row = RoutingOperationRow()
+        row = RoutingOperationRow(
+            self.work_centres
+        )
 
         row.remove_requested.connect(
             self._remove_operation
@@ -223,7 +225,9 @@ class RoutingEditorWidget(QWidget):
         notes
     ):
 
-        row = RoutingOperationRow()
+        row = RoutingOperationRow(
+            self.work_centres
+        )
 
         row.set_data(
             operation=operation,
