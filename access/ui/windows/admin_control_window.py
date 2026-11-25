@@ -17,6 +17,7 @@ from ui.pages.stores.stores_list_page import StoresListPage
 from ui.pages.admin.store_locations_page import StoreLocationsPage
 from ui.components.logger_utils import log_event
 from ui.pages.admin.bom_editor_page import BOMEditorPage
+from ui.pages.admin.routing_editor_page import RoutingEditorPage
 
 
 class AdminControlWindow(WindowWithSidebar):
@@ -87,3 +88,9 @@ class AdminControlWindow(WindowWithSidebar):
             lambda: BOMEditorPage(self.mongo, self.user),
             required_permission="bom.manage"
         )
+
+        self.add_page(
+            "Rout Editor",
+            lambda: RoutingEditorPage(self.mongo, self.user),
+            required_permission="routing.read"
+        )        

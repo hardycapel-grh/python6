@@ -28,6 +28,7 @@ class HelpPage(QWidget):
             "Inventory",
             "Sales Orders",
             "Works Orders",
+            "Shop Orders",
             
         ])
         self.list.currentItemChanged.connect(self.load_topic)

@@ -88,6 +88,7 @@ class MongoService:
             self.store_locations = self.db["store_locations"]
 
             self.bom = self.db["bom"]
+            self.routing = self.db.routing
             self.sales_orders = self.db["sales_orders"]
             self.works_orders = self.db["works_orders"]
             self.shop_orders = self.db["shop_orders"]
